@@ -29,3 +29,6 @@ C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MappointSettingsUC.resources
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.UplinkFrm.resources
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.HUD_UC.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb
