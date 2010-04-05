@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Paths</name>
+<visibility>1</visibility>
+<Placemark>
+<name>Absolute Extruded</name>
+<visibility>1</visibility>
+<LineString>
+<extrude>1</extrude>
+<tessellate>1</tessellate>
+<altitudeMode>absolute</altitudeMode>
+<coordinates>
+00.01143W,51.2189N,000000
+</coordinates>
+</LineString>
+</Placemark>
+</Document>
+</kml>

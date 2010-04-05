@@ -1,0 +1,25 @@
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\bin\Release\Packet Reformatter.exe
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\bin\Release\Packet Reformatter.pdb
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\bin\Release\Packet Reformatter.xml
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Release\Packet_Reformatter.frmMain.resources
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Release\Packet_Reformatter.Resources.resources
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Release\Packet Reformatter.vbproj.GenerateResource.Cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Release\Packet Reformatter.exe
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Release\Packet Reformatter.xml
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Release\Packet Reformatter.pdb
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Release\Packet Reformatter.exe.manifest
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Release\Packet Reformatter.application
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Release\Packet Reformatter.exe
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Release\Packet Reformatter.pdb
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Release\Packet Reformatter.xml
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\Packet_Reformatter.frmMain.resources
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\Packet_Reformatter.Resources.resources
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\Packet Reformatter.vbproj.GenerateResource.Cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\Packet Reformatter.exe.manifest
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\Packet Reformatter.application
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\Packet Reformatter.exe
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\Packet Reformatter.xml
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Release\Packet Reformatter.pdb
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Release\Packet Reformatter.exe.config

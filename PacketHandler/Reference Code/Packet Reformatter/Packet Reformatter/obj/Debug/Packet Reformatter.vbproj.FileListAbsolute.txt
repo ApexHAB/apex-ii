@@ -1,0 +1,50 @@
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.exe
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.pdb
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.xml
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Debug\Packet_Reformatter.Resources.resources
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.vbproj.GenerateResource.Cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.exe
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.xml
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.pdb
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\Packet Reformatter\obj\Debug\Packet_Reformatter.frmMain.resources
+H:\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.exe
+H:\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.xml
+H:\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.pdb
+Y:\My Documents\Programming\VB\APEX\obj\Debug\Packet Reformatter.exe
+Y:\My Documents\Programming\VB\APEX\obj\Debug\Packet Reformatter.xml
+Y:\My Documents\Programming\VB\APEX\obj\Debug\Packet Reformatter.pdb
+Y:\My Documents\Programming\VB\APEX\obj\Debug\ResolveAssemblyReference.cache
+Y:\My Documents\Programming\VB\APEX\obj\Debug\Packet_Reformatter.frmMain.resources
+Y:\My Documents\Programming\VB\APEX\obj\Debug\Packet_Reformatter.Resources.resources
+Y:\My Documents\Programming\VB\APEX\obj\Debug\Packet Reformatter.vbproj.GenerateResource.Cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\Packet Reformatter.exe
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\Packet Reformatter.xml
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\Packet Reformatter.pdb
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Debug\Packet Reformatter.exe
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Debug\Packet Reformatter.pdb
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Debug\Packet Reformatter.xml
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\Packet_Reformatter.frmMain.resources
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\Packet_Reformatter.Resources.resources
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\Packet Reformatter.vbproj.GenerateResource.Cache
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Debug\Packet Reformatter.exe.manifest
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Debug\Packet Reformatter.application
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\Packet Reformatter.exe.manifest
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\obj\Debug\Packet Reformatter.application
+C:\Users\Richard\Documents\My Stuff\APEX\Packet Reformatter\bin\Debug\Packet Reformatter.exe.config
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.exe.config
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.exe
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.xml
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.pdb
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.exe.manifest
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.application
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.exe
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.pdb
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.xml
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet_Reformatter.frmMain.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet_Reformatter.Resources.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.vbproj.GenerateResource.Cache
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.exe.manifest
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.application

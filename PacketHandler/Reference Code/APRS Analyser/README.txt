@@ -1,0 +1,1 @@
+This version of APRS Analyser works as it need for APEXI launch, although i have played about with a few things, so there are a few extra classes lying around and test forms

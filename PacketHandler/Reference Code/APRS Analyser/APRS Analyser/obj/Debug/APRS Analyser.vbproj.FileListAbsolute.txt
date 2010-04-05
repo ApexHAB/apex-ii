@@ -1,0 +1,116 @@
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\bin\Debug\APRS Analyser.exe
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\bin\Debug\APRS Analyser.pdb
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\bin\Debug\APRS Analyser.xml
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\obj\Debug\APRS_Analyser.Form1.resources
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\obj\Debug\APRS_Analyser.Resources.resources
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\obj\Debug\APRS Analyser.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\obj\Debug\APRS Analyser.exe
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\obj\Debug\APRS Analyser.xml
+C:\Documents and Settings\Matt\Local Settings\Application Data\Temporary Projects\APRS Analyser\obj\Debug\APRS Analyser.pdb
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.xml
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.pdb
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.pdb
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.xml
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Resources.resources
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.MainForm.resources
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.tcpiptest.resources
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.serverlistener.resources
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.xml
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.pdb
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.pdb
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.xml
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\ResolveAssemblyReference.cache
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.MainForm.resources
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Resources.resources
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.serverlistener.resources
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.tcpiptest.resources
+F:\my stuff\perosnal\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Settings.resources
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe.manifest
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.application
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe.manifest
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.application
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.altitude.resources
+C:\Documents and Settings\Matt\My Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.panel.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.altitude.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.MainForm.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Resources.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.panel.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.serverlistener.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Settings.resources
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.vbproj.GenerateResource.Cache
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.xml
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.pdb
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe.manifest
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.application
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.pdb
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.xml
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe.manifest
+C:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.application
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe.manifest
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.application
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.pdb
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.xml
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\ResolveAssemblyReference.cache
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.altitude.resources
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.MainForm.resources
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Resources.resources
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.panel.resources
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.serverlistener.resources
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Settings.resources
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.tcpiptest.resources
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.vbproj.GenerateResource.Cache
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe.manifest
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.application
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.xml
+F:\pers bkup\perosnal\Visual Studio 08 Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.pdb
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe.manifest
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.application
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.pdb
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.xml
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\ResolveAssemblyReference.cache
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.altitude.resources
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.MainForm.resources
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Resources.resources
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.panel.resources
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.serverlistener.resources
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Settings.resources
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.tcpiptest.resources
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.vbproj.GenerateResource.Cache
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe.manifest
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.application
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.xml
+D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.pdb
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.xml
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.pdb
+\\192.168.1.70\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe.manifest
+\\192.168.1.70\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.application
+\\192.168.1.70\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.exe
+\\192.168.1.70\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.pdb
+\\192.168.1.70\APRS Analyser\APRS Analyser\bin\Debug\APRS Analyser.xml
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\ResolveAssemblyReference.cache
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.altitude.resources
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.MainForm.resources
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Resources.resources
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.panel.resources
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.serverlistener.resources
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.Settings.resources
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS_Analyser.tcpiptest.resources
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.vbproj.GenerateResource.Cache
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe.manifest
+\\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.application

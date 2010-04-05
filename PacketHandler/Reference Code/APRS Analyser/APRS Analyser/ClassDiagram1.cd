@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="APRS_Analyser.altitude" Collapsed="true">
+    <Position X="11" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAKAAAACAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>altitude.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.extractor" Collapsed="true">
+    <Position X="10.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACBAIAkAEIDoAUAhAwIgAABAqABAAICAQAAAGCAAgQ=</HashCode>
+      <FileName>extractor.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.extractorDL" Collapsed="true">
+    <Position X="10" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASBAIAkAEIDoAUABAwIgAQRA6AAQgICAQAhAGOAAiA=</HashCode>
+      <FileName>extractorDL.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.MainForm" Collapsed="true">
+    <Position X="0.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>KAuBFGgSHDAPQSYAqBGAWrkDzFA2eA8xGFC4hoAkEhQ=</HashCode>
+      <FileName>Form1.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.Frame" Collapsed="true">
+    <Position X="4.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EACAAIAkAGIBgQUEgAwIhAARAoAAgAICCQEAAGEgAgQ=</HashCode>
+      <FileName>Frame.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.PacketHandler" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABCAQgAAAkAAAACAIAAAAAAAgAAAABAAAAAA=</HashCode>
+      <FileName>PacketHandler.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.panel" Collapsed="true">
+    <Position X="10.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAgAgCAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>panel.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.serverlistener" Collapsed="true">
+    <Position X="2.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAESAIAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>serverlistener.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.Settings" Collapsed="true">
+    <Position X="4.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQCAAAIAMCIAQAFQAAKYAMgCAEAAqEgAgKRUgAAEAAo=</HashCode>
+      <FileName>Settings.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.TCPInterface" Collapsed="true">
+    <Position X="6" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACIAAAAAAigAgAgACAAAAAAAAIAAAgAAAgABAAAAgA=</HashCode>
+      <FileName>TCPInterface.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.tcpiptest" Collapsed="true">
+    <Position X="9.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABCAAAAAAEACAADgCAAAAYAAAAAAABAAAAAA=</HashCode>
+      <FileName>tcpiptest.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.TCPStreamHandler" Collapsed="true">
+    <Position X="2.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACJAAAAAAAAAAAAAEAAAAAAAAAgAAAAAAACBAAAAAA=</HashCode>
+      <FileName>TCPStreamHandler.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.My.MyApplication" Collapsed="true">
+    <Position X="2.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="APRS_Analyser.My.MySettings" Collapsed="true">
+    <Position X="11" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAABAAIAAABAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="APRS_Analyser.PacketType" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Frame.vb</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Module Name="APRS_Analyser.My.MySettingsProperty" Collapsed="true">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Module Name="APRS_Analyser.My.Resources.Resources" Collapsed="true">
+    <Position X="11" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQACQAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

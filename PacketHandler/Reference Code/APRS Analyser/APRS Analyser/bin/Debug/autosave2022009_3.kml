@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+<name>Paths</name>
+<visibility>1</visibility>
+<Placemark>
+<name>Rel0</name>
+<visibility>1</visibility>
+<LineString>
+<extrude>1</extrude>
+<tessellate>1</tessellate>
+<altitudeMode>relative</altitudeMode>
+<coordinates>
+-0.204333333333333,51.3248333333333,0
+-0.204333333333333,51.3248333333333,0
+-0.2045,51.3253333333333,0
+-0.2045,51.3253333333333,0
+-0.204333333333333,51.325,0
+-0.204333333333333,51.3248333333333,0
+-0.2045,51.3248333333333,0
+-0.204333333333333,51.3248333333333,0
+-0.2045,51.3248333333333,0
+-0.204333333333333,51.3248333333333,0
+</coordinates>
+</LineString>
+</Placemark>
+</Document>
+</kml>
