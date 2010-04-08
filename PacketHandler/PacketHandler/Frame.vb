@@ -3,6 +3,7 @@
 
 Public Class Frame
 
+    Private Empty_ As Boolean = True     'marker for blank frame
     Private packetEncodingType_ As PacketFormats       'APRS/UKHAS?
     Private type_ As Char = ""      'only relevent for aprs packets
     Private time_ As String = ""    'time
@@ -23,6 +24,14 @@ Public Class Frame
     Public xTimeZone_ As Integer
 
 #Region "Properties"
+    Public ReadOnly Property Empty() As Boolean
+        Get
+            Return Empty_
+        End Get
+    End Property
+
+
+
     Public Property TimeZone() As Integer
         Get
             Return xTimeZone_
@@ -133,6 +142,12 @@ Public Class Frame
 
 #End Region
 
+#Region "Constructors"
+
+    Public Sub New()
+        Empty_ = True
+    End Sub
+
     Public Sub New(ByVal FrameString As String, ByVal pkType As PacketFormats)
         Select Case pkType
             Case PacketFormats.APRS
@@ -143,7 +158,10 @@ Public Class Frame
                 packetEncodingType_ = PacketFormats.UKHAS
 
         End Select
+        Empty_ = False
     End Sub
+
+#End Region
 
 
 

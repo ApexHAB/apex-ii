@@ -109,4 +109,8 @@
     '    End If
 
     'End Sub
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        HuD_UC1.FrameToDisplay = New Frame()
+    End Sub
 End Class

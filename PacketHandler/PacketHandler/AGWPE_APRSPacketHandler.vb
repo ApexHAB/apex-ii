@@ -13,10 +13,10 @@ Public Class AGWPE_APRSPacketHandler
         client = New TCPInterface(host, port, connect)
     End Sub
 
-    Public Function connect()
+    Public Sub connect()
         '   client.Reconnect()
         client.ConnectTCP()
-    End Function
+    End Sub
 
     Private Sub DataRec() Handles client.DataRecieved
 

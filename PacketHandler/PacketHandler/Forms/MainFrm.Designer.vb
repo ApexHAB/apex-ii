@@ -22,6 +22,7 @@ Partial Class MainFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim Frame1 As PacketHandler.Frame = New PacketHandler.Frame
         Me.btnSettings = New System.Windows.Forms.Button
         Me.tabData = New System.Windows.Forms.TabControl
         Me.tpAllData = New System.Windows.Forms.TabPage
@@ -79,7 +80,6 @@ Partial Class MainFrm
         Me.Button1.TabIndex = 2
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
-        Me.Button1.Visible = False
         '
         'btnBalloonUplink
         '
@@ -92,7 +92,10 @@ Partial Class MainFrm
         '
         'HuD_UC1
         '
-        Me.HuD_UC1.Location = New System.Drawing.Point(12, 44)
+        Frame1.StatusPacketStartText = "sgsballoon:"
+        Frame1.TimeZone = 0
+        Me.HuD_UC1.FrameToDisplay = Frame1
+        Me.HuD_UC1.Location = New System.Drawing.Point(15, 56)
         Me.HuD_UC1.Name = "HuD_UC1"
         Me.HuD_UC1.Size = New System.Drawing.Size(438, 189)
         Me.HuD_UC1.TabIndex = 4
