@@ -66,7 +66,7 @@
             For Each s In sensorParameters_
                 If s.Flag = k.Key Then
                     a(0) = s.ToDisplay
-                    a(1) = Math.Round(SensorParameters.AdjustData(k.Value, s.Type), 2)
+                    a(1) = Math.Round(SensorParameters.AdjustData(k.Value, s), 2)
                     Exit For
                 End If
             Next

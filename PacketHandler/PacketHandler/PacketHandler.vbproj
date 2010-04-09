@@ -66,6 +66,12 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\EditSensorInfo.Designer.vb">
+      <DependentUpon>EditSensorInfo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\EditSensorInfo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HUD_UC.Designer.vb">
       <DependentUpon>HUD_UC.vb</DependentUpon>
     </Compile>
@@ -170,6 +176,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\EditSensorInfo.resx">
+      <DependentUpon>EditSensorInfo.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="HUD_UC.resx">
       <DependentUpon>HUD_UC.vb</DependentUpon>
       <SubType>Designer</SubType>

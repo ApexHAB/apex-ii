@@ -31,8 +31,6 @@ Public Enum SensorDataTypes
     BLANK
     Temperature
     Pressure
-    BatteryVoltage
-    Linear
     Length
 End Enum
 
@@ -43,10 +41,6 @@ Module randomfunctions
                 Return SensorDataTypes.Temperature
             Case "Pressure"
                 Return SensorDataTypes.Pressure
-            Case "Battery Voltage"
-                Return SensorDataTypes.BatteryVoltage
-            Case "Linear"
-                Return SensorDataTypes.Linear
             Case ""
                 Return SensorDataTypes.BLANK
 
@@ -136,10 +130,6 @@ Module randomfunctions
                 Return "Temperature"
             Case SensorDataTypes.Pressure
                 Return "Pressure"
-            Case SensorDataTypes.BatteryVoltage
-                Return "Battery Voltage"
-            Case SensorDataTypes.Linear
-                Return "Linear"
             Case SensorDataTypes.BLANK
                 Return ""
         End Select
