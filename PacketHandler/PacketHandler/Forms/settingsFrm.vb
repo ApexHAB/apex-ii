@@ -36,6 +36,10 @@
             lstInterfaces.Items.Add(i.InterfaceName)
         Next
 
+        For i As Integer = 0 To SensorDataTypes.Length
+            dgFlagType.Items.Add(EnumToStr(CType(i, SensorDataTypes)))
+        Next
+
     End Sub
 
     Private Sub btnInterfaceEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInterfaceEdit.Click
@@ -55,6 +59,18 @@
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
         settings_.UseUTC = chkUTC.Checked
         settings_.TimeZone = nudTimeZone.Value
+
+
+        For Each dgvr As DataGridViewRow In DataGridView1.Rows
+            If Not dgvr.IsNewRow Then
+                Dim s As New SensorParameters
+                s.Flag = dgvr.Cells(0).Value
+                s.Type = StrtoEnumSensorDataTypes(dgvr.Cells(1).Value)
+                s.ToDisplay = dgvr.Cells(2).Value
+                settings_.SensorDataParameters.Add(s)
+            End If
+        Next
+
 
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()

@@ -28,20 +28,27 @@ Partial Class settingsFrm
         Me.btnInterfaceDel = New System.Windows.Forms.Button
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.nudTimeZone = New System.Windows.Forms.NumericUpDown
-        Me.Label1 = New System.Windows.Forms.Label
         Me.chkUTC = New System.Windows.Forms.CheckBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.nudTimeZone = New System.Windows.Forms.NumericUpDown
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
         Me.OK_Button = New System.Windows.Forms.Button
         Me.Cancel_Button = New System.Windows.Forms.Button
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel
         Me.btnOK = New System.Windows.Forms.Button
         Me.btnCancel = New System.Windows.Forms.Button
+        Me.GroupBox3 = New System.Windows.Forms.GroupBox
+        Me.DataGridView1 = New System.Windows.Forms.DataGridView
+        Me.dgSentStr = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.dgFlagType = New System.Windows.Forms.DataGridViewComboBoxColumn
+        Me.dgFullName = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.nudTimeZone, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lstInterfaces
@@ -104,14 +111,15 @@ Partial Class settingsFrm
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Time Settings"
         '
-        'nudTimeZone
+        'chkUTC
         '
-        Me.nudTimeZone.Location = New System.Drawing.Point(70, 46)
-        Me.nudTimeZone.Maximum = New Decimal(New Integer() {12, 0, 0, 0})
-        Me.nudTimeZone.Minimum = New Decimal(New Integer() {12, 0, 0, -2147483648})
-        Me.nudTimeZone.Name = "nudTimeZone"
-        Me.nudTimeZone.Size = New System.Drawing.Size(48, 20)
-        Me.nudTimeZone.TabIndex = 0
+        Me.chkUTC.AutoSize = True
+        Me.chkUTC.Location = New System.Drawing.Point(9, 19)
+        Me.chkUTC.Name = "chkUTC"
+        Me.chkUTC.Size = New System.Drawing.Size(70, 17)
+        Me.chkUTC.TabIndex = 2
+        Me.chkUTC.Text = "Use UTC"
+        Me.chkUTC.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -122,15 +130,14 @@ Partial Class settingsFrm
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Time Zone"
         '
-        'chkUTC
+        'nudTimeZone
         '
-        Me.chkUTC.AutoSize = True
-        Me.chkUTC.Location = New System.Drawing.Point(9, 19)
-        Me.chkUTC.Name = "chkUTC"
-        Me.chkUTC.Size = New System.Drawing.Size(70, 17)
-        Me.chkUTC.TabIndex = 2
-        Me.chkUTC.Text = "Use UTC"
-        Me.chkUTC.UseVisualStyleBackColor = True
+        Me.nudTimeZone.Location = New System.Drawing.Point(70, 46)
+        Me.nudTimeZone.Maximum = New Decimal(New Integer() {12, 0, 0, 0})
+        Me.nudTimeZone.Minimum = New Decimal(New Integer() {12, 0, 0, -2147483648})
+        Me.nudTimeZone.Name = "nudTimeZone"
+        Me.nudTimeZone.Size = New System.Drawing.Size(48, 20)
+        Me.nudTimeZone.TabIndex = 0
         '
         'TableLayoutPanel1
         '
@@ -199,11 +206,50 @@ Partial Class settingsFrm
         Me.btnCancel.TabIndex = 1
         Me.btnCancel.Text = "Cancel"
         '
+        'GroupBox3
+        '
+        Me.GroupBox3.Controls.Add(Me.DataGridView1)
+        Me.GroupBox3.Location = New System.Drawing.Point(12, 193)
+        Me.GroupBox3.Name = "GroupBox3"
+        Me.GroupBox3.Size = New System.Drawing.Size(353, 130)
+        Me.GroupBox3.TabIndex = 7
+        Me.GroupBox3.TabStop = False
+        Me.GroupBox3.Text = "Variables"
+        '
+        'DataGridView1
+        '
+        Me.DataGridView1.AllowUserToOrderColumns = True
+        Me.DataGridView1.AllowUserToResizeRows = False
+        Me.DataGridView1.BackgroundColor = System.Drawing.SystemColors.Control
+        Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.dgSentStr, Me.dgFlagType, Me.dgFullName})
+        Me.DataGridView1.Location = New System.Drawing.Point(6, 19)
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.Size = New System.Drawing.Size(347, 84)
+        Me.DataGridView1.TabIndex = 0
+        '
+        'dgSentStr
+        '
+        Me.dgSentStr.HeaderText = "Flag"
+        Me.dgSentStr.Name = "dgSentStr"
+        '
+        'dgFlagType
+        '
+        Me.dgFlagType.HeaderText = "Type"
+        Me.dgFlagType.Name = "dgFlagType"
+        '
+        'dgFullName
+        '
+        Me.dgFullName.HeaderText = "Display"
+        Me.dgFullName.Name = "dgFullName"
+        '
         'settingsFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(423, 365)
+        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.TableLayoutPanel2)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -215,6 +261,8 @@ Partial Class settingsFrm
         CType(Me.nudTimeZone, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel2.ResumeLayout(False)
+        Me.GroupBox3.ResumeLayout(False)
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -233,4 +281,9 @@ Partial Class settingsFrm
     Friend WithEvents TableLayoutPanel2 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents btnOK As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
+    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
+    Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
+    Friend WithEvents dgSentStr As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents dgFlagType As System.Windows.Forms.DataGridViewComboBoxColumn
+    Friend WithEvents dgFullName As System.Windows.Forms.DataGridViewTextBoxColumn
 End Class

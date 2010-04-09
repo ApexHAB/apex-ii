@@ -15,7 +15,7 @@ Public Class Frame
     Private rcomment_ As String = ""        'custom data on the string
     Private comm_ As String = ""            'comment on the end of the custom string
     Private valid_ As Boolean = False       'a valid packet?
-    Private Pdata_ As New Collection    'holds 'extra' vairable data
+    Private Pdata_ As New Dictionary(Of String, Double)    'holds 'extra' vairable data
     Private gpsNoLOCKf_ As Boolean = False
     Private gpsERRORf_ As Boolean = False
     Private timeoutf_ As Boolean = False        'a timeout has occured (relevent to APEXI)
@@ -100,13 +100,18 @@ Public Class Frame
         End Get
     End Property
 
-    Public ReadOnly Property PICdata(ByVal name As String) As Integer
+    Public ReadOnly Property PICdata(ByVal name As String) As Double
         Get
-            If Pdata_.Contains(name) Then
+            If Pdata_.ContainsKey(name) Then
                 Return Pdata_(name)
             Else
                 Return vbNull
             End If
+        End Get
+    End Property
+    Public ReadOnly Property PICdata() As Dictionary(Of String, Double)
+        Get
+            Return Pdata_
         End Get
     End Property
     Public ReadOnly Property GPSERROR() As Boolean
@@ -162,8 +167,6 @@ Public Class Frame
     End Sub
 
 #End Region
-
-
 
     Private Sub DecodeAPRS(ByVal raw As String)
         'Dim RegexObj As Regex = New Regex("regularexpression")
@@ -276,32 +279,32 @@ Public Class Frame
 
                     Select Case name
                         Case "IT"
-                            If Pdata_.Contains("IT") Then Pdata_.Remove("IT")
-                            Pdata_.Add(Val(value), "IT")
+                            If Pdata_.ContainsKey("IT") Then Pdata_.Remove("IT")
+                            Pdata_.Add("IT", Val(value))
                         Case "OT"
-                            If Pdata_.Contains("OT") Then Pdata_.Remove("OT")
-                            Pdata_.Add(Val(value), "OT")
+                            If Pdata_.ContainsKey("OT") Then Pdata_.Remove("OT")
+                            Pdata_.Add("OT", Val(value))
                         Case "PP"
-                            If Pdata_.Contains("PP") Then Pdata_.Remove("PP")
-                            Pdata_.Add(Val(value), "PP")
+                            If Pdata_.ContainsKey("PP") Then Pdata_.Remove("PP")
+                            Pdata_.Add("PP", Val(value))
                         Case "BV"
-                            If Pdata_.Contains("BV") Then Pdata_.Remove("BV")
-                            Pdata_.Add(Val(value), "BV")
+                            If Pdata_.ContainsKey("BV") Then Pdata_.Remove("BV")
+                            Pdata_.Add("BV", Val(value))
                         Case "A1"
-                            If Pdata_.Contains("A1") Then Pdata_.Remove("A1")
-                            Pdata_.Add(Val(value), "A1")
+                            If Pdata_.ContainsKey("A1") Then Pdata_.Remove("A1")
+                            Pdata_.Add("A1", Val(value))
                         Case "A2"
-                            If Pdata_.Contains("A2") Then Pdata_.Remove("A2")
-                            Pdata_.Add(Val(value), "A2")
+                            If Pdata_.ContainsKey("A2") Then Pdata_.Remove("A2")
+                            Pdata_.Add("A2", Val(value))
                         Case "A3"
-                            If Pdata_.Contains("A3") Then Pdata_.Remove("A3")
-                            Pdata_.Add(Val(value), "A3")
+                            If Pdata_.ContainsKey("A3") Then Pdata_.Remove("A3")
+                            Pdata_.Add("A3", Val(value))
                         Case "A4"
-                            If Pdata_.Contains("A4") Then Pdata_.Remove("A4")
-                            Pdata_.Add(Val(value), "A4")
+                            If Pdata_.ContainsKey("A4") Then Pdata_.Remove("A4")
+                            Pdata_.Add("A4", Val(value))
                         Case "A5"
-                            If Pdata_.Contains("A5") Then Pdata_.Remove("A5")
-                            Pdata_.Add(Val(value), "A5")
+                            If Pdata_.ContainsKey("A5") Then Pdata_.Remove("A5")
+                            Pdata_.Add("A5", Val(value))
                     End Select
                     If rcomment_.Length < a + 3 Then Exit Do
                 Loop While rcomment_(a) <> " "

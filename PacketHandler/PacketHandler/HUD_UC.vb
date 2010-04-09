@@ -1,8 +1,15 @@
 ﻿Public Class HUD_UC
 
+#Region "Fields"
+
     Private FrameToDisplay_ As Frame = New Frame()
     Private WithEvents timeSinceLastTmr As Timer = New Timer()
     Private secondsSinceLast As Integer = 0
+    Private sensorParameters_ As New List(Of SensorParameters)
+
+#End Region
+
+#Region "Properties"
 
     Public Property FrameToDisplay() As Frame
         Get
@@ -10,13 +17,29 @@
         End Get
         Set(ByVal value As Frame)
             FrameToDisplay_ = value
+            secondsSinceLast = 0
+            lbTimer.Text = ""
+            timeSinceLastTmr.Stop()
+            timeSinceLastTmr.Start()
             UpdateDisplay()
         End Set
     End Property
+    Public Property SensorDataParameters() As List(Of SensorParameters)
+        Get
+            Return sensorParameters_
+        End Get
+        Set(ByVal value As List(Of SensorParameters))
+            sensorParameters_ = value
+        End Set
+    End Property
+
+#End Region
 
 
-    Public Sub ClearDispay()
-
+    Public Sub ClearDisplay()
+        FrameToDisplay_ = New Frame()
+        ResetClock()
+        UpdateDisplay()
     End Sub
 
     Public Sub UpdateDisplay()
@@ -28,6 +51,29 @@
         End If
 
         timeSinceLastTmr.Enabled = True
+
+        For i As Integer = 1 To dgvData.Rows.Count
+            If dgvData.Rows(0).IsNewRow Then Exit For
+            dgvData.Rows.RemoveAt(0)
+        Next
+
+        Dim s As SensorParameters
+        Dim a As String() = {"", ""}
+        For Each k As KeyValuePair(Of String, Double) In FrameToDisplay_.PICdata
+
+            a(0) = k.Key
+            a(1) = k.Value.ToString
+            For Each s In sensorParameters_
+                If s.Flag = k.Key Then
+                    a(0) = s.ToDisplay
+                    a(1) = Math.Round(SensorParameters.AdjustData(k.Value, s.Type), 2)
+                    Exit For
+                End If
+            Next
+
+
+            dgvData.Rows.Add(a)
+        Next
 
 
 
@@ -49,6 +95,10 @@
         If tempint < 10 Then lbTimer.Text = lbTimer.Text & "0"
         lbTimer.Text = lbTimer.Text & tempint.ToString
 
+
+
+
+
     End Sub
 
     Public Sub ResetClock()
@@ -62,4 +112,5 @@
         timeSinceLastTmr.Interval = 1000
 
     End Sub
+
 End Class

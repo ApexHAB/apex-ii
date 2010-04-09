@@ -26,7 +26,35 @@ Public Enum PacketFormats
     Length
     BLANK
 End Enum
+
+Public Enum SensorDataTypes
+    BLANK
+    Temperature
+    Pressure
+    BatteryVoltage
+    Linear
+    Length
+End Enum
+
 Module randomfunctions
+    Public Function StrtoEnumSensorDataTypes(ByVal input As String) As SensorDataTypes
+        Select Case input
+            Case "Temperature"
+                Return SensorDataTypes.Temperature
+            Case "Pressure"
+                Return SensorDataTypes.Pressure
+            Case "Battery Voltage"
+                Return SensorDataTypes.BatteryVoltage
+            Case "Linear"
+                Return SensorDataTypes.Linear
+            Case ""
+                Return SensorDataTypes.BLANK
+
+            Case Else
+                Return SensorDataTypes.BLANK
+        End Select
+    End Function
+
     Public Function StrToEnumInterfaceTypes(ByVal input As String) As InterfaceTypes
         Select Case input
             Case "agwpe"
@@ -97,7 +125,23 @@ Module randomfunctions
                 Return "Mappoint"
             Case InterfaceTypes.SERIALMODEM
                 Return "Serial Modem"
-            
+
+        End Select
+        Return ""
+    End Function
+
+    Public Function EnumToStr(ByVal input As SensorDataTypes) As String
+        Select Case input
+            Case SensorDataTypes.Temperature
+                Return "Temperature"
+            Case SensorDataTypes.Pressure
+                Return "Pressure"
+            Case SensorDataTypes.BatteryVoltage
+                Return "Battery Voltage"
+            Case SensorDataTypes.Linear
+                Return "Linear"
+            Case SensorDataTypes.BLANK
+                Return ""
         End Select
         Return ""
     End Function
