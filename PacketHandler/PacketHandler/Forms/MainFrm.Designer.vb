@@ -29,6 +29,7 @@ Partial Class MainFrm
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox
         Me.Button1 = New System.Windows.Forms.Button
         Me.btnBalloonUplink = New System.Windows.Forms.Button
+        Me.Button2 = New System.Windows.Forms.Button
         Me.HuD_UC1 = New PacketHandler.HUD_UC
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
@@ -90,22 +91,32 @@ Partial Class MainFrm
         Me.btnBalloonUplink.Text = "Send"
         Me.btnBalloonUplink.UseVisualStyleBackColor = True
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(179, 15)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 5
+        Me.Button2.Text = "Button2"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
         'HuD_UC1
         '
         Frame1.StatusPacketStartText = "sgsballoon:"
         Frame1.TimeZone = 0
         Me.HuD_UC1.FrameToDisplay = Frame1
-        Me.HuD_UC1.Location = New System.Drawing.Point(15, 56)
+        Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
         Me.HuD_UC1.Name = "HuD_UC1"
-        Me.HuD_UC1.Size = New System.Drawing.Size(438, 189)
-        Me.HuD_UC1.TabIndex = 4
+        Me.HuD_UC1.Size = New System.Drawing.Size(405, 169)
+        Me.HuD_UC1.TabIndex = 6
         '
         'MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(461, 488)
+        Me.ClientSize = New System.Drawing.Size(459, 488)
         Me.Controls.Add(Me.HuD_UC1)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.btnBalloonUplink)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.tabData)
@@ -123,6 +134,8 @@ Partial Class MainFrm
     Friend WithEvents Button1 As System.Windows.Forms.Button
     Friend WithEvents RichTextBox1 As System.Windows.Forms.RichTextBox
     Friend WithEvents btnBalloonUplink As System.Windows.Forms.Button
+    Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents HuD_UC1 As PacketHandler.HUD_UC
+
 
 End Class

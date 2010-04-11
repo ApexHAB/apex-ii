@@ -5,7 +5,7 @@
     Private FrameToDisplay_ As Frame = New Frame()
     Private WithEvents timeSinceLastTmr As Timer = New Timer()
     Private secondsSinceLast As Integer = 0
-    Private sensorParameters_ As New List(Of SensorParameters)
+    Private sensorParameters_ As List(Of SensorParameters) = New List(Of SensorParameters)
 
 #End Region
 
@@ -24,17 +24,33 @@
             UpdateDisplay()
         End Set
     End Property
-    Public Property SensorDataParameters() As List(Of SensorParameters)
+    Public ReadOnly Property SensorDataParameters() As List(Of SensorParameters)
         Get
             Return sensorParameters_
         End Get
-        Set(ByVal value As List(Of SensorParameters))
-            sensorParameters_ = value
-        End Set
+        'Set(ByVal value As List(Of SensorParameters))
+        '    sensorParameters_ = value
+        'End Set
     End Property
 
-#End Region
 
+
+
+    'these three ubs replace making the above property not readonly, but that causes vb act retarded and i havnt bothered to find the right way to do it yet
+
+    Public Sub SetSensorDataParameter(ByVal input As List(Of SensorParameters))
+        sensorParameters_ = input
+    End Sub
+
+    Public Sub AddSensorDataParameter(ByVal input As SensorParameters)
+        sensorParameters_.Add(input)
+    End Sub
+
+    Public Sub RemoveAllSensorDataParameters()
+        sensorParameters_.Clear()
+    End Sub
+
+#End Region
 
     Public Sub ClearDisplay()
         FrameToDisplay_ = New Frame()

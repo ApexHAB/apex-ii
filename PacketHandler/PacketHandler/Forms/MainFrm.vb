@@ -27,7 +27,8 @@
 
     Private Sub UpdateForm()
 
-        HuD_UC1.SensorDataParameters = GlobalSettings_.SensorDataParameters
+        'HuD_UC1.SensorDataParameters = GlobalSettings_.SensorDataParameters
+        HuD_UC1.SetSensorDataParameter(GlobalSettings_.SensorDataParameters)
         For i As Integer = 0 To tabData.TabPages.Count - 1
             tabData.TabPages.Remove(tabData.TabPages(0))
         Next
@@ -114,5 +115,11 @@
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
         HuD_UC1.FrameToDisplay = New Frame("@124840h5121.89N/00011.43W085/000/A=000000AVDATA-IT768OT679PP168A1453 SGSBALLOON", PacketFormats.APRS)
+    End Sub
+
+ 
+
+    Private Sub Button2_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+        GlobalSettings_.SaveToDisk("TEST.xml")
     End Sub
 End Class
