@@ -93,9 +93,9 @@ Partial Class MainFrm
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(179, 15)
+        Me.Button2.Location = New System.Drawing.Point(189, 12)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.Size = New System.Drawing.Size(65, 26)
         Me.Button2.TabIndex = 5
         Me.Button2.Text = "Button2"
         Me.Button2.UseVisualStyleBackColor = True
@@ -114,7 +114,7 @@ Partial Class MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(459, 488)
+        Me.ClientSize = New System.Drawing.Size(462, 488)
         Me.Controls.Add(Me.HuD_UC1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.btnBalloonUplink)

@@ -1,4 +1,5 @@
-﻿Public Class FLDigiSettings
+﻿'[XmlInclude(typeof(FLDigiSettings))] _
+<System.Xml.Serialization.XmlInclude(GetType(FLDigiSettings))> Public Class FLDigiSettings
     'class contains variables relating to the specific interface, and carries out any validation on its data
     Private Host_ As String = "127.0.0.1"
     Private Port_ As Integer = 7322

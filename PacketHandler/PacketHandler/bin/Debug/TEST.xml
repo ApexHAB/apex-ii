@@ -1,7 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<countries>
-  <UnitedStates
-    capital="london"
-    Cities="soton"
-    rank="1st" />
-</countries>
+<GlobalSettings>
+  <TimeSettings>
+    <TimeZone>0</TimeZone>
+    <UseUTC>False</UseUTC>
+  </TimeSettings>
+  <Interfaces>
+    <Interface0>
+      <erty>InterfaceName</erty>
+      <InterfaceDirection>DataSharingOut</InterfaceDirection>
+      <InterfaceType>MAPPOINT</InterfaceType>
+      <DataFormat>APRS</DataFormat>
+      <Enabled>False</Enabled>
+      <Filter>ERT\nETE</Filter>
+    </Interface0>
+  </Interfaces>
+  <Sensors>
+    <Sensor0>SENSOR STUFF ERE</Sensor0>
+  </Sensors>
+</GlobalSettings>

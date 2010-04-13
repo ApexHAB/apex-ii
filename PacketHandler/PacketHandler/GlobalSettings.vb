@@ -3,6 +3,7 @@
     Private sensorDataParameters_ As New List(Of SensorParameters)
     Private timezone_ As Integer = 0
     Private UseUTC_ As Boolean = False
+    ' Public test As New Dictionary(Of String, String)
 
 #Region "Properties"
 
@@ -44,29 +45,88 @@
 
 #End Region
 
+    
+
     Public Function SaveToDisk(ByVal Path As String) As Boolean
 
-        Dim settings As New System.Xml.XmlWriterSettings()
-        settings.Indent = True
-        settings.NewLineOnAttributes = True
+        'Dim settings As New System.Xml.XmlWriterSettings()
+        'settings.Indent = True
+        'settings.NewLineOnAttributes = True
 
-        Using writer As System.Xml.XmlWriter = System.Xml.XmlWriter.Create(Path, settings)
-            writer.WriteStartDocument()
-            writer.WriteStartElement("countries")
-            writer.WriteStartElement("UnitedStates")
-            writer.WriteStartAttribute("capital")
-            writer.WriteValue("london")
-            writer.WriteEndAttribute()
-            writer.WriteStartAttribute("Cities")
-            writer.WriteValue("soton")
-            writer.WriteEndAttribute()
-            writer.WriteStartAttribute("rank")
-            writer.WriteValue("1st")
-            writer.WriteEndAttribute()
-            writer.WriteEndElement()
-            writer.WriteEndDocument()
-            writer.Flush()
-        End Using
+
+        'Using writer As System.Xml.XmlWriter = System.Xml.XmlWriter.Create(Path, settings)
+
+        '    writer.WriteStartDocument()
+        '    writer.WriteStartElement("GlobalSettings")
+
+        '        writer.WriteStartElement("TimeSettings")
+        '             writer.WriteStartElement("TimeZone")
+        '                 writer.WriteValue(timezone_.ToString())
+        '             writer.WriteEndElement()
+        '            writer.WriteStartElement("UseUTC")
+        '                writer.WriteValue(UseUTC_.ToString())
+        '            writer.WriteEndElement()
+        '        writer.WriteEndElement()
+
+        '        writer.WriteStartElement("Interfaces")
+        '        Dim i As Integer = 0
+        '        For Each inter As InterfaceSettings In interfaces_
+        '            writer.WriteStartElement("Interface" & i)
+
+
+        '                For Each kv As KeyValuePair(Of String, String) In inter.AllValuesAsString
+        '                    writer.WriteStartElement(kv.Key)
+        '                        writer.WriteValue(kv.Value)
+
+        '                    writer.WriteEndElement()
+        '                Next
+        '            writer.WriteEndElement()
+        '            i = i + 1
+        '        Next
+
+        '        writer.WriteEndElement()
+
+        '        writer.WriteStartElement("Sensors")
+        '            writer.WriteStartElement("Sensor" & "0")
+        '                writer.WriteValue("SENSOR STUFF ERE")
+        '            writer.WriteEndElement()
+        '        writer.WriteEndElement()
+
+        '    writer.WriteEndElement()
+        '    writer.WriteEndDocument()
+        '    writer.Flush()
+
+
+        'End Using
+
+
+
+
+
+
+
+        Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
+        Dim writestream As New System.IO.StreamWriter("sampledb.xml")
+        ser.Serialize(writestream, Me)
+
+
+        'Using writer As System.Xml.XmlWriter = System.Xml.XmlWriter.Create(Path, settings)
+        '    writer.WriteStartDocument()
+        '    writer.WriteStartElement("countries")
+        '    writer.WriteStartElement("UnitedStates")
+        '    writer.WriteStartAttribute("capital")
+        '    writer.WriteValue("london")
+        '    writer.WriteEndAttribute()
+        '    writer.WriteStartAttribute("Cities")
+        '    writer.WriteValue("soton")
+        '    writer.WriteEndAttribute()
+        '    writer.WriteStartAttribute("rank")
+        '    writer.WriteValue("1st")
+        '    writer.WriteEndAttribute()
+        '    writer.WriteEndElement()
+        '    writer.WriteEndDocument()
+        '    writer.Flush()
+        'End Using
 
 
 
