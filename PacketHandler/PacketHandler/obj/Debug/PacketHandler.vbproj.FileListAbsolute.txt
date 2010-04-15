@@ -47,6 +47,7 @@ C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.SerialPortSettingsUC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.settingsFrm.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.UplinkFrm.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.vbproj.GenerateResource.Cache
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.EditSensorInfo.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.SettingsLinearUC.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.read.1.tlog
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.write.1.tlog

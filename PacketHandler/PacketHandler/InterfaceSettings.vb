@@ -157,9 +157,7 @@ Public Class InterfaceSettings
 
     End Function
 
-    Public Sub New()
-        InterfaceTypeSpecificSettingsTEST_.Add(New FLDigiSettings)
-    End Sub
+  
 
 
 End Class
