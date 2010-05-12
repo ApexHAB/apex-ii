@@ -3,18 +3,10 @@
   <SensorDataParameters />
   <Interfaces>
     <InterfaceSettings>
-      <AGWPEsettings_>
-        <Host>127.0.0.1</Host>
-        <Port>8080</Port>
-      </AGWPEsettings_>
-      <FLDigisettings_>
-        <Host>127.0.0.1</Host>
-        <Port>7322</Port>
-      </FLDigisettings_>
       <Enabled>false</Enabled>
       <InterfaceName />
       <InterfaceDirection>BLANK</InterfaceDirection>
-      <InterfaceType>BLANK</InterfaceType>
+      <InterfaceType>FLDIGI</InterfaceType>
       <DataFormat>BLANK</DataFormat>
       <Filters />
     </InterfaceSettings>
