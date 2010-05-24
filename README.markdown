@@ -6,5 +6,7 @@ The project aims to follow in the steps of Apex I after its unfortunate loss and
 
 We have an additional payload of two Geiger-Muller tubes to measure ionising radiation in the atmosphere.  
 
-*See the Apex page at http://hexoc.com/pages/apex/apex-ii.php  
-Contact project-apex@googlegroups.com or apex@hexoc.com.*
+## Useful links
+
+* [Homepage](http://hexoc.com/pages/apex/apex-ii.php) http://hexoc.com/pages/apex/apex-ii.php
+* [Contact](mailto:project-apex@googlegroups.com) project-apex@googlegroups.com or apex@hexoc.com.
