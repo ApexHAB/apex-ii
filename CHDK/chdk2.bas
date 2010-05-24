@@ -4,29 +4,25 @@
 
 rem Max focus value is likely max word variable value (65535)
 
-:run1
+:loop
+wait_click 1
+is_key k "remote"
+if k=1 then gosub "capture1"
+t=t+1
+if t > 1000 then gosub "capture1"
+goto "loop"
 
+
+:capture1
+t=0
+k=0
 set_zoom 0
-
- 
-do
-      a = get_usb_power
-      t = t + 1
-if t > l then gosub "capture"
-   until a>0 
-   t=0
-   if a > 10 then gosub "capture" 
-end
-
-
-:capture
 get_focus x
-:shoot
-if x <> 65536
-click "up"
-endif
+if x <> 65536 then click "up"
 click "shoot_full"
 cls
-goto "run1"
+goto "loop"
+return
+
 
 end
