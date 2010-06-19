@@ -1,0 +1,11 @@
+Modulator parts list
+
+C48	-	10u
+C49	-	C1 in 555 timer
+C50	-	100n
+R65	-	1K
+R66	-	R1 in 555 timer
+R67	-	R2 in 555 timer
+USB B socket - power
+serial port - female
+Gain variable resistor - 47K/100K

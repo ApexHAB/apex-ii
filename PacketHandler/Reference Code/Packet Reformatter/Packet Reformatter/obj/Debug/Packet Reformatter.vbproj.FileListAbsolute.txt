@@ -48,3 +48,7 @@ C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Re
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.vbproj.GenerateResource.Cache
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.exe.manifest
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.application
+C:\Users\Matt\Documents\APEX\PacketHandler\Reference Code\Packet Reformatter\Packet Reformatter\bin\Debug\Packet Reformatter.exe.config
+C:\Users\Matt\Documents\APEX\PacketHandler\Reference Code\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.exe
+C:\Users\Matt\Documents\APEX\PacketHandler\Reference Code\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.xml
+C:\Users\Matt\Documents\APEX\PacketHandler\Reference Code\Packet Reformatter\Packet Reformatter\obj\Debug\Packet Reformatter.pdb
