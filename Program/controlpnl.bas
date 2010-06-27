@@ -616,6 +616,60 @@ return
 
 '###############################################################
 '###############################################################
+				'ADC commands
+'###############################################################
+'###############################################################
+
+
+'b10 selects channel - remember selects channel of NEXT reading
+'w0 is output word
+
+
+ADCshift:
+low sclk
+low MOSI
+low ADCcs
+
+high MOSI
+pulsout sclk, 10
+high MOSI
+pulsout sclk, 10
+
+for b45 = 1 to 3
+	b46 = b10 & %100
+	if b46 > 0 then
+		high MOSI
+	else
+		low MOSI
+	endif
+	pulsout sclk, 10
+	b10 = b10 * 2
+next b45
+pause 1
+pulsout sclk, 10
+pause 1
+pulsout sclk, 10
+
+w0 = 0
+
+for b45 = 1 to 12
+
+	w0 = w0 * 2
+	if MISO is on then
+		w0 = w0 + 1
+	endif
+	pulsout sclk,10
+next b45
+
+high ADCcs
+low MOSI
+
+return
+
+
+
+'###############################################################
+'###############################################################
 				'GPS commands
 '###############################################################
 '###############################################################
