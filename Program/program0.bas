@@ -96,11 +96,32 @@ symbol PacketPtrl = b38
 symbol PacketPtrh = b39
 symbol PacketPtr = w19
 
+
+symbol TXBaud = 39999	'8mhz:39999 for 50 baud
+symbol TXMode = %110
+symbol RXBaud = B300_8
+symbol RXMode = %111
+
 '########
 '########
 '########
 
-table ("$$APEX,")
+table ("$$APEX,")		'start of string
+
+'no commands can be stored on or past 0xF8
+table 0x80,("PINGftnjqw")	'ping command and pwd
+table ("CDWNtqnhgr")		'cutdown command and pwd
+table ("IRDOhyxapr")
+table ("IRDFh7wv7k")
+table ("SHUTp1cX7W")
+table ("TESTN86GhH")
+table ("XXXXXXXXXX")		'blanking
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+
 
 high adccs
 high rtccs
@@ -245,10 +266,6 @@ gosub WriteComma
 
 
 
-'check temp
-
-
-
 'check humidity
 
 
@@ -262,12 +279,30 @@ gosub WriteComma
 
 
 
-'process RX buffer
-
-
 
 
 'turn off RX/hserin
+hsersetup OFF
+
+
+'check temp
+
+
+'process RX buffer
+ptr = 0
+do
+	if @ptrinc = "#" then		
+		if @ptrinc = "#" then
+			gosub commandfound
+		endif
+		
+		
+	endif
+loop while ptr < 253
+
+
+
+
 
 
 
@@ -303,7 +338,10 @@ write PacketPtrhROM,PacketPtrh
 write PacketPtrlROM,PacketPtrl
 
 'transmit scratchpad
-
+ptr = 0
+for b16 = 0 to ramptr
+	hserout 0,(@ptrinc)
+next
 
 'sertxd for testing
 
@@ -320,12 +358,85 @@ for w8 = 0 to 1023
 	@ptrinc = 0		'clear spad
 next
 
+hsersetup RXBaud, RXMode
+
 wait 10
 goto main
 
 
 
 
+commandfound:
+'starts at 0x80
+b15 = 0x80	'start of each sequence pointer
+b16 = 0x80	'moving pointer
+'b17 - holds value @ b16
+'b18 - number of matching chars
+b18 = 0
+b19 = ptr	' hold the entry value for ptr
+
+do while ptr < 254
+	
+	read b16,b17
+	if @ptrinc <> b17	then
+		ptr = b19	'reset ptr		
+		b15 = b15 + 10
+		if b15 >= 0xF8 then : return endif
+		b18 = 0
+	else
+		b18 = b18 + 1
+	endif
+	
+	if b18 = 10 then
+		b15 = b15 - 0x80  ' remove memory offset
+		b15 = b15 / 10
+		branch b15,(pingcmd,cdwncmd)
+		return
+	endif	
+
+loop
+
+
+return
+
+
+
+
+pingcmd:
+b19 = ","
+b20 = "P"
+b21 = "O"
+b22 = "N"
+b23 = "G"
+
+b10 = ramptr
+ramptr = ramptr + 5
+b11 = 19
+b12 = 23
+gosub RTCRAMWriteMany
+
+return
+
+cdwncmd:
+
+high FET2
+pause 500
+low FET2
+
+b19 = ","
+b20 = "C"
+b21 = "D"
+b22 = "W"
+b23 = "N"
+
+b10 = ramptr
+ramptr = ramptr + 5
+b11 = 19
+b12 = 23
+gosub RTCRAMWriteMany
+
+
+return
 
 
 

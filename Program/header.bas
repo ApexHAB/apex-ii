@@ -99,7 +99,22 @@ symbol PacketPtr = w19
 '########
 '########
 
-table ("$$APEX,")
+table ("$$APEX,")		'start of string
+
+'no commands can be stored on or past 0xF8
+table 0x80,("PINGftnjqw")	'ping command and pwd
+table ("CDWNtqnhgr")		'cutdown command and pwd
+table ("IRDOhyxapr")
+table ("IRDFh7wv7k")
+table ("SHUTp1cX7W")
+table ("TESTN86GhH")
+table ("XXXXXXXXXX")		'blanking
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+
 
 high adccs
 high rtccs
