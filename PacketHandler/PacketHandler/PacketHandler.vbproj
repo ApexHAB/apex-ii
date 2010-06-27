@@ -76,6 +76,7 @@
     <Compile Include="Forms\EditSensorInfo.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GPScoord.vb" />
     <Compile Include="HUD_UC.Designer.vb">
       <DependentUpon>HUD_UC.vb</DependentUpon>
     </Compile>
@@ -236,6 +237,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

@@ -34,6 +34,12 @@ Public Enum SensorDataTypes
     Length
 End Enum
 
+Public Enum GPSFormats
+    DDDdddd         'defualt UKHAS
+    DDDMMmm         'NMEA $GPGGA / APRS
+    DDDMMSS
+End Enum
+
 Module randomfunctions
     Public Function StrtoEnumSensorDataTypes(ByVal input As String) As SensorDataTypes
         Select Case input
