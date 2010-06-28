@@ -4,7 +4,8 @@
 Public Class Frame
 
     Private Empty_ As Boolean = True     'marker for blank frame
-    Private packetEncodingType_ As PacketFormats       'APRS/UKHAS?
+    ' Private packetEncodingType_ As PacketFormats       'APRS/UKHAS?
+    Private packetStructure_ As PacketStructure     'holds details on how the packet will be decoded
     Private type_ As Char = ""      'only relevent for aprs packets
     Private time_ As String = ""    'time
     ' Private gpsla_ As String = ""   'gps latitude
@@ -162,14 +163,14 @@ Public Class Frame
         Empty_ = True
     End Sub
 
-    Public Sub New(ByVal FrameString As String, ByVal pkType As PacketFormats, ByVal GPSType As GPSFormats)
-        Select Case pkType
+    Public Sub New(ByVal FrameString As String, ByVal pkStructure As PacketStructure)
+        Select Case pkStructure.PacketType
             Case PacketFormats.APRS
                 DecodeAPRS(FrameString)
-                packetEncodingType_ = PacketFormats.APRS
+                packetStructure_ = pkStructure
             Case PacketFormats.UKHAS
                 DecodeUKHAS(Encoding.ASCII.GetBytes(FrameString))
-                packetEncodingType_ = PacketFormats.UKHAS
+                packetStructure_ = pkStructure
 
         End Select
         Empty_ = False
@@ -252,7 +253,7 @@ Public Class Frame
 
     End Sub
 
-    Private Sub DecodeCustom()
+    Private Sub DecodeCustomApexI()
         'acts on the rcomment_ string and splits it up
 
 
@@ -326,6 +327,10 @@ Public Class Frame
 
         Catch
         End Try
+    End Sub
+
+    Private Sub DecodeCustom()
+       
     End Sub
 
     Private Sub DecodeUKHAS(ByVal received() As Byte)

@@ -90,6 +90,7 @@
     <Compile Include="Forms\InterfaceStatus.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PacketStructure.vb" />
     <Compile Include="SensorParameters.vb" />
     <Compile Include="SettingsUC\AGWPESettingsUC.Designer.vb">
       <DependentUpon>AGWPESettingsUC.vb</DependentUpon>

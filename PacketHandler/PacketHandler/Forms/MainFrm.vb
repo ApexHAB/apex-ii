@@ -114,12 +114,18 @@
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        HuD_UC1.FrameToDisplay = New Frame("@124840h5121.89N/00011.43W085/000/A=000000AVDATA-IT768OT679PP168A1453 SGSBALLOON", PacketFormats.APRS, GPSFormats.DDDMMmm)
+        Dim pf As New PacketStructure
+        pf.PacketType = PacketFormats.APRS
+        HuD_UC1.FrameToDisplay = New Frame("@124840h5121.89N/00011.43W085/000/A=000000AVDATA-IT768OT679PP168A1453 SGSBALLOON", pf)
     End Sub
 
  
 
     Private Sub Button2_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
         GlobalSettings_.SaveToDisk("TEST.xml")
+    End Sub
+
+    Private Sub HuD_UC1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HuD_UC1.Load
+
     End Sub
 End Class

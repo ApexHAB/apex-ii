@@ -1,5 +1,5 @@
 ﻿Public Class HUD_UC
-
+    'will need to be changed to use the new PacketStructure class.
 #Region "Fields"
 
     Private FrameToDisplay_ As Frame = New Frame()
@@ -129,4 +129,7 @@
 
     End Sub
 
+    Private Sub dgvData_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvData.CellContentClick
+
+    End Sub
 End Class

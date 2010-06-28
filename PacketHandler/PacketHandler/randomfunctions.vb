@@ -34,11 +34,11 @@ Public Enum SensorDataTypes
     Length
 End Enum
 
-Public Enum GPSFormats
-    DDDdddd         'defualt UKHAS
-    DDDMMmm         'NMEA $GPGGA / APRS
-    DDDMMSS
-End Enum
+'Public Enum GPSFormats
+'    DDDdddd         'defualt UKHAS
+'    DDDMMmm         'NMEA $GPGGA / APRS
+'    DDDMMSS
+'End Enum
 
 Public Enum Project
     APEX1
