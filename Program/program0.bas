@@ -263,8 +263,25 @@ gosub WriteComma
 
 
 'check ADC channels
+b10 = 0
+gosub ADCShift
+for b16 = 1 to 4
 
+	b10 = b16
+	b10 = b10 AND %11		'sending 4 on final loop is not a valid number
+	gosub ADCShift
+	
+	b20 = "A"
+	b21 = b16 + 47
+	bintoascii w0,b17,b22,b23,b24,b25
+	
+	b10 = ramptr
+	b11 = 20
+	b12 = b25
+	ramptr = ramptr + 6
+	gosub RTCRAMWriteMany
 
+next
 
 'check humidity
 
@@ -310,6 +327,15 @@ loop while ptr < 253
 
 
 
+'write crlf
+b19 = cr
+b20 = lf
+b10 = ramptr
+b11 = 19
+b12 = 20
+ramptr = ramptr + 2
+gosub RTCRAMWriteMany
+
 'copy RTC RAM to spad
 ptr = 0
 for w8 = 0 to 1023
@@ -338,11 +364,12 @@ write PacketPtrhROM,PacketPtrh
 write PacketPtrlROM,PacketPtrl
 
 'transmit scratchpad
+hsersetup TXBaud, TXMode
 ptr = 0
 for b16 = 0 to ramptr
 	hserout 0,(@ptrinc)
 next
-
+hsersetup OFF
 'sertxd for testing
 
 ptr = 0

@@ -154,7 +154,20 @@ ptr = 0
 
 for b16 = 0 to 255
 
-	sertxd(@ptrinc)
+	b17 = @ptrinc
+
+	
+	if b17 = cr then
+		sertxd(cr,lf)
+		goto start
+	endif
+	
+	if b17 = lf then
+		sertxd(cr,lf)
+		goto start		
+	endif
+
+	sertxd(b17)
 
 next
 
