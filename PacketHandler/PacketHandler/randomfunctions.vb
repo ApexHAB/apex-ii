@@ -40,6 +40,11 @@ Public Enum GPSFormats
     DDDMMSS
 End Enum
 
+Public Enum Project
+    APEX1
+    APEX2
+End Enum
+
 Module randomfunctions
     Public Function StrtoEnumSensorDataTypes(ByVal input As String) As SensorDataTypes
         Select Case input
