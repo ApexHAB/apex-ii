@@ -267,18 +267,21 @@ b10 = 0
 gosub ADCShift
 for b16 = 1 to 4
 
+	gosub writecomma
+
 	b10 = b16
 	b10 = b10 AND %11		'sending 4 on final loop is not a valid number
 	gosub ADCShift
+'	w0 = 1494
 	
-	b20 = "A"
-	b21 = b16 + 47
-	bintoascii w0,b17,b22,b23,b24,b25
+	w5 = w0
+	gosub bintohex
+	
 	
 	b10 = ramptr
-	b11 = 20
-	b12 = b25
-	ramptr = ramptr + 6
+	b11 = 1
+	b12 = 3
+	ramptr = ramptr + 3
 	gosub RTCRAMWriteMany
 
 next
@@ -857,6 +860,44 @@ bcd_decimal:
 	let b13 = b13 & %00001111 + b45
 
 return
+
+
+bintohex:
+'b10,b11 input
+'b0,b1 output for b11
+'b2,b3 output for b10
+
+b45 = b10 AND %1111
+if b45 > 9 then
+	b3 = b45 + 55
+else
+	b3 = b45 + 48
+endif
+b10 = b10 >> 4
+b45 = b10 AND %1111
+if b45 > 9 then
+	b2 = b45 + 55
+else
+	b2 = b45 + 48
+endif
+
+b45 = b11 AND %1111
+if b45 > 9 then
+	b1 = b45 + 55
+else
+	b1 = b45 + 48
+endif
+b11 = b11 >> 4
+b45 = b11 AND %1111
+if b45 > 9 then
+	b0 = b45 + 55
+else
+	b0 = b45 + 48
+endif
+
+
+return
+
 
 clockout:
 
