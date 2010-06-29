@@ -22,15 +22,15 @@ Partial Class MainFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim Frame1 As PacketHandler.Frame = New PacketHandler.Frame
-        Me.btnSettings = New System.Windows.Forms.Button
-        Me.tabData = New System.Windows.Forms.TabControl
-        Me.tpAllData = New System.Windows.Forms.TabPage
-        Me.RichTextBox1 = New System.Windows.Forms.RichTextBox
-        Me.Button1 = New System.Windows.Forms.Button
-        Me.btnBalloonUplink = New System.Windows.Forms.Button
-        Me.Button2 = New System.Windows.Forms.Button
-        Me.HuD_UC1 = New PacketHandler.HUD_UC
+        Dim Frame1 As PacketHandler.Frame = New PacketHandler.Frame()
+        Me.btnSettings = New System.Windows.Forms.Button()
+        Me.tabData = New System.Windows.Forms.TabControl()
+        Me.tpAllData = New System.Windows.Forms.TabPage()
+        Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.btnBalloonUplink = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.SuspendLayout()

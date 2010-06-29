@@ -4,14 +4,16 @@
 Public Class Frame
 
     Private Empty_ As Boolean = True     'marker for blank frame
-    Private packetEncodingType_ As PacketFormats       'APRS/UKHAS?
+    ' Private packetEncodingType_ As PacketFormats       'APRS/UKHAS?
+    Private packetStructure_ As PacketStructure     'holds details on how the packet will be decoded
     Private type_ As Char = ""      'only relevent for aprs packets
     Private time_ As String = ""    'time
-    Private gpsla_ As String = ""   'gps latitude
-    Private gpslo_ As String = ""   'gps longitude
-    Private gpsal_ As String = ""   'gps altitude
-    Private gpssp_ As String = ""   'gps speed
-    Private gpsh_ As String = ""    'gps heading
+    ' Private gpsla_ As String = ""   'gps latitude
+    ' Private gpslo_ As String = ""   'gps longitude
+    Private GPScoord_ As GPScoord
+    Private gpsal_ As Integer = 0   'gps altitude   (m)
+    Private gpssp_ As Single = 0   'gps speed
+    Private gpsh_ As Integer = 0    'gps heading    (degrees)
     Private rcomment_ As String = ""        'custom data on the string
     Private comm_ As String = ""            'comment on the end of the custom string
     Private valid_ As Boolean = False       'a valid packet?
@@ -22,6 +24,7 @@ Public Class Frame
     Private statusPacketf_ As Boolean = False
     Private statuspackett_ As String = "sgsballoon:"
     Public xTimeZone_ As Integer
+
 
 #Region "Properties"
     Public ReadOnly Property Empty() As Boolean
@@ -52,17 +55,24 @@ Public Class Frame
         End Get
     End Property
 
-    Public ReadOnly Property Latitude() As String
+    'Public ReadOnly Property Latitude() As String
+    '    Get
+    '        Return gpsla_
+    '    End Get
+    'End Property
+
+    'Public ReadOnly Property Longitude() As String
+    '    Get
+    '        Return gpslo_
+    '    End Get
+    'End Property
+
+    Public ReadOnly Property GPSCoordinates() As GPScoord
         Get
-            Return gpsla_
+            Return GPScoord_
         End Get
     End Property
 
-    Public ReadOnly Property Longitude() As String
-        Get
-            Return gpslo_
-        End Get
-    End Property
 
     Public ReadOnly Property Altitude() As String
         Get
@@ -153,14 +163,14 @@ Public Class Frame
         Empty_ = True
     End Sub
 
-    Public Sub New(ByVal FrameString As String, ByVal pkType As PacketFormats)
-        Select Case pkType
+    Public Sub New(ByVal FrameString As String, ByVal pkStructure As PacketStructure)
+        Select Case pkStructure.PacketType
             Case PacketFormats.APRS
                 DecodeAPRS(FrameString)
-                packetEncodingType_ = PacketFormats.APRS
+                packetStructure_ = pkStructure
             Case PacketFormats.UKHAS
                 DecodeUKHAS(Encoding.ASCII.GetBytes(FrameString))
-                packetEncodingType_ = PacketFormats.UKHAS
+                packetStructure_ = pkStructure
 
         End Select
         Empty_ = False
@@ -212,11 +222,14 @@ Public Class Frame
                     If time_.Length = 7 Then time_ = "0" & time_
 
                     If (GPSERROR = False) And (GPSNOLOCK = False) Then
-                        gpsla_ = raw.Substring(8, 8)
-                        gpslo_ = raw.Substring(17, 9)
-                        gpsh_ = raw.Substring(26, 3)
-                        gpssp_ = raw.Substring(30, 3)
-                        gpsal_ = raw.Substring(36, 6)
+                        ' gpsla_ = raw.Substring(8, 8)
+                        ' gpslo_ = raw.Substring(17, 9)
+
+                        GPScoord_ = New GPScoord(raw.Substring(8, 8), raw.Substring(17, 9)) 'DDDMMmm
+
+                        gpsh_ = Integer.Parse(raw.Substring(26, 3))
+                        gpssp_ = Single.Parse(raw.Substring(30, 3))
+                        gpsal_ = Integer.Parse(raw.Substring(36, 6)) * 0.3048   'convert to meters
                     End If
                 End If
                 If raw.Length >= 43 Then
@@ -240,7 +253,7 @@ Public Class Frame
 
     End Sub
 
-    Private Sub DecodeCustom()
+    Private Sub DecodeCustomApexI()
         'acts on the rcomment_ string and splits it up
 
 
@@ -316,6 +329,10 @@ Public Class Frame
         End Try
     End Sub
 
+    Private Sub DecodeCustom()
+       
+    End Sub
+
     Private Sub DecodeUKHAS(ByVal received() As Byte)
         Try
             Dim data(7) As String
@@ -357,7 +374,7 @@ Public Class Frame
             Dim heading As String
             Dim speed As String
             Dim altitude As String
-            Dim custom As String
+            ' Dim custom As String
 
             'ensures correct length by adding leading zeroes
             If data(3).Length = 6 Then
@@ -428,16 +445,18 @@ Public Class Frame
             End If
 
             'balloon sensor data
-            custom = data(7)
+            rcomment_ = data(7)
 
             'builds balloon format frame from individual fields
             '  Return AssembleExtras(time, latd, latm, lats, longd, longm, longs, heading, speed, altitude, custom)
             time_ = time
-            gpsla_ = latd & "." & latm & "." & lats
-            gpslo_ = longd & "." & longm & "." & longs
-            gpsal_ = altitude
-            gpsh_ = heading
-            gpssp_ = speed
+            ' gpsla_ = latd & "." & latm & "." & lats
+            'gpslo_ = longd & "." & longm & "." & longs
+
+            GPScoord_ = New GPScoord(Integer.Parse(latd), Integer.Parse(latm), Integer.Parse(lats), Integer.Parse(longd), Integer.Parse(longm), Integer.Parse(longs))
+            gpsal_ = Integer.Parse(altitude)
+            gpsh_ = Integer.Parse(heading)
+            gpssp_ = Integer.Parse(speed)
 
             DecodeCustom()
 

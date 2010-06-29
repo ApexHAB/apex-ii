@@ -1,5 +1,5 @@
 #picaxe40x2
-'#no_data
+#no_data
 '#no_table
 symbol rtcCS = b.6
 symbol MISO = Pina.3
@@ -51,9 +51,75 @@ symbol PhoneMOSI = a.0	'phone in
 symbol PhoneMISO = a.1	'phone out
 
 
+'#########
+'#OPCODES#
+'#########
+
+symbol _WREN = 0x06
+symbol _WRDI = 0x04
+symbol _RDSR = 0x05
+symbol _WRSR = 0x01
+symbol _READ = 0x03
+symbol _FAST_READ = 0x0B
+symbol _PP = 0x02
+symbol _SE = 0xD8
+symbol _BE = 0xC7
+symbol _DP = 0xB9
+symbol _RDID = 0x9F
+symbol _RES = 0xAB
+
+'#########
+'#########
+'#########
+
+
+
+'########
+'varibles
+'########
+
+symbol CurrentAltitude = w25
+symbol CurrentAltitudel = b50
+symbol CurrentAltitudeh = b51
+symbol RAMptr = b53	'ptrs store the next value to read
+symbol tableptr = b54
+
+
+
+symbol PacketPtrlROM = 0x50
+symbol PacketPtrhROM = 0x51
+symbol MaxAltitudelROM = 0x52
+symbol MaxAltitudehROM = 0x53
+
+symbol PacketPtrl = b38
+symbol PacketPtrh = b39
+symbol PacketPtr = w19
+
+'########
+'########
+'########
+
+table ("$$APEX,")		'start of string
+
+'no commands can be stored on or past 0xF8
+table 0x80,("PINGftnjqw")	'ping command and pwd
+table ("CDWNtqnhgr")		'cutdown command and pwd
+table ("IRDOhyxapr")
+table ("IRDFh7wv7k")
+table ("SHUTp1cX7W")
+table ("TESTN86GhH")
+table ("XXXXXXXXXX")		'blanking
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+table ("XXXXXXXXXX")
+
 
 high adccs
 high rtccs
 high memCS
 high radioCSTX
 high radioCSRX
+
+DirsB = DirsB AND %11110011	'set GPS input pins as inputs

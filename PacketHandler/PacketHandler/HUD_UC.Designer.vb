@@ -22,21 +22,21 @@ Partial Class HUD_UC
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.lbTimer = New System.Windows.Forms.Label
-        Me.lbError = New System.Windows.Forms.Label
-        Me.lbHeading = New System.Windows.Forms.Label
-        Me.lbAlt = New System.Windows.Forms.Label
-        Me.lbSpeed = New System.Windows.Forms.Label
-        Me.lbTime = New System.Windows.Forms.Label
-        Me.Label7 = New System.Windows.Forms.Label
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.dgvData = New System.Windows.Forms.DataGridView
-        Me.dgName = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.dgValue = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.lbTimer = New System.Windows.Forms.Label()
+        Me.lbError = New System.Windows.Forms.Label()
+        Me.lbHeading = New System.Windows.Forms.Label()
+        Me.lbAlt = New System.Windows.Forms.Label()
+        Me.lbSpeed = New System.Windows.Forms.Label()
+        Me.lbTime = New System.Windows.Forms.Label()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.dgvData = New System.Windows.Forms.DataGridView()
+        Me.dgName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.dgValue = New System.Windows.Forms.DataGridViewTextBoxColumn()
         CType(Me.dgvData, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
