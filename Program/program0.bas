@@ -180,17 +180,23 @@ gosub WriteComma
 
 'GET GPS (time)
 
+
+
 gosub GETUTCTime
 for b20 = 1 to 8			'copy values into free RAM
 	peek b20,b19
 	b18 = b20 + 60
 	poke b18,b19
 next
-b10 = ramptr
-ramptr = ramptr + 8
-b11 = 61
-b12 = 68
-gosub RTCRAMWriteMany
+sertxd(#b0,cr,lf)
+if b0 <> 0 then
+	b10 = ramptr
+	ramptr = ramptr + 8
+	b11 = 61
+	b12 = 68
+
+	gosub RTCRAMWriteMany
+endif
 gosub WriteComma
 
 
@@ -200,22 +206,32 @@ gosub WriteComma
 'GET GPS (lat)
 
 gosub GetLatitude
+poke 60,"-"
 for b20 = 1 to 9			'copy values into free RAM
 	peek b20,b19
 	b18 = b20 + 60
 	poke b18,b19
 next
 b10 = ramptr
-ramptr = ramptr + 9
-b11 = 61
-b12 = 69
-gosub RTCRAMWriteMany
+sertxd(#b0,cr,lf)
+
+if b0 <> 0 then
+	if b10 = "S" then
+		ramptr = ramptr + 10
+		b11 = 60
+	else
+		ramptr = ramptr + 9
+		b11 = 61
+	endif
+	b12 = 69
+	gosub RTCRAMWriteMany
+endif
 gosub WriteComma
 
 
 
 'GET GPS (long)
-
+poke 60,"-"
 gosub GetLongitude
 for b20 = 1 to 10			'copy values into free RAM
 	peek b20,b19
@@ -223,10 +239,19 @@ for b20 = 1 to 10			'copy values into free RAM
 	poke b18,b19
 next
 b10 = ramptr
-ramptr = ramptr + 10
-b11 = 61
-b12 = 70
-gosub RTCRAMWriteMany
+sertxd(#b0,cr,lf)
+if b0 <> 0 then
+	if b11 = "W" then
+		ramptr = ramptr + 11
+		b11 = 60
+	else
+		ramptr = ramptr + 10
+		b11 = 61
+	endif
+	b12 = 70
+
+	gosub RTCRAMWriteMany
+endif	
 gosub WriteComma
 
 #rem
@@ -924,6 +949,7 @@ next b45
 low MOSI
 return
 
+#rem
 '###############################################################
 '###############################################################
 				'GPS commands - for testing
@@ -989,6 +1015,7 @@ b6 = ":"
 b7 = "5"
 b8 = "4"
 return
+#endrem
 
 '###############################################################
 '###############################################################
@@ -1049,7 +1076,7 @@ return
 
 
 
-#rem
+'#rem
 
 '###############################################################
 '###############################################################
@@ -1061,62 +1088,75 @@ return
 'symbol GPSIn1 = b.2
 
 GetLatitude:
-'b0 - X if timeout
-'result in variables b1-b9
-'b9 - E/W or ',' for no fix
+'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
+'result in variables b1-b10
+'b10 - N/S or ',' for no fix
 
 
 ' use b45 to skip over decimal point
-serin [2000,endlat], GPSIn1,T2400,("$GPGGA,")
-serin [2000,endlat], GPSIn1,T2400,(","),b1,b2,b3,b4,b45,b5,b6,b7,b8,b45,b9
+serin [2000,endlat], GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b6,b7,b8,b9,b45,b10',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0
+'serin [2000,endlat], GPSIn2,T4800,(",")
 
-'sertxd("Lat",b1,b2,b3,b4,b5,b6,b7,b8,b9)
+'sertxd("Lat",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
 
-if b9 <> "," then	'Will be E or W if position is known, otherwise ,
+'if b10 <> "," then	'Will be E or W if position is known, otherwise ,
 
+'endif
+
+if b1 = "," then
+	b0 = 0
+else
+	b0 = 1
 endif
 
-b0 = 0
 return
 endlat:
-for b0 = 1 to 9
-	poke b0,"X"
-next
-b0 = "X"
+b0 = 0
 return
 
 GetLongitude:
-'b0 - X if timeout
-'result in variables b1-b10
-
-serin [2000,endlong],GPSIn1,T2400,("$GPGGA,")
-serin [2000,endlong],GPSIn1,T2400,(",")
-serin [2000,endlong],GPSIn1,T2400,(","),b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9,b45,b10'b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9
+'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
+'result in variables b1-b11
+'b11 as b10 as above
+'b12:b13 - # sats
+serin [2000,endlong],GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b45,b11,b45,b45,b45,b12,b13
+'serin [2000,endlong],GPSIn2,T4800,(",")
+'serin [2000,endlong],GPSIn2,T4800,(","),b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9,b45,b10'b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9
 'sertxd("Lon",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
-b0 = 0
+
+if b0 = "," then 
+	b0 = 0
+else
+	b0 = 1
+endif	
+
 return
 endlong:
-for b0 = 1 to 10
-	poke b0,"X"
-next
-b0 = "X"
+b0 = 0
 return
 
 GetUTCTime:
-'b0 - X if timeout
+
 'b1,b2 - hour
 'b3 - ':'
 'b4,b5 - minute
 'b6 - ':'
 'b7,b8 - sec
-serin [2000,endtime],GPSIn1,T2400,("$GPGGA,"),b1,b2,b4,b5,b7,b8
+'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
+
+serin [2000,endtime],GPSIn2,T4800,("$GPGGA,"),b1,b2,b4,b5,b7,b8',b45,b45,b45,b45,b0',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b9,b10
 'sertxd("UTC: ",b1,b2,"h ",b3,b4,"m ",b5,b6,"s", 13,10)
-b0 = 0
+
+if b2 = "," then
+	b0 = 0
+else
+	b0 = 1
+endif
+
+b3 = ":"
+b6 = ":"
 return
 endtime:
-for b0 = 1 to 8
-	poke b0,"X"
-next
-b0 = "X"
+b0 = 0
 return
-#endrem
+'#endrem

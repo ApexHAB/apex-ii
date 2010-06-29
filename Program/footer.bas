@@ -523,6 +523,8 @@ GetUTCTime:
 serin [2000,endtime],GPSIn1,T2400,("$GPGGA,"),b1,b2,b4,b5,b7,b8
 'sertxd("UTC: ",b1,b2,"h ",b3,b4,"m ",b5,b6,"s", 13,10)
 b0 = 0
+b3 = ":"
+b6 = ":"
 return
 endtime:
 for b0 = 1 to 8
