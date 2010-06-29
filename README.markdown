@@ -11,3 +11,4 @@ We have an additional payload of two Geiger-Muller tubes to measure ionising rad
 * [Homepage](http://hexoc.com/pages/apex/apex-ii.php) http://hexoc.com/pages/apex/apex-ii.php
 * [Mailing List](http://groups.google.com/group/project-apex) http://groups.google.com/group/project-apex
 * [Contact](mailto:project-apex@googlegroups.com) project-apex@googlegroups.com or apex@hexoc.com.
+* [Twitter](http://twitter.com/apex_ii) http://twitter.com/apex-ii
