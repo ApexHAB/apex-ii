@@ -12,8 +12,15 @@
     Private CanWrite_ As Boolean
     Private CanRead_ As Boolean
 
+    Const inputBufferSize = 2048
+
+    Private InputBuffer(inputBufferSize) As Byte
+    Private InputBufferPtr As Integer
+
     Public Event LineRecievedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
     Public Event LineRecievedbyte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String) '## add from/to fields
+
+
 
 
     Public ReadOnly Property CanWrite() As Boolean
@@ -72,14 +79,33 @@
         Dim input() As Byte = FLDigiHandler.ReadBufferChars()
         Dim str As String = ""
         '#######need to sort stuff here - (the converting stream of packets to one string bit) #########
+
+
         For Each b As Byte In input
-            str = str & ChrW(b)
+            If (b = 10 Or b = 13) And (InputBufferPtr > 0) Then
+                For i As Integer = 0 To InputBufferPtr - 1
+                    str = str & ChrW(InputBuffer(i))
+                Next
+                RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                InputBufferPtr = 0
+            Else
+                If InputBufferPtr >= inputBufferSize Then
+                    For Each c As Byte In InputBuffer
+                        str = str & ChrW(c)
+                    Next
+                    RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                    InputBufferPtr = 0
+                Else
+
+                    InputBuffer(InputBufferPtr) = b
+                    InputBufferPtr = InputBufferPtr + 1
+                End If
+            End If
         Next
 
 
 
 
-        RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
 
     End Sub
 

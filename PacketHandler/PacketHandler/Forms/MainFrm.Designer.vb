@@ -31,6 +31,8 @@ Partial Class MainFrm
         Me.btnBalloonUplink = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
         Me.HuD_UC1 = New PacketHandler.HUD_UC()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.SuspendLayout()
@@ -110,11 +112,31 @@ Partial Class MainFrm
         Me.HuD_UC1.Size = New System.Drawing.Size(405, 169)
         Me.HuD_UC1.TabIndex = 6
         '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(28, 21)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(72, 16)
+        Me.Button3.TabIndex = 7
+        Me.Button3.Text = "Button3"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(120, 25)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(42, 12)
+        Me.Button4.TabIndex = 8
+        Me.Button4.Text = "Button4"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
         'MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(462, 488)
+        Me.Controls.Add(Me.Button4)
+        Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.HuD_UC1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.btnBalloonUplink)
@@ -136,6 +158,8 @@ Partial Class MainFrm
     Friend WithEvents btnBalloonUplink As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
     Friend WithEvents HuD_UC1 As PacketHandler.HUD_UC
+    Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents Button4 As System.Windows.Forms.Button
 
 
 End Class

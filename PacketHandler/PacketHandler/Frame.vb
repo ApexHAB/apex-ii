@@ -26,7 +26,39 @@ Public Class Frame
     Public xTimeZone_ As Integer
 
 
+    Private pcktcount_ As Integer       'as sent
+    Private gpsSats_ As Integer         'no sats using
+    Private Callsign_ As String         'as sent
+
+
 #Region "Properties"
+    Public Property PcktCounter As Integer
+        Get
+            Return pcktcount_
+        End Get
+        Set(ByVal value As Integer)
+            pcktcount_ = value
+        End Set
+    End Property
+
+    Public Property Sats As Integer
+        Get
+            Return gpsSats_
+        End Get
+        Set(ByVal value As Integer)
+            gpsSats_ = value
+        End Set
+    End Property
+
+    Public Property Callsign As String
+        Get
+            Return Callsign_
+        End Get
+        Set(ByVal value As String)
+            Callsign_ = value
+        End Set
+    End Property
+
     Public ReadOnly Property Empty() As Boolean
         Get
             Return Empty_
@@ -169,9 +201,10 @@ Public Class Frame
                 DecodeAPRS(FrameString)
                 packetStructure_ = pkStructure
             Case PacketFormats.UKHAS
-                DecodeUKHAS(Encoding.ASCII.GetBytes(FrameString))
-                packetStructure_ = pkStructure
+                'DecodeUKHAS(Encoding.ASCII.GetBytes(FrameString))
 
+                packetStructure_ = pkStructure
+                DecodeUKHAS1(FrameString)
         End Select
         Empty_ = False
     End Sub
@@ -332,6 +365,146 @@ Public Class Frame
     Private Sub DecodeCustom()
        
     End Sub
+
+    Public Sub DecodeUKHAS1(ByVal input As String)
+
+        Dim i As Integer
+        Dim packet As String = ""
+
+        'find start of string
+
+        For i = 0 To input.Count - 2
+            If input(i) = "$" And input(i + 1) <> "$" Then
+                packet = input.Substring(i + 1)
+            End If
+        Next
+
+        'input now contains the string after $$
+        Dim fields As List(Of String) = New List(Of String)()
+        fields.Add("")  'blanking to make the list '1' starting
+        Dim start As Integer = 0
+        For i = 0 To packet.Count - 1
+            If packet(i) = "," Then
+                fields.Add(packet.Substring(start, i - start))
+                start = i + 1
+            End If
+        Next
+
+        Dim GPSla As String = ""
+        Dim GPSlo As String = ""
+        Dim GPSfrmat As PacketStructure.Encoding
+
+        For i = 1 To fields.Count - 1
+            If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexInteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexInteger) Then
+                fields(i) = HexToInt_str(fields(i))
+            End If
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.callsign) Then
+                Callsign_ = fields(i)
+            End If
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.latitude) Then
+                GPSla = fields(i)
+                GPSfrmat = packetStructure_.GetField(i).Encoding
+            End If
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.longitude) Then
+                GPSlo = fields(i)
+                GPSfrmat = packetStructure_.GetField(i).Encoding
+            End If
+
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.cycle_count) Then
+                pcktcount_ = fields(i)
+            End If
+
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.time) Then
+                time_ = fields(i)
+            End If
+
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.altitude) Then
+                If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
+                    gpsal_ = Math.Round(Single.Parse(fields(i)) * 0.3048)
+                Else
+                    gpsal_ = Integer.Parse(fields(i))
+                End If
+            End If
+
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
+                gpsh_ = Integer.Parse(fields(i))
+            End If
+
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
+                If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
+                    gpssp_ = Single.Parse(fields(i)) * 0.3048
+                Else
+                    gpssp_ = Single.Parse(fields(i))
+                End If
+            End If
+
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sats) Then
+                gpsSats_ = Integer.Parse(fields(i))
+            End If
+
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.comment) Then
+                comm_ = fields(i)
+            End If
+
+            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
+                Dim value = Double.Parse(fields(i))
+                value = value * packetStructure_.GetField(i).ScaleFactor
+                value = value + packetStructure_.GetField(i).Offset
+                Pdata_.Add(packetStructure_.GetField(i).FieldName, value)
+            End If
+
+        Next
+
+        'do GPS stuff
+        If (GPSla.Length > 0) And (GPSlo.Length > 0) Then
+            Select Case GPSfrmat
+                Case PacketStructure.Encoding.DDDdddd
+                    GPScoord_ = New GPScoord(Double.Parse(GPSla), Double.Parse(GPSlo))
+                Case PacketStructure.Encoding.DDDMMmm
+                    If (GPSla.Length > 4) And (GPSlo.Length > 4) Then
+                        Dim a As String
+                        Dim b As String
+                        Dim c As Char = "N"
+                        Dim d As Char = "E"
+                        If GPSla(0) = "-" Then
+                            a = GPSla.Substring(1)
+                            c = "S"
+                        Else
+                            a = GPSla.Substring(0)
+                        End If
+                        If GPSlo(0) = "-" Then
+                            b = GPSlo.Substring(1)
+                            d = "W"
+                        Else
+                            b = GPSlo.Substring(0)
+                        End If
+                        GPScoord_ = New GPScoord(Integer.Parse(a.Substring(0, 2)), Single.Parse(a.Substring(2)), Integer.Parse(b.Substring(0, 3)), Single.Parse(b.Substring(3)), c, d)
+                    End If
+                    'Case PacketStructure.Encoding.DDDMMSS
+                    '   GPScoord_ = New GPScoord(Double.Parse(GPSla), Double.Parse(GPSlo))
+
+            End Select
+        End If
+
+
+    End Sub
+
+    Private Function HexToInt_str(ByVal input As String) As String
+        If input.Count > 8 Then Return 0
+        Dim j = 0
+        Dim outputint As Integer = 0
+        For i As Integer = 0 To input.Count - 1
+            j = (input.Count - 1) - i
+            If AscW(Char.ToUpper(input(j))) >= AscW("A") Then
+                If AscW(Char.ToUpper(input(j))) <= AscW("F") Then
+                    outputint = outputint + (AscW(Char.ToUpper(input(j))) - AscW("A") + 10) * Math.Pow(16, i)
+                End If
+            Else
+                outputint = outputint + (AscW(Char.ToUpper(input(j))) - AscW("0")) * Math.Pow(16, i)
+            End If
+        Next
+        Return outputint.ToString
+    End Function
 
     Private Sub DecodeUKHAS(ByVal received() As Byte)
         Try
