@@ -1,20 +1,13 @@
 ﻿Public Class GlobalSettings
     Private interfaces_ As New List(Of InterfaceSettings)
-    Private sensorDataParameters_ As New List(Of SensorParameters)
+
     Private timezone_ As Integer = 0
     Private UseUTC_ As Boolean = False
     ' Public test As New Dictionary(Of String, String)
 
 #Region "Properties"
 
-    Public Property SensorDataParameters() As List(Of SensorParameters)
-        Get
-            Return sensorDataParameters_
-        End Get
-        Set(ByVal value As List(Of SensorParameters))
-            sensorDataParameters_ = value
-        End Set
-    End Property
+   
 
     Public Property Interfaces() As List(Of InterfaceSettings)
         Get

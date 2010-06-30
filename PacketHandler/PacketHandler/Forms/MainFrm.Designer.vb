@@ -30,9 +30,9 @@ Partial Class MainFrm
         Me.Button1 = New System.Windows.Forms.Button()
         Me.btnBalloonUplink = New System.Windows.Forms.Button()
         Me.Button2 = New System.Windows.Forms.Button()
-        Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
+        Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.SuspendLayout()
@@ -102,16 +102,6 @@ Partial Class MainFrm
         Me.Button2.Text = "Button2"
         Me.Button2.UseVisualStyleBackColor = True
         '
-        'HuD_UC1
-        '
-        Frame1.StatusPacketStartText = "sgsballoon:"
-        Frame1.TimeZone = 0
-        Me.HuD_UC1.FrameToDisplay = Frame1
-        Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
-        Me.HuD_UC1.Name = "HuD_UC1"
-        Me.HuD_UC1.Size = New System.Drawing.Size(405, 169)
-        Me.HuD_UC1.TabIndex = 6
-        '
         'Button3
         '
         Me.Button3.Location = New System.Drawing.Point(28, 21)
@@ -129,6 +119,19 @@ Partial Class MainFrm
         Me.Button4.TabIndex = 8
         Me.Button4.Text = "Button4"
         Me.Button4.UseVisualStyleBackColor = True
+        '
+        'HuD_UC1
+        '
+        Frame1.Callsign = Nothing
+        Frame1.PcktCounter = 0
+        Frame1.Sats = 0
+        Frame1.StatusPacketStartText = "sgsballoon:"
+        Frame1.TimeZone = 0
+        Me.HuD_UC1.FrameToDisplay = Frame1
+        Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
+        Me.HuD_UC1.Name = "HuD_UC1"
+        Me.HuD_UC1.Size = New System.Drawing.Size(430, 181)
+        Me.HuD_UC1.TabIndex = 6
         '
         'MainFrm
         '

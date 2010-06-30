@@ -44,6 +44,7 @@
         sats
         sensor
         comment
+        checksum
     End Enum
 
     Public Enum Encoding

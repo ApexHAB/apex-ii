@@ -22,32 +22,26 @@ Partial Class settingsFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lstInterfaces = New System.Windows.Forms.ListBox
-        Me.btninterfaceAdd = New System.Windows.Forms.Button
-        Me.btnInterfaceEdit = New System.Windows.Forms.Button
-        Me.btnInterfaceDel = New System.Windows.Forms.Button
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox
-        Me.chkUTC = New System.Windows.Forms.CheckBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.nudTimeZone = New System.Windows.Forms.NumericUpDown
-        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
-        Me.OK_Button = New System.Windows.Forms.Button
-        Me.Cancel_Button = New System.Windows.Forms.Button
-        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel
-        Me.btnOK = New System.Windows.Forms.Button
-        Me.btnCancel = New System.Windows.Forms.Button
-        Me.GroupBox3 = New System.Windows.Forms.GroupBox
-        Me.lstSensors = New System.Windows.Forms.ListBox
-        Me.btnSensorAdd = New System.Windows.Forms.Button
-        Me.btnSensorEdit = New System.Windows.Forms.Button
-        Me.btnSensorRemove = New System.Windows.Forms.Button
+        Me.lstInterfaces = New System.Windows.Forms.ListBox()
+        Me.btninterfaceAdd = New System.Windows.Forms.Button()
+        Me.btnInterfaceEdit = New System.Windows.Forms.Button()
+        Me.btnInterfaceDel = New System.Windows.Forms.Button()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.chkUTC = New System.Windows.Forms.CheckBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.nudTimeZone = New System.Windows.Forms.NumericUpDown()
+        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.OK_Button = New System.Windows.Forms.Button()
+        Me.Cancel_Button = New System.Windows.Forms.Button()
+        Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
+        Me.btnOK = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.nudTimeZone, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.TableLayoutPanel2.SuspendLayout()
-        Me.GroupBox3.SuspendLayout()
         Me.SuspendLayout()
         '
         'lstInterfaces
@@ -205,60 +199,11 @@ Partial Class settingsFrm
         Me.btnCancel.TabIndex = 1
         Me.btnCancel.Text = "Cancel"
         '
-        'GroupBox3
-        '
-        Me.GroupBox3.Controls.Add(Me.btnSensorRemove)
-        Me.GroupBox3.Controls.Add(Me.btnSensorEdit)
-        Me.GroupBox3.Controls.Add(Me.btnSensorAdd)
-        Me.GroupBox3.Controls.Add(Me.lstSensors)
-        Me.GroupBox3.Location = New System.Drawing.Point(12, 149)
-        Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Size = New System.Drawing.Size(202, 131)
-        Me.GroupBox3.TabIndex = 7
-        Me.GroupBox3.TabStop = False
-        Me.GroupBox3.Text = "Variables"
-        '
-        'lstSensors
-        '
-        Me.lstSensors.FormattingEnabled = True
-        Me.lstSensors.Location = New System.Drawing.Point(65, 19)
-        Me.lstSensors.Name = "lstSensors"
-        Me.lstSensors.Size = New System.Drawing.Size(120, 95)
-        Me.lstSensors.TabIndex = 1
-        '
-        'btnSensorAdd
-        '
-        Me.btnSensorAdd.Location = New System.Drawing.Point(6, 19)
-        Me.btnSensorAdd.Name = "btnSensorAdd"
-        Me.btnSensorAdd.Size = New System.Drawing.Size(53, 28)
-        Me.btnSensorAdd.TabIndex = 2
-        Me.btnSensorAdd.Text = "Add"
-        Me.btnSensorAdd.UseVisualStyleBackColor = True
-        '
-        'btnSensorEdit
-        '
-        Me.btnSensorEdit.Location = New System.Drawing.Point(6, 53)
-        Me.btnSensorEdit.Name = "btnSensorEdit"
-        Me.btnSensorEdit.Size = New System.Drawing.Size(53, 28)
-        Me.btnSensorEdit.TabIndex = 3
-        Me.btnSensorEdit.Text = "Edit"
-        Me.btnSensorEdit.UseVisualStyleBackColor = True
-        '
-        'btnSensorRemove
-        '
-        Me.btnSensorRemove.Location = New System.Drawing.Point(6, 86)
-        Me.btnSensorRemove.Name = "btnSensorRemove"
-        Me.btnSensorRemove.Size = New System.Drawing.Size(53, 28)
-        Me.btnSensorRemove.TabIndex = 4
-        Me.btnSensorRemove.Text = "Delete"
-        Me.btnSensorRemove.UseVisualStyleBackColor = True
-        '
         'settingsFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(387, 288)
-        Me.Controls.Add(Me.GroupBox3)
         Me.Controls.Add(Me.TableLayoutPanel2)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -270,7 +215,6 @@ Partial Class settingsFrm
         CType(Me.nudTimeZone, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel2.ResumeLayout(False)
-        Me.GroupBox3.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -289,9 +233,4 @@ Partial Class settingsFrm
     Friend WithEvents TableLayoutPanel2 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents btnOK As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
-    Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
-    Friend WithEvents btnSensorRemove As System.Windows.Forms.Button
-    Friend WithEvents btnSensorEdit As System.Windows.Forms.Button
-    Friend WithEvents btnSensorAdd As System.Windows.Forms.Button
-    Friend WithEvents lstSensors As System.Windows.Forms.ListBox
 End Class

@@ -10,6 +10,7 @@ Public Class InterfaceSettings
     Private InterfaceDirection_ As InterfaceDirections = InterfaceDirections.BLANK   'specifies what data travels through this interface
     Private InterfaceType_ As InterfaceTypes = InterfaceTypes.BLANK            'specifies interface's type
     Private DataFormat_ As PacketFormats = PacketFormats.BLANK                    'specifies whether UKHAS DL, APRS, etc is used
+    Private PacketStructure_ As PacketStructure = New PacketStructure()
     
     Private InterfaceTypeSpecificSettings_ As New Object ' object to hold settings relevelent to the specified type
     Private Enabled_ As Boolean = True
@@ -44,6 +45,15 @@ Public Class InterfaceSettings
     '        Return tempcol
     '    End Get
     'End Property
+
+    Public Property PacketStructure
+        Get
+            Return PacketStructure_
+        End Get
+        Set(ByVal value)
+            PacketStructure_ = value
+        End Set
+    End Property
 
     Public Property Enabled() As Boolean
         Get

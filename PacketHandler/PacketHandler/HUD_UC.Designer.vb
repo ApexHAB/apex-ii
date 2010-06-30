@@ -37,6 +37,7 @@ Partial Class HUD_UC
         Me.dgvData = New System.Windows.Forms.DataGridView()
         Me.dgName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.dgValue = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.lbcomm = New System.Windows.Forms.Label()
         CType(Me.dgvData, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -188,10 +189,19 @@ Partial Class HUD_UC
         Me.dgValue.Name = "dgValue"
         Me.dgValue.ReadOnly = True
         '
+        'lbcomm
+        '
+        Me.lbcomm.AutoSize = True
+        Me.lbcomm.Location = New System.Drawing.Point(7, 163)
+        Me.lbcomm.Name = "lbcomm"
+        Me.lbcomm.Size = New System.Drawing.Size(0, 13)
+        Me.lbcomm.TabIndex = 18
+        '
         'HUD_UC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.lbcomm)
         Me.Controls.Add(Me.dgvData)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label7)
@@ -227,5 +237,6 @@ Partial Class HUD_UC
     Friend WithEvents dgvData As System.Windows.Forms.DataGridView
     Friend WithEvents dgName As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents dgValue As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents lbcomm As System.Windows.Forms.Label
 
 End Class

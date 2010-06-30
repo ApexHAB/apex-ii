@@ -37,10 +37,7 @@
             lstInterfaces.Items.Add(i.InterfaceName)
         Next
 
-        lstSensors.Items.Clear()
-        For Each s As SensorParameters In settings_.SensorDataParameters
-            lstSensors.Items.Add(s.Flag)
-        Next
+
 
        
 
@@ -76,26 +73,5 @@
         Me.Close()
     End Sub
 
-    Private Sub btnSensorAdd_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSensorAdd.Click
-        Dim dia As New EditSensorInfo()
-
-        dia.ShowDialog()
-        If dia.DialogResult = Windows.Forms.DialogResult.OK Then
-            settings_.SensorDataParameters.Add(dia.Settings)
-        End If
-        UpdateFields()
-    End Sub
-
-    Private Sub btnSensorEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSensorEdit.Click
-        Dim i As Integer = lstSensors.SelectedIndex
-        If (lstSensors.SelectedIndex < lstSensors.Items.Count) And (lstSensors.SelectedIndex >= 0) Then
-            Dim dia As New EditSensorInfo()
-            dia.Settings = settings_.SensorDataParameters(i)
-            dia.ShowDialog()
-            If dia.DialogResult = Windows.Forms.DialogResult.OK Then
-                settings_.SensorDataParameters(i) = dia.Settings
-            End If
-            UpdateFields()
-        End If
-    End Sub
+   
 End Class

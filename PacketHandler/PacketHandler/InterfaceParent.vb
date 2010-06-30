@@ -5,7 +5,7 @@
     Private WithEvents AGWPEHandler As AGWPE_APRSPacketHandler      'all different objects for whatever hte class may need to interface too
     Private WithEvents FLDigiHandler As TCPInterface
     Private SerialHandler As SerialPortInterface
-    Private MappointHandler As TCPInterface
+    Private MappointHandler As MapPointInterface
     Private GoogleEarthHandler As TCPInterface
     Private DLHandler As TCPInterface
 
@@ -49,7 +49,10 @@
         interfacesettings_ = _interfaceSettings
 
         Select Case interfacesettings_.InterfaceDirection
-            Case InterfaceDirections.DataBalloonOut Or InterfaceDirections.DataSharingOut
+            Case InterfaceDirections.DataBalloonOut
+                CanWrite_ = True
+                CanRead_ = False
+            Case InterfaceDirections.DataSharingOut
                 CanWrite_ = True
                 CanRead_ = False
             Case InterfaceDirections.DataBiBalloonBoth Or InterfaceDirections.DataBiSharing
@@ -68,6 +71,9 @@
             Case InterfaceTypes.AGWPE
             Case InterfaceTypes.FLDIGI
                 FLDigiHandler = New TCPInterface(interfacesettings_.InterfaceTypeSpecificSettings.Host, interfacesettings_.InterfaceTypeSpecificSettings.Port, True)
+            Case InterfaceTypes.MAPPOINT
+                MappointHandler = New MapPointInterface()
+
         End Select
 
 
@@ -114,6 +120,16 @@
     End Sub
 
     Public Sub Write(ByVal input As String)
+
+    End Sub
+
+    Public Sub Write(ByVal frame As Frame, Optional ByVal frameOrigin As InterfaceSettings = Nothing)  'this function formats the frame as it feels best
+
+        Select Case interfacesettings_.InterfaceType
+            Case InterfaceTypes.MAPPOINT
+                MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter)
+
+        End Select
 
     End Sub
 

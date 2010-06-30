@@ -29,17 +29,37 @@ Public Class Frame
     Private pcktcount_ As Integer       'as sent
     Private gpsSats_ As Integer         'no sats using
     Private Callsign_ As String         'as sent
+    Private chksum_ As Boolean = False         'checksum ok? - always true for aprs
 
 
 #Region "Properties"
+    Public ReadOnly Property CheckSum As Boolean
+        Get
+            If packetStructure_.PacketType = PacketFormats.APRS Then Return True
+            Return chksum_
+        End Get
+    End Property
+
     Public Property PcktCounter As Integer
         Get
-            Return pcktcount_
+            If packetStructure_.PacketType = PacketFormats.UKHAS Then Return pcktcount_
+            If packetStructure_.PacketType = PacketFormats.APRS Then Return OnlyNumbers(time_).ToString
+            Return 0
         End Get
         Set(ByVal value As Integer)
             pcktcount_ = value
         End Set
     End Property
+
+    Private Function OnlyNumbers(ByVal input As String) As String
+        Dim str As String = ""
+        For Each c As Char In input
+            If (AscW(c) >= AscW(0)) And (AscW(c) <= AscW(9)) Then
+                str = str + c
+            End If
+        Next
+        Return str
+    End Function
 
     Public Property Sats As Integer
         Get
@@ -363,7 +383,7 @@ Public Class Frame
     End Sub
 
     Private Sub DecodeCustom()
-       
+
     End Sub
 
     Public Sub DecodeUKHAS1(ByVal input As String)
@@ -378,6 +398,8 @@ Public Class Frame
                 packet = input.Substring(i + 1)
             End If
         Next
+
+        packet = packet + ","   'add a comma to the end to mark the end of hte last field
 
         'input now contains the string after $$
         Dim fields As List(Of String) = New List(Of String)()
@@ -395,7 +417,7 @@ Public Class Frame
         Dim GPSfrmat As PacketStructure.Encoding
 
         For i = 1 To fields.Count - 1
-            If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexInteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexInteger) Then
+            If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexinteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexinteger) Then
                 fields(i) = HexToInt_str(fields(i))
             End If
             If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.callsign) Then
@@ -458,9 +480,9 @@ Public Class Frame
         'do GPS stuff
         If (GPSla.Length > 0) And (GPSlo.Length > 0) Then
             Select Case GPSfrmat
-                Case PacketStructure.Encoding.DDDdddd
+                Case PacketStructure.Encoding.ddddddd
                     GPScoord_ = New GPScoord(Double.Parse(GPSla), Double.Parse(GPSlo))
-                Case PacketStructure.Encoding.DDDMMmm
+                Case PacketStructure.Encoding.dddmmmm
                     If (GPSla.Length > 4) And (GPSlo.Length > 4) Then
                         Dim a As String
                         Dim b As String
