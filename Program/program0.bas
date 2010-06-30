@@ -188,7 +188,6 @@ for b20 = 1 to 8			'copy values into free RAM
 	b18 = b20 + 60
 	poke b18,b19
 next
-sertxd(#b0,cr,lf)
 if b0 <> 0 then
 	b10 = ramptr
 	ramptr = ramptr + 8
@@ -213,7 +212,6 @@ for b20 = 1 to 9			'copy values into free RAM
 	poke b18,b19
 next
 b10 = ramptr
-sertxd(#b0,cr,lf)
 
 if b0 <> 0 then
 	if b10 = "S" then
@@ -233,13 +231,18 @@ gosub WriteComma
 'GET GPS (long)
 poke 60,"-"
 gosub GetLongitude
+
+b30 = b12
+b31 = b13	'copy # sats
+b32 = b0	'copy whether valid
+
 for b20 = 1 to 10			'copy values into free RAM
 	peek b20,b19
 	b18 = b20 + 60
 	poke b18,b19
 next
 b10 = ramptr
-sertxd(#b0,cr,lf)
+
 if b0 <> 0 then
 	if b11 = "W" then
 		ramptr = ramptr + 11
@@ -276,12 +279,34 @@ gosub WriteComma
 	'update highest
 
 
+gosub WriteComma
+'GPS speed
 
+
+
+gosub WriteComma
+'GPS bearing
+
+
+
+gosub WriteComma
+'GPS sats
+
+if b32 <> 0 then
+	b10 = ramptr
+	ramptr = ramptr + 2
+	b11 = 30
+	b12 = 31
+	gosub RTCRAMWriteMany
+endif
+
+gosub WriteComma
 'phone stuff
 
 
 
 
+gosub WriteComma
 'take pictures
 
 
@@ -1123,7 +1148,7 @@ serin [2000,endlong],GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b4
 'serin [2000,endlong],GPSIn2,T4800,(",")
 'serin [2000,endlong],GPSIn2,T4800,(","),b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9,b45,b10'b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9
 'sertxd("Lon",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
-
+'sertxd(b12,b13,cr,lf)
 if b0 = "," then 
 	b0 = 0
 else
