@@ -70,8 +70,16 @@
 
 
     Public Sub LoadXML(ByVal FilePath As String)
+        If FilePath = "" Then Exit Sub
         Try
+
+
+
+
             Dim xmlrd As System.Xml.XmlTextReader = New System.Xml.XmlTextReader(FilePath)
+
+            'clear current fields dictionary
+            Fields_.Clear()
 
             While Not xmlrd.EOF
                 xmlrd.Read()
@@ -160,6 +168,7 @@
                 End If
             End While
         Catch
+            MsgBox("XML load failed")
         End Try
 
     End Sub

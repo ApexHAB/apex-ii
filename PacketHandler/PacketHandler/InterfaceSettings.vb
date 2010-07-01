@@ -11,6 +11,7 @@ Public Class InterfaceSettings
     Private InterfaceType_ As InterfaceTypes = InterfaceTypes.BLANK            'specifies interface's type
     Private DataFormat_ As PacketFormats = PacketFormats.BLANK                    'specifies whether UKHAS DL, APRS, etc is used
     Private PacketStructure_ As PacketStructure = New PacketStructure()
+    Private PacketStructureXMLPath_ As String                                   'the path to populate the above thingy
     
     Private InterfaceTypeSpecificSettings_ As New Object ' object to hold settings relevelent to the specified type
     Private Enabled_ As Boolean = True
@@ -45,6 +46,16 @@ Public Class InterfaceSettings
     '        Return tempcol
     '    End Get
     'End Property
+
+    Public Property XMLStructurePath As String
+        Get
+            Return PacketStructureXMLPath_
+        End Get
+        Set(ByVal value As String)
+            PacketStructureXMLPath_ = value
+            PacketStructure_.LoadXML(value)
+        End Set
+    End Property
 
     Public Property PacketStructure
         Get
@@ -129,6 +140,8 @@ Public Class InterfaceSettings
     End Property
 
 #End Region
+
+
 
     Public Shared Function AllowableFormats(ByVal Direction As InterfaceDirections) As List(Of PacketFormats)
         Dim output As New List(Of PacketFormats)

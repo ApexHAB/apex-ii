@@ -37,6 +37,9 @@ Partial Class settingsFrm
         Me.TableLayoutPanel2 = New System.Windows.Forms.TableLayoutPanel()
         Me.btnOK = New System.Windows.Forms.Button()
         Me.btnCancel = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.txtLogFolder = New System.Windows.Forms.TextBox()
+        Me.btnLogFolder = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         CType(Me.nudTimeZone, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -199,11 +202,39 @@ Partial Class settingsFrm
         Me.btnCancel.TabIndex = 1
         Me.btnCancel.Text = "Cancel"
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(21, 156)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(57, 13)
+        Me.Label2.TabIndex = 7
+        Me.Label2.Text = "Log Folder"
+        '
+        'txtLogFolder
+        '
+        Me.txtLogFolder.Location = New System.Drawing.Point(84, 153)
+        Me.txtLogFolder.Name = "txtLogFolder"
+        Me.txtLogFolder.Size = New System.Drawing.Size(100, 20)
+        Me.txtLogFolder.TabIndex = 8
+        '
+        'btnLogFolder
+        '
+        Me.btnLogFolder.Location = New System.Drawing.Point(190, 150)
+        Me.btnLogFolder.Name = "btnLogFolder"
+        Me.btnLogFolder.Size = New System.Drawing.Size(33, 24)
+        Me.btnLogFolder.TabIndex = 9
+        Me.btnLogFolder.Text = "..."
+        Me.btnLogFolder.UseVisualStyleBackColor = True
+        '
         'settingsFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(387, 288)
+        Me.Controls.Add(Me.btnLogFolder)
+        Me.Controls.Add(Me.txtLogFolder)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.TableLayoutPanel2)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
@@ -216,6 +247,7 @@ Partial Class settingsFrm
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.TableLayoutPanel2.ResumeLayout(False)
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents lstInterfaces As System.Windows.Forms.ListBox
@@ -233,4 +265,7 @@ Partial Class settingsFrm
     Friend WithEvents TableLayoutPanel2 As System.Windows.Forms.TableLayoutPanel
     Friend WithEvents btnOK As System.Windows.Forms.Button
     Friend WithEvents btnCancel As System.Windows.Forms.Button
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents txtLogFolder As System.Windows.Forms.TextBox
+    Friend WithEvents btnLogFolder As System.Windows.Forms.Button
 End Class

@@ -22,25 +22,27 @@ Partial Class EditInterfaceSettings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
-        Me.OK_Button = New System.Windows.Forms.Button
-        Me.Cancel_Button = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.cmbInterfaceTypes = New System.Windows.Forms.ComboBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.cmbDirection = New System.Windows.Forms.ComboBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.cmbDataFormat = New System.Windows.Forms.ComboBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.txtName = New System.Windows.Forms.TextBox
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.chkEnabled = New System.Windows.Forms.CheckBox
-        Me.chkFilter = New System.Windows.Forms.CheckBox
-        Me.lstFilter = New System.Windows.Forms.ListBox
-        Me.pnlFilter = New System.Windows.Forms.Panel
-        Me.btnAddFilter = New System.Windows.Forms.Button
-        Me.btnRemoveFilter = New System.Windows.Forms.Button
-        Me.txtFilterAdd = New System.Windows.Forms.TextBox
+        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.OK_Button = New System.Windows.Forms.Button()
+        Me.Cancel_Button = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.cmbInterfaceTypes = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.cmbDirection = New System.Windows.Forms.ComboBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.cmbDataFormat = New System.Windows.Forms.ComboBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.txtName = New System.Windows.Forms.TextBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkEnabled = New System.Windows.Forms.CheckBox()
+        Me.chkFilter = New System.Windows.Forms.CheckBox()
+        Me.lstFilter = New System.Windows.Forms.ListBox()
+        Me.pnlFilter = New System.Windows.Forms.Panel()
+        Me.txtFilterAdd = New System.Windows.Forms.TextBox()
+        Me.btnRemoveFilter = New System.Windows.Forms.Button()
+        Me.btnAddFilter = New System.Windows.Forms.Button()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.txtXMLpacket = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.pnlFilter.SuspendLayout()
         Me.SuspendLayout()
@@ -193,14 +195,12 @@ Partial Class EditInterfaceSettings
         Me.pnlFilter.Size = New System.Drawing.Size(244, 92)
         Me.pnlFilter.TabIndex = 14
         '
-        'btnAddFilter
+        'txtFilterAdd
         '
-        Me.btnAddFilter.Location = New System.Drawing.Point(9, 33)
-        Me.btnAddFilter.Name = "btnAddFilter"
-        Me.btnAddFilter.Size = New System.Drawing.Size(59, 23)
-        Me.btnAddFilter.TabIndex = 14
-        Me.btnAddFilter.Text = "Add"
-        Me.btnAddFilter.UseVisualStyleBackColor = True
+        Me.txtFilterAdd.Location = New System.Drawing.Point(9, 7)
+        Me.txtFilterAdd.Name = "txtFilterAdd"
+        Me.txtFilterAdd.Size = New System.Drawing.Size(59, 20)
+        Me.txtFilterAdd.TabIndex = 16
         '
         'btnRemoveFilter
         '
@@ -211,12 +211,30 @@ Partial Class EditInterfaceSettings
         Me.btnRemoveFilter.Text = "Remove"
         Me.btnRemoveFilter.UseVisualStyleBackColor = True
         '
-        'txtFilterAdd
+        'btnAddFilter
         '
-        Me.txtFilterAdd.Location = New System.Drawing.Point(9, 7)
-        Me.txtFilterAdd.Name = "txtFilterAdd"
-        Me.txtFilterAdd.Size = New System.Drawing.Size(59, 20)
-        Me.txtFilterAdd.TabIndex = 16
+        Me.btnAddFilter.Location = New System.Drawing.Point(9, 33)
+        Me.btnAddFilter.Name = "btnAddFilter"
+        Me.btnAddFilter.Size = New System.Drawing.Size(59, 23)
+        Me.btnAddFilter.TabIndex = 14
+        Me.btnAddFilter.Text = "Add"
+        Me.btnAddFilter.UseVisualStyleBackColor = True
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(18, 246)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(99, 13)
+        Me.Label5.TabIndex = 15
+        Me.Label5.Text = "XML Packet Config"
+        '
+        'txtXMLpacket
+        '
+        Me.txtXMLpacket.Location = New System.Drawing.Point(123, 241)
+        Me.txtXMLpacket.Name = "txtXMLpacket"
+        Me.txtXMLpacket.Size = New System.Drawing.Size(83, 20)
+        Me.txtXMLpacket.TabIndex = 16
         '
         'EditInterfaceSettings
         '
@@ -225,6 +243,8 @@ Partial Class EditInterfaceSettings
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
         Me.ClientSize = New System.Drawing.Size(256, 461)
+        Me.Controls.Add(Me.txtXMLpacket)
+        Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.chkFilter)
         Me.Controls.Add(Me.pnlFilter)
         Me.Controls.Add(Me.chkEnabled)
@@ -271,5 +291,7 @@ Partial Class EditInterfaceSettings
     Friend WithEvents btnRemoveFilter As System.Windows.Forms.Button
     Friend WithEvents btnAddFilter As System.Windows.Forms.Button
     Friend WithEvents txtFilterAdd As System.Windows.Forms.TextBox
+    Friend WithEvents Label5 As System.Windows.Forms.Label
+    Friend WithEvents txtXMLpacket As System.Windows.Forms.TextBox
 
 End Class

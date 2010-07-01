@@ -1,19 +1,40 @@
 ﻿Imports Mappoint
 Public Class MapPointInterface
+    Dim app As Application = New Application()
+    Dim lastpnt As New Dictionary(Of Integer, GPScoord)
 
 
-    Public Sub PlotPoint(ByVal coords As GPScoord, ByVal name As String)
+    Public Sub PlotPoint(ByVal coords As GPScoord, ByVal name As String, ByVal seqence As Integer, Optional ByVal PushPinType As Single = 1, Optional ByVal Weight As Single = 0.2)
         Try
 
-            Dim app As Application = New Application()
 
-            'Dim location As Location
 
-            'app.Visible = True
+            Dim location As Location
+            Dim location2 As Location
 
-            'location = app.ActiveMap.GetLocation(coords.sLatitudeDecimal, coords.sLongitudeDecimal)
+            app.Visible = True
 
-            'app.ActiveMap.AddPushpin(location, name)
+            location = app.ActiveMap.GetLocation(coords.sLatitudeDecimal, coords.sLongitudeDecimal)
+
+            If lastpnt.ContainsKey(seqence) Then
+                location2 = app.ActiveMap.GetLocation(lastpnt(seqence).sLatitudeDecimal, lastpnt(seqence).sLongitudeDecimal)
+
+                Dim shape_ As Shape
+                'Dim map_ As Map = app.ActiveMap
+                shape_ = app.ActiveMap.Shapes.AddLine(location, location2)
+                shape_.Line.Weight = Weight
+                lastpnt(seqence) = coords
+
+                'app.ActiveMap.Shapes.AddLine(location, location2)
+            Else
+                lastpnt.Add(seqence, coords)
+
+            End If
+
+
+
+            app.ActiveMap.AddPushpin(location, name).Symbol = PushPinType
+
 
 
 

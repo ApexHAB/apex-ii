@@ -21,6 +21,7 @@ Public Class EditInterfaceSettings
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
 
         'update settings with whats been entered in boxes
+        settings_.XMLStructurePath = txtXMLpacket.Text
         settings_.DataFormat = StrToEnumPacketFormat(cmbDataFormat.SelectedItem)
         settings_.InterfaceDirection = StrToEnumInterfaceDirection(cmbDirection.SelectedItem)
         settings_.InterfaceType = StrToEnumInterfaceTypes(cmbInterfaceTypes.SelectedItem)
@@ -71,6 +72,8 @@ Public Class EditInterfaceSettings
         cmbDirection.Items.Clear()
         cmbDataFormat.Items.Clear()
         txtName.Text = settings_.InterfaceName
+
+        txtXMLpacket.Text = settings_.XMLStructurePath
 
         For i As Integer = 0 To InterfaceTypes.Length - 1
             cmbInterfaceTypes.Items.Add(EnumToStr(CType(i, InterfaceTypes)))

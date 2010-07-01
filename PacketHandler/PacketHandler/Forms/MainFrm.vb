@@ -1,7 +1,7 @@
 ﻿Imports MapPoint
 Public Class MainFrm
 
-
+    Dim app As Application
     Private GlobalSettings_ As New GlobalSettings
     ' Private Interfaces As New Collection()      'used to hold interfaceParents
     Private Interfaces As New List(Of InterfaceParent)
@@ -92,6 +92,8 @@ Public Class MainFrm
         Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
         GoodFrames.Add(frame)
 
+        AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
+
         For Each i As InterfaceParent In Interfaces
             If i.InterfaceName <> InterfaceDetails.InterfaceName Then
                 If i.CanWrite = True Then
@@ -171,15 +173,7 @@ Public Class MainFrm
 
 
 
-        Dim app As Application = New MapPoint.Application()
-
-        Dim location As Location
-
-        app.Visible = True
-
-        location = app.ActiveMap.GetLocation(52.2, -0.4)
-
-        app.ActiveMap.AddPushpin(location, "point")
+ 
 
 
 
@@ -188,4 +182,17 @@ Public Class MainFrm
     'Private Sub GoodFramesAdd(ByVal frame As Frame)
     '    '  If GoodFrames.
     'End Sub
+
+    Private Sub AddToFile(ByVal file As String, ByVal data As String)
+
+        Try
+            Dim writer As New System.IO.StreamWriter(file, True)
+
+            writer.WriteLine(data)
+
+            writer.Close()
+        Catch
+        End Try
+    End Sub
+
 End Class

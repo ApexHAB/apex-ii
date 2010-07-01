@@ -1,13 +1,23 @@
-﻿Public Class GlobalSettings
+﻿Imports System.IO
+
+Public Class GlobalSettings
     Private interfaces_ As New List(Of InterfaceSettings)
 
     Private timezone_ As Integer = 0
     Private UseUTC_ As Boolean = False
+    Private LogFolder_ As String = Directory.GetCurrentDirectory()
     ' Public test As New Dictionary(Of String, String)
 
 #Region "Properties"
 
-   
+    Public Property logFolder As String
+        Get
+            Return LogFolder_
+        End Get
+        Set(ByVal value As String)
+            LogFolder_ = value
+        End Set
+    End Property
 
     Public Property Interfaces() As List(Of InterfaceSettings)
         Get
@@ -38,7 +48,7 @@
 
 #End Region
 
-    
+
 
     Public Function SaveToDisk(ByVal Path As String) As Boolean
 

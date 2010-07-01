@@ -127,7 +127,7 @@
 
         Select Case interfacesettings_.InterfaceType
             Case InterfaceTypes.MAPPOINT
-                MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter)
+                MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 1, 5, 0.5)
 
         End Select
 

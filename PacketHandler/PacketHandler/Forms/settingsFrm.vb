@@ -37,7 +37,7 @@
             lstInterfaces.Items.Add(i.InterfaceName)
         Next
 
-
+        txtLogFolder.Text = settings_.logFolder
 
        
 
@@ -60,7 +60,7 @@
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
         settings_.UseUTC = chkUTC.Checked
         settings_.TimeZone = nudTimeZone.Value
-
+        settings_.logFolder = txtLogFolder.Text
 
        
 
@@ -74,4 +74,10 @@
     End Sub
 
    
+    Private Sub btnLogFolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLogFolder.Click
+        Dim fv As New FolderBrowserDialog()
+        fv.ShowDialog()
+
+        txtLogFolder.Text = fv.SelectedPath
+    End Sub
 End Class
