@@ -195,4 +195,68 @@ Public Class MainFrm
         End Try
     End Sub
 
+    Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
+        Dim selector As New OpenFileDialog()
+        With selector
+            .Multiselect = False
+            .Title = "Select File to Load"
+            .Filter = "Text Files (*.txt)|*.txt"
+            .CheckFileExists = True
+            .CheckPathExists = True
+            .ShowDialog()
+        End With
+
+        Dim datapath As String = selector.FileName
+        selector = New OpenFileDialog()
+
+        With selector
+            .Multiselect = False
+            .Title = "Select XML string format file"
+            .Filter = "XML Files (*.xml)|*.xml"
+            .CheckFileExists = True
+            .CheckPathExists = True
+            .ShowDialog()
+        End With
+
+        Dim xmlpath As String = selector.FileName
+        If System.IO.File.Exists(xmlpath) = False Then Exit Sub
+
+        Dim interface_ As InterfaceParent
+        Dim mappoint As Boolean = False
+        'find mappoint interface
+        For Each i As InterfaceParent In Interfaces
+            If i.GetInterfaceSettings.InterfaceType = InterfaceTypes.MAPPOINT Then
+                interface_ = i
+                mappoint = True
+                Exit For
+            End If
+        Next
+
+
+        Dim str As String = ""
+
+        Dim pf As New PacketStructure
+        pf.PacketType = PacketFormats.UKHAS
+        pf.LoadXML(xmlpath)
+
+
+        '  Try
+        If System.IO.File.Exists(datapath) = False Then Exit Sub
+
+        Dim reader As New System.IO.StreamReader(datapath)
+
+        While Not reader.EndOfStream
+
+
+            str = reader.ReadLine()
+            Dim frame As New Frame(str, pf)
+            If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
+
+        End While
+
+        ' Catch
+        ' MsgBox("File cannot be read")
+        '  End Try
+
+    End Sub
 End Class

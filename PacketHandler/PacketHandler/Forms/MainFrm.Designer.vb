@@ -22,7 +22,7 @@ Partial Class MainFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim Frame1 As PacketHandler.Frame = New PacketHandler.Frame()
+        Dim Frame6 As PacketHandler.Frame = New PacketHandler.Frame()
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.tabData = New System.Windows.Forms.TabControl()
         Me.tpAllData = New System.Windows.Forms.TabPage()
@@ -33,6 +33,7 @@ Partial Class MainFrm
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.HuD_UC1 = New PacketHandler.HUD_UC()
+        Me.btnLoad = New System.Windows.Forms.Button()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.SuspendLayout()
@@ -113,7 +114,7 @@ Partial Class MainFrm
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(120, 25)
+        Me.Button4.Location = New System.Drawing.Point(28, 7)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(42, 12)
         Me.Button4.TabIndex = 8
@@ -122,22 +123,31 @@ Partial Class MainFrm
         '
         'HuD_UC1
         '
-        Frame1.Callsign = Nothing
-        Frame1.PcktCounter = 0
-        Frame1.Sats = 0
-        Frame1.StatusPacketStartText = "sgsballoon:"
-        Frame1.TimeZone = 0
-        Me.HuD_UC1.FrameToDisplay = Frame1
+        Frame6.Callsign = Nothing
+        Frame6.Sats = 0
+        Frame6.StatusPacketStartText = "sgsballoon:"
+        Frame6.TimeZone = 0
+        Me.HuD_UC1.FrameToDisplay = Frame6
         Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
         Me.HuD_UC1.Name = "HuD_UC1"
         Me.HuD_UC1.Size = New System.Drawing.Size(430, 181)
         Me.HuD_UC1.TabIndex = 6
+        '
+        'btnLoad
+        '
+        Me.btnLoad.Location = New System.Drawing.Point(120, 7)
+        Me.btnLoad.Name = "btnLoad"
+        Me.btnLoad.Size = New System.Drawing.Size(63, 27)
+        Me.btnLoad.TabIndex = 9
+        Me.btnLoad.Text = "Load"
+        Me.btnLoad.UseVisualStyleBackColor = True
         '
         'MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(462, 488)
+        Me.Controls.Add(Me.btnLoad)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.HuD_UC1)
@@ -163,6 +173,7 @@ Partial Class MainFrm
     Friend WithEvents HuD_UC1 As PacketHandler.HUD_UC
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents btnLoad As System.Windows.Forms.Button
 
 
 End Class

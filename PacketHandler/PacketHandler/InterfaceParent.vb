@@ -43,6 +43,11 @@
             Return interfacesettings_.InterfaceName
         End Get
     End Property
+    Public ReadOnly Property GetInterfaceSettings As InterfaceSettings
+        Get
+            Return interfacesettings_
+        End Get
+    End Property
 
 
     Public Sub New(ByVal _interfaceSettings As InterfaceSettings)
@@ -131,6 +136,12 @@
 
         End Select
 
+    End Sub
+
+    Public Sub WriteMappoint(ByVal coords As GPScoord, ByVal sequence As Integer, Optional ByVal PinType As Integer = 1, Optional ByVal weight As Single = 0.5, Optional ByVal name As String = "")
+        If interfacesettings_.InterfaceType = InterfaceTypes.MAPPOINT Then
+            MappointHandler.PlotPoint(coords, name, sequence, PinType, weight)
+        End If
     End Sub
 
 End Class

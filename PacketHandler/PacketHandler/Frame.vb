@@ -417,62 +417,64 @@ Public Class Frame
         Dim GPSfrmat As PacketStructure.Encoding
 
         For i = 1 To fields.Count - 1
-            If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexinteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexinteger) Then
-                fields(i) = HexToInt_str(fields(i))
-            End If
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.callsign) Then
-                Callsign_ = fields(i)
-            End If
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.latitude) Then
-                GPSla = fields(i)
-                GPSfrmat = packetStructure_.GetField(i).Encoding
-            End If
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.longitude) Then
-                GPSlo = fields(i)
-                GPSfrmat = packetStructure_.GetField(i).Encoding
-            End If
-
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.cycle_count) Then
-                pcktcount_ = fields(i)
-            End If
-
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.time) Then
-                time_ = fields(i)
-            End If
-
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.altitude) Then
-                If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
-                    gpsal_ = Math.Round(Single.Parse(fields(i)) * 0.3048)
-                Else
-                    gpsal_ = Integer.Parse(fields(i))
+            If fields(i) <> "" Then
+                If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexinteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexinteger) Then
+                    fields(i) = HexToInt_str(fields(i))
                 End If
-            End If
-
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
-                gpsh_ = Integer.Parse(fields(i))
-            End If
-
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
-                If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
-                    gpssp_ = Single.Parse(fields(i)) * 0.3048
-                Else
-                    gpssp_ = Single.Parse(fields(i))
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.callsign) Then
+                    Callsign_ = fields(i)
                 End If
-            End If
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.latitude) Then
+                    GPSla = fields(i)
+                    GPSfrmat = packetStructure_.GetField(i).Encoding
+                End If
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.longitude) Then
+                    GPSlo = fields(i)
+                    GPSfrmat = packetStructure_.GetField(i).Encoding
+                End If
 
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sats) Then
-                gpsSats_ = Integer.Parse(fields(i))
-            End If
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.cycle_count) Then
+                    pcktcount_ = fields(i)
+                End If
 
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.comment) Then
-                comm_ = fields(i)
-            End If
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.time) Then
+                    time_ = fields(i)
+                End If
 
-            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
-                Dim value = Double.Parse(fields(i))
-                value = value * packetStructure_.GetField(i).ScaleFactor
-                value = value + packetStructure_.GetField(i).Offset
-                Pdata_.Add(packetStructure_.GetField(i).FieldName, value)
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.altitude) Then
+                    If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
+                        gpsal_ = Math.Round(Single.Parse(fields(i)) * 0.3048)
+                    Else
+                        gpsal_ = Integer.Parse(fields(i))
+                    End If
+                End If
+
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
+                    gpsh_ = Integer.Parse(fields(i))
+                End If
+
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
+                    If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
+                        gpssp_ = Single.Parse(fields(i)) * 0.3048
+                    Else
+                        gpssp_ = Single.Parse(fields(i))
+                    End If
+                End If
+
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sats) Then
+                    gpsSats_ = Integer.Parse(fields(i))
+                End If
+
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.comment) Then
+                    comm_ = fields(i)
+                End If
+
+                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
+                    Dim value = Double.Parse(fields(i))
+                    value = value * packetStructure_.GetField(i).ScaleFactor
+                    value = value + packetStructure_.GetField(i).Offset
+                    Pdata_.Add(packetStructure_.GetField(i).FieldName, value)
+                End If
             End If
 
         Next
