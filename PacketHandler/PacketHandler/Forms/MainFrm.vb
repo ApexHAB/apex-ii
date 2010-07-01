@@ -6,6 +6,7 @@ Public Class MainFrm
     ' Private Interfaces As New Collection()      'used to hold interfaceParents
     Private Interfaces As New List(Of InterfaceParent)
     Private Frames As New Collection()      'stores for the purpose of what order frames arrived in
+    Private testingXMLPath = ""
 
 
     Private Function ContainsInterface(ByVal input As String) As Boolean
@@ -63,7 +64,29 @@ Public Class MainFrm
         'HuD_UC1.FrameToDisplay = New Frame("@124840h5121.89N/00011.43W085/000/A=000000AVDATA-IT768OT679PP168A1453 SGSBALLOON", pf)
         Dim pf As New PacketStructure
         pf.PacketType = PacketFormats.UKHAS
-        pf.LoadXML("C:\apexi.xml")
+
+        If testingXMLPath = "" Then
+            Dim selector As New OpenFileDialog()
+
+            With selector
+                .Multiselect = False
+                .Title = "Select XML string format file"
+                .Filter = "XML Files (*.xml)|*.xml"
+                .CheckFileExists = True
+                .CheckPathExists = True
+                .ShowDialog()
+            End With
+
+            Dim xmlpath As String = selector.FileName
+            testingXMLPath = xmlpath
+        End If
+
+        If System.IO.File.Exists(testingXMLPath) = False Then
+            testingXMLPath = ""
+            Exit Sub
+        End If
+
+        pf.LoadXML(testingXMLPath)
 
         'Dim frame As New Frame(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), pf)
         'HuD_UC1.FrameToDisplay = frame
