@@ -531,136 +531,136 @@ Public Class Frame
     End Function
 
     Private Sub DecodeUKHAS(ByVal received() As Byte)
-        Try
-            Dim data(7) As String
-            'seven UKHAS frame fields
-            Dim rcount As Integer
-            Dim temp As Char
+        'Try
+        Dim data(7) As String
+        'seven UKHAS frame fields
+        Dim rcount As Integer
+        Dim temp As Char
 
-            rcount = 1
-            If Microsoft.VisualBasic.Chr(received(0)) = "$" And Microsoft.VisualBasic.Chr(received(1)) = "$" Then
-                For rcounter = 2 To (received.Length - 1)
-                    'first two characters are $$ so skip
-                    temp = Microsoft.VisualBasic.Chr(received(rcounter))      'Gets next character in string
+        rcount = 1
+        If Microsoft.VisualBasic.Chr(received(0)) = "$" And Microsoft.VisualBasic.Chr(received(1)) = "$" Then
+            For rcounter = 2 To (received.Length - 1)
+                'first two characters are $$ so skip
+                temp = Microsoft.VisualBasic.Chr(received(rcounter))      'Gets next character in string
 
-                    If temp <> "," Then     'if not new field
-                        If temp = "" Then Exit For 'if reached end of frame
-                        If rcount <> 3 Then
+                If temp <> "," Then     'if not new field
+                    If temp = "" Then Exit For 'if reached end of frame
+                    If rcount <> 3 Then
+                        data(rcount) = data(rcount) & temp
+                    Else    'remove colons from time field
+                        If temp <> ":" Then
                             data(rcount) = data(rcount) & temp
-                        Else    'remove colons from time field
-                            If temp <> ":" Then
-                                data(rcount) = data(rcount) & temp
-                            End If
                         End If
-
-                    Else : rcount = rcount + 1
                     End If
-                Next
-            Else
-                MsgBox("Frame corrupted")
-            End If
 
-            'creates individual fields from UKHAS frame data
-            Dim time As String
-            Dim latd As String
-            Dim latm As String
-            Dim lats As String
-            Dim longd As String
-            Dim longm As String
-            Dim longs As String
-            Dim heading As String
-            Dim speed As String
-            Dim altitude As String
-            ' Dim custom As String
+                Else : rcount = rcount + 1
+                End If
+            Next
+        Else
+            MsgBox("Frame corrupted")
+        End If
 
-            'ensures correct length by adding leading zeroes
-            If data(3).Length = 6 Then
-                time = data(3)
-            Else
-                time = data(3)
-                For rcount = 1 To (6 - data(3).Length)
-                    time = "0" & time
-                Next
-            End If
+        'creates individual fields from UKHAS frame data
+        Dim time As String
+        Dim latd As String
+        Dim latm As String
+        Dim lats As String
+        Dim longd As String
+        Dim longm As String
+        Dim longs As String
+        Dim heading As String
+        Dim speed As String
+        Dim altitude As String
+        ' Dim custom As String
 
-            'converts from degrees to degrees and minutes
-            latd = Int(data(4))
-            If latd.Length < 2 Then
-                For rcount = 1 To (2 - latd.Length)
-                    latd = "0" & latd
-                Next
-            End If
+        'ensures correct length by adding leading zeroes
+        If data(3).Length = 6 Then
+            time = data(3)
+        Else
+            time = data(3)
+            For rcount = 1 To (6 - data(3).Length)
+                time = "0" & time
+            Next
+        End If
 
-            latm = Int((data(4) * 60) - (latd * 60))
-            If latm.Length < 2 Then
-                For rcount = 1 To (2 - latm.Length)
-                    latm = "0" & latm
-                Next
-            End If
+        'converts from degrees to degrees and minutes
+        latd = Int(data(4))
+        If latd.Length < 2 Then
+            For rcount = 1 To (2 - latd.Length)
+                latd = "0" & latd
+            Next
+        End If
 
-            lats = Int((data(4) * 6000) - (latd * 6000) - (latm * 100))
-            If lats.Length < 2 Then
-                For rcount = 1 To (2 - lats.Length)
-                    lats = "0" & lats
-                Next
-            End If
+        latm = Int((data(4) * 60) - (latd * 60))
+        If latm.Length < 2 Then
+            For rcount = 1 To (2 - latm.Length)
+                latm = "0" & latm
+            Next
+        End If
+
+        lats = Int((data(4) * 6000) - (latd * 6000) - (latm * 100))
+        If lats.Length < 2 Then
+            For rcount = 1 To (2 - lats.Length)
+                lats = "0" & lats
+            Next
+        End If
 
 
-            longd = Int(data(5))
-            If longd.Length < 3 Then
-                For rcount = 1 To (3 - longd.Length)
-                    longd = "0" & longd
-                Next
-            End If
+        longd = Int(data(5))
+        If longd.Length < 3 Then
+            For rcount = 1 To (3 - longd.Length)
+                longd = "0" & longd
+            Next
+        End If
 
-            longm = Int((data(5) * 60) - (longd * 60))
-            If longm.Length < 2 Then
-                For rcount = 1 To (2 - longm.Length)
-                    longm = "0" & longm
-                Next
-            End If
+        longm = Int((data(5) * 60) - (longd * 60))
+        If longm.Length < 2 Then
+            For rcount = 1 To (2 - longm.Length)
+                longm = "0" & longm
+            Next
+        End If
 
-            longs = Int((data(5) * 6000) - (longd * 6000) - (longm * 100))
-            If longs.Length < 2 Then
-                For rcount = 1 To (2 - longs.Length)
-                    longs = "0" & longs
-                Next
-            End If
+        longs = Int((data(5) * 6000) - (longd * 6000) - (longm * 100))
+        If longs.Length < 2 Then
+            For rcount = 1 To (2 - longs.Length)
+                longs = "0" & longs
+            Next
+        End If
 
-            'these are not reported in UKHAS, so are set to nothing in balloon frame
-            heading = "000"
+        'these are not reported in UKHAS, so are set to nothing in balloon frame
+        heading = "000"
 
-            speed = "000"
+        speed = "000"
 
-            If data(6).Length = 5 Then
-                altitude = data(6)
-            Else
-                altitude = data(6)
-                For rcount = 1 To (5 - data(6).Length)
-                    altitude = "0" & altitude
-                Next
-            End If
+        If data(6).Length = 5 Then
+            altitude = data(6)
+        Else
+            altitude = data(6)
+            For rcount = 1 To (5 - data(6).Length)
+                altitude = "0" & altitude
+            Next
+        End If
 
-            'balloon sensor data
-            rcomment_ = data(7)
+        'balloon sensor data
+        rcomment_ = data(7)
 
-            'builds balloon format frame from individual fields
-            '  Return AssembleExtras(time, latd, latm, lats, longd, longm, longs, heading, speed, altitude, custom)
-            time_ = time
-            ' gpsla_ = latd & "." & latm & "." & lats
-            'gpslo_ = longd & "." & longm & "." & longs
+        'builds balloon format frame from individual fields
+        '  Return AssembleExtras(time, latd, latm, lats, longd, longm, longs, heading, speed, altitude, custom)
+        time_ = time
+        ' gpsla_ = latd & "." & latm & "." & lats
+        'gpslo_ = longd & "." & longm & "." & longs
 
-            GPScoord_ = New GPScoord(Integer.Parse(latd), Integer.Parse(latm), Integer.Parse(lats), Integer.Parse(longd), Integer.Parse(longm), Integer.Parse(longs))
-            gpsal_ = Integer.Parse(altitude)
-            gpsh_ = Integer.Parse(heading)
-            gpssp_ = Integer.Parse(speed)
+        GPScoord_ = New GPScoord(Integer.Parse(latd), Integer.Parse(latm), Integer.Parse(lats), Integer.Parse(longd), Integer.Parse(longm), Integer.Parse(longs))
+        gpsal_ = Integer.Parse(altitude)
+        gpsh_ = Integer.Parse(heading)
+        gpssp_ = Integer.Parse(speed)
 
-            DecodeCustom()
+        DecodeCustom()
 
-        Catch ex As Exception
-            MsgBox("Error while decoding UKHAS frame. Error = " & ex.Message)
+        ' Catch ex As Exception
+        'MsgBox("Error while decoding UKHAS frame. Error = " & ex.Message)
 
-        End Try
+        ' End Try
     End Sub
 
     Public Function AssembleExtras(ByVal time As String, ByVal latd As String, ByVal latm As String, ByVal lats As String, ByVal longd As String, ByVal longm As String, ByVal longs As String, ByVal heading As String, ByVal speed As String, ByVal altitude As String, ByVal custom As String)

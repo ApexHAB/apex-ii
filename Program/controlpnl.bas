@@ -118,12 +118,13 @@ sertxd("______Control Panel_______",cr,lf,cr,lf)
 sertxd("1) Read a flash page",cr,lf)
 sertxd("2) Erase flash",cr,lf)
 sertxd("3) Reset Counter",cr,lf)
+sertxd("4) Multi page read",cr,lf)
 sertxd("Enter your choice",cr,lf)
 
 serrxd b0
 b0 = b0 - 49
 
-branch b0,(RDPG,BE,RST)
+branch b0,(RDPG,BE,RST,MULTI)
 
 goto start
 
@@ -204,6 +205,78 @@ write PacketPtrhROM,0
 
 sertxd("done",cr,lf)
 
+
+goto start
+
+
+MULTI:
+
+sertxd("Enter start page to read, max: 2047 (4 digits): ")
+serrxd b16,b17,b18,b19
+
+b16 = b16 - 48
+b17 = b17 - 48
+b18 = b18 - 48
+b19 = b19 - 48
+
+
+w16 = b16 * 1000
+w10 = b17 * 100
+w16 = w16 + w10
+w10 = b18 * 10
+w16 = w16 + w10
+w16 = w16 + b19
+
+'w16 ' start page
+
+sertxd(cr,lf,"Enter end page to read, max: 2047 (4 digits): ",cr,lf)
+serrxd b16,b17,b18,b19
+
+b16 = b16 - 48
+b17 = b17 - 48
+b18 = b18 - 48
+b19 = b19 - 48
+
+
+w17 = b16 * 1000
+w10 = b17 * 100
+w17 = w17 + w10
+w10 = b18 * 10
+w17 = w17 + w10
+w17 = w17 + b19
+
+'w17 'end page
+
+for w18 = w16 to w17
+w7 = w18
+b13 = 0
+b10 = 255
+
+
+gosub FlashReadSpad
+
+ptr = 0
+
+for b16 = 0 to 255
+
+	b17 = @ptrinc
+
+	
+	if b17 = cr then
+		sertxd(cr,lf)
+		goto multidone1
+	endif
+	
+	if b17 = lf then
+		sertxd(cr,lf)
+		goto multidone1		
+	endif
+
+	sertxd(b17)
+
+next
+multidone1:
+next
 
 goto start
 

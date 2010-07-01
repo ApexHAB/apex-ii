@@ -185,14 +185,14 @@ Public Class MainFrm
 
     Private Sub AddToFile(ByVal file As String, ByVal data As String)
 
-        Try
-            Dim writer As New System.IO.StreamWriter(file, True)
+        ' Try
+        Dim writer As New System.IO.StreamWriter(file, True)
 
-            writer.WriteLine(data)
+        writer.WriteLine(data)
 
-            writer.Close()
-        Catch
-        End Try
+        writer.Close()
+        ' Catch
+        'End Try
     End Sub
 
     Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
