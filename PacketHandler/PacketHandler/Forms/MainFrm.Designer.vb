@@ -123,11 +123,11 @@ Partial Class MainFrm
         '
         'HuD_UC1
         '
-        Frame6.Callsign = Nothing
-        Frame6.Sats = 0
-        Frame6.StatusPacketStartText = "sgsballoon:"
-        Frame6.TimeZone = 0
-        Me.HuD_UC1.FrameToDisplay = Frame6
+        'Frame6.Callsign = Nothing
+        'Frame6.Sats = 0
+        'Frame6.StatusPacketStartText = "sgsballoon:"
+        'Frame6.TimeZone = 0
+        'Me.HuD_UC1.FrameToDisplay = Frame6
         Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
         Me.HuD_UC1.Name = "HuD_UC1"
         Me.HuD_UC1.Size = New System.Drawing.Size(430, 181)

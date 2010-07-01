@@ -38,6 +38,7 @@ Partial Class HUD_UC
         Me.dgName = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.dgValue = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.lbcomm = New System.Windows.Forms.Label()
+        Me.lbGPSpos = New System.Windows.Forms.Label()
         CType(Me.dgvData, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,7 +107,7 @@ Partial Class HUD_UC
         Me.lbSpeed.AutoSize = True
         Me.lbSpeed.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbSpeed.ForeColor = System.Drawing.Color.Navy
-        Me.lbSpeed.Location = New System.Drawing.Point(97, 58)
+        Me.lbSpeed.Location = New System.Drawing.Point(111, 58)
         Me.lbSpeed.Name = "lbSpeed"
         Me.lbSpeed.Size = New System.Drawing.Size(0, 16)
         Me.lbSpeed.TabIndex = 2
@@ -197,10 +198,19 @@ Partial Class HUD_UC
         Me.lbcomm.Size = New System.Drawing.Size(0, 13)
         Me.lbcomm.TabIndex = 18
         '
+        'lbGPSpos
+        '
+        Me.lbGPSpos.AutoSize = True
+        Me.lbGPSpos.Location = New System.Drawing.Point(13, 36)
+        Me.lbGPSpos.Name = "lbGPSpos"
+        Me.lbGPSpos.Size = New System.Drawing.Size(0, 13)
+        Me.lbGPSpos.TabIndex = 19
+        '
         'HUD_UC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.lbGPSpos)
         Me.Controls.Add(Me.lbcomm)
         Me.Controls.Add(Me.dgvData)
         Me.Controls.Add(Me.Label3)
@@ -238,5 +248,6 @@ Partial Class HUD_UC
     Friend WithEvents dgName As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents dgValue As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents lbcomm As System.Windows.Forms.Label
+    Friend WithEvents lbGPSpos As System.Windows.Forms.Label
 
 End Class

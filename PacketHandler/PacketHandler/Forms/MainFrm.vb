@@ -5,8 +5,8 @@ Public Class MainFrm
     Private GlobalSettings_ As New GlobalSettings
     ' Private Interfaces As New Collection()      'used to hold interfaceParents
     Private Interfaces As New List(Of InterfaceParent)
-    Private GoodFrames As New Collection()
-    Private CrapFrames As New Collection()
+    Private Frames As New Collection()      'stores for the purpose of what order frames arrived in
+
 
     Private Function ContainsInterface(ByVal input As String) As Boolean
         For i As Integer = 0 To Interfaces.Count - 1
@@ -14,6 +14,24 @@ Public Class MainFrm
         Next
         Return False
     End Function
+    Private Function ContainsSetting(ByVal name As String, ByVal col As List(Of InterfaceSettings)) As Boolean
+        For i As Integer = 0 To col.Count - 1
+            If col(i).InterfaceName = name Then Return True
+        Next
+    End Function
+    Private Sub AddToFile(ByVal file As String, ByVal data As String)
+
+        ' Try
+        Dim writer As New System.IO.StreamWriter(file, True)
+
+        writer.WriteLine(data)
+
+        writer.Close()
+        ' Catch
+        'End Try
+    End Sub
+
+#Region "Button events"
 
     Private Sub btnSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSettings.Click
         Dim dialog As New settingsFrm
@@ -28,91 +46,6 @@ Public Class MainFrm
 
     End Sub
 
-    Private Sub UpdateForm()
-
-
-
-        For i As Integer = 0 To tabData.TabPages.Count - 1
-            tabData.TabPages.Remove(tabData.TabPages(0))
-        Next
-
-        Dim tabpg As Windows.Forms.TabPage
-
-        Dim rtb As RichTextBox
-
-        tabpg = New Windows.Forms.TabPage("All Data")
-        rtb = New RichTextBox
-        tabpg.Name = "All Data"
-        rtb.Dock = System.Windows.Forms.DockStyle.Fill
-        tabpg.Controls.Add(rtb)
-        tabpg.UseVisualStyleBackColor = True
-        tabData.TabPages.Add(tabpg)
-
-        For Each i As InterfaceSettings In GlobalSettings_.Interfaces
-            tabpg = New Windows.Forms.TabPage(i.InterfaceName)
-            rtb = New RichTextBox
-            tabpg.Name = i.InterfaceName
-
-            rtb.Dock = System.Windows.Forms.DockStyle.Fill
-            ' rtb.Size = New Drawing.Point(60, 60)
-            tabpg.Controls.Add(rtb)
-            'tabpg.Container.Add(New Windows.Forms.RichTextBox())
-            'tabpg.Padding = New System.Windows.Forms.Padding(3)
-            'tabpg.Size = New System.Drawing.Size(429, 206)
-            tabpg.UseVisualStyleBackColor = True
-
-            tabData.TabPages.Add(tabpg)
-            '   tabData.TabPages.Add("ewd"
-        Next
-    End Sub
-
-    Private Sub UpdateInterfaces()
-        'updates interfaces list and adds events
-
-        For i As Integer = 0 To Interfaces.Count - 1
-            If Not GlobalSettings_.ContainsInterface(Interfaces(i).InterfaceName) Then
-                Interfaces.RemoveAt(i)
-            End If
-        Next
-
-
-        For Each i As InterfaceSettings In GlobalSettings_.Interfaces   'add new interfaces
-            If Not ContainsInterface(i.InterfaceName) Then
-                Interfaces.Add(New InterfaceParent(i))
-                AddHandler Interfaces(Interfaces.Count - 1).LineRecievedbyte, AddressOf LineReceivedByte
-                AddHandler Interfaces(Interfaces.Count - 1).LineRecievedStr, AddressOf LineReceivedStr
-            End If
-        Next
-
-
-    End Sub
-
-    Private Sub LineReceivedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
-        Debug.WriteLine(output)
-        Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
-        GoodFrames.Add(frame)
-
-        AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
-
-        For Each i As InterfaceParent In Interfaces
-            If i.InterfaceName <> InterfaceDetails.InterfaceName Then
-                If i.CanWrite = True Then
-                    i.Write(frame)
-                End If
-            End If
-        Next
-
-    End Sub
-    Private Sub LineReceivedByte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
-        Debug.WriteLine(output.ToString)
-
-
-        For Each b As Byte In output
-            Debug.Write(b.ToString & ", ")
-        Next
-
-        Debug.WriteLine("")
-    End Sub
 
     'Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
     '    UpdateForm()
@@ -154,45 +87,11 @@ Public Class MainFrm
         GlobalSettings_.SaveToDisk("TEST.xml")
     End Sub
 
-    Private Sub HuD_UC1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HuD_UC1.Load
-
-    End Sub
-
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        Dim pf As New PacketStructure
-        pf.PacketType = PacketFormats.UKHAS
-        pf.LoadXML("C:\apexi.xml")
-        Dim fr As Frame = New Frame("$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL", pf)
-
-
-
-    End Sub
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
 
 
 
-
- 
-
-
-
-    End Sub
-
-    'Private Sub GoodFramesAdd(ByVal frame As Frame)
-    '    '  If GoodFrames.
-    'End Sub
-
-    Private Sub AddToFile(ByVal file As String, ByVal data As String)
-
-        ' Try
-        Dim writer As New System.IO.StreamWriter(file, True)
-
-        writer.WriteLine(data)
-
-        writer.Close()
-        ' Catch
-        'End Try
     End Sub
 
     Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
@@ -259,4 +158,121 @@ Public Class MainFrm
         '  End Try
 
     End Sub
+
+    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+        Dim pf As New PacketStructure
+        pf.PacketType = PacketFormats.UKHAS
+        pf.LoadXML("C:\apexi.xml")
+        Dim fr As Frame = New Frame("$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL", pf)
+
+
+
+    End Sub
+
+#End Region
+
+#Region "update functions"
+
+    Private Sub UpdateForm()
+
+
+
+        For i As Integer = 0 To tabData.TabPages.Count - 1
+            tabData.TabPages.Remove(tabData.TabPages(0))
+        Next
+
+        Dim tabpg As Windows.Forms.TabPage
+
+        Dim rtb As RichTextBox
+
+        tabpg = New Windows.Forms.TabPage("All Data")
+        rtb = New RichTextBox
+        tabpg.Name = "All Data"
+        rtb.Dock = System.Windows.Forms.DockStyle.Fill
+        tabpg.Controls.Add(rtb)
+        tabpg.UseVisualStyleBackColor = True
+        tabData.TabPages.Add(tabpg)
+
+        For Each i As InterfaceSettings In GlobalSettings_.Interfaces
+            tabpg = New Windows.Forms.TabPage(i.InterfaceName)
+            rtb = New RichTextBox
+            tabpg.Name = i.InterfaceName
+
+            rtb.Dock = System.Windows.Forms.DockStyle.Fill
+            ' rtb.Size = New Drawing.Point(60, 60)
+            tabpg.Controls.Add(rtb)
+            'tabpg.Container.Add(New Windows.Forms.RichTextBox())
+            'tabpg.Padding = New System.Windows.Forms.Padding(3)
+            'tabpg.Size = New System.Drawing.Size(429, 206)
+            tabpg.UseVisualStyleBackColor = True
+
+            tabData.TabPages.Add(tabpg)
+            '   tabData.TabPages.Add("ewd"
+        Next
+    End Sub
+
+    Private Sub UpdateInterfaces()
+        'updates interfaces list and adds events
+
+        For i As Integer = 0 To Interfaces.Count - 1
+            If Not GlobalSettings_.ContainsInterface(Interfaces(i).InterfaceName) Then
+                Interfaces.RemoveAt(i)
+            End If
+        Next
+
+
+        For Each i As InterfaceSettings In GlobalSettings_.Interfaces   'add new interfaces
+            If Not ContainsInterface(i.InterfaceName) Then
+                Interfaces.Add(New InterfaceParent(i))
+                AddHandler Interfaces(Interfaces.Count - 1).LineRecievedbyte, AddressOf LineReceivedByte
+                AddHandler Interfaces(Interfaces.Count - 1).LineRecievedStr, AddressOf LineReceivedStr
+            End If
+        Next
+
+        For Each i As InterfaceParent In Interfaces
+            If Not ContainsSetting(i.InterfaceName, GlobalSettings_.Interfaces) Then
+                Interfaces.Remove(i)
+            End If
+        Next
+
+
+    End Sub
+
+#End Region
+
+#Region "packet recieved"
+
+    Private Sub LineReceivedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
+        Debug.WriteLine(output)
+        Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
+        Frames.Add(frame)
+        HuD_UC1.FrameToDisplay = frame
+
+        AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
+
+        For Each i As InterfaceParent In Interfaces
+            If i.InterfaceName <> InterfaceDetails.InterfaceName Then
+                If i.CanWrite = True Then
+                    i.Write(frame)
+                End If
+            Else
+                i.StoreFrame(frame)
+            End If
+        Next
+
+    End Sub
+    Private Sub LineReceivedByte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
+        Debug.WriteLine(output.ToString)
+
+
+        For Each b As Byte In output
+            Debug.Write(b.ToString & ", ")
+        Next
+
+        Debug.WriteLine("")
+    End Sub
+
+#End Region
+
+
 End Class

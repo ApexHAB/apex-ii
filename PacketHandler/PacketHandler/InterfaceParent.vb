@@ -17,6 +17,10 @@
     Private InputBuffer(inputBufferSize) As Byte
     Private InputBufferPtr As Integer
 
+    Private Frames As New Collection() '(Of String, Frame)     'stores all frames through this interface - contains only one packet of valid chksum, unlimited of nonvalid chksum
+    Private FrameIDList As New List(Of Integer)             'does not store nonvalid checksums
+
+
     Public Event LineRecievedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
     Public Event LineRecievedbyte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String) '## add from/to fields
 
@@ -85,6 +89,25 @@
 
     End Sub
 
+    Public Sub StoreFrame(ByVal Frame As Frame)
+        'can only store one packet of the same id if the chksum is correct
+
+        If Frame.CheckSum = True Then
+            If FrameIDList.Contains(Frame.PcktCounter) Then Exit Sub
+
+            FrameIDList.Add(Frame.PcktCounter)
+            Frames.Add(Frame, Frame.PcktCounter.ToString)
+
+        Else
+            Dim i As Integer = 0
+            While Frames.Contains("N" + Frame.PcktCounter + "-" + i)
+                i = i + 1
+            End While
+            Frames.Add(Frame, Frame.PcktCounter.ToString)
+        End If
+
+    End Sub
+
     Private Sub fldigiRecievied() Handles FLDigiHandler.DataRecieved
 
         Dim input() As Byte = FLDigiHandler.ReadBufferChars()
@@ -139,6 +162,7 @@
     End Sub
 
     Public Sub WriteMappoint(ByVal coords As GPScoord, ByVal sequence As Integer, Optional ByVal PinType As Integer = 1, Optional ByVal weight As Single = 0.5, Optional ByVal name As String = "")
+        'aim to remove this function and let the one above do all its stuff
         If interfacesettings_.InterfaceType = InterfaceTypes.MAPPOINT Then
             MappointHandler.PlotPoint(coords, name, sequence, PinType, weight)
         End If

@@ -57,6 +57,7 @@ Public Class EditInterfaceSettings
         Dim tempPanel = New System.Windows.Forms.Panel
         tempPanel.Size = New Drawing.Size(1, 1)
         genericUC = tempPanel
+        If settings_.InterfaceName <> "" Then txtName.Enabled = False
         UpdateFields()
 
 
