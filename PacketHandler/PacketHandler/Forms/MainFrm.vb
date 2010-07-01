@@ -14,11 +14,6 @@ Public Class MainFrm
         Next
         Return False
     End Function
-    Private Function ContainsSetting(ByVal name As String, ByVal col As List(Of InterfaceSettings)) As Boolean
-        For i As Integer = 0 To col.Count - 1
-            If col(i).InterfaceName = name Then Return True
-        Next
-    End Function
     Private Sub AddToFile(ByVal file As String, ByVal data As String)
 
         ' Try
@@ -73,10 +68,11 @@ Public Class MainFrm
         'Dim frame As New Frame(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), pf)
         'HuD_UC1.FrameToDisplay = frame
         'GoodFrames.Add(frame)
-        Dim isd As New InterfaceSettings()
-        isd.PacketStructure = pf
-        isd.InterfaceName = "moo"
-        LineReceivedStr(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), isd, "", "")
+        'Dim isd As New InterfaceSettings()
+        'isd.PacketStructure = pf
+        'isd.InterfaceName = "Manual"
+        Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+        LineReceivedStr(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), Interfaces(0).GetInterfaceSettings, "", "")
 
 
     End Sub
@@ -148,9 +144,15 @@ Public Class MainFrm
 
 
             str = reader.ReadLine()
-            Dim frame As New Frame(str, pf)
-            If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
+            If str <> "" Then
+                ' Dim frame As New Frame(str, pf)
 
+                Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+                LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "")
+
+
+                ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
+            End If
         End While
 
         ' Catch
@@ -175,8 +177,6 @@ Public Class MainFrm
 
     Private Sub UpdateForm()
 
-
-
         For i As Integer = 0 To tabData.TabPages.Count - 1
             tabData.TabPages.Remove(tabData.TabPages(0))
         Next
@@ -193,7 +193,7 @@ Public Class MainFrm
         tabpg.UseVisualStyleBackColor = True
         tabData.TabPages.Add(tabpg)
 
-        For Each i As InterfaceSettings In GlobalSettings_.Interfaces
+        For Each i As InterfaceParent In Interfaces
             tabpg = New Windows.Forms.TabPage(i.InterfaceName)
             rtb = New RichTextBox
             tabpg.Name = i.InterfaceName
@@ -211,11 +211,32 @@ Public Class MainFrm
         Next
     End Sub
 
+    Private Sub AddToRTB(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
+        If tabData.TabPages.ContainsKey(tabpagename) = True Then
+            Try
+                Dim i As Integer = 0
+                Dim obj As Object = tabData.TabPages(tabpagename).Controls(0)
+                i = obj.TextLength
+                obj.SelectionStart = i
+                obj.SelectionColor = colour
+                obj.appendtext(text)
+
+                obj = tabData.TabPages(0).Controls(0)
+                i = obj.TextLength
+                obj.SelectionStart = i
+                obj.SelectionColor = colour
+                obj.appendtext(text)
+
+            Catch
+            End Try
+        End If
+    End Sub
+
     Private Sub UpdateInterfaces()
         'updates interfaces list and adds events
 
         For i As Integer = 0 To Interfaces.Count - 1
-            If Not GlobalSettings_.ContainsInterface(Interfaces(i).InterfaceName) Then
+            If Not ((GlobalSettings_.ContainsInterface(Interfaces(i).InterfaceName)) Or (Interfaces(i).InterfaceName = "Manual")) Then
                 Interfaces.RemoveAt(i)
             End If
         Next
@@ -229,12 +250,6 @@ Public Class MainFrm
             End If
         Next
 
-        For Each i As InterfaceParent In Interfaces
-            If Not ContainsSetting(i.InterfaceName, GlobalSettings_.Interfaces) Then
-                Interfaces.Remove(i)
-            End If
-        Next
-
 
     End Sub
 
@@ -243,17 +258,30 @@ Public Class MainFrm
 #Region "packet recieved"
 
     Private Sub LineReceivedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
-        Debug.WriteLine(output)
+        ' Debug.WriteLine(output)
         Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
         Frames.Add(frame)
         HuD_UC1.FrameToDisplay = frame
+
+        If frame.CheckSum = True Then
+            AddToRTB(frame.RawString, Color.Black, InterfaceDetails.InterfaceName)
+        Else
+            AddToRTB(frame.RawString, Color.Red, InterfaceDetails.InterfaceName)
+        End If
+
 
         AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
 
         For Each i As InterfaceParent In Interfaces
             If i.InterfaceName <> InterfaceDetails.InterfaceName Then
                 If i.CanWrite = True Then
-                    i.Write(frame)
+                    If i.Write(frame, InterfaceDetails) = True Then
+                        If frame.CheckSum = True Then
+                            AddToRTB(frame.RawString, Color.Black, i.InterfaceName)
+                        Else
+                            AddToRTB(frame.RawString, Color.Red, i.InterfaceName)
+                        End If
+                    End If
                 End If
             Else
                 i.StoreFrame(frame)
@@ -275,4 +303,12 @@ Public Class MainFrm
 #End Region
 
 
+    Private Sub MainFrm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Dim i As New InterfaceSettings
+        i.InterfaceName = "Manual"
+        i.InterfaceType = InterfaceTypes.BLANK
+        Interfaces.Add(New InterfaceParent(i))
+        UpdateForm()
+
+    End Sub
 End Class

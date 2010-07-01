@@ -45,7 +45,12 @@
         timeSinceLastTmr.Enabled = True
         lbcomm.Text = FrameToDisplay_.Comment
 
-        lbGPSpos.Text = Math.Round(FrameToDisplay_.GPSCoordinates.sLatitudeDecimal, 4).ToString + "  " + Math.Round(FrameToDisplay_.GPSCoordinates.sLongitudeDecimal, 4).ToString
+        If FrameToDisplay_.GPSCoordinates Is Nothing Then
+            lbGPSpos.Text = ""
+        Else
+            lbGPSpos.Text = Math.Round(FrameToDisplay_.GPSCoordinates.sLatitudeDecimal, 4).ToString + "  " + Math.Round(FrameToDisplay_.GPSCoordinates.sLongitudeDecimal, 4).ToString
+
+        End If
 
         For i As Integer = 1 To dgvData.Rows.Count
             If dgvData.Rows(0).IsNewRow Then Exit For

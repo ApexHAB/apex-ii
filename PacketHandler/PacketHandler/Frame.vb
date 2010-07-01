@@ -25,6 +25,7 @@ Public Class Frame
     Private statuspackett_ As String = "sgsballoon:"
     Public xTimeZone_ As Integer
 
+    Private RawString_ As String
 
     Private pcktcount_ As Integer       'as sent
     Private gpsSats_ As Integer         'no sats using
@@ -33,6 +34,12 @@ Public Class Frame
 
 
 #Region "Properties"
+
+    Public ReadOnly Property RawString As String
+        Get
+            Return RawString_
+        End Get
+    End Property
     Public ReadOnly Property CheckSum As Boolean
         Get
             If packetStructure_.PacketType = PacketFormats.APRS Then Return True
@@ -216,6 +223,7 @@ Public Class Frame
     End Sub
 
     Public Sub New(ByVal FrameString As String, ByVal pkStructure As PacketStructure)
+        RawString_ = FrameString
         Select Case pkStructure.PacketType
             Case PacketFormats.APRS
                 DecodeAPRS(FrameString)

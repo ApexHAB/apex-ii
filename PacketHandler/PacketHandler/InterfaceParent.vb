@@ -100,10 +100,10 @@
 
         Else
             Dim i As Integer = 0
-            While Frames.Contains("N" + Frame.PcktCounter + "-" + i)
+            While Frames.Contains("N" & Frame.PcktCounter.ToString() & "-" & i.ToString())
                 i = i + 1
             End While
-            Frames.Add(Frame, Frame.PcktCounter.ToString)
+            Frames.Add(Frame, "N" & Frame.PcktCounter.ToString() & "-" & i.ToString())
         End If
 
     End Sub
@@ -151,15 +151,24 @@
 
     End Sub
 
-    Public Sub Write(ByVal frame As Frame, Optional ByVal frameOrigin As InterfaceSettings = Nothing)  'this function formats the frame as it feels best
+    Public Function Write(ByVal frame As Frame, Optional ByVal frameOrigin As InterfaceSettings = Nothing) As Boolean  'this function formats the frame as it feels best
 
         Select Case interfacesettings_.InterfaceType
             Case InterfaceTypes.MAPPOINT
-                MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 1, 5, 0.5)
+                Select Case frameOrigin.InterfaceName
+                    Case "Manual"
+                        MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 2, 3, 0.5)
+                    Case Else
+                        MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 1, 5, 0.5)
+                End Select
+                Return True
+
+            Case Else
 
         End Select
 
-    End Sub
+        Return False
+    End Function
 
     Public Sub WriteMappoint(ByVal coords As GPScoord, ByVal sequence As Integer, Optional ByVal PinType As Integer = 1, Optional ByVal weight As Single = 0.5, Optional ByVal name As String = "")
         'aim to remove this function and let the one above do all its stuff

@@ -87,16 +87,16 @@
                 Select Case xmlrd.Name
                     Case "sentence_delimiter"
 
-                        Debug.WriteLine("SD " + xmlrd.ReadElementContentAsString)
+                        ' Debug.WriteLine("SD " + xmlrd.ReadElementContentAsString)
 
                     Case "field_delimiter"
-                        Debug.WriteLine("FD " + xmlrd.ReadElementContentAsString)
+                        'Debug.WriteLine("FD " + xmlrd.ReadElementContentAsString)
 
                     Case "fields"
-                        Debug.WriteLine("Fs " + xmlrd.ReadElementContentAsString)
+                        ' Debug.WriteLine("Fs " + xmlrd.ReadElementContentAsString)
 
                     Case "callsign"
-                        Debug.WriteLine("cs " + xmlrd.ReadElementContentAsString)
+                        '  Debug.WriteLine("cs " + xmlrd.ReadElementContentAsString)
 
                     Case "field"
                         Dim fld As New PacketField
