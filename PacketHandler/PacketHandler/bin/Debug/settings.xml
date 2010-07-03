@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GlobalSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <logFolder>C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug</logFolder>
+  <Interfaces />
+  <TimeZone>0</TimeZone>
+  <UseUTC>false</UseUTC>
+</GlobalSettings>

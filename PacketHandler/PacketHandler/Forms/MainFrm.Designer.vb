@@ -22,7 +22,7 @@ Partial Class MainFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim Frame6 As PacketHandler.Frame = New PacketHandler.Frame()
+        Dim Frame1 As PacketHandler.Frame = New PacketHandler.Frame()
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.tabData = New System.Windows.Forms.TabControl()
         Me.tpAllData = New System.Windows.Forms.TabPage()
@@ -32,8 +32,8 @@ Partial Class MainFrm
         Me.Button2 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
-        Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.btnLoad = New System.Windows.Forms.Button()
+        Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.SuspendLayout()
@@ -42,7 +42,7 @@ Partial Class MainFrm
         '
         Me.btnSettings.Location = New System.Drawing.Point(393, 12)
         Me.btnSettings.Name = "btnSettings"
-        Me.btnSettings.Size = New System.Drawing.Size(56, 26)
+        Me.btnSettings.Size = New System.Drawing.Size(63, 26)
         Me.btnSettings.TabIndex = 0
         Me.btnSettings.Text = "Settings"
         Me.btnSettings.UseVisualStyleBackColor = True
@@ -78,11 +78,11 @@ Partial Class MainFrm
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(260, 12)
+        Me.Button1.Location = New System.Drawing.Point(193, 12)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(65, 26)
+        Me.Button1.Size = New System.Drawing.Size(63, 26)
         Me.Button1.TabIndex = 2
-        Me.Button1.Text = "Button1"
+        Me.Button1.Text = "Manual"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'btnBalloonUplink
@@ -91,14 +91,14 @@ Partial Class MainFrm
         Me.btnBalloonUplink.Name = "btnBalloonUplink"
         Me.btnBalloonUplink.Size = New System.Drawing.Size(56, 26)
         Me.btnBalloonUplink.TabIndex = 3
-        Me.btnBalloonUplink.Text = "Send"
+        Me.btnBalloonUplink.Text = "Uplink"
         Me.btnBalloonUplink.UseVisualStyleBackColor = True
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(189, 12)
+        Me.Button2.Location = New System.Drawing.Point(76, 7)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(65, 26)
+        Me.Button2.Size = New System.Drawing.Size(65, 16)
         Me.Button2.TabIndex = 5
         Me.Button2.Text = "Button2"
         Me.Button2.UseVisualStyleBackColor = True
@@ -121,26 +121,26 @@ Partial Class MainFrm
         Me.Button4.Text = "Button4"
         Me.Button4.UseVisualStyleBackColor = True
         '
+        'btnLoad
+        '
+        Me.btnLoad.Location = New System.Drawing.Point(262, 12)
+        Me.btnLoad.Name = "btnLoad"
+        Me.btnLoad.Size = New System.Drawing.Size(63, 26)
+        Me.btnLoad.TabIndex = 9
+        Me.btnLoad.Text = "Load"
+        Me.btnLoad.UseVisualStyleBackColor = True
+        '
         'HuD_UC1
         '
-        'Frame6.Callsign = Nothing
-        'Frame6.Sats = 0
-        'Frame6.StatusPacketStartText = "sgsballoon:"
-        'Frame6.TimeZone = 0
-        'Me.HuD_UC1.FrameToDisplay = Frame6
+        Frame1.Callsign = Nothing
+        Frame1.Sats = 0
+        Frame1.StatusPacketStartText = "sgsballoon:"
+        Frame1.TimeZone = 0
+        Me.HuD_UC1.FrameToDisplay = Frame1
         Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
         Me.HuD_UC1.Name = "HuD_UC1"
         Me.HuD_UC1.Size = New System.Drawing.Size(430, 181)
         Me.HuD_UC1.TabIndex = 6
-        '
-        'btnLoad
-        '
-        Me.btnLoad.Location = New System.Drawing.Point(120, 7)
-        Me.btnLoad.Name = "btnLoad"
-        Me.btnLoad.Size = New System.Drawing.Size(63, 27)
-        Me.btnLoad.TabIndex = 9
-        Me.btnLoad.Text = "Load"
-        Me.btnLoad.UseVisualStyleBackColor = True
         '
         'MainFrm
         '

@@ -1,5 +1,13 @@
 ﻿Public Class InterfaceParent
 
+    Public Enum InterfaceStatus
+        Inactive
+        Active
+        Inactive_ConRefused
+        Inactive_NotFound
+        Inactive_NotImplemented
+    End Enum
+
     Private interfacesettings_ As New InterfaceSettings
 
     Private WithEvents AGWPEHandler As AGWPE_APRSPacketHandler      'all different objects for whatever hte class may need to interface too
@@ -12,6 +20,9 @@
     Private CanWrite_ As Boolean
     Private CanRead_ As Boolean
 
+    Private Status_ As InterfaceStatus = InterfaceStatus.Inactive
+    Private error_ As Exception
+
     Const inputBufferSize = 2048
 
     Private InputBuffer(inputBufferSize) As Byte
@@ -23,8 +34,20 @@
 
     Public Event LineRecievedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
     Public Event LineRecievedbyte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String) '## add from/to fields
+    Public Event InterfaceStatusChange(ByVal NewStatus As InterfaceStatus, ByVal Message As String, ByVal InterfaceDetails As InterfaceSettings)
 
+#Region "Properties"
 
+    Public ReadOnly Property Status As InterfaceStatus
+        Get
+            Return Status_
+        End Get
+    End Property
+    Public ReadOnly Property CurrentError As Exception
+        Get
+            Return error_
+        End Get
+    End Property
 
 
     Public ReadOnly Property CanWrite() As Boolean
@@ -53,6 +76,7 @@
         End Get
     End Property
 
+#End Region
 
     Public Sub New(ByVal _interfaceSettings As InterfaceSettings)
         interfacesettings_ = _interfaceSettings
@@ -74,17 +98,43 @@
                 CanWrite_ = False
                 CanRead_ = False
         End Select
+        Try
+            Select Case interfacesettings_.InterfaceType
+                Case InterfaceTypes.SERIALMODEM
+                    SerialHandler = New SerialPortInterface(interfacesettings_, True)
+                    Status_ = InterfaceStatus.Active
+                    '  Case InterfaceTypes.AGWPE
+                Case InterfaceTypes.FLDIGI
+                    FLDigiHandler = New TCPInterface(interfacesettings_.TCPHost, interfacesettings_.TCPPort, True)
+                    Status_ = InterfaceStatus.Active
+                Case InterfaceTypes.MAPPOINT
+                    MappointHandler = New MapPointInterface()
+                    Status_ = InterfaceStatus.Active
+                Case Else
+                    Status_ = InterfaceStatus.Inactive_NotImplemented
 
-        Select Case interfacesettings_.InterfaceType
-            Case InterfaceTypes.SERIALMODEM
-            Case InterfaceTypes.AGWPE
-            Case InterfaceTypes.FLDIGI
-                FLDigiHandler = New TCPInterface(interfacesettings_.InterfaceTypeSpecificSettings.Host, interfacesettings_.InterfaceTypeSpecificSettings.Port, True)
-            Case InterfaceTypes.MAPPOINT
-                MappointHandler = New MapPointInterface()
+            End Select
 
-        End Select
 
+            RaiseEvent InterfaceStatusChange(Status_, "", interfacesettings_)
+
+        Catch ex1 As System.Net.Sockets.SocketException
+            Dim i As Integer = 0
+            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
+                Status_ = InterfaceStatus.Inactive_ConRefused
+            End If
+            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
+                Status_ = InterfaceStatus.Inactive_NotFound
+            End If
+            error_ = ex1
+
+            RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
+
+        Catch ex As Exception
+            error_ = ex
+            Status_ = InterfaceStatus.Inactive
+            RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
+        End Try
 
 
     End Sub
@@ -148,7 +198,11 @@
     End Sub
 
     Public Sub Write(ByVal input As String)
-
+        Select Case interfacesettings_.InterfaceType
+            Case InterfaceTypes.SERIALMODEM
+                SerialHandler.SendData(input)
+        End Select
+        Debug.WriteLine("DATA WRITTEN - " & input)
     End Sub
 
     Public Function Write(ByVal frame As Frame, Optional ByVal frameOrigin As InterfaceSettings = Nothing) As Boolean  'this function formats the frame as it feels best

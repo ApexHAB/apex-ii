@@ -2,8 +2,7 @@
 
 Public Class EditInterfaceSettings
     Private settings_ As New InterfaceSettings      'object to hold settings about the interface and pass them back to the calling form
-    Private genericUC As New Object                 'generic object to hold the interface specific use control of the form
-
+    
 
 #Region "Properties"
     'to allow private variables to be accessed publically
@@ -35,11 +34,15 @@ Public Class EditInterfaceSettings
         End If
 
 
-        If genericUC.GetType.Name <> "Panel" Then   'if interface specific settings window isnt blank
-            settings_.InterfaceTypeSpecificSettings = genericUC.Settings    'put the settings from the speific user control into the general settings
-        End If
+        'If genericUC.GetType.Name <> "Panel" Then   'if interface specific settings window isnt blank
+        '    settings_.InterfaceTypeSpecificSettings = genericUC.Settings    'put the settings from the speific user control into the general settings
+        'End If
 
-
+        settings_.sPort = cmbsPort.Text
+        settings_.sBaud = Val(txtsBaud.Text)
+        settings_.sDatabits = Val(txtDataBits.Text)
+        settings_.sParity = cmbsParity.SelectedIndex
+        settings_.sStopbits = cmbsStop.SelectedIndex
 
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
@@ -56,7 +59,7 @@ Public Class EditInterfaceSettings
         'create a blank user control to use as the defualt for the specific part of the form
         Dim tempPanel = New System.Windows.Forms.Panel
         tempPanel.Size = New Drawing.Size(1, 1)
-        genericUC = tempPanel
+        ' genericUC = tempPanel
         If settings_.InterfaceName <> "" Then txtName.Enabled = False
         UpdateFields()
 
@@ -75,6 +78,17 @@ Public Class EditInterfaceSettings
         txtName.Text = settings_.InterfaceName
 
         txtXMLpacket.Text = settings_.XMLStructurePath
+
+
+        For i As Integer = 0 To My.Computer.Ports.SerialPortNames.Count - 1
+            cmbsPort.Items.Add(My.Computer.Ports.SerialPortNames(i))
+        Next
+        cmbsPort.SelectedText = settings_.sPort
+        cmbsParity.SelectedIndex = settings_.sParity
+        cmbsStop.SelectedIndex = settings_.sStopbits
+        txtsBaud.Text = settings_.sBaud.ToString
+        txtDataBits.Text = settings_.sDatabits.ToString
+
 
         For i As Integer = 0 To InterfaceTypes.Length - 1
             cmbInterfaceTypes.Items.Add(EnumToStr(CType(i, InterfaceTypes)))
@@ -115,36 +129,58 @@ Public Class EditInterfaceSettings
     End Sub
 
     Private Sub cmbInterfaceTypes_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmbInterfaceTypes.SelectedIndexChanged
-        'update the interface specific part of the form
+        ' update the interface specific part of the form
         Select Case StrToEnumInterfaceTypes(cmbInterfaceTypes.SelectedItem)
             Case InterfaceTypes.SERIALMODEM
-                AddToPanel(New SerialPortSettings, New SerialPortSettingsUC)
+                gpSerial.Enabled = True
+                gpTCP.Enabled = False
+                gpXML.Enabled = False
+                'AddToPanel(New SerialPortSettings, New SerialPortSettingsUC)
             Case InterfaceTypes.FLDIGI
-                AddToPanel(New FLDigiSettings, New FLDigiSettingsUC)
+                'AddToPanel(New FLDigiSettings, New FLDigiSettingsUC)
+                gpSerial.Enabled = False
+                gpTCP.Enabled = True
+                gpXML.Enabled = True
             Case InterfaceTypes.AGWPE
-                AddToPanel(New AGWPESettings, New AGWPESettingsUC)
+                gpSerial.Enabled = False
+                gpTCP.Enabled = True
+                gpXML.Enabled = True
+                'AddToPanel(New AGWPESettings, New AGWPESettingsUC)
             Case InterfaceTypes.MAPPOINT
-                AddToPanel(New MappointSettings, New MappointSettingsUC)
+                gpSerial.Enabled = False
+                gpTCP.Enabled = False
+                gpXML.Enabled = False
+                'AddToPanel(New MappointSettings, New MappointSettingsUC)
             Case InterfaceTypes.GOOGLEEARTH
-                AddToPanel(New GoogleEarthSettings, New GoogleEarthsettingsUC)
+                gpSerial.Enabled = False
+                gpTCP.Enabled = True
+                gpXML.Enabled = False
+                'AddToPanel(New GoogleEarthSettings, New GoogleEarthsettingsUC)
             Case Else
-
-                Panel1.Controls.Remove(genericUC)
-                Dim tempPanel = New System.Windows.Forms.Panel
-                tempPanel.Size = New Drawing.Size(1, 1)
-                genericUC = tempPanel
-                Panel1.Controls.Add(genericUC)
+                gpSerial.Enabled = False
+                gpTCP.Enabled = False
+                gpXML.Enabled = False
+                'Panel1.Controls.Remove(genericUC)
+                'Dim tempPanel = New System.Windows.Forms.Panel
+                'tempPanel.Size = New Drawing.Size(1, 1)
+                'genericUC = tempPanel
+                'Panel1.Controls.Add(genericUC)
         End Select
+
+
+
+
+
     End Sub
-    Private Sub AddToPanel(ByVal Settings As Object, ByVal Control As Windows.Forms.Control)
-        'adds a user control to the panel
-        Panel1.Controls.Remove(genericUC)
-        genericUC = Control
-        If UCase(settings_.InterfaceTypeSpecificSettings.GetType.Name) = UCase(Settings.GetType.Name) Then
-            genericUC.settings = settings_.InterfaceTypeSpecificSettings
-        End If
-        Panel1.Controls.Add(genericUC)
-    End Sub
+    'Private Sub AddToPanel(ByVal Settings As Object, ByVal Control As Windows.Forms.Control)
+    '    'adds a user control to the panel
+    '    Panel1.Controls.Remove(genericUC)
+    '    genericUC = Control
+    '    If UCase(settings_.InterfaceTypeSpecificSettings.GetType.Name) = UCase(Settings.GetType.Name) Then
+    '        genericUC.settings = settings_.InterfaceTypeSpecificSettings
+    '    End If
+    '    Panel1.Controls.Add(genericUC)
+    'End Sub
 
     Private Sub chkFilter_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkFilter.CheckedChanged
         pnlFilter.Enabled = chkFilter.Checked
@@ -161,4 +197,5 @@ Public Class EditInterfaceSettings
 
         End If
     End Sub
+
 End Class

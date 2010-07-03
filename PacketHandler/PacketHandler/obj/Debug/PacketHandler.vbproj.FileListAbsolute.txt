@@ -29,13 +29,13 @@ C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MappointSettingsUC.resources
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.UplinkFrm.resources
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.HUD_UC.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.exe
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.pdb
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.xml
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\Interop.MapPoint.dll
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\Interop.MapPoint.dll
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.vbproj.ResolveComReference.cache
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.HUD_UC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.AGWPESettingsUC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.EditInterfaceSettings.resources
@@ -50,6 +50,6 @@ C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.SettingsLinearUC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.read.1.tlog
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.write.1.tlog
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\Interop.MapPoint.dll
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\Interop.MapPoint.dll
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.vbproj.ResolveComReference.cache
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb

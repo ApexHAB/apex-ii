@@ -37,12 +37,12 @@ Public Class TCPInterface
     Public Sub New(ByVal host_ As String, ByVal port_ As Integer, ByVal connect As Boolean)
         host = host_
         port = port_
-        Try
-            client = New System.Net.Sockets.TcpClient(host_, port_)
-            If connect = True Then ConnectTCP()
-        Catch ex As Exception
-            MsgBox(ex.Message)
-        End Try
+        ' Try
+        client = New System.Net.Sockets.TcpClient(host_, port_)
+        If connect = True Then ConnectTCP()
+        ' Catch ex As Exception
+        'MsgBox(ex.Message)
+        ' End Try
     End Sub
 
 

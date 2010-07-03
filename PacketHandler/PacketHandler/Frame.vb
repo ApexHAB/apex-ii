@@ -47,15 +47,13 @@ Public Class Frame
         End Get
     End Property
 
-    Public Property PcktCounter As Integer
+    Public ReadOnly Property PcktCounter As Integer
         Get
             If packetStructure_.PacketType = PacketFormats.UKHAS Then Return pcktcount_
             If packetStructure_.PacketType = PacketFormats.APRS Then Return OnlyNumbers(time_).ToString
             Return 0
         End Get
-        Set(ByVal value As Integer)
-            pcktcount_ = value
-        End Set
+
     End Property
 
     Private Function OnlyNumbers(ByVal input As String) As String

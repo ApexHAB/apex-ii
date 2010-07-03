@@ -2,7 +2,7 @@
     'class which stores data about the structure of the incoming packets
 
     Private CustomDataType_ As Project
-    Private PacketType_ As PacketFormats    'UKHAS or APRS - applies to first part of packet
+    Private PacketType_ As PacketFormats = PacketFormats.BLANK    'UKHAS or APRS - applies to first part of packet
 
 
     Private Fields_ As Dictionary(Of String, PacketField) = New Dictionary(Of String, PacketField) 'integer value is offset in packet
@@ -15,6 +15,8 @@
             PacketType_ = value
         End Set
     End Property
+
+
 
     Public Property GetField(ByVal offset As Integer) As PacketField
         Get

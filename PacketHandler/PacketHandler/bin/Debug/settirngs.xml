@@ -5,20 +5,20 @@
     <InterfaceSettings>
       <TCPHost>127.0.0.1</TCPHost>
       <TCPPort>8080</TCPPort>
-      <sBaud>2400</sBaud>
-      <sPort />
+      <sBaud>50</sBaud>
+      <sPort>COM1</sPort>
       <sParity>None</sParity>
       <sDatabits>8</sDatabits>
       <sStopbits>One</sStopbits>
-      <XMLStructurePath>c:\apexi.xml</XMLStructurePath>
+      <XMLStructurePath />
       <PacketStructure>
         <PacketType>APRS</PacketType>
       </PacketStructure>
       <Enabled>false</Enabled>
-      <InterfaceName>input</InterfaceName>
-      <InterfaceDirection>DataIn</InterfaceDirection>
-      <InterfaceType>FLDIGI</InterfaceType>
-      <DataFormat>UKHAS</DataFormat>
+      <InterfaceName>ser</InterfaceName>
+      <InterfaceDirection>DataBalloonOut</InterfaceDirection>
+      <InterfaceType>SERIALMODEM</InterfaceType>
+      <DataFormat>UPLINK</DataFormat>
       <Filters />
     </InterfaceSettings>
   </Interfaces>

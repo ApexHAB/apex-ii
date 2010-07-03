@@ -78,6 +78,7 @@
     <Compile Include="HUD_UC.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="InterfaceHelper.vb" />
     <Compile Include="InterfaceSpecificSettings\AGWPESettings.vb" />
     <Compile Include="Forms\InterfaceStatus.Designer.vb">
       <DependentUpon>InterfaceStatus.vb</DependentUpon>

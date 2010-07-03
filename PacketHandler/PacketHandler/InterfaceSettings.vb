@@ -12,12 +12,26 @@ Public Class InterfaceSettings
     Private DataFormat_ As PacketFormats = PacketFormats.BLANK                    'specifies whether UKHAS DL, APRS, etc is used
     Private PacketStructure_ As PacketStructure = New PacketStructure()
     Private PacketStructureXMLPath_ As String                                   'the path to populate the above thingy
-    
-    Private InterfaceTypeSpecificSettings_ As New Object ' object to hold settings relevelent to the specified type
+
+    ' Private InterfaceTypeSpecificSettings_ As New Object ' object to hold settings relevelent to the specified type
     Private Enabled_ As Boolean = True
     Private filter_ As New List(Of String)              'list of filters
 
-    
+    'the following probably wont apply to all interfaces - the collection of all the specific interfaces into one class
+    'these are public as i cba to do a property for each one, and this class will soon go to a struct
+
+
+    Public TCPHost As String = "127.0.0.1"
+    Public TCPPort As Integer = 8080
+
+    Public sBaud As Integer = 2400
+    Public sPort As String = ""
+    Public sParity As System.IO.Ports.Parity = IO.Ports.Parity.None
+    Public sDatabits As Integer = 8
+    Public sStopbits As System.IO.Ports.StopBits = IO.Ports.StopBits.One
+
+
+
 
 
 #Region "properties"
@@ -57,11 +71,11 @@ Public Class InterfaceSettings
         End Set
     End Property
 
-    Public Property PacketStructure
+    Public Property PacketStructure As PacketStructure
         Get
             Return PacketStructure_
         End Get
-        Set(ByVal value)
+        Set(ByVal value As PacketStructure)
             PacketStructure_ = value
         End Set
     End Property
@@ -119,16 +133,16 @@ Public Class InterfaceSettings
     '        InterfaceTypeSpecificSettings_ = value
     '    End Set
     'End Property
-    <System.Xml.Serialization.XmlIgnore()> Public Property InterfaceTypeSpecificSettings() As Object
-        Get
-            Return InterfaceTypeSpecificSettings_
+    '<System.Xml.Serialization.XmlIgnore()> Public Property InterfaceTypeSpecificSettings() As Object
+    '    Get
+    '        Return InterfaceTypeSpecificSettings_
 
-        End Get
-        Set(ByVal value As Object)
-            InterfaceTypeSpecificSettings_ = value
+    '    End Get
+    '    Set(ByVal value As Object)
+    '        InterfaceTypeSpecificSettings_ = value
 
-        End Set
-    End Property
+    '    End Set
+    'End Property
 
     Public Property Filters() As List(Of String)
         Get

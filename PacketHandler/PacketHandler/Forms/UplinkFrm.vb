@@ -37,7 +37,7 @@ Public Class UplinkFrm
 
     Private Sub Uplink_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         For Each i As InterfaceSettings In settings_.Interfaces
-            If InterfaceSettings.CanUpload(i) And i.Enabled Then
+            If InterfaceSettings.CanUpload(i) Then ' And i.Enabled Then
                 cmbInterfaces.Items.Add(i.InterfaceName)
             End If
         Next

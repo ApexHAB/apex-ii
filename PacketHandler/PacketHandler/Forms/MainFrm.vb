@@ -40,6 +40,8 @@ Public Class MainFrm
         End If
         UpdateForm()
 
+        GlobalSettings_.SaveToDisk(System.IO.Directory.GetCurrentDirectory() + "\settings.xml")
+
     End Sub
 
 
@@ -51,9 +53,14 @@ Public Class MainFrm
         Dim uplink As New UplinkFrm(GlobalSettings_)
         uplink.ShowDialog()
         If uplink.DialogResult = Windows.Forms.DialogResult.OK Then
-            If ContainsInterface(uplink.MsgInterface) Then
-                Interfaces(uplink.MsgInterface).Write(uplink.MessageSent)
-            End If
+            For Each i As InterfaceParent In Interfaces
+                If i.InterfaceName = uplink.MsgInterface Then
+                    i.Write(uplink.MessageSent)
+                    AddToRTB(Date.UtcNow.ToShortTimeString, Color.Purple, uplink.MsgInterface)
+                    AddToRTB("  " & uplink.MessageSent & vbCrLf, Color.Black, uplink.MsgInterface)
+
+                End If
+            Next
         End If
 
     End Sub
@@ -200,37 +207,45 @@ Public Class MainFrm
 
     Private Sub UpdateForm()
 
-        For i As Integer = 0 To tabData.TabPages.Count - 1
-            tabData.TabPages.Remove(tabData.TabPages(0))
+
+        For Each t As TabPage In tabData.TabPages
+            If Not (ContainsInterface(t.Name) Or (t.Name = "All Data")) Then tabData.TabPages.Remove(t)
         Next
+
+
 
         Dim tabpg As Windows.Forms.TabPage
 
         Dim rtb As RichTextBox
 
-        tabpg = New Windows.Forms.TabPage("All Data")
-        rtb = New RichTextBox
-        tabpg.Name = "All Data"
-        rtb.Dock = System.Windows.Forms.DockStyle.Fill
-        tabpg.Controls.Add(rtb)
-        tabpg.UseVisualStyleBackColor = True
-        tabData.TabPages.Add(tabpg)
+        If tabData.TabPages.Count = 0 Then
+
+            tabpg = New Windows.Forms.TabPage("All Data")
+            rtb = New RichTextBox
+            tabpg.Name = "All Data"
+            rtb.Dock = System.Windows.Forms.DockStyle.Fill
+            tabpg.Controls.Add(rtb)
+            tabpg.UseVisualStyleBackColor = True
+            tabData.TabPages.Add(tabpg)
+        End If
 
         For Each i As InterfaceParent In Interfaces
-            tabpg = New Windows.Forms.TabPage(i.InterfaceName)
-            rtb = New RichTextBox
-            tabpg.Name = i.InterfaceName
+            If Not tabData.TabPages.ContainsKey(i.InterfaceName) Then
+                tabpg = New Windows.Forms.TabPage(i.InterfaceName)
+                rtb = New RichTextBox
+                tabpg.Name = i.InterfaceName
 
-            rtb.Dock = System.Windows.Forms.DockStyle.Fill
-            ' rtb.Size = New Drawing.Point(60, 60)
-            tabpg.Controls.Add(rtb)
-            'tabpg.Container.Add(New Windows.Forms.RichTextBox())
-            'tabpg.Padding = New System.Windows.Forms.Padding(3)
-            'tabpg.Size = New System.Drawing.Size(429, 206)
-            tabpg.UseVisualStyleBackColor = True
+                rtb.Dock = System.Windows.Forms.DockStyle.Fill
+                ' rtb.Size = New Drawing.Point(60, 60)
+                tabpg.Controls.Add(rtb)
+                'tabpg.Container.Add(New Windows.Forms.RichTextBox())
+                'tabpg.Padding = New System.Windows.Forms.Padding(3)
+                'tabpg.Size = New System.Drawing.Size(429, 206)
+                tabpg.UseVisualStyleBackColor = True
 
-            tabData.TabPages.Add(tabpg)
-            '   tabData.TabPages.Add("ewd"
+                tabData.TabPages.Add(tabpg)
+                '   tabData.TabPages.Add("ewd"
+            End If
         Next
     End Sub
 
@@ -326,12 +341,24 @@ Public Class MainFrm
 #End Region
 
 
+
     Private Sub MainFrm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim i As New InterfaceSettings
         i.InterfaceName = "Manual"
         i.InterfaceType = InterfaceTypes.BLANK
         Interfaces.Add(New InterfaceParent(i))
-        UpdateForm()
 
+
+
+        If Not System.IO.File.Exists(System.IO.Directory.GetCurrentDirectory() + "\settings.xml") Then Exit Sub
+        Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
+        Dim reader As New System.IO.StreamReader(System.IO.Directory.GetCurrentDirectory() + "\settings.xml")
+        GlobalSettings_ = ser.Deserialize(reader)
+        UpdateInterfaces()
+        UpdateForm()
+        UpdateInterfaces()
+        UpdateForm()
     End Sub
+
+
 End Class
