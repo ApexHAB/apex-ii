@@ -11,13 +11,13 @@ symbol memCS = d.6
 symbol radIn = Pind.0	'radiation serial in
 symbol radOut = d.1	'radiation serial out, can be switched with above pin
 
+
 symbol lightCS = d.3
 symbol lightOut = c.0
 symbol lightS0 = c.5
 symbol lightS1 = b.7
 symbol lightS2 = a.4
 symbol lightS3 = a.3
-
 
 symbol FET1 = b.1		'FET O/Ps
 symbol FET2 = d.7
@@ -127,3 +127,55 @@ high radioCSTX
 high radioCSRX
 
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
+
+main:
+high lights2
+high lights3
+low lightCS
+
+count lightout,100,w1
+
+high lightCS
+low a.4
+pause 100
+
+sertxd(" ",#w1)
+pause 200
+
+low lights2
+high lights3
+low lightCS
+
+count lightout,100,w1
+
+high lightCS
+low a.4
+pause 100
+sertxd(" ",#w1)
+pause 200
+
+high lights2
+low lights3
+low lightCS
+
+count lightout,100,w1
+
+high lightCS
+low a.4
+pause 100
+sertxd(" ",#w1)
+pause 200
+low lights2
+low lights3
+low lightCS
+
+count lightout,100,w1
+
+high lightCS
+low a.4
+pause 100
+sertxd(" ",#w1,cr,lf)
+pause 200
+sertxd("g         b          c          r ",cr,lf)
+goto main
+

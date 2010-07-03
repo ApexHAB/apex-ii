@@ -1,7 +1,6 @@
 #picaxe40x2
 #no_data
 '#no_table
-#slot 0
 symbol rtcCS = b.6
 symbol MISO = Pina.3
 symbol MOSI = a.4
@@ -100,12 +99,6 @@ symbol PacketPtrl = b38
 symbol PacketPtrh = b39
 symbol PacketPtr = w19
 
-
-symbol TXBaud = 39999	'8mhz:39999 for 50 baud
-symbol TXMode = %110
-symbol RXBaud = B300_8
-symbol RXMode = %111
-
 '########
 '########
 '########
@@ -132,327 +125,25 @@ high rtccs
 high memCS
 high radioCSTX
 high radioCSRX
-high lightcs
 
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 
 
-
-serrxd [2000,main],("C")
-
-run 2
-
-
-
 main:
-
-
-
-
-
-'gosub RTCRAMClear
-RAMptr = 0
-tableptr = 0
-
-'write packet start
-readtable tableptr,b15
-tableptr  = tableptr + 1
-do while b15 <> ","
-	b10 = RAMptr
-	b11 = b15
-	gosub RTCRAMWriteSingle
-	ramptr = ramptr + 1
-	readtable tableptr,b15
-	tableptr  = tableptr + 1
-loop
-
-gosub WriteComma
-
-
-'write packet ID
-
-read PacketPtrlROM,PacketPtrl		'get next packet id
-read PacketPtrhROM,PacketPtrh		
-
-bintoascii PacketPtr,b15,b16,b17,b18,b19	'convert to ascii
-b10 = ramptr
-
-b20 = 5
-if b15 <> "0" then writepckt
-b20 = 4
-if b16 <> "0" then writepckt
-b20 = 3
-if b17 <> "0" then writepckt
-b20 = 2
-if b18 <> "0" then writepckt
-b20 = 1
-
-
-writepckt:
-
-ramptr = ramptr + b20
-
-b11 = 20 - b20
-
-b12 = 19
-gosub RTCRAMWriteMany		'send all 5 values
-gosub WriteComma
-
-
-'GET GPS (time)
-
-
-
-gosub GETUTCTime
-for b20 = 1 to 8			'copy values into free RAM
-	peek b20,b19
-	b18 = b20 + 60
-	poke b18,b19
-next
-if b0 <> 0 then
-	b10 = ramptr
-	ramptr = ramptr + 8
-	b11 = 61
-	b12 = 68
-
-	gosub RTCRAMWriteMany
-endif
-gosub WriteComma
-
-
-
-
-
-'GET GPS (lat)
-
-gosub GetLatitude
-poke 60,"-"
-for b20 = 1 to 9			'copy values into free RAM
-	peek b20,b19
-	b18 = b20 + 60
-	poke b18,b19
-next
-b10 = ramptr
-
-if b0 <> 0 then
-	if b10 = "S" then
-		ramptr = ramptr + 10
-		b11 = 60
-	else
-		ramptr = ramptr + 9
-		b11 = 61
-	endif
-	b12 = 69
-	gosub RTCRAMWriteMany
-endif
-gosub WriteComma
-
-
-
-'GET GPS (long)
-poke 60,"-"
-gosub GetLongitude
-
-b30 = b12
-b31 = b13	'copy # sats
-b32 = b0	'copy whether valid
-
-for b20 = 1 to 10			'copy values into free RAM
-	peek b20,b19
-	b18 = b20 + 60
-	poke b18,b19
-next
-b10 = ramptr
-
-if b0 <> 0 then
-	if b11 = "W" then
-		ramptr = ramptr + 11
-		b11 = 60
-	else
-		ramptr = ramptr + 10
-		b11 = 61
-	endif
-	b12 = 70
-
-	gosub RTCRAMWriteMany
-endif	
-gosub WriteComma
-
-
-'GET GPS (alt)
-
-gosub GetAltitude
-'populate current altitude
-if b0 <> 0 then
-	for b20 = 1 to 5			'copy values into free RAM
-		peek b20,b19
-		b18 = b20 + 20
-		poke b18,b19
-	next
-	b10 = ramptr
-	
-	b20 = 5
-	if b21 <> "0" then writealt
-	b20 = 4
-	if b22 <> "0" then writealt
-	b20 = 3
-	if b23 <> "0" then writealt
-	b20 = 2
-	if b24 <> "0" then writealt
-	b20 = 1
-
-	
-	
-	writealt:
-	
-	ramptr = ramptr + b20
-
-	b11 = 26 - b20
-	b12 = 25
-	gosub RTCRAMWriteMany
-	
-	b5 = b5 - 48
-	b4 = b4 - 48
-	b3 = b3 - 48
-	b2 = b2 - 48
-	b1 = b1 - 48
-	
-	if b5 > 9 then altdone
-	if b4 > 9 then altdone
-	if b3 > 9 then altdone
-	if b2 > 9 then altdone
-	if b1 > 9 then altdone			
-
-	w25 = b5
-	
-	w11 = b4 * 10
-	w25 = w25 + w11
-	w11 = b3 * 100
-	w25 = w25 + w11
-	w11 = b2 * 1000
-	w25 = w25 + w11
-	w11 = b1 * 10000
-	w25 = w25 + w11
-
-	
-	sertxd("alt: ",#w25,cr,lf,cr,lf)
-	
-	altdone:
-	
-endif
-
-
-'check if current altitude > highest
-	'update highest
-
-
-gosub WriteComma
-
-'GPS speed
-
-
-
-'gosub WriteComma
-
-'GPS bearing
-
-
-
-'gosub WriteComma
-
-'GPS sats
-
-if b32 <> 0 then
-	b10 = ramptr
-	ramptr = ramptr + 2
-	b11 = 30
-	b12 = 31
-	gosub RTCRAMWriteMany
-endif
-
-gosub WriteComma
-'phone stuff
-
-
-
-
-'gosub WriteComma
-'take pictures
-
-
-
-
-'check ADC channels
-#rem
-b10 = 0
-gosub ADCShift
-for b16 = 1 to 4
-
-	gosub writecomma
-
-	b10 = b16
-	b10 = b10 AND %11		'sending 4 on final loop is not a valid number
-	gosub ADCShift
-'	w0 = 1494
-	
-	w5 = w0
-	gosub bintohex
-	
-	
-	b10 = ramptr
-	b11 = 1
-	b12 = 3
-	ramptr = ramptr + 3
-	gosub RTCRAMWriteMany
-
-next
-#endrem
-
-b10 = 0
-gosub ADCShift
-b10 = 0
-gosub ADCShift
-w5 = w0
-gosub bintohex
-b10 = ramptr
-b11 = 1
-b12 = 3
-ramptr = ramptr + 3
-gosub RTCRAMWriteMany
-
-gosub writecomma
-b10 = 1
-gosub ADCShift
-b10 = 1
-gosub ADCShift
-w5 = w0
-gosub bintohex
-b10 = ramptr
-b11 = 1
-b12 = 3
-ramptr = ramptr + 3
-gosub RTCRAMWriteMany
-
-gosub writecomma
-
-
-'check humidity
-
-
 
 'check light
 
 high lightS2
 low lightS3
 
-for b25 = 1 to 3
+for b15 = 1 to 3
 
 	
 	low lights1
 	low lights0
-	b16 = b25 AND 1
+	b16 = b15 AND 1
 	if b16 = 1 then : high lights1 endif
-	b16 = b25 AND %10
+	b16 = b15 AND %10
 	if b16 = %10 then : high lightS0 endif
 	
 	low lightCS
@@ -461,16 +152,17 @@ for b25 = 1 to 3
 	high lightCS
 	
 	if b17 > 40 then highenough
-	if b25 = 3 then highenough
-
+	if b15 = 3 then highenough
 
 next
-
+low a.4
+pause 100
+sertxd("_")
 highenough:
 low a.4
 pause 100
-sertxd("scale - ",#b25,cr,lf)
-sertxd("red - ",#b17,cr,lf)
+sertxd("scaling: ",#b15,"   ")
+sertxd("clear: ",#b17,"   ")
 
 b11 = b17
 
@@ -480,19 +172,20 @@ low lightCS
 pause 20
 count lightout,10,b10
 high lightCS
+
 low a.4
 pause 100
-sertxd("red - ",#b10,cr,lf)
+sertxd("red - ",#b10,"   ")
 
-gosub bintohex
+'gosub bintohex
 
 b10 = ramptr
 ramptr = ramptr + 4
 b11 = 0
 b12 = 3
-gosub RTCRAMWriteMany
+'gosub RTCRAMWriteMany
 
-b16 = b25 AND 1					'lightS0 is shared by clk so restore value
+b16 = b15 AND 1					'lightS0 is shared by clk so restore value
 if b16 = 1 then : high lights1 endif
 
 high lightS2
@@ -503,7 +196,7 @@ count lightout,10,b11
 high lightCS
 low a.4
 pause 100
-sertxd("grn - ",#b11,cr,lf)
+sertxd("grn - ",#b11,"   ")
 
 low lightS2
 high lightS3
@@ -521,200 +214,19 @@ b10 = ramptr
 ramptr = ramptr + 4
 b11 = 0
 b12 = 3
-gosub RTCRAMWriteMany
+'gosub RTCRAMWriteMany
 
-gosub writecomma
+'gosub writecomma
 
 b16 = b16 + 48
 b10 = ramptr
 ramptr = ramptr + 1
-b11 = 25
-b12 = 25
+b11 = 16
+b12 = 16
 
-gosub writecomma
-DirsA = DirsA AND %11110111	'set GPS input pins as inputs
-'IRD comms
-
-
-
-
-
-
-'turn off RX/hserin
-hsersetup OFF
-
-
-'check temp
-
-
-'process RX buffer
-ptr = 0
-do
-	if @ptrinc = "#" then		
-		if @ptrinc = "#" then
-			gosub commandfound
-		endif
-		
-		
-	endif
-loop while ptr < 253
-
-
-
-
-
-
-
-'check for texts
-
-
-
-'write crlf
-b19 = cr
-b20 = lf
-b10 = ramptr
-b11 = 19
-b12 = 20
-ramptr = ramptr + 2
-gosub RTCRAMWriteMany
-
-'copy RTC RAM to spad
-ptr = 0
-for w8 = 0 to 1023
-	@ptrinc = 0
-next
-
-ramptr = ramptr - 1	'so ptr now contains the last bit of data rather than next location
-
-b10 = 0
-b11 = ramptr
-gosub RTCRAMReadSpad
-
-
-'write to flash
-
-b10 = ramptr
-b13 = 0
-w7 = PacketPtr
-gosub FlashWritePage
-
-
-'increment and write counter
-
-PacketPtr = PacketPtr + 1
-write PacketPtrhROM,PacketPtrh
-write PacketPtrlROM,PacketPtrl
-
-'transmit scratchpad
-hsersetup TXBaud, TXMode
-ptr = 0
-for b16 = 0 to ramptr
-	hserout 0,(@ptrinc)
-next
-hsersetup OFF
-'sertxd for testing
-
-ptr = 0
-for b15 = 0 to ramptr
-sertxd(@ptrinc)
-next
-sertxd(cr,lf)
-
-
-'enable RX
-ptr = 0
-for w8 = 0 to 1023
-	@ptrinc = 0		'clear spad
-next
-
-hsersetup RXBaud, RXMode
-
-'wait 10
+'gosub writecomma
+wait 1
 goto main
-
-
-
-
-commandfound:
-'starts at 0x80
-b15 = 0x80	'start of each sequence pointer
-b16 = 0x80	'moving pointer
-'b17 - holds value @ b16
-'b18 - number of matching chars
-b18 = 0
-b19 = ptr	' hold the entry value for ptr
-
-do while ptr < 254
-	
-	read b16,b17
-	if @ptrinc <> b17	then
-		ptr = b19	'reset ptr		
-		b15 = b15 + 10
-		if b15 >= 0xF8 then : return endif
-		b18 = 0
-	else
-		b18 = b18 + 1
-	endif
-	
-	if b18 = 10 then
-		b15 = b15 - 0x80  ' remove memory offset
-		b15 = b15 / 10
-		branch b15,(pingcmd,cdwncmd)
-		return
-	endif	
-
-loop
-
-
-return
-
-
-
-
-pingcmd:
-b19 = ","
-b20 = "P"
-b21 = "O"
-b22 = "N"
-b23 = "G"
-
-b10 = ramptr
-ramptr = ramptr + 5
-b11 = 19
-b12 = 23
-gosub RTCRAMWriteMany
-
-return
-
-cdwncmd:
-
-high FET2
-pause 500
-low FET2
-
-b19 = ","
-b20 = "C"
-b21 = "D"
-b22 = "W"
-b23 = "N"
-
-b10 = ramptr
-ramptr = ramptr + 5
-b11 = 19
-b12 = 23
-gosub RTCRAMWriteMany
-
-
-return
-
-
-
-
-
-
-
-
-
 
 
 '################################################
@@ -835,6 +347,7 @@ high memCS
 
 return
 
+
 FlashWritePage:
 'main function for writing data from spad - must write to a clear page
 'b10 - bytes to write
@@ -933,7 +446,7 @@ RTCWriteSingle:
 
 low sclk
 low rtccs
-b10 = b10 OR %10000000		'set MSB for read
+b10 = b10 OR %10000000		'set MSB for write
 
 
 
@@ -1100,44 +613,6 @@ bcd_decimal:
 
 return
 
-
-bintohex:
-'b10,b11 input
-'b0,b1 output for b11
-'b2,b3 output for b10
-
-b45 = b10 AND %1111
-if b45 > 9 then
-	b3 = b45 + 55
-else
-	b3 = b45 + 48
-endif
-b10 = b10 >> 4
-b45 = b10 AND %1111
-if b45 > 9 then
-	b2 = b45 + 55
-else
-	b2 = b45 + 48
-endif
-
-b45 = b11 AND %1111
-if b45 > 9 then
-	b1 = b45 + 55
-else
-	b1 = b45 + 48
-endif
-b11 = b11 >> 4
-b45 = b11 AND %1111
-if b45 > 9 then
-	b0 = b45 + 55
-else
-	b0 = b45 + 48
-endif
-
-
-return
-
-
 clockout:
 
 'uses b45-b48
@@ -1163,73 +638,7 @@ next b45
 low MOSI
 return
 
-#rem
-'###############################################################
-'###############################################################
-				'GPS commands - for testing
-'###############################################################
-'###############################################################
 
-'needs support for heading/speed/altitude
-'symbol GPSIn1 = b.2
-
-GetLatitude:
-'b0 - X if timeout
-'result in variables b1-b9
-'b9 - E/W or ',' for no fix
-
-
-' use b45 to skip over decimal point
-
-
-b0 = 0
-b1 = "5"
-b2 = "1"
-b3 = "."
-b4 = "3"
-b5 = "7"
-b6 = "1"
-b7 = "9"
-b8 = "5"
-b9 = "N"
-return
-
-GetLongitude:
-'b0 - X if timeout
-'result in variables b1-b10
-
-b0 = 0
-b1 = "0"
-b2 = "0"
-b3 = "0"
-b4 = "."
-b5 = "7"
-b6 = "1"
-b7 = "9"
-b8 = "5"
-b9 = "7"
-b10 = "W"
-return
-
-
-GetUTCTime:
-'b0 - X if timeout
-'b1,b2 - hour
-'b3 - ':'
-'b4,b5 - minute
-'b6 - ':'
-'b7,b8 - sec
-b0 = 0
-b1 = "1"
-b2 = "2"
-b3 = ":"
-b4 = "0"
-b5 = "4"
-b6 = ":"
-b7 = "5"
-b8 = "4"
-return
-#endrem
 
 '###############################################################
 '###############################################################
@@ -1284,14 +693,6 @@ low MOSI
 return
 
 
-
-
-
-
-
-
-'#rem
-
 '###############################################################
 '###############################################################
 				'GPS commands
@@ -1302,101 +703,101 @@ return
 'symbol GPSIn1 = b.2
 
 GetLatitude:
-'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
-'result in variables b1-b10
-'b10 - N/S or ',' for no fix
+'b0 - X if timeout
+'result in variables b1-b9
+'b9 - E/W or ',' for no fix
 
 
 ' use b45 to skip over decimal point
-serin [2000,endgps], GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b6,b7,b8,b9,b45,b10',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0
-'serin [2000,endlat], GPSIn2,T4800,(",")
+serin [2000,endlat], GPSIn1,T2400,("$GPGGA,")
+serin 4,T2400,(","),b1,b2,b3,b4,b45,b5,b6,b7,b8,b45,b9
 
-'sertxd("Lat",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
+'sertxd("Lat",b1,b2,b3,b4,b5,b6,b7,b8,b9)
 
-'if b10 <> "," then	'Will be E or W if position is known, otherwise ,
+if b9 <> "," then	'Will be E or W if position is known, otherwise ,
 
-'endif
-
-if b1 = "," then
-	b0 = 0
-else
-	b0 = 1
 endif
 
+b0 = 0
 return
-
+endlat:
+for b0 = 1 to 9
+	poke b0,"X"
+next
+b0 = "X"
+return
 
 GetLongitude:
-'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
-'result in variables b1-b11
-'b11 as b10 as above
-'b12:b13 - # sats
-serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b45,b11,b45,b45,b45,b12,b13
-'serin [2000,endlong],GPSIn2,T4800,(",")
-'serin [2000,endlong],GPSIn2,T4800,(","),b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9,b45,b10'b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9
-'sertxd("Lon",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
-'sertxd(b12,b13,cr,lf)
-if b0 = "," then 
-	b0 = 0
-else
-	b0 = 1
-endif	
+'b0 - X if timeout
+'result in variables b1-b10
 
+serin [2000,endlong],GPSIn1,T2400,("$GPGGA,")
+serin [2000,endlong],GPSIn1,T2400,(",")
+serin [2000,endlong],GPSIn1,T2400,(","),b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9,b45,b10'b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9
+'sertxd("Lon",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
+b0 = 0
 return
-
-
-
-GetAltitude:
-'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
-'result in variables b1-b5
-'b11 as b10 as above
-'b12:b13 - # sats
-serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b45,b11,b45,b45,b45,b12,b13,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5
-'serin [2000,endlong],GPSIn2,T4800,(",")
-'serin [2000,endlong],GPSIn2,T4800,(","),b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9,b45,b10'b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9
-'sertxd("Lon",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
-'sertxd(b12,b13,cr,lf)
-if b0 = "," then 
-	b0 = 0
-else
-	b0 = 1
-endif	
-
+endlong:
+for b0 = 1 to 10
+	poke b0,"X"
+next
+b0 = "X"
 return
 
 GetUTCTime:
-
+'b0 - X if timeout
 'b1,b2 - hour
 'b3 - ':'
 'b4,b5 - minute
 'b6 - ':'
 'b7,b8 - sec
-'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
-
-serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b1,b2,b4,b5,b7,b8',b45,b45,b45,b45,b0',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b9,b10
+serin [2000,endtime],GPSIn1,T2400,("$GPGGA,"),b1,b2,b4,b5,b7,b8
 'sertxd("UTC: ",b1,b2,"h ",b3,b4,"m ",b5,b6,"s", 13,10)
-
-if b2 = "," then
-	b0 = 0
-else
-	b0 = 1
-endif
-
+b0 = 0
 b3 = ":"
 b6 = ":"
 return
-
-
-endgps:
-b0 = 0
+endtime:
+for b0 = 1 to 8
+	poke b0,"X"
+next
+b0 = "X"
 return
 
-'#endrem
 
 
-ConfigureGPS:
+bintohex:
+'b10,b11 input
+'b0,b1 output for b11
+'b2,b3 output for b10
 
-'gpsout2
+b45 = b10 AND %1111
+if b45 > 9 then
+	b3 = b45 + 55
+else
+	b3 = b45 + 48
+endif
+b10 = b10 >> 4
+b45 = b10 AND %1111
+if b45 > 9 then
+	b2 = b45 + 55
+else
+	b2 = b45 + 48
+endif
+
+b45 = b11 AND %1111
+if b45 > 9 then
+	b1 = b45 + 55
+else
+	b1 = b45 + 48
+endif
+b11 = b11 >> 4
+b45 = b11 AND %1111
+if b45 > 9 then
+	b0 = b45 + 55
+else
+	b0 = b45 + 48
+endif
 
 
-return 
+return
