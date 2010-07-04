@@ -348,9 +348,29 @@ endif
 
 gosub WriteComma
 
-'GPS speed
+'GPS speed/bearing
 
+gosub GetLatitude
+poke 60,"-"
+for b20 = 1 to 9			'copy values into free RAM
+	peek b20,b19
+	b18 = b20 + 60
+	poke b18,b19
+next
+b10 = ramptr
 
+if b0 <> 0 then
+	if b10 = "S" then
+		ramptr = ramptr + 10
+		b11 = 60
+	else
+		ramptr = ramptr + 9
+		b11 = 61
+	endif
+	b12 = 69
+	gosub RTCRAMWriteMany
+endif
+gosub WriteComma
 
 'gosub WriteComma
 
@@ -1445,6 +1465,23 @@ if b0 = "," then
 else
 	b0 = 1
 endif	
+
+return
+
+GetSpeedBearing:
+
+'b7-b11 : bearing
+'b1-b5 : speed kms
+'b6 - ","
+
+
+serin [2000,endgps],GPSIn2,T4800,("GPVTG,"),b7,b8,b9,b10,b11,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5
+b6 = ","
+if b1 = "," then
+	b0 = 0
+else
+	b0 = 1
+endif
 
 return
 

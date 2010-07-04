@@ -114,6 +114,3 @@ D:\Users\Matt\Documents\Visual Studio 2008\Projects\APRS Analyser\APRS Analyser\
 \\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.vbproj.GenerateResource.Cache
 \\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe.manifest
 \\192.168.1.70\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.application
-C:\Users\Matt\Documents\APEX\PacketHandler\Reference-Code\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.exe
-C:\Users\Matt\Documents\APEX\PacketHandler\Reference-Code\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.xml
-C:\Users\Matt\Documents\APEX\PacketHandler\Reference-Code\APRS Analyser\APRS Analyser\obj\Debug\APRS Analyser.pdb

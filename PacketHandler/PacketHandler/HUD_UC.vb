@@ -9,6 +9,74 @@
 
 #End Region
 
+#Region "threading"
+    Delegate Sub readsetd()
+    Delegate Sub readsetdDL(ByVal doGPS As Boolean, ByVal doData As Boolean)
+    Delegate Sub SetRTBd(ByVal text As String, ByVal BoxToChange As RichTextBox)
+    Delegate Sub SetLBd(ByVal text As String, ByVal LabelToChange As Label)
+    Delegate Sub SetListd(ByVal text As String, ByVal ListToChange As ListBox)
+    Delegate Sub Updated()
+    Private Sub SetRTB(ByVal value As String, ByVal BoxToChange As RichTextBox)
+        Dim a(1) As Object
+        If BoxToChange.InvokeRequired Then
+            Dim del As New SetRTBd(AddressOf SetRTB)
+            a(0) = value
+            a(1) = BoxToChange
+            Me.Invoke(del, a)
+        Else
+            BoxToChange.Text = BoxToChange.Text & value
+            ' BoxToChange.SelectionStart = BoxToChange.Find(value)
+            'BoxToChange.SelectionColor = Color.Yellow
+        End If
+    End Sub
+
+    Private Sub SetList(ByVal value As String, ByVal ListToChange As ListBox)
+        Dim a(1) As Object
+        If ListToChange.InvokeRequired Then
+            Dim del As New SetListd(AddressOf SetList)
+            a(0) = value
+            a(1) = ListToChange
+            Me.Invoke(del, a)
+        Else
+            ListToChange.Items.Add(value)
+        End If
+    End Sub
+
+    Private Sub SetLB(ByVal value As String, ByVal LabelToChange As Label)
+        Dim a(1) As Object
+        If LabelToChange.InvokeRequired Then
+            Dim del As New SetLBd(AddressOf SetLB)
+            a(0) = value
+            a(1) = LabelToChange
+            Me.Invoke(del, a)
+        Else
+            LabelToChange.Text = value
+        End If
+    End Sub
+
+    Private Sub Updateth()
+        Dim a(1) As Object
+        If lbAlt.InvokeRequired Then
+            Dim del As New readsetd(AddressOf Updateth)
+            Me.Invoke(del)
+        Else
+            UpdateDisplay()
+        End If
+    End Sub
+
+    'Private Sub ReadSDL(Optional ByVal doGPS As Boolean = True, Optional ByVal doData As Boolean = True)
+    '    Dim a(1) As Object
+    '    If lbBV.InvokeRequired Then
+    '        Dim del As New readsetdDL(AddressOf ReadSDL)
+    '        a(0) = doGPS
+    '        a(1) = doData
+    '        Me.Invoke(del, a)
+    '    Else
+    '        ReadAndSetDL(doGPS, doData)
+    '    End If
+    'End Sub
+#End Region
+
 #Region "Properties"
 
     Public Property FrameToDisplay() As Frame
@@ -21,7 +89,7 @@
             lbTimer.Text = ""
             timeSinceLastTmr.Stop()
             timeSinceLastTmr.Start()
-            UpdateDisplay()
+            Updateth()
         End Set
     End Property
 

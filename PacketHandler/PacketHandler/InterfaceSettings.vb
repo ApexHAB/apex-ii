@@ -9,7 +9,7 @@ Public Class InterfaceSettings
     Private InterfaceName_ As String = ""    'unique string to identify interface to end user
     Private InterfaceDirection_ As InterfaceDirections = InterfaceDirections.BLANK   'specifies what data travels through this interface
     Private InterfaceType_ As InterfaceTypes = InterfaceTypes.BLANK            'specifies interface's type
-    Private DataFormat_ As PacketFormats = PacketFormats.BLANK                    'specifies whether UKHAS DL, APRS, etc is used
+    ' Private DataFormat_ As PacketFormats = PacketFormats.BLANK                    'specifies whether UKHAS DL, APRS, etc is used
     Private PacketStructure_ As PacketStructure = New PacketStructure()
     Private PacketStructureXMLPath_ As String                                   'the path to populate the above thingy
 
@@ -116,14 +116,14 @@ Public Class InterfaceSettings
         End Set
     End Property
 
-    Public Property DataFormat() As PacketFormats
-        Get
-            Return DataFormat_
-        End Get
-        Set(ByVal value As PacketFormats)
-            DataFormat_ = value
-        End Set
-    End Property
+    'Public Property DataFormat() As PacketFormats
+    '    Get
+    '        Return DataFormat_
+    '    End Get
+    '    Set(ByVal value As PacketFormats)
+    '        DataFormat_ = value
+    '    End Set
+    'End Property
 
     'Public Property InterfaceTypeSpecificSettings() As FLDigiSettings
     '    Get

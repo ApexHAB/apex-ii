@@ -8,6 +8,46 @@ Public Class MainFrm
     Private Frames As New Collection()      'stores for the purpose of what order frames arrived in
     Private testingXMLPath = ""
 
+    Delegate Sub AddtoRTBDel(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
+    'Delegate Sub RecievedDel(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
+    'Delegate Sub AddFrameDel(ByVal Frame As Frame)
+
+    Private Sub AddToRTBTh(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
+        Dim a(2) As Object ' = {text, colour, tabpagename}
+        a(0) = text
+        a(1) = colour
+        a(2) = tabpagename
+        If tabData.InvokeRequired Then
+            Dim del As New AddtoRTBDel(AddressOf AddToRTBTh)
+            Me.Invoke(del, a)
+        Else
+            AddToRTB(text, colour, tabpagename)
+        End If
+    End Sub
+
+    'Private Sub HUDSetFrame(ByVal fframe As Frame)
+    '    If HuD_UC1.InvokeRequired Then
+    '        Dim del As New AddFrameDel(AddressOf HUDSetFrame)
+    '        Me.Invoke(del, fframe)
+    '    Else
+    '        HuD_UC1.FrameToDisplay = fframe
+    '    End If
+    'End Sub
+
+    'Private Sub DoRecieved(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
+    '    Dim a(3) As Object
+    '    If btnLoad.InvokeRequired Then
+    '        Dim del As New RecievedDel(AddressOf DoRecieved)
+    '        a(0) = output
+    '        a(1) = InterfaceDetails
+    '        a(2) = ToCall
+    '        a(3) = FromCall
+    '        Me.Invoke(del, a)
+    '    Else
+    '        DoRecievedStuff(output, InterfaceDetails, ToCall, FromCall)
+    '    End If
+    'End Sub
+
 
     Private Function ContainsInterface(ByVal input As String) As Boolean
         For i As Integer = 0 To Interfaces.Count - 1
@@ -233,6 +273,7 @@ Public Class MainFrm
             If Not tabData.TabPages.ContainsKey(i.InterfaceName) Then
                 tabpg = New Windows.Forms.TabPage(i.InterfaceName)
                 rtb = New RichTextBox
+                rtb.Name = "rtb" & i.InterfaceName
                 tabpg.Name = i.InterfaceName
 
                 rtb.Dock = System.Windows.Forms.DockStyle.Fill
@@ -251,22 +292,27 @@ Public Class MainFrm
 
     Private Sub AddToRTB(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
         If tabData.TabPages.ContainsKey(tabpagename) = True Then
-            Try
-                Dim i As Integer = 0
-                Dim obj As Object = tabData.TabPages(tabpagename).Controls(0)
+            ' Try
+            Dim obj As Object
+            Dim i As Integer = 0
+            If tabpagename <> "" Then
+
+                obj = tabData.TabPages(tabpagename).Controls(0)
                 i = obj.TextLength
                 obj.SelectionStart = i
                 obj.SelectionColor = colour
                 obj.appendtext(text)
+
+            Else
 
                 obj = tabData.TabPages(0).Controls(0)
                 i = obj.TextLength
                 obj.SelectionStart = i
                 obj.SelectionColor = colour
                 obj.appendtext(text)
-
-            Catch
-            End Try
+            End If
+            '  Catch
+            '  End Try
         End If
     End Sub
 
@@ -295,16 +341,21 @@ Public Class MainFrm
 
 #Region "packet recieved"
 
+
+
     Private Sub LineReceivedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
         ' Debug.WriteLine(output)
+
+        'DoRecieved(output, InterfaceDetails, ToCall, FromCall)
+
         Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
         Frames.Add(frame)
         HuD_UC1.FrameToDisplay = frame
 
         If frame.CheckSum = True Then
-            AddToRTB(frame.RawString, Color.Black, InterfaceDetails.InterfaceName)
+            AddToRTBTh(frame.ProcessedString, Color.Black, InterfaceDetails.InterfaceName)
         Else
-            AddToRTB(frame.RawString, Color.Red, InterfaceDetails.InterfaceName)
+            AddToRTBTh(frame.ProcessedString, Color.Red, InterfaceDetails.InterfaceName)
         End If
 
 
@@ -315,9 +366,9 @@ Public Class MainFrm
                 If i.CanWrite = True Then
                     If i.Write(frame, InterfaceDetails) = True Then
                         If frame.CheckSum = True Then
-                            AddToRTB(frame.RawString, Color.Black, i.InterfaceName)
+                            AddToRTBTh(frame.ProcessedString, Color.Black, i.InterfaceName)
                         Else
-                            AddToRTB(frame.RawString, Color.Red, i.InterfaceName)
+                            AddToRTBTh(frame.ProcessedString, Color.Red, i.InterfaceName)
                         End If
                     End If
                 End If
@@ -358,6 +409,10 @@ Public Class MainFrm
         UpdateForm()
         UpdateInterfaces()
         UpdateForm()
+
+        For Each i_ As InterfaceSettings In GlobalSettings_.Interfaces
+            i_.PacketStructure.LoadXML(i.XMLStructurePath)
+        Next
     End Sub
 
 

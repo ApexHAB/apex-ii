@@ -21,7 +21,7 @@ Public Class EditInterfaceSettings
 
         'update settings with whats been entered in boxes
         settings_.XMLStructurePath = txtXMLpacket.Text
-        settings_.DataFormat = StrToEnumPacketFormat(cmbDataFormat.SelectedItem)
+        settings_.PacketStructure.PacketType = StrToEnumPacketFormat(cmbDataFormat.SelectedItem)
         settings_.InterfaceDirection = StrToEnumInterfaceDirection(cmbDirection.SelectedItem)
         settings_.InterfaceType = StrToEnumInterfaceTypes(cmbInterfaceTypes.SelectedItem)
         settings_.InterfaceName = txtName.Text
@@ -43,6 +43,9 @@ Public Class EditInterfaceSettings
         settings_.sDatabits = Val(txtDataBits.Text)
         settings_.sParity = cmbsParity.SelectedIndex
         settings_.sStopbits = cmbsStop.SelectedIndex
+
+        settings_.TCPHost = txtTCPHost.Text
+        settings_.TCPPort = txtTCPPort.Text
 
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         Me.Close()
@@ -101,7 +104,7 @@ Public Class EditInterfaceSettings
         cmbInterfaceTypes.SelectedItem = EnumToStr(settings_.InterfaceType)
         cmbDirection.SelectedItem = EnumToStr(settings_.InterfaceDirection)
         UpdatePacketFormats()
-        cmbDataFormat.SelectedItem = EnumToStr(settings_.DataFormat)
+        cmbDataFormat.SelectedItem = EnumToStr(settings_.PacketStructure.PacketType)
 
         If settings_.Filters.Count > 0 Then
             chkFilter.Checked = True

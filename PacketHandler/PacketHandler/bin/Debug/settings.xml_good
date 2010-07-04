@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GlobalSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <logFolder>F:\PacketHandler\PacketHandler\bin\Debug</logFolder>
+  <logFolder>C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug</logFolder>
   <Interfaces>
+    <InterfaceSettings>
+      <TCPHost>127.0.0.1</TCPHost>
+      <TCPPort>8080</TCPPort>
+      <sBaud>2400</sBaud>
+      <sPort />
+      <sParity>None</sParity>
+      <sDatabits>8</sDatabits>
+      <sStopbits>One</sStopbits>
+      <XMLStructurePath />
+      <PacketStructure>
+        <PacketType>BLANK</PacketType>
+      </PacketStructure>
+      <Enabled>false</Enabled>
+      <InterfaceName>mp</InterfaceName>
+      <InterfaceDirection>DataSharingOut</InterfaceDirection>
+      <InterfaceType>MAPPOINT</InterfaceType>
+      <DataFormat>BLANK</DataFormat>
+      <Filters />
+    </InterfaceSettings>
     <InterfaceSettings>
       <TCPHost>127.0.0.1</TCPHost>
       <TCPPort>7322</TCPPort>
@@ -14,28 +33,11 @@
       <PacketStructure>
         <PacketType>UKHAS</PacketType>
       </PacketStructure>
-      <Enabled>true</Enabled>
-      <InterfaceName>DLFL</InterfaceName>
+      <Enabled>false</Enabled>
+      <InterfaceName>fgh</InterfaceName>
       <InterfaceDirection>DataIn</InterfaceDirection>
       <InterfaceType>FLDIGI</InterfaceType>
-      <Filters />
-    </InterfaceSettings>
-    <InterfaceSettings>
-      <TCPHost>127.0.0.1</TCPHost>
-      <TCPPort>7322</TCPPort>
-      <sBaud>2400</sBaud>
-      <sPort />
-      <sParity>None</sParity>
-      <sDatabits>8</sDatabits>
-      <sStopbits>One</sStopbits>
-      <XMLStructurePath />
-      <PacketStructure>
-        <PacketType>UKHAS</PacketType>
-      </PacketStructure>
-      <Enabled>false</Enabled>
-      <InterfaceName>MP</InterfaceName>
-      <InterfaceDirection>DataSharingOut</InterfaceDirection>
-      <InterfaceType>MAPPOINT</InterfaceType>
+      <DataFormat>UKHAS</DataFormat>
       <Filters />
     </InterfaceSettings>
   </Interfaces>

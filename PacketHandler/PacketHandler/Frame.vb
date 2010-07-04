@@ -13,7 +13,7 @@ Public Class Frame
     Private GPScoord_ As GPScoord
     Private gpsal_ As Integer = 0   'gps altitude   (m)
     Private gpssp_ As Single = 0   'gps speed
-    Private gpsh_ As Integer = 0    'gps heading    (degrees)
+    Private gpsh_ As Single = 0    'gps heading    (degrees)
     Private rcomment_ As String = ""        'custom data on the string
     Private comm_ As String = ""            'comment on the end of the custom string
     Private valid_ As Boolean = False       'a valid packet?
@@ -26,6 +26,7 @@ Public Class Frame
     Public xTimeZone_ As Integer
 
     Private RawString_ As String
+    Private ProcessedString_ As String
 
     Private pcktcount_ As Integer       'as sent
     Private gpsSats_ As Integer         'no sats using
@@ -35,6 +36,13 @@ Public Class Frame
 
 #Region "Properties"
 
+    Public ReadOnly Property ProcessedString As String
+        Get
+            If ProcessedString_ = "" Then Return RawString_
+            Return ProcessedString_
+        End Get
+    End Property
+
     Public ReadOnly Property RawString As String
         Get
             Return RawString_
@@ -42,6 +50,7 @@ Public Class Frame
     End Property
     Public ReadOnly Property CheckSum As Boolean
         Get
+            If packetStructure_ Is Nothing Then Return chksum_
             If packetStructure_.PacketType = PacketFormats.APRS Then Return True
             Return chksum_
         End Get
@@ -405,6 +414,8 @@ Public Class Frame
             End If
         Next
 
+        ProcessedString_ = packet
+
         packet = packet + ","   'add a comma to the end to mark the end of hte last field
 
         'input now contains the string after $$
@@ -456,7 +467,7 @@ Public Class Frame
                 End If
 
                 If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
-                    gpsh_ = Integer.Parse(fields(i))
+                    gpsh_ = Single.Parse(fields(i))
                 End If
 
                 If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
@@ -522,7 +533,7 @@ Public Class Frame
     Private Function HexToInt_str(ByVal input As String) As String
         If input.Count > 8 Then Return 0
         Dim j = 0
-        Dim outputint As Integer = 0
+        Dim outputint As UInteger = 0
         For i As Integer = 0 To input.Count - 1
             j = (input.Count - 1) - i
             If AscW(Char.ToUpper(input(j))) >= AscW("A") Then

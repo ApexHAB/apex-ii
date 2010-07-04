@@ -62,7 +62,7 @@
     End Property
     Public ReadOnly Property DataFormat() As PacketFormats
         Get
-            Return interfacesettings_.DataFormat
+            Return interfacesettings_.PacketStructure.PacketType
         End Get
     End Property
     Public ReadOnly Property InterfaceName()
@@ -80,6 +80,9 @@
 
     Public Sub New(ByVal _interfaceSettings As InterfaceSettings)
         interfacesettings_ = _interfaceSettings
+        ' If interfacesettings_.PacketStructure Is Nothing Then
+        interfacesettings_.PacketStructure.LoadXML(interfacesettings_.XMLStructurePath)
+        ' End If
 
         Select Case interfacesettings_.InterfaceDirection
             Case InterfaceDirections.DataBalloonOut
@@ -171,6 +174,7 @@
                     str = str & ChrW(InputBuffer(i))
                 Next
                 RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                Debug.WriteLine(str)
                 InputBufferPtr = 0
             Else
                 If InputBufferPtr >= inputBufferSize Then
@@ -178,6 +182,7 @@
                         str = str & ChrW(c)
                     Next
                     RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                    Debug.WriteLine(str)
                     InputBufferPtr = 0
                 Else
 
