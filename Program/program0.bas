@@ -350,9 +350,9 @@ gosub WriteComma
 
 'GPS speed/bearing
 
-gosub GetLatitude
-poke 60,"-"
-for b20 = 1 to 9			'copy values into free RAM
+gosub GetSpeedBearing
+
+for b20 = 1 to 11			'copy values into free RAM
 	peek b20,b19
 	b18 = b20 + 60
 	poke b18,b19
@@ -360,15 +360,12 @@ next
 b10 = ramptr
 
 if b0 <> 0 then
-	if b10 = "S" then
-		ramptr = ramptr + 10
-		b11 = 60
-	else
-		ramptr = ramptr + 9
-		b11 = 61
-	endif
-	b12 = 69
+	ramptr = ramptr + 11
+	b11 = 61
+	b12 = 71
 	gosub RTCRAMWriteMany
+else
+	gosub WriteComma	
 endif
 gosub WriteComma
 
