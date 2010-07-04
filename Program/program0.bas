@@ -525,12 +525,12 @@ gosub RTCRAMWriteMany
 
 gosub writecomma
 
-b16 = b16 + 48
+b25 = b25 + 48
 b10 = ramptr
 ramptr = ramptr + 1
 b11 = 25
 b12 = 25
-
+gosub RTCRAMWriteMany
 gosub writecomma
 DirsA = DirsA AND %11110111	'set GPS input pins as inputs
 'IRD comms
@@ -569,14 +569,7 @@ loop while ptr < 253
 
 
 
-'write crlf
-b19 = cr
-b20 = lf
-b10 = ramptr
-b11 = 19
-b12 = 20
-ramptr = ramptr + 2
-gosub RTCRAMWriteMany
+
 
 'copy RTC RAM to spad
 ptr = 0
@@ -589,6 +582,53 @@ ramptr = ramptr - 1	'so ptr now contains the last bit of data rather than next l
 b10 = 0
 b11 = ramptr
 gosub RTCRAMReadSpad
+
+'CRC
+
+symbol crc = w9
+symbol k = w10
+symbol byte_ = b22
+symbol bit_ = b23
+symbol POLYNOMIAL = $1021
+symbol word2 = w12
+
+crc = $FFFF
+
+ptr = 2
+for b16 = 2 to ramptr
+
+	byte_ = @ptrinc
+	sertxd(byte_)
+	gosub crc16add2
+
+next
+
+crc = crc ^ 0x0000
+
+w5 = crc
+
+sertxd("CK: ",#w5,cr,lf)
+
+gosub bintohex
+sertxd(b0,b1,b2,b3,cr,lf)
+
+ptr = ramptr + 1
+ramptr = ramptr + 7
+@ptrinc = "*"
+
+for b16 = 0 to 3
+	peek b16,b17
+	
+	@ptrinc = b17
+
+next b16
+
+'write crlf
+
+@ptrinc = cr
+@ptrinc = lf
+
+
 
 
 'write to flash
@@ -606,12 +646,24 @@ write PacketPtrhROM,PacketPtrh
 write PacketPtrlROM,PacketPtrl
 
 'transmit scratchpad
+high radiocsrx
+low radiocstx
+low c.6
+wait 5
+
 hsersetup TXBaud, TXMode
+
 ptr = 0
 for b16 = 0 to ramptr
 	hserout 0,(@ptrinc)
 next
+
+low c.6
+
+wait 3
 hsersetup OFF
+high radiocstx
+low radiocsrx
 'sertxd for testing
 
 ptr = 0
@@ -633,7 +685,39 @@ hsersetup RXBaud, RXMode
 goto main
 
 
+Crc16Add:
+    FOR bit_ = 0 TO 7
+      k = byte_ ^ crc & 1
+      IF k = 0 THEN Crc16Add1
+      k = POLYNOMIAL
+    Crc16Add1:
+      crc = crc / 2 ^ k
+      byte_ = byte_ / 2
+    NEXT
+    RETURN
+    
+ crc16add2:
 
+word2 = byte_ << 8
+crc = crc ^ word2
+
+for byte_ = 0 to 7
+
+	word2 = crc & 0x8000
+	if word2 > 0 then
+		crc = crc << 1
+		crc = crc ^ 0x1021
+	else
+		crc = crc << 1
+	endif
+	
+
+next
+
+
+return
+    
+    
 
 commandfound:
 'starts at 0x80

@@ -5,7 +5,7 @@
 	<timings>continuous</timings>
 	<txtype>
 		<rtty>
-			<shift>350</shift>
+			<shift>425</shift>
 			<coding>ascii-8</coding>
 			<baud>50</baud>
 			<parity>none</parity>
