@@ -1,158 +1,158 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <transmission>
-	<frequency>434.075.00</frequency>
-	<mode>usb</mode>
-	<timings>continuous</timings>
-	<txtype>
-		<rtty>
-			<shift>425</shift>
-			<coding>ascii-8</coding>
-			<baud>50</baud>
-			<parity>none</parity>
-			<stop>1</stop>
-		</rtty>
-	</txtype>
-	<sentence>
-		<sentence_delimiter>$$</sentence_delimiter>
-		<field_delimiter>,</field_delimiter>
-		<fields>19</fields>
-		<callsign>APEX</callsign>
-		<field>
-			<seq>1</seq>
-			<dbfield>callsign</dbfield>
-			<minsize>4</minsize>
-			<maxsize>6</maxsize>
-			<datatype>char</datatype>
-		</field>
+    <frequency>434.075.00</frequency>
+    <mode>usb</mode>
+    <timings>continuous</timings>
+    <txtype>
+        <rtty>
+            <shift>425</shift>
+            <coding>ascii-8</coding>
+            <baud>50</baud>
+            <parity>none</parity>
+            <stop>1</stop>
+        </rtty>
+    </txtype>
+    <sentence>
+        <sentence_delimiter>$$</sentence_delimiter>
+        <field_delimiter>,</field_delimiter>
+        <fields>19</fields>
+        <callsign>APEX</callsign>
         <field>
-	         <seq>2</seq>
-	         <dbfield>cycle_count</dbfield>
-	         <minsize>0</minsize>
-	         <maxsize>10</maxsize>
-	         <datatype>integer</datatype>
-        </field>
-		<field>
-			<seq>3</seq>
-			<dbfield>time</dbfield>
-			<minsize>0</minsize>
-			<maxsize>8</maxsize>
-			<datatype>time</datatype>
-		</field>
-		<field>
-			<seq>4</seq>
-			<dbfield>latitude</dbfield>
-			<minsize>0</minsize>
-			<maxsize>10</maxsize>
-			<datatype>decimal</datatype>
-			<format>ddmm.mm</format>
-		</field>
-		<field>
-			<seq>5</seq>
-			<dbfield>longitude</dbfield>
-			<minsize>0</minsize>
-			<maxsize>10</maxsize>
-			<datatype>decimal</datatype>
-			<format>dddmm.mm</format>
-		</field>
-		<field>
-			<seq>6</seq>
-			<dbfield>altitude</dbfield>
-			<minsize>0</minsize>
-			<maxsize>20</maxsize>
-			<datatype>integer</datatype>
-		</field>
-		<field>
-			<seq>7</seq>
-			<dbfield>speed</dbfield>
-			<minsize>0</minsize>
-			<maxsize>6</maxsize>
-			<datatype>decimal</datatype>
-			<dp>1</dp>
-		</field>
-		<field>
-			<seq>8</seq>
-			<dbfield>bearing</dbfield>
-			<minsize>0</minsize>
-			<maxsize>5</maxsize>
-			<datatype>decimal</datatype>
-			<dp>1</dp>
-		</field>
-		<field>
-          	<seq>9</seq>
-           <dbfield>sats</dbfield>
-           <minsize>0</minsize>
-           <maxsize>2</maxsize>
-           <datatype>integer</datatype>
+            <seq>1</seq>
+            <dbfield>callsign</dbfield>
+            <minsize>4</minsize>
+            <maxsize>6</maxsize>
+            <datatype>char</datatype>
         </field>
         <field>
-           	<seq>10</seq>
+            <seq>2</seq>
+            <dbfield>cycle_count</dbfield>
+            <minsize>0</minsize>
+            <maxsize>10</maxsize>
+            <datatype>integer</datatype>
+        </field>
+        <field>
+            <seq>3</seq>
+            <dbfield>time</dbfield>
+            <minsize>0</minsize>
+            <maxsize>8</maxsize>
+            <datatype>time</datatype>
+        </field>
+        <field>
+            <seq>4</seq>
+            <dbfield>latitude</dbfield>
+            <minsize>0</minsize>
+            <maxsize>10</maxsize>
+            <datatype>decimal</datatype>
+            <format>ddmm.mm</format>
+        </field>
+        <field>
+            <seq>5</seq>
+            <dbfield>longitude</dbfield>
+            <minsize>0</minsize>
+            <maxsize>10</maxsize>
+            <datatype>decimal</datatype>
+            <format>dddmm.mm</format>
+        </field>
+        <field>
+            <seq>6</seq>
+            <dbfield>altitude</dbfield>
+            <minsize>0</minsize>
+            <maxsize>20</maxsize>
+            <datatype>integer</datatype>
+        </field>
+        <field>
+            <seq>7</seq>
+            <dbfield>speed</dbfield>
+            <minsize>0</minsize>
+            <maxsize>6</maxsize>
+            <datatype>decimal</datatype>
+            <dp>1</dp>
+        </field>
+        <field>
+            <seq>8</seq>
+            <dbfield>bearing</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>decimal</datatype>
+            <dp>1</dp>
+        </field>
+        <field>
+            <seq>9</seq>
+            <dbfield>sats</dbfield>
+            <minsize>0</minsize>
+            <maxsize>2</maxsize>
+            <datatype>integer</datatype>
+        </field>
+        <field>
+            <seq>10</seq>
             <dbfield>int_temp</dbfield>
             <minsize>0</minsize>
             <maxsize>5</maxsize>
             <datatype>decimal</datatype>
         </field>
         <field>
-           	<seq>11</seq>
+            <seq>11</seq>
             <dbfield>ext_temp</dbfield>
             <minsize>0</minsize>
             <maxsize>5</maxsize>
             <datatype>decimal</datatype>
         </field>
         <field>
-           	<seq>12</seq>
+            <seq>12</seq>
             <dbfield>pressure</dbfield>
             <minsize>0</minsize>
             <maxsize>5</maxsize>
             <datatype>custom</datatype>
         </field>
         <field>
-           	<seq>13</seq>
+            <seq>13</seq>
             <dbfield>batt_volts</dbfield>
             <minsize>0</minsize>
             <maxsize>5</maxsize>
             <datatype>custom</datatype>
         </field>
         <field>
-           	<seq>14</seq>
+            <seq>14</seq>
             <dbfield>ird1</dbfield>
             <minsize>0</minsize>
             <maxsize>5</maxsize>
             <datatype>custom</datatype>
         </field>
         <field>
-           	<seq>15</seq>
+            <seq>15</seq>
             <dbfield>ird2</dbfield>
             <minsize>0</minsize>
             <maxsize>5</maxsize>
             <datatype>custom</datatype>
         </field>
         <field>
-           	<seq>16</seq>
+            <seq>16</seq>
             <dbfield>light</dbfield>
             <minsize>0</minsize>
             <maxsize>8</maxsize>
             <datatype>custom</datatype>
         </field>
         <field>
-           	<seq>17</seq>
+            <seq>17</seq>
             <dbfield>humidity</dbfield>
             <minsize>0</minsize>
             <maxsize>5</maxsize>
             <datatype>custom</datatype>
         </field>
         <field>
-           	<seq>18</seq>
+            <seq>18</seq>
             <dbfield>rssi</dbfield>
             <minsize>0</minsize>
             <maxsize>5</maxsize>
             <datatype>custom</datatype>
         </field>
         <field>
-           	<seq>19</seq>
+            <seq>19</seq>
             <dbfield>custom</dbfield>
             <minsize>0</minsize>
             <maxsize>6</maxsize>
             <datatype>custom</datatype>
         </field>
-	</sentence>
+    </sentence>
 </transmission>
