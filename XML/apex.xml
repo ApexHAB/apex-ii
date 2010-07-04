@@ -15,7 +15,7 @@
 	<sentence>
 		<sentence_delimiter>$$</sentence_delimiter>
 		<field_delimiter>,</field_delimiter>
-		<fields>xxxx</fields>
+		<fields>19</fields>
 		<callsign>APEX</callsign>
 		<field>
 			<seq>1</seq>
@@ -61,26 +61,98 @@
 			<maxsize>20</maxsize>
 			<datatype>integer</datatype>
 		</field>
-        <field>
-               	<seq>7</seq>
-                <dbfield>sats</dbfield>
-                <minsize>0</minsize>
-                <maxsize>2</maxsize>
-                <datatype>integer</datatype>
+		<field>
+			<seq>7</seq>
+			<dbfield>speed</dbfield>
+			<minsize>0</minsize>
+			<maxsize>6</maxsize>
+			<datatype>decimal</datatype>
+			<dp>1</dp>
+		</field>
+		<field>
+			<seq>8</seq>
+			<dbfield>bearing</dbfield>
+			<minsize>0</minsize>
+			<maxsize>5</maxsize>
+			<datatype>decimal</datatype>
+			<dp>1</dp>
+		</field>
+		<field>
+          	<seq>9</seq>
+           <dbfield>sats</dbfield>
+           <minsize>0</minsize>
+           <maxsize>2</maxsize>
+           <datatype>integer</datatype>
         </field>
         <field>
-               	<seq>8</seq>
-                <dbfield>custom</dbfield>
-                <minsize>0</minsize>
-                <maxsize>6</maxsize>
-                <datatype>custom_data</datatype>
+           	<seq>10</seq>
+            <dbfield>int_temp</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>decimal</datatype>
         </field>
         <field>
-               	<seq>9</seq>
-                <dbfield>int_temp</dbfield>
-                <minsize>0</minsize>
-                <maxsize>5</maxsize>
-                <datatype>decimal</datatype>
+           	<seq>11</seq>
+            <dbfield>ext_temp</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>decimal</datatype>
+        </field>
+        <field>
+           	<seq>12</seq>
+            <dbfield>pressure</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>custom</datatype>
+        </field>
+        <field>
+           	<seq>13</seq>
+            <dbfield>batt_volts</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>custom</datatype>
+        </field>
+        <field>
+           	<seq>14</seq>
+            <dbfield>ird1</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>custom</datatype>
+        </field>
+        <field>
+           	<seq>15</seq>
+            <dbfield>ird2</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>custom</datatype>
+        </field>
+        <field>
+           	<seq>16</seq>
+            <dbfield>light</dbfield>
+            <minsize>0</minsize>
+            <maxsize>8</maxsize>
+            <datatype>custom</datatype>
+        </field>
+        <field>
+           	<seq>17</seq>
+            <dbfield>humidity</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>custom</datatype>
+        </field>
+        <field>
+           	<seq>18</seq>
+            <dbfield>rssi</dbfield>
+            <minsize>0</minsize>
+            <maxsize>5</maxsize>
+            <datatype>custom</datatype>
+        </field>
+        <field>
+           	<seq>19</seq>
+            <dbfield>custom</dbfield>
+            <minsize>0</minsize>
+            <maxsize>6</maxsize>
+            <datatype>custom</datatype>
         </field>
 	</sentence>
 </transmission>
