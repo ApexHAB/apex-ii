@@ -354,8 +354,10 @@ Public Class MainFrm
 
         If frame.CheckSum = True Then
             AddToRTBTh(frame.ProcessedString, Color.Black, InterfaceDetails.InterfaceName)
+            AddToRTBTh(frame.RawString, Color.Black, "")
         Else
             AddToRTBTh(frame.ProcessedString, Color.Red, InterfaceDetails.InterfaceName)
+            AddToRTBTh(frame.RawString, Color.Red, "")
         End If
 
 
@@ -367,8 +369,10 @@ Public Class MainFrm
                     If i.Write(frame, InterfaceDetails) = True Then
                         If frame.CheckSum = True Then
                             AddToRTBTh(frame.ProcessedString, Color.Black, i.InterfaceName)
+                            AddToRTBTh(frame.RawString, Color.Black, "")
                         Else
                             AddToRTBTh(frame.ProcessedString, Color.Red, i.InterfaceName)
+                            AddToRTBTh(frame.RawString, Color.Red, "")
                         End If
                     End If
                 End If
