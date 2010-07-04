@@ -20,8 +20,8 @@
 		<field>
 			<seq>1</seq>
 			<dbfield>callsign</dbfield>
-			<minsize>6</minsize>
-			<maxsize>9</maxsize>
+			<minsize>4</minsize>
+			<maxsize>6</maxsize>
 			<datatype>char</datatype>
 		</field>
         <field>
