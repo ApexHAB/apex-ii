@@ -355,7 +355,7 @@ Public Class MainFrm
 
         Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
         Frames.Add(frame)
-        HuD_UC1.FrameToDisplay = frame
+
 
         Dim lineendp As String = ""
         Dim lineendr As String = ""
@@ -367,34 +367,46 @@ Public Class MainFrm
             lineendr = vbCrLf
         End If
 
-        If frame.CheckSum = True Then
-            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
-            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-        Else
-            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
-            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
-        End If
+        
 
 
-        AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
 
-        For Each i As InterfaceParent In Interfaces
-            If i.InterfaceName <> InterfaceDetails.InterfaceName Then
-                If i.CanWrite = True Then
-                    If i.Write(frame, InterfaceDetails) = True Then
-                        If frame.CheckSum = True Then
-                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
-                            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                        Else
-                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
-                            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+
+        For Each j As InterfaceParent In Interfaces
+            If j.StoreFrame(frame) Then
+
+                AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
+
+                HuD_UC1.FrameToDisplay = frame
+
+                If frame.CheckSum = True Then
+                    AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
+                    AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                Else
+                    AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
+                    AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                End If
+
+                For Each i As InterfaceParent In Interfaces
+                    If i.InterfaceName <> InterfaceDetails.InterfaceName Then
+                        If i.CanWrite = True Then
+                            If i.Write(frame, InterfaceDetails) = True Then
+                                If frame.CheckSum = True Then
+                                    AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
+                                    AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                                Else
+                                    AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
+                                    AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                                End If
+                            End If
                         End If
                     End If
-                End If
-            Else
-                i.StoreFrame(frame)
+                Next
+
             End If
         Next
+
+
 
     End Sub
     Private Sub LineReceivedByte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
@@ -420,14 +432,17 @@ Public Class MainFrm
 
 
 
-        If Not System.IO.File.Exists(RunningDir & "\settings.xml") Then Exit Sub
-        Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
-        Dim reader As New System.IO.StreamReader(RunningDir + "\settings.xml")
-        GlobalSettings_ = ser.Deserialize(reader)
+        If System.IO.File.Exists(RunningDir & "\settings.xml") Then
+            Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
+            Dim reader As New System.IO.StreamReader(RunningDir + "\settings.xml")
+
+            GlobalSettings_ = ser.Deserialize(reader)
+            reader.Close()
+        End If
+
         UpdateInterfaces()
         UpdateForm()
-        UpdateInterfaces()
-        UpdateForm()
+
 
         For Each i_ As InterfaceSettings In GlobalSettings_.Interfaces
             i_.PacketStructure.LoadXML(i.XMLStructurePath)

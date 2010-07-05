@@ -1,4 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
+Imports System.Text
+Imports System.Security.Cryptography
 
 Public Class InterfaceParent
 
@@ -35,6 +37,7 @@ Public Class InterfaceParent
 
     Private Frames As New Collection() '(Of String, Frame)     'stores all frames through this interface - contains only one packet of valid chksum, unlimited of nonvalid chksum
     Private FrameIDList As New List(Of Integer)             'does not store nonvalid checksums
+    Private PacketHashes As New List(Of String) 'used so not to duplicate incorrect checksum packets
 
 
     Public Event LineRecievedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
@@ -132,6 +135,7 @@ Public Class InterfaceParent
             RaiseEvent InterfaceStatusChange(Status_, "", interfacesettings_)
 
         Catch ex1 As System.Net.Sockets.SocketException
+            Debug.WriteLine("ERROR - IN INTERFACEPARENT:NEW")
             Dim i As Integer = 0
             If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
                 Status_ = InterfaceStatus.Inactive_ConRefused
@@ -144,6 +148,7 @@ Public Class InterfaceParent
             RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
 
         Catch ex As Exception
+            Debug.WriteLine("ERROR - IN INTERFACEPARENT:NEW")
             error_ = ex
             Status_ = InterfaceStatus.Inactive
             RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
@@ -154,24 +159,45 @@ Public Class InterfaceParent
 
 
 
-    Public Sub StoreFrame(ByVal Frame As Frame)
+    Public Function StoreFrame(ByVal Frame As Frame) As Boolean
         'can only store one packet of the same id if the chksum is correct
+        'returns true if a new packet has been added.
 
         If Frame.CheckSum = True Then
-            If FrameIDList.Contains(Frame.PcktCounter) Then Exit Sub
+            If FrameIDList.Contains(Frame.PcktCounter) Then Return False
 
             FrameIDList.Add(Frame.PcktCounter)
             Frames.Add(Frame, Frame.PcktCounter.ToString)
 
+            Return True
+
         Else
+            If PacketHashes.Contains(GenerateHash(Frame.ProcessedString)) Then Return False
             Dim i As Integer = 0
             While Frames.Contains("N" & Frame.PcktCounter.ToString() & "-" & i.ToString())
                 i = i + 1
             End While
             Frames.Add(Frame, "N" & Frame.PcktCounter.ToString() & "-" & i.ToString())
+            PacketHashes.Add(GenerateHash(Frame.ProcessedString))
+            Return True
         End If
 
-    End Sub
+
+
+    End Function
+
+    Private Function GenerateHash(ByVal SourceText As String) As String
+        'Create an encoding object to ensure the encoding standard for the source text
+        Dim Ue As New UnicodeEncoding()
+        'Retrieve a byte array based on the source text
+        Dim ByteSourceText() As Byte = Ue.GetBytes(SourceText)
+        'Instantiate an MD5 Provider object
+        Dim Md5 As New MD5CryptoServiceProvider()
+        'Compute the hash value from the source
+        Dim ByteHash() As Byte = Md5.ComputeHash(ByteSourceText)
+        'And convert it to String format for return
+        Return Convert.ToBase64String(ByteHash)
+    End Function
 
     Private Sub fldigiRecievied() Handles FLDigiHandler.DataRecieved
 
@@ -181,14 +207,16 @@ Public Class InterfaceParent
 
 
         For Each b As Byte In input
-            If (b = 10 Or b = 13) And (InputBufferPtr > 0) Then
-                str = ""
-                For i As Integer = 0 To InputBufferPtr - 1
-                    str = str & ChrW(InputBuffer(i))
-                Next
-                RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
-                Debug.WriteLine(str)
-                InputBufferPtr = 0
+            If b = 10 Or b = 13 Then
+                If InputBufferPtr > 0 Then
+                    str = ""
+                    For i As Integer = 0 To InputBufferPtr - 1
+                        str = str & ChrW(InputBuffer(i))
+                    Next
+                    RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                    Debug.WriteLine(str)
+                    InputBufferPtr = 0
+                End If
             Else
                 If InputBufferPtr >= inputBufferSize Then
                     For Each c As Byte In InputBuffer
@@ -212,20 +240,34 @@ Public Class InterfaceParent
     End Sub
 
     Private Sub DLDataRecieved() Handles DLHandler.DataRecieved
+        Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
+        Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
         Dim input() As Byte = DLHandler.ReadBufferChars()
         Dim str As String = ""
         '#######need to sort stuff here - (the converting stream of packets to one string bit) #########
 
 
         For Each b As Byte In input
+            ' Debug.Write(ChrW(b))
             If (b = 10 Or b = 13) Then
                 If (InputBufferPtr > 0) Then
                     str = ""
                     For i As Integer = 0 To InputBufferPtr - 1
                         str = str & ChrW(InputBuffer(i))
                     Next
-                    'RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
-                    Debug.WriteLine(str)
+                    '
+                    ' Debug.WriteLine(str)
+                    If reg.IsMatch(str) Then
+                        '  Debug.WriteLine("match")
+                        ' Debug.WriteLine()
+
+                        RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
+                    End If
+
+                    If reg2.IsMatch(str) Then
+                        DLHandler.Close()
+                    End If
+
                     InputBufferPtr = 0
                 Else
 
@@ -286,50 +328,45 @@ Public Class InterfaceParent
     End Sub
 
     Private Sub timer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) Handles timer.Elapsed
-        Try
+        '  Try
+
+        If Not DLHandler Is Nothing Then DLHandler.Close()
+
+        Dim uri As New System.Uri(interfacesettings_.TCPHost, System.UriKind.RelativeOrAbsolute)
+
+        If uri.IsAbsoluteUri = False Then
+            uri = New System.Uri("http://" & interfacesettings_.TCPHost)
+        End If
+
+        DLHandler = New TCPInterface(uri.Authority, interfacesettings_.TCPPort, True)
+        Status_ = InterfaceStatus.Active
+
+       
+
+
+        DLHandler.SendMessage(ToByteArr("GET " & uri.AbsolutePath & " HTTP/1.1" & vbCrLf & "HOST: " & uri.Authority & vbCrLf & vbCrLf))
 
 
 
-            Dim uri As New System.Uri(interfacesettings_.TCPHost, System.UriKind.RelativeOrAbsolute)
-
-            If uri.IsAbsoluteUri = False Then
-                uri = New System.Uri("http://" & interfacesettings_.TCPHost)
-            End If
-
-            If DLHandler Is Nothing Then
-                DLHandler = New TCPInterface(uri.Authority, interfacesettings_.TCPPort, True)
-                Status_ = InterfaceStatus.Active
-            Else
-
-                If Not DLHandler.IsConnected Then
-                    DLHandler = New TCPInterface(uri.Authority, interfacesettings_.TCPPort, True)
-                    Status_ = InterfaceStatus.Active
-                End If
-            End If
 
 
+        'Catch ex1 As System.Net.Sockets.SocketException
+        '    Dim i As Integer = 0
+        '    If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
+        '        Status_ = InterfaceStatus.Inactive_ConRefused
+        '    End If
+        '    If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
+        '        Status_ = InterfaceStatus.Inactive_NotFound
+        '    End If
+        '    error_ = ex1
 
-            DLHandler.SendMessage(ToByteArr("GET " & uri.AbsolutePath & " HTTP/1.1" & vbCrLf & "HOST: " & uri.Authority & vbCrLf & vbCrLf))
+        '    RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
 
-
-
-        Catch ex1 As System.Net.Sockets.SocketException
-            Dim i As Integer = 0
-            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
-                Status_ = InterfaceStatus.Inactive_ConRefused
-            End If
-            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
-                Status_ = InterfaceStatus.Inactive_NotFound
-            End If
-            error_ = ex1
-
-            RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
-
-        Catch ex As Exception
-            error_ = ex
-            Status_ = InterfaceStatus.Inactive
-            RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
-        End Try
+        'Catch ex As Exception
+        '    error_ = ex
+        '    Status_ = InterfaceStatus.Inactive
+        '    RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
+        'End Try
     End Sub
 
     Private Function ToByteArr(ByVal str As String) As Byte()

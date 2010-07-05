@@ -16,8 +16,14 @@ Public Class TCPInterface
 
     Public ReadOnly Property IsConnected As Boolean
         Get
-            If client Is Nothing Then Return (False)
-            Return client.Connected
+            If client.Client Is Nothing Then
+                Return False
+            Else
+                Return client.Connected
+
+            End If
+
+
         End Get
     End Property
 
@@ -40,6 +46,11 @@ Public Class TCPInterface
     End Property
 
 #End Region
+
+    Public Function Close()
+        client.Close()
+
+    End Function
 
     Public Sub New(ByVal host_ As String, ByVal port_ As Integer, ByVal connect As Boolean)
         host = host_
@@ -73,7 +84,7 @@ Public Class TCPInterface
     'End Function
     Private Sub doRead(ByVal ar As System.IAsyncResult)
         Dim totalRead As Integer
-    
+
         Try
             totalRead = client.GetStream.EndRead(ar) 'Ends the reading and returns the number of bytes read.
         Catch ex As Exception
@@ -84,9 +95,9 @@ Public Class TCPInterface
 
             Dim z As Integer
 
-            
+
             Dim recievedArray(totalRead - 1) As Byte
-           
+
             For z = 0 To totalRead - 1
                 recievedArray(z) = readBuffer(z)
             Next

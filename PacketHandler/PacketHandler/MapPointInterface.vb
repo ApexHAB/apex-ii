@@ -40,7 +40,7 @@ Public Class MapPointInterface
 
 
         Catch ex As Exception
-
+            MsgBox("U sure u have mappoint installed")
         End Try
     End Sub
 End Class

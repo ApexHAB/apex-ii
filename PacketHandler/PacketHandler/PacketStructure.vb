@@ -4,8 +4,38 @@
     Private CustomDataType_ As Project
     Private PacketType_ As PacketFormats = PacketFormats.BLANK    'UKHAS or APRS - applies to first part of packet
 
+    Private callsign_ As String = ""
+    Private sentenceDelimiter_ As String = ""
+    Private fielddelimiter_ As Char = ""
 
     Private Fields_ As Dictionary(Of String, PacketField) = New Dictionary(Of String, PacketField) 'integer value is offset in packet
+
+    Public Property CallSign As String
+        Get
+            Return callsign_
+        End Get
+        Set(ByVal value As String)
+            callsign_ = value
+        End Set
+    End Property
+
+    Public Property SentenceDelimiter As String
+        Get
+            Return sentenceDelimiter_
+        End Get
+        Set(ByVal value As String)
+            sentenceDelimiter_ = value
+        End Set
+    End Property
+
+    Public Property FieldDelimiter As String
+        Get
+            Return fielddelimiter_
+        End Get
+        Set(ByVal value As String)
+            fielddelimiter_ = value
+        End Set
+    End Property
 
     Public Property PacketType() As PacketFormats
         Get
@@ -91,17 +121,17 @@
             If xmlrd.IsStartElement Then
                 Select Case xmlrd.Name
                     Case "sentence_delimiter"
-
                         ' Debug.WriteLine("SD " + xmlrd.ReadElementContentAsString)
-
+                        sentenceDelimiter_ = xmlrd.ReadElementContentAsString
                     Case "field_delimiter"
                         'Debug.WriteLine("FD " + xmlrd.ReadElementContentAsString)
-
+                        fielddelimiter_ = xmlrd.ReadElementContentAsString.First()
                     Case "fields"
                         ' Debug.WriteLine("Fs " + xmlrd.ReadElementContentAsString)
 
                     Case "callsign"
                         '  Debug.WriteLine("cs " + xmlrd.ReadElementContentAsString)
+                        callsign_ = xmlrd.ReadElementContentAsString
 
                     Case "field"
                         Dim fld As New PacketField
@@ -118,7 +148,7 @@
                                     Case "seq"
                                         str = xmlrd.ReadElementString()
                                         If str <> "" Then
-                                            seq = Integer.Parse(str)
+                                            Integer.TryParse(str, seq)
                                         End If
                                     Case "name"
                                         str = xmlrd.ReadElementString()
@@ -143,12 +173,12 @@
                                     Case "scaling"
                                         str = xmlrd.ReadElementString()
                                         If str <> "" Then
-                                            fld.ScaleFactor = Double.Parse(str)
+                                            Double.TryParse(str, fld.ScaleFactor)
                                         End If
                                     Case "offset"
                                         str = xmlrd.ReadElementString()
                                         If str <> "" Then
-                                            fld.Offset = Double.Parse(str)
+                                            Double.TryParse(str, fld.Offset)
                                         End If
                                     Case "unit"
                                         str = xmlrd.ReadElementString().ToLower
@@ -158,7 +188,7 @@
                                     Case "dp"
                                         str = xmlrd.ReadElementString()
                                         If str <> "" Then
-                                            fld.DP = Integer.Parse(str)
+                                            Integer.TryParse(str, fld.DP)
                                         End If
                                     Case Else
                                         xmlrd.Read()

@@ -409,7 +409,7 @@ Public Class Frame
         'find start of string
 
         For i = 0 To input.Count - 2
-            If input(i) = "$" And input(i + 1) <> "$" Then
+            If input(i) = packetStructure_.SentenceDelimiter.First And input(i + 1) <> packetStructure_.SentenceDelimiter.First Then
                 packet = input.Substring(i + 1)
             End If
         Next
@@ -445,11 +445,18 @@ Public Class Frame
         Dim GPSlo As String = ""
         Dim GPSfrmat As PacketStructure.Encoding
 
+        Dim tempint As Integer
+        Dim tempUint As UInteger
+        Dim tempsing As Single
+        Dim tempdoub As Double
+
         For i = 1 To fields.Count - 1
 
             If (fields(i) <> "") Then
+                'Try
                 If fields(i)(0) = "*" Then
-                    If UInteger.Parse(HexToInt_str(fields(i).Substring(1))) = checksum Then chksum_ = True
+                    UInteger.TryParse(HexToInt_str(fields(i).Substring(1)), tempUint)
+                    If tempUint = checksum Then chksum_ = True
                 Else
                     If (packetStructure_.FieldExists(i)) Then
 
@@ -478,26 +485,32 @@ Public Class Frame
 
                         If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.altitude) Then
                             If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
-                                gpsal_ = Math.Round(Single.Parse(fields(i)) * 0.3048)
+                                Single.TryParse(fields(i), tempsing)
+                                gpsal_ = Math.Round(tempsing * 0.3048)
                             Else
-                                gpsal_ = Integer.Parse(fields(i))
+                                Integer.TryParse(fields(i), tempint)
+                                gpsal_ = tempint
                             End If
                         End If
 
                         If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
-                            gpsh_ = Single.Parse(fields(i))
+                            Single.TryParse(fields(i), tempsing)
+                            gpsh_ = tempsing
                         End If
 
                         If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
                             If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
-                                gpssp_ = Single.Parse(fields(i)) * 0.3048
+                                Single.TryParse(fields(i), tempsing)
+                                gpssp_ = tempsing * 0.3048
                             Else
-                                gpssp_ = Single.Parse(fields(i))
+                                Single.TryParse(fields(i), tempsing)
+                                gpssp_ = tempsing
                             End If
                         End If
 
                         If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sats) Then
-                            gpsSats_ = Integer.Parse(fields(i))
+                            Integer.TryParse(fields(i), tempint)
+                            gpsSats_ = tempint
                         End If
 
                         If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.comment) Then
@@ -505,13 +518,16 @@ Public Class Frame
                         End If
 
                         If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
-                            Dim value = Double.Parse(fields(i))
-                            value = value * packetStructure_.GetField(i).ScaleFactor
-                            value = value + packetStructure_.GetField(i).Offset
-                            Pdata_.Add(packetStructure_.GetField(i).FieldName, value)
+                            Double.TryParse(fields(i), tempdoub)
+                            tempdoub = tempdoub * packetStructure_.GetField(i).ScaleFactor
+                            tempdoub = tempdoub + packetStructure_.GetField(i).Offset
+                            Pdata_.Add(packetStructure_.GetField(i).FieldName, tempdoub)
                         End If
                     End If
                 End If
+                ' Catch
+
+                'End Try
             End If
 
         Next
@@ -520,7 +536,10 @@ Public Class Frame
         If (GPSla.Length > 0) And (GPSlo.Length > 0) Then
             Select Case GPSfrmat
                 Case PacketStructure.Encoding.ddddddd
-                    GPScoord_ = New GPScoord(Double.Parse(GPSla), Double.Parse(GPSlo))
+                    Dim tempdoub2 As Double
+                    Double.TryParse(GPSla, tempdoub)
+                    Double.TryParse(GPSlo, tempdoub2)
+                    GPScoord_ = New GPScoord(GPSla, GPSlo)
                 Case PacketStructure.Encoding.dddmmmm
                     If (GPSla.Length > 4) And (GPSlo.Length > 4) Then
                         Dim a As String
@@ -539,7 +558,15 @@ Public Class Frame
                         Else
                             b = GPSlo.Substring(0)
                         End If
-                        GPScoord_ = New GPScoord(Integer.Parse(a.Substring(0, 2)), Single.Parse(a.Substring(2)), Integer.Parse(b.Substring(0, 3)), Single.Parse(b.Substring(3)), c, d)
+                        Dim tempint1 As Integer
+                        Dim tempint2 As Integer
+                        Dim tempsin1 As Single
+                        Dim tempsin2 As Single
+                        Integer.TryParse(a.Substring(0, 2), tempint1)
+                        Single.TryParse(a.Substring(2), tempsin1)
+                        Integer.TryParse(b.Substring(0, 3), tempint2)
+                        Single.TryParse(b.Substring(3), tempsin2)
+                        GPScoord_ = New GPScoord(tempint1, tempsin1, tempint2, tempsin2, c, d)
                     End If
                     'Case PacketStructure.Encoding.DDDMMSS
                     '   GPScoord_ = New GPScoord(Double.Parse(GPSla), Double.Parse(GPSlo))

@@ -86,7 +86,8 @@
         Set(ByVal value As Frame)
             FrameToDisplay_ = value
             secondsSinceLast = 0
-            lbTimer.Text = ""
+
+            SetLB("", lbTimer)  ' lbTimer.Text = ""
             timeSinceLastTmr.Stop()
             timeSinceLastTmr.Start()
             Updateth()
