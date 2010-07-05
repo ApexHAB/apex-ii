@@ -122,6 +122,7 @@ high memCS
 high radioCSTX
 high radioCSRX
 
+
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 
 
@@ -133,7 +134,7 @@ wait 1
 main:
 
 ptr = 0
-serin GPSin2,T4800,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc
+serin GPSin2,T4800,("GPVTG"),@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc
 
 
 ptr = 0

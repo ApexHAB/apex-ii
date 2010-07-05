@@ -247,6 +247,8 @@ w17 = w17 + b19
 
 'w17 'end page
 
+sertxd("w16: ",#w16,"  w17: ",#w17,cr,lf)
+
 for w18 = w16 to w17
 w7 = w18
 b13 = 0

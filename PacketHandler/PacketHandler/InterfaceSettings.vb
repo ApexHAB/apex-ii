@@ -30,6 +30,8 @@ Public Class InterfaceSettings
     Public sDatabits As Integer = 8
     Public sStopbits As System.IO.Ports.StopBits = IO.Ports.StopBits.One
 
+    Public Timer As Integer
+
 
 
 

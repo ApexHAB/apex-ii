@@ -80,6 +80,8 @@ Public Class EditInterfaceSettings
         cmbDataFormat.Items.Clear()
         txtName.Text = settings_.InterfaceName
 
+        txtTimer.Text = settings_.Timer.ToString
+
         txtXMLpacket.Text = settings_.XMLStructurePath
 
 
@@ -159,6 +161,10 @@ Public Class EditInterfaceSettings
                 gpTCP.Enabled = True
                 gpXML.Enabled = False
                 'AddToPanel(New GoogleEarthSettings, New GoogleEarthsettingsUC)
+            Case InterfaceTypes.DLINTERNET
+                gpSerial.Enabled = False
+                gpTCP.Enabled = True
+                gpXML.Enabled = True
             Case Else
                 gpSerial.Enabled = False
                 gpTCP.Enabled = False

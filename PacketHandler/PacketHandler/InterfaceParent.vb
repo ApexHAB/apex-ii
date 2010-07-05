@@ -1,4 +1,6 @@
-﻿Public Class InterfaceParent
+﻿Imports System.Text.RegularExpressions
+
+Public Class InterfaceParent
 
     Public Enum InterfaceStatus
         Inactive
@@ -6,6 +8,7 @@
         Inactive_ConRefused
         Inactive_NotFound
         Inactive_NotImplemented
+        Ready
     End Enum
 
     Private interfacesettings_ As New InterfaceSettings
@@ -22,6 +25,8 @@
 
     Private Status_ As InterfaceStatus = InterfaceStatus.Inactive
     Private error_ As Exception
+
+    Private WithEvents timer As System.Timers.Timer
 
     Const inputBufferSize = 2048
 
@@ -113,6 +118,11 @@
                 Case InterfaceTypes.MAPPOINT
                     MappointHandler = New MapPointInterface()
                     Status_ = InterfaceStatus.Active
+                Case InterfaceTypes.DLINTERNET
+                    If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 30
+                    timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+                    timer.Enabled = True
+                    Status_ = InterfaceStatus.Ready
                 Case Else
                     Status_ = InterfaceStatus.Inactive_NotImplemented
 
@@ -141,6 +151,28 @@
 
 
     End Sub
+
+    Private Function ExtractDomainFromURL(ByVal sURL As String) As String
+
+        Dim rg As New Regex("://(?<host>([a-z\d][-a-z\d]*[a-z\d]\.)*[a-z][-a-z\d]+[a-z])")
+
+        If rg.IsMatch(sURL) Then
+            Return rg.Match(sURL).Result("${host}")
+        Else
+            Return String.Empty
+        End If
+
+
+
+    End Function
+
+    Private Function ExtractPageURL(ByVal input As String) As String
+
+        Dim reg As New Regex("#^(.*?//)*([\w\.\d]*)(:(\d+))*(/*)(.*)$#")
+
+        reg.Match(input, 6)
+
+    End Function
 
     Public Sub StoreFrame(ByVal Frame As Frame)
         'can only store one packet of the same id if the chksum is correct
@@ -235,5 +267,44 @@
             MappointHandler.PlotPoint(coords, name, sequence, PinType, weight)
         End If
     End Sub
+
+    Private Sub timer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) Handles timer.Elapsed
+        Try
+
+            DLHandler = New TCPInterface(ExtractDomainFromURL(interfacesettings_.TCPHost), interfacesettings_.TCPPort, True)
+
+            Status_ = InterfaceStatus.Active
+
+            DLHandler.SendMessage(ToByteArr("GET /listen/view.php HTTP/1.1" & vbCrLf & "HOST: " & ExtractDomainFromURL(interfacesettings_.TCPHost) & vbCrLf & vbCrLf))
+
+        Catch ex1 As System.Net.Sockets.SocketException
+            Dim i As Integer = 0
+            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
+                Status_ = InterfaceStatus.Inactive_ConRefused
+            End If
+            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
+                Status_ = InterfaceStatus.Inactive_NotFound
+            End If
+            error_ = ex1
+
+            RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
+
+        Catch ex As Exception
+            error_ = ex
+            Status_ = InterfaceStatus.Inactive
+            RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
+        End Try
+    End Sub
+
+    Private Function ToByteArr(ByVal str As String) As Byte()
+        Dim buff(str.Count - 1) As Byte
+
+        For i = 0 To str.Count - 1
+            buff(i) = Byte.Parse(AscW(str(i)))
+        Next
+
+        Return (buff)
+
+    End Function
 
 End Class

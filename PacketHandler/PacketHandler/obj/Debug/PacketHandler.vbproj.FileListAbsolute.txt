@@ -37,17 +37,11 @@ C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResolveAssemb
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\Interop.MapPoint.dll
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.vbproj.ResolveComReference.cache
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.HUD_UC.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.AGWPESettingsUC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.EditInterfaceSettings.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.FLDigiSettingsUC.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.GoogleEarthsettingsUC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MainFrm.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MappointSettingsUC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.Resources.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.SerialPortSettingsUC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.settingsFrm.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.UplinkFrm.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.SettingsLinearUC.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.read.1.tlog
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.write.1.tlog
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe

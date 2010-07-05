@@ -79,7 +79,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="InterfaceHelper.vb" />
-    <Compile Include="InterfaceSpecificSettings\AGWPESettings.vb" />
     <Compile Include="Forms\InterfaceStatus.Designer.vb">
       <DependentUpon>InterfaceStatus.vb</DependentUpon>
     </Compile>
@@ -88,34 +87,14 @@
     </Compile>
     <Compile Include="MapPointInterface.vb" />
     <Compile Include="PacketStructure.vb" />
-    <Compile Include="SettingsUC\AGWPESettingsUC.Designer.vb">
-      <DependentUpon>AGWPESettingsUC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsUC\AGWPESettingsUC.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Forms\EditInterfaceSettings.Designer.vb">
       <DependentUpon>EditInterfaceSettings.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\EditInterfaceSettings.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InterfaceSpecificSettings\FLDigiSettings.vb" />
-    <Compile Include="SettingsUC\FLDigiSettingsUC.Designer.vb">
-      <DependentUpon>FLDigiSettingsUC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsUC\FLDigiSettingsUC.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Frame.vb" />
     <Compile Include="GlobalSettings.vb" />
-    <Compile Include="InterfaceSpecificSettings\GoogleEarthSettings.vb" />
-    <Compile Include="SettingsUC\GoogleEarthSettingsUC.Designer.vb">
-      <DependentUpon>GoogleEarthSettingsUC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsUC\GoogleEarthSettingsUC.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="InterfaceParent.vb" />
     <Compile Include="InterfaceSettings.vb" />
     <Compile Include="Forms\MainFrm.vb">
@@ -124,13 +103,6 @@
     <Compile Include="Forms\MainFrm.Designer.vb">
       <DependentUpon>MainFrm.vb</DependentUpon>
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="InterfaceSpecificSettings\MappointSettings.vb" />
-    <Compile Include="SettingsUC\MappointSettingsUC.Designer.vb">
-      <DependentUpon>MappointSettingsUC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsUC\MappointSettingsUC.vb">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -150,24 +122,11 @@
     <Compile Include="AGWPE_APRSPacketHandler.vb" />
     <Compile Include="randomfunctions.vb" />
     <Compile Include="SerialPortInterface.vb" />
-    <Compile Include="InterfaceSpecificSettings\SerialPortSettings.vb" />
-    <Compile Include="SettingsUC\SerialPortSettingsUC.Designer.vb">
-      <DependentUpon>SerialPortSettingsUC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsUC\SerialPortSettingsUC.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Forms\settingsFrm.Designer.vb">
       <DependentUpon>settingsFrm.vb</DependentUpon>
     </Compile>
     <Compile Include="Forms\settingsFrm.vb">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SettingsUC\SettingsLinearUC.Designer.vb">
-      <DependentUpon>SettingsLinearUC.vb</DependentUpon>
-    </Compile>
-    <Compile Include="SettingsUC\SettingsLinearUC.vb">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TCPInterface.vb" />
     <Compile Include="Forms\UplinkFrm.Designer.vb">
@@ -182,28 +141,12 @@
       <DependentUpon>HUD_UC.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsUC\AGWPESettingsUC.resx">
-      <DependentUpon>AGWPESettingsUC.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\EditInterfaceSettings.resx">
       <DependentUpon>EditInterfaceSettings.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsUC\FLDigiSettingsUC.resx">
-      <DependentUpon>FLDigiSettingsUC.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SettingsUC\GoogleEarthSettingsUC.resx">
-      <DependentUpon>GoogleEarthSettingsUC.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainFrm.resx">
       <DependentUpon>MainFrm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SettingsUC\MappointSettingsUC.resx">
-      <DependentUpon>MappointSettingsUC.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -212,20 +155,12 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="SettingsUC\SerialPortSettingsUC.resx">
-      <DependentUpon>SerialPortSettingsUC.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\settingsFrm.resx">
       <DependentUpon>settingsFrm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UplinkFrm.resx">
       <DependentUpon>UplinkFrm.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SettingsUC\SettingsLinearUC.resx">
-      <DependentUpon>SettingsLinearUC.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
