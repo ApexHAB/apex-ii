@@ -94,6 +94,9 @@ Public Class EditInterfaceSettings
         txtsBaud.Text = settings_.sBaud.ToString
         txtDataBits.Text = settings_.sDatabits.ToString
 
+        txtTCPHost.Text = settings_.TCPHost
+        txtTCPPort.Text = Settings.TCPPort
+
 
         For i As Integer = 0 To InterfaceTypes.Length - 1
             cmbInterfaceTypes.Items.Add(EnumToStr(CType(i, InterfaceTypes)))

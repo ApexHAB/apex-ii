@@ -14,6 +14,13 @@ Public Class TCPInterface
 
 #Region "Properties"
 
+    Public ReadOnly Property IsConnected As Boolean
+        Get
+            If client Is Nothing Then Return (False)
+            Return client.Connected
+        End Get
+    End Property
+
     Public ReadOnly Property ReadBufferChars()
         Get
             If CLbuffer.Count > 0 Then
@@ -93,7 +100,7 @@ Public Class TCPInterface
         End If
 
         Try
-            client.GetStream.BeginRead(readBuffer, 0, BYTES_TO_READ, AddressOf doRead, Nothing) 'Begin the reading again.
+            If client.Connected Then client.GetStream.BeginRead(readBuffer, 0, BYTES_TO_READ, AddressOf doRead, Nothing) 'Begin the reading again.
         Catch ex As Exception
             Beep()
             Debug.WriteLine(ex.ToString)

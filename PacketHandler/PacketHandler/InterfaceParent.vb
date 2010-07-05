@@ -18,7 +18,7 @@ Public Class InterfaceParent
     Private SerialHandler As SerialPortInterface
     Private MappointHandler As MapPointInterface
     Private GoogleEarthHandler As TCPInterface
-    Private DLHandler As TCPInterface
+    Private WithEvents DLHandler As TCPInterface
 
     Private CanWrite_ As Boolean
     Private CanRead_ As Boolean
@@ -28,7 +28,7 @@ Public Class InterfaceParent
 
     Private WithEvents timer As System.Timers.Timer
 
-    Const inputBufferSize = 2048
+    Const inputBufferSize = 65536
 
     Private InputBuffer(inputBufferSize) As Byte
     Private InputBufferPtr As Integer
@@ -119,7 +119,7 @@ Public Class InterfaceParent
                     MappointHandler = New MapPointInterface()
                     Status_ = InterfaceStatus.Active
                 Case InterfaceTypes.DLINTERNET
-                    If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 30
+                    If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
                     timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
                     timer.Enabled = True
                     Status_ = InterfaceStatus.Ready
@@ -152,27 +152,7 @@ Public Class InterfaceParent
 
     End Sub
 
-    Private Function ExtractDomainFromURL(ByVal sURL As String) As String
 
-        Dim rg As New Regex("://(?<host>([a-z\d][-a-z\d]*[a-z\d]\.)*[a-z][-a-z\d]+[a-z])")
-
-        If rg.IsMatch(sURL) Then
-            Return rg.Match(sURL).Result("${host}")
-        Else
-            Return String.Empty
-        End If
-
-
-
-    End Function
-
-    Private Function ExtractPageURL(ByVal input As String) As String
-
-        Dim reg As New Regex("#^(.*?//)*([\w\.\d]*)(:(\d+))*(/*)(.*)$#")
-
-        reg.Match(input, 6)
-
-    End Function
 
     Public Sub StoreFrame(ByVal Frame As Frame)
         'can only store one packet of the same id if the chksum is correct
@@ -202,6 +182,7 @@ Public Class InterfaceParent
 
         For Each b As Byte In input
             If (b = 10 Or b = 13) And (InputBufferPtr > 0) Then
+                str = ""
                 For i As Integer = 0 To InputBufferPtr - 1
                     str = str & ChrW(InputBuffer(i))
                 Next
@@ -228,6 +209,42 @@ Public Class InterfaceParent
 
 
 
+    End Sub
+
+    Private Sub DLDataRecieved() Handles DLHandler.DataRecieved
+        Dim input() As Byte = DLHandler.ReadBufferChars()
+        Dim str As String = ""
+        '#######need to sort stuff here - (the converting stream of packets to one string bit) #########
+
+
+        For Each b As Byte In input
+            If (b = 10 Or b = 13) Then
+                If (InputBufferPtr > 0) Then
+                    str = ""
+                    For i As Integer = 0 To InputBufferPtr - 1
+                        str = str & ChrW(InputBuffer(i))
+                    Next
+                    'RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                    Debug.WriteLine(str)
+                    InputBufferPtr = 0
+                Else
+
+                End If
+            Else
+                If InputBufferPtr >= inputBufferSize Then
+                    For Each c As Byte In InputBuffer
+                        str = str & ChrW(c)
+                    Next
+                    'RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                    Debug.WriteLine(str)
+                    InputBufferPtr = 0
+                Else
+
+                    InputBuffer(InputBufferPtr) = b
+                    InputBufferPtr = InputBufferPtr + 1
+                End If
+            End If
+        Next
     End Sub
 
     Private Sub AGWPERecieved(ByVal FromCall As String, ByVal ToCall As String, ByVal Header As String, ByVal Payload As String, ByVal All As String) Handles AGWPEHandler.ReceivedPacket
@@ -271,11 +288,30 @@ Public Class InterfaceParent
     Private Sub timer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) Handles timer.Elapsed
         Try
 
-            DLHandler = New TCPInterface(ExtractDomainFromURL(interfacesettings_.TCPHost), interfacesettings_.TCPPort, True)
 
-            Status_ = InterfaceStatus.Active
 
-            DLHandler.SendMessage(ToByteArr("GET /listen/view.php HTTP/1.1" & vbCrLf & "HOST: " & ExtractDomainFromURL(interfacesettings_.TCPHost) & vbCrLf & vbCrLf))
+            Dim uri As New System.Uri(interfacesettings_.TCPHost, System.UriKind.RelativeOrAbsolute)
+
+            If uri.IsAbsoluteUri = False Then
+                uri = New System.Uri("http://" & interfacesettings_.TCPHost)
+            End If
+
+            If DLHandler Is Nothing Then
+                DLHandler = New TCPInterface(uri.Authority, interfacesettings_.TCPPort, True)
+                Status_ = InterfaceStatus.Active
+            Else
+
+                If Not DLHandler.IsConnected Then
+                    DLHandler = New TCPInterface(uri.Authority, interfacesettings_.TCPPort, True)
+                    Status_ = InterfaceStatus.Active
+                End If
+            End If
+
+
+
+            DLHandler.SendMessage(ToByteArr("GET " & uri.AbsolutePath & " HTTP/1.1" & vbCrLf & "HOST: " & uri.Authority & vbCrLf & vbCrLf))
+
+
 
         Catch ex1 As System.Net.Sockets.SocketException
             Dim i As Integer = 0
