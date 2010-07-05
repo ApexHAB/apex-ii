@@ -418,79 +418,99 @@ Public Class Frame
 
         packet = packet + ","   'add a comma to the end to mark the end of hte last field
 
+        Dim chksumchar As Integer = -1  'location of checksum character
+
         'input now contains the string after $$
         Dim fields As List(Of String) = New List(Of String)()
         fields.Add("")  'blanking to make the list '1' starting
         Dim start As Integer = 0
         For i = 0 To packet.Count - 1
-            If packet(i) = "," Then
+            If (packet(i) = "*") And (chksumchar = -1) Then
+                chksumchar = i
+            End If
+            If (packet(i) = ",") Or (AscW(packet(i)) = 10) Or (AscW(packet(i)) = 13) Then
                 fields.Add(packet.Substring(start, i - start))
                 start = i + 1
             End If
         Next
+
+        'calcuate checksum
+        Dim checksum As UInteger = 0
+        If chksumchar > 0 Then
+            checksum = CRC16_CITT(packet.Substring(0, chksumchar))
+        End If
+
 
         Dim GPSla As String = ""
         Dim GPSlo As String = ""
         Dim GPSfrmat As PacketStructure.Encoding
 
         For i = 1 To fields.Count - 1
-            If fields(i) <> "" Then
-                If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexinteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexinteger) Then
-                    fields(i) = HexToInt_str(fields(i))
-                End If
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.callsign) Then
-                    Callsign_ = fields(i)
-                End If
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.latitude) Then
-                    GPSla = fields(i)
-                    GPSfrmat = packetStructure_.GetField(i).Encoding
-                End If
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.longitude) Then
-                    GPSlo = fields(i)
-                    GPSfrmat = packetStructure_.GetField(i).Encoding
-                End If
 
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.cycle_count) Then
-                    pcktcount_ = fields(i)
-                End If
+            If (fields(i) <> "") Then
+                If fields(i)(0) = "*" Then
+                    If UInteger.Parse(HexToInt_str(fields(i).Substring(1))) = checksum Then chksum_ = True
+                Else
+                    If (packetStructure_.FieldExists(i)) Then
 
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.time) Then
-                    time_ = fields(i)
-                End If
+                        If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexinteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexinteger) Then
+                            fields(i) = HexToInt_str(fields(i))
+                        End If
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.callsign) Then
+                            Callsign_ = fields(i)
+                        End If
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.latitude) Then
+                            GPSla = fields(i)
+                            GPSfrmat = packetStructure_.GetField(i).Encoding
+                        End If
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.longitude) Then
+                            GPSlo = fields(i)
+                            GPSfrmat = packetStructure_.GetField(i).Encoding
+                        End If
 
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.altitude) Then
-                    If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
-                        gpsal_ = Math.Round(Single.Parse(fields(i)) * 0.3048)
-                    Else
-                        gpsal_ = Integer.Parse(fields(i))
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.cycle_count) Then
+                            pcktcount_ = fields(i)
+                        End If
+
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.time) Then
+                            time_ = fields(i)
+                        End If
+
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.altitude) Then
+                            If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
+                                gpsal_ = Math.Round(Single.Parse(fields(i)) * 0.3048)
+                            Else
+                                gpsal_ = Integer.Parse(fields(i))
+                            End If
+                        End If
+
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
+                            gpsh_ = Single.Parse(fields(i))
+                        End If
+
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
+                            If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
+                                gpssp_ = Single.Parse(fields(i)) * 0.3048
+                            Else
+                                gpssp_ = Single.Parse(fields(i))
+                            End If
+                        End If
+
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sats) Then
+                            gpsSats_ = Integer.Parse(fields(i))
+                        End If
+
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.comment) Then
+                            comm_ = fields(i)
+                        End If
+
+                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
+                            Dim value = Double.Parse(fields(i))
+                            value = value * packetStructure_.GetField(i).ScaleFactor
+                            value = value + packetStructure_.GetField(i).Offset
+                            Pdata_.Add(packetStructure_.GetField(i).FieldName, value)
+                        End If
                     End If
-                End If
-
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
-                    gpsh_ = Single.Parse(fields(i))
-                End If
-
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
-                    If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
-                        gpssp_ = Single.Parse(fields(i)) * 0.3048
-                    Else
-                        gpssp_ = Single.Parse(fields(i))
-                    End If
-                End If
-
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sats) Then
-                    gpsSats_ = Integer.Parse(fields(i))
-                End If
-
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.comment) Then
-                    comm_ = fields(i)
-                End If
-
-                If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
-                    Dim value = Double.Parse(fields(i))
-                    value = value * packetStructure_.GetField(i).ScaleFactor
-                    value = value + packetStructure_.GetField(i).Offset
-                    Pdata_.Add(packetStructure_.GetField(i).FieldName, value)
                 End If
             End If
 
@@ -529,6 +549,35 @@ Public Class Frame
 
 
     End Sub
+
+    Private Function CRC16_CITT(ByVal input As String) As UInteger
+
+        Dim crc As UInteger = &HFFFF
+        Dim poly As UInteger = &H1021
+        Dim LastXor As UInteger = 0
+        Dim temp As UInteger
+
+        Dim mask As UInteger = &HFFFF  '16bit
+
+        For Each c As Char In input
+            temp = (AscW(c) And &HFF) << 8
+            crc = (crc Xor temp) And mask
+
+            For i = 0 To 7
+                If (crc And &H8000) > 0 Then
+                    crc = crc << 1
+                    crc = (crc Xor &H1021) And mask
+                Else
+                    crc = crc << 1
+                End If
+
+            Next
+
+        Next
+
+        Return crc
+    End Function
+
 
     Private Function HexToInt_str(ByVal input As String) As String
         If input.Count > 8 Then Return 0

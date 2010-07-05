@@ -201,4 +201,26 @@ Public Class EditInterfaceSettings
         End If
     End Sub
 
+    Private Sub btnFindXML_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnFindXML.Click
+
+        Dim selector As New OpenFileDialog()
+
+        With selector
+            .Multiselect = False
+            .Title = "Select XML string format file"
+            .Filter = "XML Files (*.xml)|*.xml"
+            .CheckFileExists = True
+            .CheckPathExists = True
+            .ShowDialog()
+        End With
+
+        Dim xmlpath As String = selector.FileName
+
+
+
+        If System.IO.File.Exists(xmlpath) = False Then Exit Sub
+
+        txtXMLpacket.Text = xmlpath
+
+    End Sub
 End Class

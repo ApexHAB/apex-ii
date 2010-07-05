@@ -81,3 +81,29 @@ F:\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.write.1.tlog
 F:\PacketHandler\PacketHandler\obj\Debug\ResGen.write.1.tlog
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.read.1.tlog
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.exe
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.pdb
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.xml
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\bin\Debug\Interop.MapPoint.dll
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\Interop.MapPoint.dll
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.vbproj.ResolveComReference.cache
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.HUD_UC.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.AGWPESettingsUC.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.EditInterfaceSettings.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.FLDigiSettingsUC.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.GoogleEarthsettingsUC.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MainFrm.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MappointSettingsUC.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.Resources.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.SerialPortSettingsUC.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.settingsFrm.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.UplinkFrm.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.SettingsLinearUC.resources
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.read.1.tlog
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.write.1.tlog
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
+C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb

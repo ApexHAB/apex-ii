@@ -1,6 +1,9 @@
 ﻿Imports MapPoint
 Public Class MainFrm
 
+    Public RunningDir As String = System.IO.Directory.GetCurrentDirectory()
+
+
     Dim app As Application
     Private GlobalSettings_ As New GlobalSettings
     ' Private Interfaces As New Collection()      'used to hold interfaceParents
@@ -80,7 +83,7 @@ Public Class MainFrm
         End If
         UpdateForm()
 
-        GlobalSettings_.SaveToDisk(System.IO.Directory.GetCurrentDirectory() + "\settings.xml")
+        GlobalSettings_.SaveToDisk(RunningDir & "\settings.xml")
 
     End Sub
 
@@ -262,6 +265,7 @@ Public Class MainFrm
 
             tabpg = New Windows.Forms.TabPage("All Data")
             rtb = New RichTextBox
+            rtb.WordWrap = False
             tabpg.Name = "All Data"
             rtb.Dock = System.Windows.Forms.DockStyle.Fill
             tabpg.Controls.Add(rtb)
@@ -274,6 +278,7 @@ Public Class MainFrm
                 tabpg = New Windows.Forms.TabPage(i.InterfaceName)
                 rtb = New RichTextBox
                 rtb.Name = "rtb" & i.InterfaceName
+                rtb.WordWrap = False
                 tabpg.Name = i.InterfaceName
 
                 rtb.Dock = System.Windows.Forms.DockStyle.Fill
@@ -291,29 +296,29 @@ Public Class MainFrm
     End Sub
 
     Private Sub AddToRTB(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
-        If tabData.TabPages.ContainsKey(tabpagename) = True Then
-            ' Try
-            Dim obj As Object
-            Dim i As Integer = 0
-            If tabpagename <> "" Then
 
+        ' Try
+        Dim obj As Object
+        Dim i As Integer = 0
+        If tabpagename <> "" Then
+            If tabData.TabPages.ContainsKey(tabpagename) = True Then
                 obj = tabData.TabPages(tabpagename).Controls(0)
                 i = obj.TextLength
                 obj.SelectionStart = i
                 obj.SelectionColor = colour
                 obj.appendtext(text)
-
-            Else
-
-                obj = tabData.TabPages(0).Controls(0)
-                i = obj.TextLength
-                obj.SelectionStart = i
-                obj.SelectionColor = colour
-                obj.appendtext(text)
             End If
-            '  Catch
-            '  End Try
+        Else
+
+            obj = tabData.TabPages(0).Controls(0)
+            i = obj.TextLength
+            obj.SelectionStart = i
+            obj.SelectionColor = colour
+            obj.appendtext(text)
         End If
+        '  Catch
+        '  End Try
+
     End Sub
 
     Private Sub UpdateInterfaces()
@@ -352,12 +357,22 @@ Public Class MainFrm
         Frames.Add(frame)
         HuD_UC1.FrameToDisplay = frame
 
+        Dim lineendp As String = ""
+        Dim lineendr As String = ""
+
+        If Not (frame.ProcessedString.EndsWith(vbCrLf) Or frame.ProcessedString.EndsWith(vbLf) Or frame.ProcessedString.EndsWith(vbCr)) Then
+            lineendp = vbCrLf
+        End If
+        If Not (frame.RawString.EndsWith(vbCrLf) Or frame.RawString.EndsWith(vbLf) Or frame.RawString.EndsWith(vbCr)) Then
+            lineendr = vbCrLf
+        End If
+
         If frame.CheckSum = True Then
-            AddToRTBTh(frame.ProcessedString, Color.Black, InterfaceDetails.InterfaceName)
-            AddToRTBTh(frame.RawString, Color.Black, "")
+            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
+            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
         Else
-            AddToRTBTh(frame.ProcessedString, Color.Red, InterfaceDetails.InterfaceName)
-            AddToRTBTh(frame.RawString, Color.Red, "")
+            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
+            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
         End If
 
 
@@ -368,11 +383,11 @@ Public Class MainFrm
                 If i.CanWrite = True Then
                     If i.Write(frame, InterfaceDetails) = True Then
                         If frame.CheckSum = True Then
-                            AddToRTBTh(frame.ProcessedString, Color.Black, i.InterfaceName)
-                            AddToRTBTh(frame.RawString, Color.Black, "")
+                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
+                            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
                         Else
-                            AddToRTBTh(frame.ProcessedString, Color.Red, i.InterfaceName)
-                            AddToRTBTh(frame.RawString, Color.Red, "")
+                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
+                            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
                         End If
                     End If
                 End If
@@ -405,9 +420,9 @@ Public Class MainFrm
 
 
 
-        If Not System.IO.File.Exists(System.IO.Directory.GetCurrentDirectory() + "\settings.xml") Then Exit Sub
+        If Not System.IO.File.Exists(RunningDir & "\settings.xml") Then Exit Sub
         Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
-        Dim reader As New System.IO.StreamReader(System.IO.Directory.GetCurrentDirectory() + "\settings.xml")
+        Dim reader As New System.IO.StreamReader(RunningDir + "\settings.xml")
         GlobalSettings_ = ser.Deserialize(reader)
         UpdateInterfaces()
         UpdateForm()

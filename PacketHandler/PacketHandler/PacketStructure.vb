@@ -16,14 +16,17 @@
         End Set
     End Property
 
+    Public Function FieldExists(ByVal offset As Integer) As Boolean
+        Return Fields_.ContainsKey("A" & offset.ToString)
 
+    End Function
 
     Public Property GetField(ByVal offset As Integer) As PacketField
         Get
-            If Fields_.ContainsKey("A" + offset.ToString) Then
-                Return Fields_("A" + offset.ToString)
+            If Fields_.ContainsKey("A" & offset.ToString) Then
+                Return Fields_("A" & offset.ToString)
             Else
-                Return Nothing ' New PacketField
+                Return DefualtPacketField() ' New PacketField
             End If
         End Get
         Set(ByVal value As PacketField)
@@ -164,7 +167,7 @@
 
                         End While
 
-                        Fields_.Add("A" + seq.ToString, fld)
+                        Fields_.Add("A" & seq.ToString, fld)
 
                 End Select
             End If
@@ -178,7 +181,7 @@
     Private Function DefualtPacketField()
         Dim out As New PacketField
         out.FieldName = ""
-        out.FieldType = FieldType.Sensor
+        out.FieldType = FieldType.sensor
         out.Encoding = Encoding.null
         out.Encoding2 = Encoding.null
         out.ScaleFactor = 1
