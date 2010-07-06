@@ -373,36 +373,37 @@ Public Class MainFrm
 
 
         For Each j As InterfaceParent In Interfaces
-            If j.StoreFrame(frame) Then
+            If j.InterfaceName = InterfaceDetails.InterfaceName Then
+                If j.StoreFrame(frame) Then
 
-                AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
+                    AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
 
-                HuD_UC1.FrameToDisplay = frame
+                    HuD_UC1.FrameToDisplay = frame
 
-                If frame.CheckSum = True Then
-                    AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
-                    AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                Else
-                    AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
-                    AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
-                End If
+                    If frame.CheckSum = True Then
+                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
+                        AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                    Else
+                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
+                        AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                    End If
 
-                For Each i As InterfaceParent In Interfaces
-                    If i.InterfaceName <> InterfaceDetails.InterfaceName Then
-                        If i.CanWrite = True Then
-                            If i.Write(frame, InterfaceDetails) = True Then
-                                If frame.CheckSum = True Then
-                                    AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
-                                    AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                                Else
-                                    AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
-                                    AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                    For Each i As InterfaceParent In Interfaces
+                        If i.InterfaceName <> InterfaceDetails.InterfaceName Then
+                            If i.CanWrite = True Then
+                                If i.Write(frame, InterfaceDetails) = True Then
+                                    If frame.CheckSum = True Then
+                                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
+                                        AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                                    Else
+                                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
+                                        AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                                    End If
                                 End If
                             End If
                         End If
-                    End If
-                Next
-
+                    Next
+                End If
             End If
         Next
 
