@@ -1,6 +1,8 @@
 ﻿Imports System.Text.RegularExpressions
 Imports System.Text
 Imports System.Security.Cryptography
+Imports System.Net
+Imports System.IO
 
 Public Class InterfaceParent
 
@@ -20,10 +22,11 @@ Public Class InterfaceParent
     Private SerialHandler As SerialPortInterface
     Private MappointHandler As MapPointInterface
     Private GoogleEarthHandler As TCPInterface
-    Private WithEvents DLHandler As TCPInterface
+    ' Private WithEvents DLHandler As TCPInterface
 
     Private CanWrite_ As Boolean
     Private CanRead_ As Boolean
+
 
     Private Status_ As InterfaceStatus = InterfaceStatus.Inactive
     Private error_ As Exception
@@ -239,55 +242,56 @@ Public Class InterfaceParent
 
     End Sub
 
-    Private Sub DLDataRecieved() Handles DLHandler.DataRecieved
-        Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
-        Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
-        Dim input() As Byte = DLHandler.ReadBufferChars()
-        Dim str As String = ""
-        '#######need to sort stuff here - (the converting stream of packets to one string bit) #########
+    'Private Sub DLDataRecieved() ' Handles DLHandler.DataRecieved
+    '    Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
+    '    Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
+    '    Dim input() As Byte = DLHandler.ReadBufferChars()
+    '    Dim str As String = ""
+    '    '#######need to sort stuff here - (the converting stream of packets to one string bit) #########
 
 
-        For Each b As Byte In input
-            ' Debug.Write(ChrW(b))
-            If (b = 10 Or b = 13) Then
-                If (InputBufferPtr > 0) Then
-                    str = ""
-                    For i As Integer = 0 To InputBufferPtr - 1
-                        str = str & ChrW(InputBuffer(i))
-                    Next
-                    '
-                    ' Debug.WriteLine(str)
-                    If reg.IsMatch(str) Then
-                        '  Debug.WriteLine("match")
-                        ' Debug.WriteLine()
+    '    For Each b As Byte In input
+    '        ' Debug.Write(ChrW(b))
+    '        If (b = 10 Or b = 13) Then
+    '            If (InputBufferPtr > 0) Then
+    '                str = ""
+    '                For i As Integer = 0 To InputBufferPtr - 1
+    '                    str = str & ChrW(InputBuffer(i))
+    '                Next
+    '                '
+    '                ' Debug.WriteLine(str)
+    '                If reg.IsMatch(str) Then
+    '                    '  Debug.WriteLine("match")
+    '                    ' Debug.WriteLine()
 
-                        RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
-                    End If
+    '                    RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
+    '                End If
 
-                    If reg2.IsMatch(str) Then
-                        DLHandler.Close()
-                    End If
+    '                If reg2.IsMatch(str) Then
+    '                    DLHandler.Close()
+    '                    DLHandler = Nothing
+    '                End If
 
-                    InputBufferPtr = 0
-                Else
+    '                InputBufferPtr = 0
+    '            Else
 
-                End If
-            Else
-                If InputBufferPtr >= inputBufferSize Then
-                    For Each c As Byte In InputBuffer
-                        str = str & ChrW(c)
-                    Next
-                    'RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
-                    Debug.WriteLine(str)
-                    InputBufferPtr = 0
-                Else
+    '            End If
+    '        Else
+    '            If InputBufferPtr >= inputBufferSize Then
+    '                For Each c As Byte In InputBuffer
+    '                    str = str & ChrW(c)
+    '                Next
+    '                'RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+    '                Debug.WriteLine(str)
+    '                InputBufferPtr = 0
+    '            Else
 
-                    InputBuffer(InputBufferPtr) = b
-                    InputBufferPtr = InputBufferPtr + 1
-                End If
-            End If
-        Next
-    End Sub
+    '                InputBuffer(InputBufferPtr) = b
+    '                InputBufferPtr = InputBufferPtr + 1
+    '            End If
+    '        End If
+    '    Next
+    'End Sub
 
     Private Sub AGWPERecieved(ByVal FromCall As String, ByVal ToCall As String, ByVal Header As String, ByVal Payload As String, ByVal All As String) Handles AGWPEHandler.ReceivedPacket
         '#### need to do filtering based on filters in the settings
@@ -327,46 +331,112 @@ Public Class InterfaceParent
         End If
     End Sub
 
-    Private Sub timer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) Handles timer.Elapsed
-        '  Try
+    'Private Sub timer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) ' Handles timer.Elapsed
+    '    '  Try
 
-        If Not DLHandler Is Nothing Then DLHandler.Close()
+    '    If Not DLHandler Is Nothing Then DLHandler.Close()
 
-        Dim uri As New System.Uri(interfacesettings_.TCPHost, System.UriKind.RelativeOrAbsolute)
+    '    Dim uri As New System.Uri(interfacesettings_.TCPHost, System.UriKind.RelativeOrAbsolute)
 
-        If uri.IsAbsoluteUri = False Then
-            uri = New System.Uri("http://" & interfacesettings_.TCPHost)
-        End If
+    '    If uri.IsAbsoluteUri = False Then
+    '        uri = New System.Uri("http://" & interfacesettings_.TCPHost)
+    '    End If
 
-        DLHandler = New TCPInterface(uri.Authority, interfacesettings_.TCPPort, True)
-        Status_ = InterfaceStatus.Active
-
-       
-
-
-        DLHandler.SendMessage(ToByteArr("GET " & uri.AbsolutePath & " HTTP/1.1" & vbCrLf & "HOST: " & uri.Authority & vbCrLf & vbCrLf))
+    '    DLHandler = New TCPInterface(uri.Authority, interfacesettings_.TCPPort, True)
+    '    Status_ = InterfaceStatus.Active
 
 
 
 
+    '    DLHandler.SendMessage(ToByteArr("GET " & uri.AbsolutePath & " HTTP/1.1" & vbCrLf & "HOST: " & uri.Authority & vbCrLf & vbCrLf))
 
-        'Catch ex1 As System.Net.Sockets.SocketException
-        '    Dim i As Integer = 0
-        '    If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
-        '        Status_ = InterfaceStatus.Inactive_ConRefused
-        '    End If
-        '    If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
-        '        Status_ = InterfaceStatus.Inactive_NotFound
-        '    End If
-        '    error_ = ex1
 
-        '    RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
 
-        'Catch ex As Exception
-        '    error_ = ex
-        '    Status_ = InterfaceStatus.Inactive
-        '    RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
-        'End Try
+
+
+    '    'Catch ex1 As System.Net.Sockets.SocketException
+    '    '    Dim i As Integer = 0
+    '    '    If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
+    '    '        Status_ = InterfaceStatus.Inactive_ConRefused
+    '    '    End If
+    '    '    If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
+    '    '        Status_ = InterfaceStatus.Inactive_NotFound
+    '    '    End If
+    '    '    error_ = ex1
+
+    '    '    RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
+
+    '    'Catch ex As Exception
+    '    '    error_ = ex
+    '    '    Status_ = InterfaceStatus.Inactive
+    '    '    RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
+    '    'End Try
+    'End Sub
+
+    Private Sub tierm_elapsed2() Handles timer.Elapsed
+        timer.Stop()
+        timer.Enabled = False
+        timer.Close()
+
+        Debug.WriteLine("ENTERING")
+
+
+        Try
+
+            Dim urlstr As String = interfacesettings_.TCPHost
+            Dim uri As New System.Uri(urlstr, System.UriKind.RelativeOrAbsolute)
+
+            If uri.IsAbsoluteUri = False Then
+                urlstr = "http://" & urlstr
+            End If
+
+            Dim wr As HttpWebRequest = WebRequest.Create(urlstr)
+            Dim ws As HttpWebResponse = CType(wr.GetResponse(), HttpWebResponse)
+            Dim reader As StreamReader = New StreamReader(ws.GetResponseStream())
+
+            Dim str As String = ""
+
+            Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
+            Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
+
+
+            While Not reader.EndOfStream
+                str = reader.ReadLine()
+                ' Debug.WriteLine(str)
+
+
+
+
+                If reg.IsMatch(str) Then
+                    '  Debug.WriteLine("match")
+                    ' Debug.WriteLine()
+                    RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
+                End If
+
+                If reg2.IsMatch(str) Then
+                    Exit While
+                End If
+
+
+            End While
+            ws.Close()
+
+            If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
+            timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+            timer.Enabled = True
+         
+            Debug.WriteLine("EXIT")
+
+
+        Catch ex As Exception
+            If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
+            timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+            timer.Enabled = True
+            Debug.WriteLine("EXITwe")
+        End Try
+
+
+
     End Sub
 
     Private Function ToByteArr(ByVal str As String) As Byte()

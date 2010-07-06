@@ -2,7 +2,7 @@
 Imports System.Text
 
 Public Class TCPInterface
-    Private client As System.Net.Sockets.TcpClient
+    Private WithEvents client As System.Net.Sockets.TcpClient
     Private Const BYTES_TO_READ As Integer = 255
     Private readBuffer(BYTES_TO_READ) As Byte
     Private CLbuffer As New Queue(Of Array)
@@ -47,10 +47,11 @@ Public Class TCPInterface
 
 #End Region
 
-    Public Function Close()
+    Public Sub Close()
         client.Close()
 
-    End Function
+
+    End Sub
 
     Public Sub New(ByVal host_ As String, ByVal port_ As Integer, ByVal connect As Boolean)
         host = host_
@@ -117,6 +118,8 @@ Public Class TCPInterface
             Debug.WriteLine(ex.ToString)
         End Try
     End Sub
+
+
 
     Public Sub SendMessage(ByVal msg() As Byte)
 

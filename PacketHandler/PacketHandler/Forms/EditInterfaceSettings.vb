@@ -43,6 +43,7 @@ Public Class EditInterfaceSettings
         settings_.sDatabits = Val(txtDataBits.Text)
         settings_.sParity = cmbsParity.SelectedIndex
         settings_.sStopbits = cmbsStop.SelectedIndex
+        settings_.Timer = txtTimer.Text
 
         settings_.TCPHost = txtTCPHost.Text
         settings_.TCPPort = txtTCPPort.Text

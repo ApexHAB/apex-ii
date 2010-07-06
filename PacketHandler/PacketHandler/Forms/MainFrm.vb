@@ -157,11 +157,6 @@ Public Class MainFrm
     End Sub
 
 
-    Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-
-
-
-    End Sub
 
     Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
         Dim selector As New OpenFileDialog()
@@ -367,7 +362,7 @@ Public Class MainFrm
             lineendr = vbCrLf
         End If
 
-        
+
 
 
 
