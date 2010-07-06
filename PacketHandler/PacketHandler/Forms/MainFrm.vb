@@ -438,6 +438,7 @@ Public Class MainFrm
             Dim reader As New System.IO.StreamReader(RunningDir + "\settings.xml")
 
             GlobalSettings_ = ser.Deserialize(reader)
+          
             reader.Close()
         End If
 

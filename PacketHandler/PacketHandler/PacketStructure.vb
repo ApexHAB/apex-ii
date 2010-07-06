@@ -8,33 +8,33 @@
     Private sentenceDelimiter_ As String = ""
     Private fielddelimiter_ As Char = ""
 
-    Private Fields_ As Dictionary(Of String, PacketField) = New Dictionary(Of String, PacketField) 'integer value is offset in packet
+    <System.Xml.Serialization.XmlIgnore()> Private Fields_ As Dictionary(Of String, PacketField) = New Dictionary(Of String, PacketField) 'integer value is offset in packet
 
-    Public Property CallSign As String
+    Public ReadOnly Property CallSign As String
         Get
             Return callsign_
         End Get
-        Set(ByVal value As String)
-            callsign_ = value
-        End Set
+        'Set(ByVal value As String)
+        '    callsign_ = value
+        'End Set
     End Property
 
-    Public Property SentenceDelimiter As String
+    Public ReadOnly Property SentenceDelimiter As String
         Get
             Return sentenceDelimiter_
         End Get
-        Set(ByVal value As String)
-            sentenceDelimiter_ = value
-        End Set
+        'Set(ByVal value As String)
+        '    sentenceDelimiter_ = value
+        'End Set
     End Property
 
-    Public Property FieldDelimiter As String
+    Public ReadOnly Property FieldDelimiter As Char
         Get
             Return fielddelimiter_
         End Get
-        Set(ByVal value As String)
-            fielddelimiter_ = value
-        End Set
+        'Set(ByVal value As Char)
+        '    fielddelimiter_ = value
+        'End Set
     End Property
 
     Public Property PacketType() As PacketFormats
@@ -51,7 +51,7 @@
 
     End Function
 
-    Public Property GetField(ByVal offset As Integer) As PacketField
+    Public ReadOnly Property GetField(ByVal offset As Integer) As PacketField
         Get
             If Fields_.ContainsKey("A" & offset.ToString) Then
                 Return Fields_("A" & offset.ToString)
@@ -59,9 +59,6 @@
                 Return DefualtPacketField() ' New PacketField
             End If
         End Get
-        Set(ByVal value As PacketField)
-
-        End Set
     End Property
 
 

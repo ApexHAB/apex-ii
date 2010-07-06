@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GlobalSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <logFolder>C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug</logFolder>
-  <Interfaces>
-    <InterfaceSettings>
-      <TCPHost>www.robertharrison.org/listen/view.php</TCPHost>
-      <TCPPort>80</TCPPort>
-      <sBaud>2400</sBaud>
-      <sPort />
-      <sParity>None</sParity>
-      <sDatabits>8</sDatabits>
-      <sStopbits>One</sStopbits>
-      <Timer>30</Timer>
-      <XMLStructurePath />
-      <PacketStructure>
-        <PacketType>UKHAS</PacketType>
-      </PacketStructure>
-      <Enabled>false</Enabled>
-      <InterfaceName>joh</InterfaceName>
-      <InterfaceDirection>DataIn</InterfaceDirection>
-      <InterfaceType>DLINTERNET</InterfaceType>
-      <Filters />
-    </InterfaceSettings>
-  </Interfaces>
+  <Interfaces />
   <TimeZone>0</TimeZone>
   <UseUTC>false</UseUTC>
 </GlobalSettings>
