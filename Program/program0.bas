@@ -101,9 +101,10 @@ symbol PacketPtrh = b39
 symbol PacketPtr = w19
 
 
-symbol TXBaud = 39999	'8mhz:39999 for 50 baud
+'symbol TXBaud = 39999	'8mhz:39999 for 50 baud
+symbol TXBaud = B300_8
 symbol TXMode = %110
-symbol RXBaud = B300_8
+symbol RXBaud = 53332	'37.5
 symbol RXMode = %111
 
 '########
@@ -141,6 +142,7 @@ DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 serrxd [2000,main],("C")
 
 run 2
+
 
 
 
@@ -352,7 +354,7 @@ gosub WriteComma
 
 gosub GetSpeedBearing
 
-for b20 = 1 to 11			'copy values into free RAM
+for b20 = 1 to 7			'copy values into free RAM
 	peek b20,b19
 	b18 = b20 + 60
 	poke b18,b19
@@ -360,9 +362,9 @@ next
 b10 = ramptr
 
 if b0 <> 0 then
-	ramptr = ramptr + 11
+	ramptr = ramptr + 7
 	b11 = 61
-	b12 = 71
+	b12 = 67
 	gosub RTCRAMWriteMany
 else
 	gosub WriteComma	
@@ -486,8 +488,8 @@ next
 highenough:
 low a.4
 pause 100
-sertxd("scale - ",#b25,cr,lf)
-sertxd("red - ",#b17,cr,lf)
+'sertxd("scale - ",#b25,cr,lf)
+'sertxd("red - ",#b17,cr,lf)
 
 b11 = b17
 
@@ -499,7 +501,7 @@ count lightout,10,b10
 high lightCS
 low a.4
 pause 100
-sertxd("red - ",#b10,cr,lf)
+'sertxd("red - ",#b10,cr,lf)
 
 gosub bintohex
 
@@ -520,7 +522,7 @@ count lightout,10,b11
 high lightCS
 low a.4
 pause 100
-sertxd("grn - ",#b11,cr,lf)
+'sertxd("grn - ",#b11,cr,lf)
 
 low lightS2
 high lightS3
@@ -530,7 +532,7 @@ count lightout,10,b10
 high lightCS
 low a.4
 pause 100
-sertxd("blue - ",#b10,cr,lf)
+'sertxd("blue - ",#b10,cr,lf)
 
 gosub bintohex
 
@@ -558,6 +560,7 @@ DirsA = DirsA AND %11110111	'set GPS input pins as inputs
 
 
 'turn off RX/hserin
+high radiocsrx
 hsersetup OFF
 
 
@@ -567,8 +570,12 @@ hsersetup OFF
 'process RX buffer
 ptr = 0
 do
-	if @ptrinc = "#" then		
+	b0 = @ptrinc
+	'sertxd(b0)
+	if b0 = "#" then
+	'	sertxd("# found",cr,lf)		
 		if @ptrinc = "#" then
+		'	sertxd("## found",cr,lf)
 			gosub commandfound
 		endif
 		
@@ -615,7 +622,7 @@ ptr = 2
 for b16 = 2 to ramptr
 
 	byte_ = @ptrinc
-	sertxd(byte_)
+'	sertxd(byte_)
 	gosub crc16add2
 
 next
@@ -654,6 +661,11 @@ b10 = ramptr
 b13 = 0
 w7 = PacketPtr
 gosub FlashWritePage
+pause 100
+'read status
+b10 = _RDSR
+gosub FlashRead_byte
+sertxd("flash status: ",#b0)
 
 
 'increment and write counter
@@ -697,21 +709,16 @@ for w8 = 0 to 1023
 next
 
 hsersetup RXBaud, RXMode
+low radiocsrx
+sertxd("GO\n\r")
+wait 10
+sertxd("STOP\n\r")
 
 'wait 10
 goto main
 
 
-Crc16Add:
-    FOR bit_ = 0 TO 7
-      k = byte_ ^ crc & 1
-      IF k = 0 THEN Crc16Add1
-      k = POLYNOMIAL
-    Crc16Add1:
-      crc = crc / 2 ^ k
-      byte_ = byte_ / 2
-    NEXT
-    RETURN
+
     
  crc16add2:
 
@@ -737,6 +744,7 @@ return
     
 
 commandfound:
+'sertxd("CMDFND ETERED",cr,lf)
 'starts at 0x80
 b15 = 0x80	'start of each sequence pointer
 b16 = 0x80	'moving pointer
@@ -747,14 +755,18 @@ b19 = ptr	' hold the entry value for ptr
 
 do while ptr < 254
 	
-	read b16,b17
+	readtable b16,b17
+	
+		
 	if @ptrinc <> b17	then
 		ptr = b19	'reset ptr		
 		b15 = b15 + 10
+		b16 = b15
 		if b15 >= 0xF8 then : return endif
 		b18 = 0
 	else
 		b18 = b18 + 1
+		b16 = b16 + 1
 	endif
 	
 	if b18 = 10 then
@@ -765,7 +777,7 @@ do while ptr < 254
 	endif	
 
 loop
-
+ptr = b19
 
 return
 
@@ -773,17 +785,19 @@ return
 
 
 pingcmd:
-b19 = ","
+
 b20 = "P"
 b21 = "O"
 b22 = "N"
 b23 = "G"
+b24 = ","
 
 b10 = ramptr
 ramptr = ramptr + 5
-b11 = 19
-b12 = 23
+b11 = 20
+b12 = 24
 gosub RTCRAMWriteMany
+sertxd("OMG IT WORKED :O",cr,lf)
 
 return
 
@@ -793,16 +807,17 @@ high FET2
 pause 500
 low FET2
 
-b19 = ","
+
 b20 = "C"
 b21 = "D"
 b22 = "W"
 b23 = "N"
+b24 = ","
 
 b10 = ramptr
 ramptr = ramptr + 5
-b11 = 19
-b12 = 23
+b11 = 20
+b12 = 24
 gosub RTCRAMWriteMany
 
 
@@ -951,12 +966,12 @@ b43 = b13
 b44 = b14
 b45 = b15
 
-b10 = _WREN
-gosub FlashSingleOpCode	'enable write
+'b10 = _WREN
+'gosub FlashSingleOpCode	'enable write
 
-b10 = _WRSR
-b11 = 0
-gosub FlashWrite_byte
+'b10 = _WRSR
+'b11 = 0
+'gosub FlashWrite_byte
 
 b10 = _WREN
 gosub FlashSingleOpCode	'enable write
@@ -1467,13 +1482,13 @@ return
 
 GetSpeedBearing:
 
-'b7-b11 : bearing
-'b1-b5 : speed kms
-'b6 - ","
+'b5-b7 : bearing
+'b1-b3 : speed kms
+'b4 - ","
 
 
-serin [2000,endgps],GPSIn2,T4800,("GPVTG,"),b7,b8,b9,b10,b11,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5
-b6 = ","
+serin [2000,endgps],GPSIn2,T4800,("GPVTG,"),b5,b6,b7,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3
+b4 = ","
 if b1 = "," then
 	b0 = 0
 else

@@ -381,59 +381,59 @@ Public Class InterfaceParent
         Debug.WriteLine("ENTERING")
 
 
-        Try
+        'Try
 
-            Dim urlstr As String = interfacesettings_.TCPHost
-            Dim uri As New System.Uri(urlstr, System.UriKind.RelativeOrAbsolute)
+        Dim urlstr As String = interfacesettings_.TCPHost
+        Dim uri As New System.Uri(urlstr, System.UriKind.RelativeOrAbsolute)
 
-            If uri.IsAbsoluteUri = False Then
-                urlstr = "http://" & urlstr
+        If uri.IsAbsoluteUri = False Then
+            urlstr = "http://" & urlstr
+        End If
+
+        Dim wr As HttpWebRequest = WebRequest.Create(urlstr)
+        Dim ws As HttpWebResponse = CType(wr.GetResponse(), HttpWebResponse)
+        Dim reader As StreamReader = New StreamReader(ws.GetResponseStream())
+
+        Dim str As String = ""
+
+        Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
+        Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
+
+
+        While Not reader.EndOfStream
+            str = reader.ReadLine()
+            ' Debug.WriteLine(str)
+
+
+
+
+            If reg.IsMatch(str) Then
+                '  Debug.WriteLine("match")
+                ' Debug.WriteLine()
+                RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
             End If
 
-            Dim wr As HttpWebRequest = WebRequest.Create(urlstr)
-            Dim ws As HttpWebResponse = CType(wr.GetResponse(), HttpWebResponse)
-            Dim reader As StreamReader = New StreamReader(ws.GetResponseStream())
-
-            Dim str As String = ""
-
-            Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
-            Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
+            If reg2.IsMatch(str) Then
+                Exit While
+            End If
 
 
-            While Not reader.EndOfStream
-                str = reader.ReadLine()
-                ' Debug.WriteLine(str)
+        End While
+        ws.Close()
+
+        If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
+        timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+        timer.Enabled = True
+
+        Debug.WriteLine("EXIT")
 
 
-
-
-                If reg.IsMatch(str) Then
-                    '  Debug.WriteLine("match")
-                    ' Debug.WriteLine()
-                    RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
-                End If
-
-                If reg2.IsMatch(str) Then
-                    Exit While
-                End If
-
-
-            End While
-            ws.Close()
-
-            If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
-            timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
-            timer.Enabled = True
-         
-            Debug.WriteLine("EXIT")
-
-
-        Catch ex As Exception
-            If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
-            timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
-            timer.Enabled = True
-            Debug.WriteLine("EXITwe")
-        End Try
+        'Catch ex As Exception
+        '    If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
+        '    timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+        '    timer.Enabled = True
+        '    Debug.WriteLine("EXITwe")
+        'End Try
 
 
 

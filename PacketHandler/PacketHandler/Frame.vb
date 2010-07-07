@@ -617,7 +617,9 @@ Public Class Frame
                     outputint = outputint + (AscW(Char.ToUpper(input(j))) - AscW("A") + 10) * Math.Pow(16, i)
                 End If
             Else
-                outputint = outputint + (AscW(Char.ToUpper(input(j))) - AscW("0")) * Math.Pow(16, i)
+                If (AscW(Char.ToUpper(input(j))) >= AscW("0")) And (AscW(Char.ToUpper(input(j))) <= AscW("9")) Then
+                    outputint = outputint + (AscW(Char.ToUpper(input(j))) - AscW("0")) * Math.Pow(16, i)
+                End If
             End If
         Next
         Return outputint.ToString
