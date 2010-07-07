@@ -613,7 +613,7 @@ Public Class Frame
     Private Function HexToInt_str(ByVal input As String) As String
         If input.Count > 8 Then Return 0
         Dim j = 0
-        Dim outputint As UInteger = 0
+        Dim outputint As ULong = 0
         For i As Integer = 0 To input.Count - 1
             j = (input.Count - 1) - i
             If AscW(Char.ToUpper(input(j))) >= AscW("A") Then
