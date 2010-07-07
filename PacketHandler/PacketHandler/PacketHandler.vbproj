@@ -72,10 +72,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GPScoord.vb" />
-    <Compile Include="HUD_UC.Designer.vb">
+    <Compile Include="Forms\HUD_UC.Designer.vb">
       <DependentUpon>HUD_UC.vb</DependentUpon>
     </Compile>
-    <Compile Include="HUD_UC.vb">
+    <Compile Include="Forms\HUD_UC.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="InterfaceHelper.vb" />
@@ -85,10 +85,10 @@
     <Compile Include="Forms\InterfaceStatus.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InterfaceStatusUC.Designer.vb">
+    <Compile Include="Forms\InterfaceStatusUC.Designer.vb">
       <DependentUpon>InterfaceStatusUC.vb</DependentUpon>
     </Compile>
-    <Compile Include="InterfaceStatusUC.vb">
+    <Compile Include="Forms\InterfaceStatusUC.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="MapPointInterface.vb" />
@@ -146,7 +146,7 @@
     <EmbeddedResource Include="Forms\InterfaceStatus.resx">
       <DependentUpon>InterfaceStatus.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HUD_UC.resx">
+    <EmbeddedResource Include="Forms\HUD_UC.resx">
       <DependentUpon>HUD_UC.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -158,7 +158,7 @@
       <DependentUpon>MainFrm.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="InterfaceStatusUC.resx">
+    <EmbeddedResource Include="Forms\InterfaceStatusUC.resx">
       <DependentUpon>InterfaceStatusUC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">

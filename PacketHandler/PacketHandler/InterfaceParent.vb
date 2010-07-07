@@ -212,8 +212,10 @@ Public Class InterfaceParent
         Select Case interfacesettings_.InterfaceType
             Case InterfaceTypes.SERIALMODEM
                 SerialHandler.SendData(input)
+                Status_ = InterfaceStatus.Ready
+                RaiseEvent InterfaceStatusChange(InterfaceStatus.Ready, "", interfacesettings_)
         End Select
-        Debug.WriteLine("DATA WRITTEN - " & input)
+        ' Debug.WriteLine("DATA WRITTEN - " & input)
     End Sub
 
     Public Function Write(ByVal frame As Frame, Optional ByVal frameOrigin As InterfaceSettings = Nothing) As Boolean  'this function formats the frame as it feels best

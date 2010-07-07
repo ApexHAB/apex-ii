@@ -171,7 +171,7 @@ Partial Class MainFrm
         Me.Controls.Add(Me.tabData)
         Me.Controls.Add(Me.btnSettings)
         Me.Name = "MainFrm"
-        Me.Text = "hello"
+        Me.Text = "Packet Handler"
         Me.tabData.ResumeLayout(False)
         Me.tpAllData.ResumeLayout(False)
         Me.ResumeLayout(False)
