@@ -26,6 +26,9 @@ Public Class InterfaceParent
 
     Private CanWrite_ As Boolean
     Private CanRead_ As Boolean
+    Private CanConnect_ As Boolean = False
+
+    Private Messages_ As String = ""
 
 
     Private Status_ As InterfaceStatus = InterfaceStatus.Inactive
@@ -44,10 +47,22 @@ Public Class InterfaceParent
 
 
     Public Event LineRecievedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
-    Public Event LineRecievedbyte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String) '## add from/to fields
+    ' Public Event LineRecievedbyte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String) '## add from/to fields
     Public Event InterfaceStatusChange(ByVal NewStatus As InterfaceStatus, ByVal Message As String, ByVal InterfaceDetails As InterfaceSettings)
 
 #Region "Properties"
+
+    Public ReadOnly Property Messages As String
+        Get
+            Return Messages_
+        End Get
+    End Property
+
+    Public ReadOnly Property CanConnect As Boolean
+        Get
+            Return CanConnect_
+        End Get
+    End Property
 
     Public ReadOnly Property Status As InterfaceStatus
         Get
@@ -76,7 +91,7 @@ Public Class InterfaceParent
             Return interfacesettings_.PacketStructure.PacketType
         End Get
     End Property
-    Public ReadOnly Property InterfaceName()
+    Public ReadOnly Property InterfaceName() As String
         Get
             Return interfacesettings_.InterfaceName
         End Get
@@ -112,50 +127,8 @@ Public Class InterfaceParent
                 CanWrite_ = False
                 CanRead_ = False
         End Select
-        Try
-            Select Case interfacesettings_.InterfaceType
-                Case InterfaceTypes.SERIALMODEM
-                    SerialHandler = New SerialPortInterface(interfacesettings_, True)
-                    Status_ = InterfaceStatus.Active
-                    '  Case InterfaceTypes.AGWPE
-                Case InterfaceTypes.FLDIGI
-                    FLDigiHandler = New TCPInterface(interfacesettings_.TCPHost, interfacesettings_.TCPPort, True)
-                    Status_ = InterfaceStatus.Active
-                Case InterfaceTypes.MAPPOINT
-                    MappointHandler = New MapPointInterface()
-                    Status_ = InterfaceStatus.Active
-                Case InterfaceTypes.DLINTERNET
-                    If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
-                    timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
-                    timer.Enabled = True
-                    Status_ = InterfaceStatus.Ready
-                Case Else
-                    Status_ = InterfaceStatus.Inactive_NotImplemented
 
-            End Select
-
-
-            RaiseEvent InterfaceStatusChange(Status_, "", interfacesettings_)
-
-        Catch ex1 As System.Net.Sockets.SocketException
-            Debug.WriteLine("ERROR - IN INTERFACEPARENT:NEW")
-            Dim i As Integer = 0
-            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
-                Status_ = InterfaceStatus.Inactive_ConRefused
-            End If
-            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
-                Status_ = InterfaceStatus.Inactive_NotFound
-            End If
-            error_ = ex1
-
-            RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
-
-        Catch ex As Exception
-            Debug.WriteLine("ERROR - IN INTERFACEPARENT:NEW")
-            error_ = ex
-            Status_ = InterfaceStatus.Inactive
-            RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
-        End Try
+        Connect()
 
 
     End Sub
@@ -189,18 +162,7 @@ Public Class InterfaceParent
 
     End Function
 
-    Private Function GenerateHash(ByVal SourceText As String) As String
-        'Create an encoding object to ensure the encoding standard for the source text
-        Dim Ue As New UnicodeEncoding()
-        'Retrieve a byte array based on the source text
-        Dim ByteSourceText() As Byte = Ue.GetBytes(SourceText)
-        'Instantiate an MD5 Provider object
-        Dim Md5 As New MD5CryptoServiceProvider()
-        'Compute the hash value from the source
-        Dim ByteHash() As Byte = Md5.ComputeHash(ByteSourceText)
-        'And convert it to String format for return
-        Return Convert.ToBase64String(ByteHash)
-    End Function
+
 
     Private Sub fldigiRecievied() Handles FLDigiHandler.DataRecieved
 
@@ -242,57 +204,6 @@ Public Class InterfaceParent
 
     End Sub
 
-    'Private Sub DLDataRecieved() ' Handles DLHandler.DataRecieved
-    '    Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
-    '    Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
-    '    Dim input() As Byte = DLHandler.ReadBufferChars()
-    '    Dim str As String = ""
-    '    '#######need to sort stuff here - (the converting stream of packets to one string bit) #########
-
-
-    '    For Each b As Byte In input
-    '        ' Debug.Write(ChrW(b))
-    '        If (b = 10 Or b = 13) Then
-    '            If (InputBufferPtr > 0) Then
-    '                str = ""
-    '                For i As Integer = 0 To InputBufferPtr - 1
-    '                    str = str & ChrW(InputBuffer(i))
-    '                Next
-    '                '
-    '                ' Debug.WriteLine(str)
-    '                If reg.IsMatch(str) Then
-    '                    '  Debug.WriteLine("match")
-    '                    ' Debug.WriteLine()
-
-    '                    RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
-    '                End If
-
-    '                If reg2.IsMatch(str) Then
-    '                    DLHandler.Close()
-    '                    DLHandler = Nothing
-    '                End If
-
-    '                InputBufferPtr = 0
-    '            Else
-
-    '            End If
-    '        Else
-    '            If InputBufferPtr >= inputBufferSize Then
-    '                For Each c As Byte In InputBuffer
-    '                    str = str & ChrW(c)
-    '                Next
-    '                'RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
-    '                Debug.WriteLine(str)
-    '                InputBufferPtr = 0
-    '            Else
-
-    '                InputBuffer(InputBufferPtr) = b
-    '                InputBufferPtr = InputBufferPtr + 1
-    '            End If
-    '        End If
-    '    Next
-    'End Sub
-
     Private Sub AGWPERecieved(ByVal FromCall As String, ByVal ToCall As String, ByVal Header As String, ByVal Payload As String, ByVal All As String) Handles AGWPEHandler.ReceivedPacket
         '#### need to do filtering based on filters in the settings
     End Sub
@@ -331,112 +242,139 @@ Public Class InterfaceParent
         End If
     End Sub
 
-    'Private Sub timer_Elapsed(ByVal sender As Object, ByVal e As System.Timers.ElapsedEventArgs) ' Handles timer.Elapsed
-    '    '  Try
-
-    '    If Not DLHandler Is Nothing Then DLHandler.Close()
-
-    '    Dim uri As New System.Uri(interfacesettings_.TCPHost, System.UriKind.RelativeOrAbsolute)
-
-    '    If uri.IsAbsoluteUri = False Then
-    '        uri = New System.Uri("http://" & interfacesettings_.TCPHost)
-    '    End If
-
-    '    DLHandler = New TCPInterface(uri.Authority, interfacesettings_.TCPPort, True)
-    '    Status_ = InterfaceStatus.Active
-
-
-
-
-    '    DLHandler.SendMessage(ToByteArr("GET " & uri.AbsolutePath & " HTTP/1.1" & vbCrLf & "HOST: " & uri.Authority & vbCrLf & vbCrLf))
-
-
-
-
-
-    '    'Catch ex1 As System.Net.Sockets.SocketException
-    '    '    Dim i As Integer = 0
-    '    '    If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
-    '    '        Status_ = InterfaceStatus.Inactive_ConRefused
-    '    '    End If
-    '    '    If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
-    '    '        Status_ = InterfaceStatus.Inactive_NotFound
-    '    '    End If
-    '    '    error_ = ex1
-
-    '    '    RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
-
-    '    'Catch ex As Exception
-    '    '    error_ = ex
-    '    '    Status_ = InterfaceStatus.Inactive
-    '    '    RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
-    '    'End Try
-    'End Sub
-
     Private Sub tierm_elapsed2() Handles timer.Elapsed
         timer.Stop()
         timer.Enabled = False
         timer.Close()
 
-        Debug.WriteLine("ENTERING")
+        ' Debug.WriteLine("ENTERING")
 
 
-        'Try
+        Try
 
-        Dim urlstr As String = interfacesettings_.TCPHost
-        Dim uri As New System.Uri(urlstr, System.UriKind.RelativeOrAbsolute)
+            Dim urlstr As String = interfacesettings_.TCPHost
+            Dim uri As New System.Uri(urlstr, System.UriKind.RelativeOrAbsolute)
 
-        If uri.IsAbsoluteUri = False Then
-            urlstr = "http://" & urlstr
-        End If
-
-        Dim wr As HttpWebRequest = WebRequest.Create(urlstr)
-        Dim ws As HttpWebResponse = CType(wr.GetResponse(), HttpWebResponse)
-        Dim reader As StreamReader = New StreamReader(ws.GetResponseStream())
-
-        Dim str As String = ""
-
-        Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
-        Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
-
-
-        While Not reader.EndOfStream
-            str = reader.ReadLine()
-            ' Debug.WriteLine(str)
-
-
-
-
-            If reg.IsMatch(str) Then
-                '  Debug.WriteLine("match")
-                ' Debug.WriteLine()
-                RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
+            If uri.IsAbsoluteUri = False Then
+                urlstr = "http://" & urlstr
             End If
 
-            If reg2.IsMatch(str) Then
-                Exit While
+            Dim wr As HttpWebRequest = WebRequest.Create(urlstr)
+            Dim ws As HttpWebResponse = CType(wr.GetResponse(), HttpWebResponse)
+            Dim reader As StreamReader = New StreamReader(ws.GetResponseStream())
+
+            Dim str As String = ""
+
+            Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
+            Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
+
+
+            While Not reader.EndOfStream
+                str = reader.ReadLine()
+                ' Debug.WriteLine(str)
+
+
+
+
+                If reg.IsMatch(str) Then
+                    '  Debug.WriteLine("match")
+                    ' Debug.WriteLine()
+                    RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
+                End If
+
+                If reg2.IsMatch(str) Then
+                    Exit While
+                End If
+
+
+            End While
+            ws.Close()
+
+            If interfacesettings_.Timer < 30 Then interfacesettings_.Timer = 30
+            timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+            timer.Enabled = True
+
+            '  Debug.WriteLine("EXIT")
+
+
+        Catch ex As Exception
+            If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
+            timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+            timer.Enabled = True
+            RaiseEvent InterfaceStatusChange(InterfaceStatus.Inactive, ex.Message, interfacesettings_)
+            Messages_ = Messages_ & "DL Error  - " & ex.Message & vbCrLf
+            ' Debug.WriteLine("EXITwe")
+        End Try
+
+
+
+    End Sub
+
+    Public Sub Disconnect()
+
+    End Sub
+
+    Public Sub ReConnect()
+        Connect()
+    End Sub
+
+    Private Sub Connect()
+        Try
+            Select Case interfacesettings_.InterfaceType
+                Case InterfaceTypes.SERIALMODEM
+                    CanConnect_ = True
+                    SerialHandler = New SerialPortInterface(interfacesettings_, True)
+                    Status_ = InterfaceStatus.Active
+
+                    '  Case InterfaceTypes.AGWPE
+
+                Case InterfaceTypes.FLDIGI
+                    CanConnect_ = True
+                    FLDigiHandler = New TCPInterface(interfacesettings_.TCPHost, interfacesettings_.TCPPort, True)
+                    Status_ = InterfaceStatus.Active
+
+                Case InterfaceTypes.MAPPOINT
+                    CanConnect_ = False
+                    MappointHandler = New MapPointInterface()
+                    Status_ = InterfaceStatus.Active
+
+                Case InterfaceTypes.DLINTERNET
+                    CanConnect_ = False
+                    If interfacesettings_.Timer < 30 Then interfacesettings_.Timer = 30
+                    timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+                    timer.Enabled = True
+                    Status_ = InterfaceStatus.Ready
+
+                Case Else
+                    Status_ = InterfaceStatus.Inactive_NotImplemented
+                    CanConnect_ = False
+            End Select
+
+            If Me.InterfaceName = "Manual" Then Status_ = InterfaceStatus.Ready
+
+
+            RaiseEvent InterfaceStatusChange(Status_, "", interfacesettings_)
+
+        Catch ex1 As System.Net.Sockets.SocketException
+            ' Debug.WriteLine("ERROR - IN INTERFACEPARENT:NEW")
+            Dim i As Integer = 0
+            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.ConnectionRefused Then
+                Status_ = InterfaceStatus.Inactive_ConRefused
             End If
+            If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
+                Status_ = InterfaceStatus.Inactive_NotFound
+            End If
+            error_ = ex1
+            Messages_ = Messages_ & "Connect error - " & ex1.Message & vbCrLf
+            RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
 
-
-        End While
-        ws.Close()
-
-        If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
-        timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
-        timer.Enabled = True
-
-        Debug.WriteLine("EXIT")
-
-
-        'Catch ex As Exception
-        '    If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
-        '    timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
-        '    timer.Enabled = True
-        '    Debug.WriteLine("EXITwe")
-        'End Try
-
-
-
+        Catch ex As Exception
+            ' Debug.WriteLine("ERROR - IN INTERFACEPARENT:NEW")
+            error_ = ex
+            Status_ = InterfaceStatus.Inactive
+            Messages_ = Messages_ & "Connect error - " & ex.Message & vbCrLf
+            RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
+        End Try
     End Sub
 
     Private Function ToByteArr(ByVal str As String) As Byte()
@@ -450,4 +388,16 @@ Public Class InterfaceParent
 
     End Function
 
+    Private Function GenerateHash(ByVal SourceText As String) As String
+        'Create an encoding object to ensure the encoding standard for the source text
+        Dim Ue As New UnicodeEncoding()
+        'Retrieve a byte array based on the source text
+        Dim ByteSourceText() As Byte = Ue.GetBytes(SourceText)
+        'Instantiate an MD5 Provider object
+        Dim Md5 As New MD5CryptoServiceProvider()
+        'Compute the hash value from the source
+        Dim ByteHash() As Byte = Md5.ComputeHash(ByteSourceText)
+        'And convert it to String format for return
+        Return Convert.ToBase64String(ByteHash)
+    End Function
 End Class

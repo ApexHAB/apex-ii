@@ -85,6 +85,12 @@
     <Compile Include="Forms\InterfaceStatus.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="InterfaceStatusUC.Designer.vb">
+      <DependentUpon>InterfaceStatusUC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="InterfaceStatusUC.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="MapPointInterface.vb" />
     <Compile Include="PacketStructure.vb" />
     <Compile Include="Forms\EditInterfaceSettings.Designer.vb">
@@ -137,6 +143,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\InterfaceStatus.resx">
+      <DependentUpon>InterfaceStatus.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HUD_UC.resx">
       <DependentUpon>HUD_UC.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -148,6 +157,9 @@
     <EmbeddedResource Include="Forms\MainFrm.resx">
       <DependentUpon>MainFrm.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InterfaceStatusUC.resx">
+      <DependentUpon>InterfaceStatusUC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

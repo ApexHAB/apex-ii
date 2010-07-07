@@ -101,3 +101,5 @@ C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatusUC.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatus.resources

@@ -33,6 +33,7 @@ Partial Class MainFrm
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.btnLoad = New System.Windows.Forms.Button()
+        Me.Button5 = New System.Windows.Forms.Button()
         Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
@@ -102,6 +103,7 @@ Partial Class MainFrm
         Me.Button2.TabIndex = 5
         Me.Button2.Text = "Button2"
         Me.Button2.UseVisualStyleBackColor = True
+        Me.Button2.Visible = False
         '
         'Button3
         '
@@ -111,6 +113,7 @@ Partial Class MainFrm
         Me.Button3.TabIndex = 7
         Me.Button3.Text = "Button3"
         Me.Button3.UseVisualStyleBackColor = True
+        Me.Button3.Visible = False
         '
         'Button4
         '
@@ -120,6 +123,7 @@ Partial Class MainFrm
         Me.Button4.TabIndex = 8
         Me.Button4.Text = "Button4"
         Me.Button4.UseVisualStyleBackColor = True
+        Me.Button4.Visible = False
         '
         'btnLoad
         '
@@ -129,6 +133,15 @@ Partial Class MainFrm
         Me.btnLoad.TabIndex = 9
         Me.btnLoad.Text = "Load"
         Me.btnLoad.UseVisualStyleBackColor = True
+        '
+        'Button5
+        '
+        Me.Button5.Location = New System.Drawing.Point(124, 12)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(63, 26)
+        Me.Button5.TabIndex = 10
+        Me.Button5.Text = "Status"
+        Me.Button5.UseVisualStyleBackColor = True
         '
         'HuD_UC1
         '
@@ -147,6 +160,7 @@ Partial Class MainFrm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(462, 488)
+        Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnLoad)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button3)
@@ -174,6 +188,7 @@ Partial Class MainFrm
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Button4 As System.Windows.Forms.Button
     Friend WithEvents btnLoad As System.Windows.Forms.Button
+    Friend WithEvents Button5 As System.Windows.Forms.Button
 
 
 End Class

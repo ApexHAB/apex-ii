@@ -10,7 +10,11 @@ Public Class MainFrm
     Private Interfaces As New List(Of InterfaceParent)
     Private Frames As New Collection()      'stores for the purpose of what order frames arrived in
     Private testingXMLPath = ""
+    Dim interStatus As InterfaceStatus
 
+    Private ErrorMessages As String = ""
+
+#Region "threading"
     Delegate Sub AddtoRTBDel(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
     'Delegate Sub RecievedDel(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
     'Delegate Sub AddFrameDel(ByVal Frame As Frame)
@@ -27,6 +31,8 @@ Public Class MainFrm
             AddToRTB(text, colour, tabpagename)
         End If
     End Sub
+
+#End Region
 
     'Private Sub HUDSetFrame(ByVal fframe As Frame)
     '    If HuD_UC1.InvokeRequired Then
@@ -60,14 +66,16 @@ Public Class MainFrm
     End Function
     Private Sub AddToFile(ByVal file As String, ByVal data As String)
 
-        ' Try
-        Dim writer As New System.IO.StreamWriter(file, True)
+        Try
+            Dim writer As New System.IO.StreamWriter(file, True)
 
-        writer.WriteLine(data)
+            writer.WriteLine(data)
 
-        writer.Close()
-        ' Catch
-        'End Try
+            writer.Close()
+        Catch ex As Exception
+            ErrorMessages = ErrorMessages & "File Write Error - " & ex.Message & vbCrLf
+            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        End Try
     End Sub
 
 #Region "Button events"
@@ -153,7 +161,10 @@ Public Class MainFrm
 
 
     Private Sub Button2_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        GlobalSettings_.SaveToDisk("TEST.xml")
+        ' GlobalSettings_.SaveToDisk("TEST.xml")
+        ErrorMessages = ErrorMessages & "TEST MESSAGE" & vbCrLf
+        If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+
     End Sub
 
 
@@ -203,29 +214,32 @@ Public Class MainFrm
         pf.LoadXML(xmlpath)
 
 
-        '  Try
-        If System.IO.File.Exists(datapath) = False Then Exit Sub
+        Try
+            If System.IO.File.Exists(datapath) = False Then Exit Sub
 
-        Dim reader As New System.IO.StreamReader(datapath)
+            Dim reader As New System.IO.StreamReader(datapath)
 
-        While Not reader.EndOfStream
-
-
-            str = reader.ReadLine()
-            If str <> "" Then
-                ' Dim frame As New Frame(str, pf)
-
-                Interfaces(0).GetInterfaceSettings.PacketStructure = pf
-                LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "")
+            While Not reader.EndOfStream
 
 
-                ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
-            End If
-        End While
+                str = reader.ReadLine()
+                If str <> "" Then
+                    ' Dim frame As New Frame(str, pf)
 
-        ' Catch
-        ' MsgBox("File cannot be read")
-        '  End Try
+                    Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+                    LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "")
+
+
+                    ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
+                End If
+            End While
+
+        Catch ex As Exception
+            MsgBox("File cannot be read")
+            ErrorMessages = ErrorMessages & "File Read Error - " & ex.Message & vbCrLf
+
+            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        End Try
 
     End Sub
 
@@ -288,31 +302,36 @@ Public Class MainFrm
                 '   tabData.TabPages.Add("ewd"
             End If
         Next
+
+    
+
     End Sub
 
     Private Sub AddToRTB(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
 
-        ' Try
-        Dim obj As Object
-        Dim i As Integer = 0
-        If tabpagename <> "" Then
-            If tabData.TabPages.ContainsKey(tabpagename) = True Then
-                obj = tabData.TabPages(tabpagename).Controls(0)
+        Try
+            Dim obj As Object
+            Dim i As Integer = 0
+            If tabpagename <> "" Then
+                If tabData.TabPages.ContainsKey(tabpagename) = True Then
+                    obj = tabData.TabPages(tabpagename).Controls(0)
+                    i = obj.TextLength
+                    obj.SelectionStart = i
+                    obj.SelectionColor = colour
+                    obj.appendtext(text)
+                End If
+            Else
+
+                obj = tabData.TabPages(0).Controls(0)
                 i = obj.TextLength
                 obj.SelectionStart = i
                 obj.SelectionColor = colour
                 obj.appendtext(text)
             End If
-        Else
-
-            obj = tabData.TabPages(0).Controls(0)
-            i = obj.TextLength
-            obj.SelectionStart = i
-            obj.SelectionColor = colour
-            obj.appendtext(text)
-        End If
-        '  Catch
-        '  End Try
+        Catch ex As Exception
+            ErrorMessages = ErrorMessages & "Internal Error - " & ex.Message & vbCrLf
+            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        End Try
 
     End Sub
 
@@ -329,15 +348,23 @@ Public Class MainFrm
         For Each i As InterfaceSettings In GlobalSettings_.Interfaces   'add new interfaces
             If Not ContainsInterface(i.InterfaceName) Then
                 Interfaces.Add(New InterfaceParent(i))
-                AddHandler Interfaces(Interfaces.Count - 1).LineRecievedbyte, AddressOf LineReceivedByte
+                ' AddHandler Interfaces(Interfaces.Count - 1).LineRecievedbyte, AddressOf LineReceivedByte
                 AddHandler Interfaces(Interfaces.Count - 1).LineRecievedStr, AddressOf LineReceivedStr
+                AddHandler Interfaces(Interfaces.Count - 1).InterfaceStatusChange, AddressOf iStatusChange
             End If
         Next
+
+        If Not interStatus Is Nothing Then
+            interStatus.UpdateForm()
+
+        End If
 
 
     End Sub
 
 #End Region
+
+
 
 #Region "packet recieved"
 
@@ -405,16 +432,16 @@ Public Class MainFrm
 
 
     End Sub
-    Private Sub LineReceivedByte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
-        Debug.WriteLine(output.ToString)
+    'Private Sub LineReceivedByte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
+    '    Debug.WriteLine(output.ToString)
 
 
-        For Each b As Byte In output
-            Debug.Write(b.ToString & ", ")
-        Next
+    '    For Each b As Byte In output
+    '        Debug.Write(b.ToString & ", ")
+    '    Next
 
-        Debug.WriteLine("")
-    End Sub
+    '    Debug.WriteLine("")
+    'End Sub
 
 #End Region
 
@@ -426,16 +453,22 @@ Public Class MainFrm
         i.InterfaceType = InterfaceTypes.BLANK
         Interfaces.Add(New InterfaceParent(i))
 
+        Try
 
+            If System.IO.File.Exists(RunningDir & "\settings.xml") Then
+                Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
+                Dim reader As New System.IO.StreamReader(RunningDir + "\settings.xml")
 
-        If System.IO.File.Exists(RunningDir & "\settings.xml") Then
-            Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
-            Dim reader As New System.IO.StreamReader(RunningDir + "\settings.xml")
+                GlobalSettings_ = ser.Deserialize(reader)
 
-            GlobalSettings_ = ser.Deserialize(reader)
-          
-            reader.Close()
-        End If
+                reader.Close()
+            End If
+
+        Catch ex As Exception
+
+            ErrorMessages = ErrorMessages & "File Load Error" & vbCrLf
+
+        End Try
 
         UpdateInterfaces()
         UpdateForm()
@@ -446,5 +479,29 @@ Public Class MainFrm
         Next
     End Sub
 
+
+    Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
+        If interStatus Is Nothing Then
+            interStatus = New InterfaceStatus(Interfaces)
+            interStatus.Show()
+        Else
+            If interStatus.Visible = False Then
+
+                interStatus = New InterfaceStatus(Interfaces)
+                interStatus.Show()
+            End If
+        End If
+
+
+
+    End Sub
+
+    Private Sub iStatusChange(ByVal NewStatus As InterfaceParent.InterfaceStatus, ByVal Message As String, ByVal InterfaceDetails As InterfaceSettings)
+        '   Debug.WriteLine("I STATUS CHANGE")
+        If Not interStatus Is Nothing Then
+            interStatus.UpdateForm()
+        End If
+
+    End Sub
 
 End Class
