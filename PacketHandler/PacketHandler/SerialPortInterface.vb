@@ -49,6 +49,10 @@
         End If
     End Sub
 
+    Public Sub Disconnect()
+        serialPort.Close()
+    End Sub
+
     Public Sub SendData(ByVal input As String)
         If serialPort.IsOpen = False Then
             OpenPort()

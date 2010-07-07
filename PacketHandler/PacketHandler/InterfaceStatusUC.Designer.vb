@@ -62,6 +62,7 @@ Partial Class InterfaceStatusUC
         Me.txtMessages.Multiline = True
         Me.txtMessages.Name = "txtMessages"
         Me.txtMessages.ReadOnly = True
+        Me.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both
         Me.txtMessages.Size = New System.Drawing.Size(270, 85)
         Me.txtMessages.TabIndex = 4
         Me.txtMessages.WordWrap = False

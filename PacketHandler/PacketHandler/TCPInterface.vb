@@ -11,6 +11,7 @@ Public Class TCPInterface
     Private port As Integer
 
     Public Event DataRecieved()
+    Public Event StatusChange(ByVal ex As Exception)
 
 #Region "Properties"
 
@@ -71,6 +72,7 @@ Public Class TCPInterface
             client.GetStream.BeginRead(readBuffer, 0, BYTES_TO_READ, AddressOf doRead, Nothing)
         Catch ex As Exception
             MsgBox(ex.Message)
+            RaiseEvent StatusChange(ex)
             Return False
             Exit Function
         End Try
@@ -90,6 +92,7 @@ Public Class TCPInterface
             totalRead = client.GetStream.EndRead(ar) 'Ends the reading and returns the number of bytes read.
         Catch ex As Exception
             MsgBox(ex.Message)
+            RaiseEvent StatusChange(ex)
         End Try
 
         If totalRead > 0 Then
@@ -116,6 +119,7 @@ Public Class TCPInterface
         Catch ex As Exception
             Beep()
             Debug.WriteLine(ex.ToString)
+            RaiseEvent StatusChange(ex)
         End Try
     End Sub
 
@@ -132,6 +136,7 @@ Public Class TCPInterface
         Catch ex As Exception
             Beep()
             Debug.WriteLine(ex.ToString)
+            RaiseEvent StatusChange(ex)
         End Try
     End Sub
 

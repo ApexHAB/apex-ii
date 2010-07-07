@@ -32,7 +32,7 @@ Public Class InterfaceParent
 
 
     Private Status_ As InterfaceStatus = InterfaceStatus.Inactive
-    Private error_ As Exception
+    'Private error_ As Exception
 
     Private WithEvents timer As System.Timers.Timer
 
@@ -69,11 +69,11 @@ Public Class InterfaceParent
             Return Status_
         End Get
     End Property
-    Public ReadOnly Property CurrentError As Exception
-        Get
-            Return error_
-        End Get
-    End Property
+    'Public ReadOnly Property CurrentError As Exception
+    '    Get
+    '        Return error_
+    '    End Get
+    'End Property
 
 
     Public ReadOnly Property CanWrite() As Boolean
@@ -311,6 +311,23 @@ Public Class InterfaceParent
     End Sub
 
     Public Sub Disconnect()
+        Select Case interfacesettings_.InterfaceType
+            Case InterfaceTypes.SERIALMODEM
+
+                SerialHandler.Disconnect()
+           
+
+            Case InterfaceTypes.FLDIGI
+                FLDigiHandler.Close()
+                FLDigiHandler = Nothing
+
+          
+        End Select
+
+        Status_ = InterfaceStatus.Ready
+        Messages_ = Messages_ & "Disconnected" & vbCrLf
+        RaiseEvent InterfaceStatusChange(InterfaceStatus.Ready, "Disconnected", interfacesettings_)
+
 
     End Sub
 
@@ -324,7 +341,7 @@ Public Class InterfaceParent
                 Case InterfaceTypes.SERIALMODEM
                     CanConnect_ = True
                     SerialHandler = New SerialPortInterface(interfacesettings_, True)
-                    Status_ = InterfaceStatus.Active
+                    Status_ = InterfaceStatus.Ready
 
                     '  Case InterfaceTypes.AGWPE
 
@@ -364,13 +381,13 @@ Public Class InterfaceParent
             If ex1.SocketErrorCode = System.Net.Sockets.SocketError.HostNotFound Then
                 Status_ = InterfaceStatus.Inactive_NotFound
             End If
-            error_ = ex1
+            'error_ = ex1
             Messages_ = Messages_ & "Connect error - " & ex1.Message & vbCrLf
             RaiseEvent InterfaceStatusChange(Status_, ex1.Message, interfacesettings_)
 
         Catch ex As Exception
             ' Debug.WriteLine("ERROR - IN INTERFACEPARENT:NEW")
-            error_ = ex
+            ' error_ = ex
             Status_ = InterfaceStatus.Inactive
             Messages_ = Messages_ & "Connect error - " & ex.Message & vbCrLf
             RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
@@ -400,4 +417,11 @@ Public Class InterfaceParent
         'And convert it to String format for return
         Return Convert.ToBase64String(ByteHash)
     End Function
+
+    Private Sub FLDigiHandler_StatusChange(ByVal ex As System.Exception) Handles FLDigiHandler.StatusChange
+        Disconnect()
+        Status_ = InterfaceStatus.Inactive
+        Messages_ = Messages_ & "TCP error - " & ex.Message & vbCrLf
+        RaiseEvent InterfaceStatusChange(Status_, ex.Message, interfacesettings_)
+    End Sub
 End Class
