@@ -130,7 +130,7 @@
             <seq>16</seq>
             <dbfield>light</dbfield>
             <minsize>0</minsize>
-            <maxsize>8</maxsize>
+            <maxsize>9</maxsize>
             <datatype>custom</datatype>
         </field>
         <field>

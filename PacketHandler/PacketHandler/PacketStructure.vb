@@ -86,7 +86,7 @@
         tempraw
         humraw
         pressureraw
-        light_mode
+        ' light_mode
         light_value
         ddddddd         'defualt UKHAS
         dddmmmm         'NMEA $GPGGA / APRS

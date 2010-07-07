@@ -116,19 +116,30 @@
 			<unit></unit>
 			<dp></dp>
 		</field>	
-			<field>
+		<field>
 			<seq>10</seq>
-			<name>Batt Volts</name>
+			<name>Int_Temp</name>
 			<type>Sensor</type>
-			<encoding>HexInteger</encoding>
+			<encoding>DecimalFloating</encoding>
 			<encoding2></encoding2>
-			<scaling>0.00244</scaling>
-			<offset>0</offset>
+			<scaling></scaling>
+			<offset></offset>
 			<unit></unit>
 			<dp>2</dp>
-		</field>	
+		</field>
 		<field>
 			<seq>11</seq>
+			<name>Ex_Temp</name>
+			<type>Sensor</type>
+			<encoding>DecimalFloating</encoding>
+			<encoding2></encoding2>
+			<scaling></scaling>
+			<offset></offset>
+			<unit></unit>
+			<dp>2</dp>
+		</field>		
+		<field>
+			<seq>12</seq>
 			<name>Pressure</name>
 			<type>Sensor</type>
 			<encoding>PressureRaw</encoding>
@@ -139,19 +150,41 @@
 			<dp>0</dp>
 		</field>
 		<field>
-			<seq>12</seq>
-			<name>Light_Value</name>
+			<seq>13</seq>
+			<name>Batt Volts</name>
 			<type>Sensor</type>
-			<encoding>light_mode</encoding>
-			<encoding2>HexInteger</encoding2>
+			<encoding>HexInteger</encoding>
+			<encoding2></encoding2>
+			<scaling>0.00244</scaling>
+			<offset>0</offset>
+			<unit></unit>
+			<dp>2</dp>
+		</field>
+		<field>
+			<seq>14</seq>
+			<name>IRD 1</name>
+			<type>Sensor</type>
+			<encoding>hexinteger</encoding>
+			<encoding2></encoding2>
 			<scaling></scaling>
 			<offset></offset>
 			<unit></unit>
 			<dp>0</dp>
 		</field>
 		<field>
-			<seq>13</seq>
-			<name>LightScale</name>
+			<seq>15</seq>
+			<name>IRD 2</name>
+			<type>Sensor</type>
+			<encoding>hexinteger</encoding>
+			<encoding2></encoding2>
+			<scaling></scaling>
+			<offset></offset>
+			<unit></unit>
+			<dp>0</dp>
+		</field>
+		<field>
+			<seq>16</seq>
+			<name>LightValue</name>
 			<type>Sensor</type>
 			<encoding>light_value</encoding>
 			<encoding2>HexInteger</encoding2>
@@ -159,9 +192,31 @@
 			<offset></offset>
 			<unit></unit>
 			<dp>0</dp>
+		</field>
+		<field>
+			<seq>17</seq>
+			<name>Humidity</name>
+			<type>Sensor</type>
+			<encoding>humraw</encoding>
+			<encoding2>HexInteger</encoding2>
+			<scaling></scaling>
+			<offset></offset>
+			<unit></unit>
+			<dp>0</dp>
+		</field>
+		<field>
+			<seq>18</seq>
+			<name>RSSI</name>
+			<type>Sensor</type>
+			<encoding>HexInteger</encoding>
+			<encoding2></encoding2>
+			<scaling></scaling>
+			<offset></offset>
+			<unit></unit>
+			<dp>0</dp>
 		</field>		
 		<field>
-			<seq>14</seq>
+			<seq>19</seq>
 			<name>Comment</name>
 			<type>Comment</type>
 			<encoding></encoding>

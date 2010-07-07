@@ -398,7 +398,7 @@ Public Class MainFrm
             If j.InterfaceName = InterfaceDetails.InterfaceName Then
                 If j.StoreFrame(frame) Then
 
-                    AddToFile(InterfaceDetails.InterfaceName + ".txt", output)
+                    AddToFile(RunningDir & "\" & InterfaceDetails.InterfaceName + ".txt", output)
 
                     HuD_UC1.FrameToDisplay = frame
 

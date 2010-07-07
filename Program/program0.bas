@@ -401,45 +401,41 @@ gosub WriteComma
 
 
 
-'check ADC channels
-#rem
-b10 = 0
-gosub ADCShift
-for b16 = 1 to 4
+'temps
 
-	gosub writecomma
-
-	b10 = b16
-	b10 = b10 AND %11		'sending 4 on final loop is not a valid number
-	gosub ADCShift
-'	w0 = 1494
-	
-	w5 = w0
-	gosub bintohex
-	
-	
-	b10 = ramptr
-	b11 = 1
-	b12 = 3
-	ramptr = ramptr + 3
-	gosub RTCRAMWriteMany
-
+gosub PrintReadTemp12
+for b20 = 0 to 5			'copy values into free RAM
+	peek b20,b19
+	b18 = b20 + 60
+	poke b18,b19
 next
-#endrem
-
-b10 = 0
-gosub ADCShift
-b10 = 0
-gosub ADCShift
-w5 = w0
-gosub bintohex
 b10 = ramptr
-b11 = 1
-b12 = 3
-ramptr = ramptr + 3
+b20 = b9 - b8
+b20 = b20 + 1
+ramptr = ramptr + b20
+b11 = b8 + 60
+b12 = b9 + 60
+gosub RTCRAMwritemany
+
+gosub WriteComma
+
+b16 = "0"
+b17 = "."
+b18 = "0"
+b19 = "0"
+
+b10 = ramptr
+ramptr = ramptr + 4
+b11 = 16
+b12 = 19
 gosub RTCRAMWriteMany
 
-gosub writecomma
+gosub WriteComma
+
+
+
+'check ADC channels
+
 b10 = 1
 gosub ADCShift
 b10 = 1
@@ -454,8 +450,30 @@ gosub RTCRAMWriteMany
 
 gosub writecomma
 
+b10 = 0
+gosub ADCShift
+b10 = 0
+gosub ADCShift
+w5 = w0
+gosub bintohex
+b10 = ramptr
+b11 = 1
+b12 = 3
+ramptr = ramptr + 3
+gosub RTCRAMWriteMany
 
-'check humidity
+gosub writecomma
+
+
+'ird1
+gosub writecomma
+
+
+'ird2
+gosub writecomma
+
+
+
 
 
 
@@ -542,7 +560,7 @@ b11 = 0
 b12 = 3
 gosub RTCRAMWriteMany
 
-gosub writecomma
+'gosub writecomma
 
 b25 = b25 + 48
 b10 = ramptr
@@ -551,12 +569,19 @@ b11 = 25
 b12 = 25
 gosub RTCRAMWriteMany
 gosub writecomma
-DirsA = DirsA AND %11110111	'set GPS input pins as inputs
-'IRD comms
+DirsA = DirsA AND %11110111
 
 
 
+'check humidity
 
+gosub writecomma
+
+
+
+'RSSI
+
+'no comma needed - end of string
 
 
 'turn off RX/hserin
@@ -564,7 +589,7 @@ high radiocsrx
 hsersetup OFF
 
 
-'check temp
+
 
 
 'process RX buffer
@@ -710,9 +735,9 @@ next
 
 hsersetup RXBaud, RXMode
 low radiocsrx
-sertxd("GO\n\r")
+sertxd("GO",cr,lf)
 wait 10
-sertxd("STOP\n\r")
+sertxd("STOP",cr,lf)
 
 'wait 10
 goto main
@@ -1533,3 +1558,50 @@ ConfigureGPS:
 
 
 return 
+
+
+
+PrintReadTemp12:
+
+'b0  -
+'b1  1
+'b2  2
+'b3  .
+'b4  1
+'b5  4
+'b8 - start
+'b9 - end (5)
+
+b0 = "-"
+b3 = "."
+b9 = 5
+
+ ReadTemp12 tempow, w0
+  If bit15 <> 0 Then
+    SerTxd( "-" )
+    b8 = 0
+    w0 = -w0
+  Else
+    b8 = 1
+  End If
+  w23 = 0
+  If bit0 = 1 Then : w23 = w23 + 06 : End If
+  If bit1 = 1 Then : w23 = w23 + 13 : End If
+  If bit2 = 1 Then : w23 = w23 + 25 : End If
+  If bit3 = 1 Then : w23 = w23 + 50 : End If
+  w24 = w0 / 16
+  bintoascii b48,b45,b1,b2
+  if b1 = "0" then
+  	b1 = "-"
+  	b8 = b8 + 1
+  endif
+  'SerTxd( #w0, "." )
+  
+  bintoascii b46,b45,b4,b5
+  
+  'Select Case w23
+  '  Case =  0 : SerTxd( "000" )
+  '  Case < 10 : SerTxd( "0"   )
+  'End Select
+  'SerTxd( #w23 )
+  Return

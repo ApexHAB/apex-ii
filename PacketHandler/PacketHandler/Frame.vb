@@ -432,6 +432,10 @@ Public Class Frame
                 fields.Add(packet.Substring(start, i - start))
                 start = i + 1
             End If
+            If packet(i) = "*" Then
+                fields.Add(packet.Substring(start, i - start))
+                start = i
+            End If
         Next
 
         'calcuate checksum
