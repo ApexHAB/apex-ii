@@ -15,9 +15,22 @@ Public Class MainFrm
     Private ErrorMessages As String = ""
 
 #Region "threading"
+    Delegate Sub UpdateStatusDel()
     Delegate Sub AddtoRTBDel(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
     'Delegate Sub RecievedDel(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
     'Delegate Sub AddFrameDel(ByVal Frame As Frame)
+    Private Sub UpdateStatus()
+        If Not interStatus Is Nothing Then
+            If interStatus.InvokeRequired Then
+                Dim del As New UpdateStatusDel(AddressOf UpdateStatus)
+                Me.Invoke(del)
+            Else
+                If Not interStatus Is Nothing Then
+                    interStatus.UpdateForm()
+                End If
+            End If
+        End If
+    End Sub
 
     Private Sub AddToRTBTh(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
         Dim a(2) As Object ' = {text, colour, tabpagename}
@@ -354,10 +367,7 @@ Public Class MainFrm
             End If
         Next
 
-        If Not interStatus Is Nothing Then
-            interStatus.UpdateForm()
-
-        End If
+        UpdateStatus()
 
 
     End Sub
@@ -498,9 +508,7 @@ Public Class MainFrm
 
     Private Sub iStatusChange(ByVal NewStatus As InterfaceParent.InterfaceStatus, ByVal Message As String, ByVal InterfaceDetails As InterfaceSettings)
         '   Debug.WriteLine("I STATUS CHANGE")
-        If Not interStatus Is Nothing Then
-            interStatus.UpdateForm()
-        End If
+        UpdateStatus()
 
     End Sub
 

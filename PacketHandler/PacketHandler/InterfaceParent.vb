@@ -179,7 +179,7 @@ Public Class InterfaceParent
                         str = str & ChrW(InputBuffer(i))
                     Next
                     RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
-                    Debug.WriteLine(str)
+                    'Debug.WriteLine(str)
                     InputBufferPtr = 0
                 End If
             Else

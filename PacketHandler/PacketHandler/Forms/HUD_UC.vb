@@ -88,14 +88,15 @@
             secondsSinceLast = 0
 
             SetLB("", lbTimer)  ' lbTimer.Text = ""
-            timeSinceLastTmr.Stop()
-            timeSinceLastTmr.Start()
+            ResetClock()
             Updateth()
         End Set
     End Property
 
 
 #End Region
+
+
 
     Public Sub ClearDisplay()
         FrameToDisplay_ = New Frame()
@@ -151,13 +152,14 @@
         Dim tempint = 0
 
         tempint = Math.Truncate(secondsSinceLast / 60)
-        lbTimer.Text = tempint.ToString() & ":"
-
+        ' lbTimer.Text = tempint.ToString() & ":"
+        SetLB(tempint.ToString() & ":", lbTimer)
 
         tempint = (secondsSinceLast Mod 60)
-        If tempint < 10 Then lbTimer.Text = lbTimer.Text & "0"
-        lbTimer.Text = lbTimer.Text & tempint.ToString
+        If tempint < 10 Then SetLB(lbTimer.Text & "0", lbTimer) 'lbTimer.Text = lbTimer.Text & "0"
 
+        ' lbTimer.Text = lbTimer.Text & tempint.ToString
+        SetLB(lbTimer.Text & tempint.ToString, lbTimer)
 
 
 
@@ -165,8 +167,11 @@
     End Sub
 
     Public Sub ResetClock()
-        timeSinceLastTmr.Enabled = False
-        lbTimer.Text = ""
+        timeSinceLastTmr = New Timer()
+        timeSinceLastTmr.Interval = 1000
+        timeSinceLastTmr.Enabled = True
+        'lbTimer.Text = ""
+        SetLB("", lbTimer)
     End Sub
 
 
@@ -176,7 +181,4 @@
 
     End Sub
 
-    Private Sub dgvData_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvData.CellContentClick
-
-    End Sub
 End Class
