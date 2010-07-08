@@ -15,7 +15,7 @@
     <sentence>
         <sentence_delimiter>$$</sentence_delimiter>
         <field_delimiter>,</field_delimiter>
-        <fields>19</fields>
+        <fields>18</fields>
         <callsign>APEX</callsign>
         <field>
             <seq>1</seq>
@@ -42,7 +42,7 @@
             <seq>4</seq>
             <dbfield>latitude</dbfield>
             <minsize>0</minsize>
-            <maxsize>10</maxsize>
+            <maxsize>12</maxsize>
             <datatype>decimal</datatype>
             <format>ddmm.mm</format>
         </field>
@@ -50,7 +50,7 @@
             <seq>5</seq>
             <dbfield>longitude</dbfield>
             <minsize>0</minsize>
-            <maxsize>10</maxsize>
+            <maxsize>12</maxsize>
             <datatype>decimal</datatype>
             <format>dddmm.mm</format>
         </field>
