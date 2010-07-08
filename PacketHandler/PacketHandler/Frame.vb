@@ -408,12 +408,15 @@ Public Class Frame
 
         'find start of string
 
-        For i = 0 To input.Count - 2
-            If input(i) = packetStructure_.SentenceDelimiter.First And input(i + 1) <> packetStructure_.SentenceDelimiter.First Then
-                packet = input.Substring(i + 1)
-            End If
-        Next
-
+        If packetStructure_.SentenceDelimiter <> "" Then
+            For i = 0 To input.Count - 2
+                If input(i) = packetStructure_.SentenceDelimiter.First And input(i + 1) <> packetStructure_.SentenceDelimiter.First Then   'invalid operatin no elements 
+                    packet = input.Substring(i + 1)
+                End If
+            Next
+        Else
+            packet = input
+        End If
         ProcessedString_ = packet
 
         packet = packet + ","   'add a comma to the end to mark the end of hte last field
@@ -457,81 +460,77 @@ Public Class Frame
         For i = 1 To fields.Count - 1
 
             If (fields(i) <> "") Then
-                'Try
-                If fields(i)(0) = "*" Then
-                    UInteger.TryParse(HexToInt_str(fields(i).Substring(1)), tempUint)
-                    If tempUint = checksum Then chksum_ = True
-                Else
-                    If (packetStructure_.FieldExists(i)) Then
+                Try
+                    If fields(i)(0) = "*" Then
+                        UInteger.TryParse(HexToInt_str(fields(i).Substring(1)), tempUint)
+                        If tempUint = checksum Then chksum_ = True
+                    Else
+                        If (packetStructure_.FieldExists(i)) Then
 
-                        If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexinteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexinteger) Then
-                            fields(i) = HexToInt_str(fields(i))
-                        End If
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.callsign) Then
-                            Callsign_ = fields(i)
-                        End If
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.latitude) Then
-                            GPSla = fields(i)
-                            GPSfrmat = packetStructure_.GetField(i).Encoding
-                        End If
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.longitude) Then
-                            GPSlo = fields(i)
-                            GPSfrmat = packetStructure_.GetField(i).Encoding
-                        End If
-
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.cycle_count) Then
-                            pcktcount_ = fields(i)
-                        End If
-
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.time) Then
-                            time_ = fields(i)
-                        End If
-
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.altitude) Then
-                            If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
-                                Single.TryParse(fields(i), tempsing)
-                                gpsal_ = Math.Round(tempsing * 0.3048)
-                            Else
-                                Integer.TryParse(fields(i), tempint)
-                                gpsal_ = tempint
+                            If (packetStructure_.GetField(i).Encoding = PacketStructure.Encoding.hexinteger) Or (packetStructure_.GetField(i).Encoding2 = PacketStructure.Encoding.hexinteger) Then
+                                fields(i) = HexToInt_str(fields(i))
                             End If
-                        End If
-
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
-                            Single.TryParse(fields(i), tempsing)
-                            gpsh_ = tempsing
-                        End If
-
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
-                            If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
-                                Single.TryParse(fields(i), tempsing)
-                                gpssp_ = tempsing * 0.3048
-                            Else
-                                Single.TryParse(fields(i), tempsing)
-                                gpssp_ = tempsing
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.callsign) Then
+                                Callsign_ = fields(i)
                             End If
-                        End If
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.latitude) Then
+                                GPSla = fields(i)
+                                GPSfrmat = packetStructure_.GetField(i).Encoding
+                            End If
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.longitude) Then
+                                GPSlo = fields(i)
+                                GPSfrmat = packetStructure_.GetField(i).Encoding
+                            End If
 
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sats) Then
-                            Integer.TryParse(fields(i), tempint)
-                            gpsSats_ = tempint
-                        End If
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.cycle_count) Then
+                                Integer.TryParse(fields(i), pcktcount_)
+                            End If
 
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.comment) Then
-                            comm_ = fields(i)
-                        End If
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.time) Then
+                                time_ = fields(i)
+                            End If
 
-                        If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
-                            Double.TryParse(fields(i), tempdoub)
-                            tempdoub = tempdoub * packetStructure_.GetField(i).ScaleFactor
-                            tempdoub = tempdoub + packetStructure_.GetField(i).Offset
-                            Pdata_.Add(packetStructure_.GetField(i).FieldName, tempdoub)
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.altitude) Then
+                                If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
+                                    Single.TryParse(fields(i), tempsing)
+                                    gpsal_ = Math.Round(tempsing * 0.3048)
+                                Else
+                                    Integer.TryParse(fields(i), gpsal_)
+                                End If
+                            End If
+
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.bearing) Then
+                                Single.TryParse(fields(i), gpsh_)
+                            End If
+
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.speed) Then
+                                If packetStructure_.GetField(i).Unit = PacketStructure.Units.imperial Then
+                                    Single.TryParse(fields(i), tempsing)
+                                    gpssp_ = tempsing * 0.3048
+                                Else
+                                    Single.TryParse(fields(i), gpssp_)
+                                End If
+                            End If
+
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sats) Then
+                                Integer.TryParse(fields(i), gpsSats_)
+                            End If
+
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.comment) Then
+                                comm_ = fields(i)
+                            End If
+
+                            If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
+                                Double.TryParse(fields(i), tempdoub)
+                                tempdoub = tempdoub * packetStructure_.GetField(i).ScaleFactor
+                                tempdoub = tempdoub + packetStructure_.GetField(i).Offset
+                                Pdata_.Add(packetStructure_.GetField(i).FieldName, tempdoub)
+                            End If
                         End If
                     End If
-                End If
-                ' Catch
-
-                'End Try
+                Catch
+                    Debug.WriteLine("Decoding error")
+                End Try
             End If
 
         Next
