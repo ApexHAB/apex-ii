@@ -95,6 +95,24 @@ symbol PacketPtrlROM = 0x50
 symbol PacketPtrhROM = 0x51
 symbol MaxAltitudelROM = 0x52
 symbol MaxAltitudehROM = 0x53
+symbol AboutToLand = 0x54
+
+symbol LGLatStartptr = 0x55			'55
+symbol LGLatEnd = LGLatStartptr + 10 	'65
+symbol LGLongStartptr = LGLatStartptr + 11'66
+symbol LGLongEnd = LGLatStartptr + 22	'77
+
+symbol RAMLatptr = 60
+symbol RAMLongptr = 71
+symbol RAMLatStart = 61
+'symbol RAMlatStartp1 = RAMLatStart + 1
+symbol RAMlongStart = 72
+'symbol RAMLongStartp1 = RAMlongStart + 1
+symbol RAMLatEnd = 70
+symbol RAMLongEnd = 82
+symbol RAMAltptr = 83
+symbol RAMAltStart = 84
+symbol RAMAltend = 88
 
 symbol PacketPtrl = b38
 symbol PacketPtrh = b39
@@ -102,7 +120,8 @@ symbol PacketPtr = w19
 
 
 'symbol TXBaud = 39999	'8mhz:39999 for 50 baud
-symbol TXBaud = B300_8
+symbol TXBaudf = 39999
+symbol TXBauds = B300_8
 symbol TXMode = %110
 symbol RXBaud = 53332	'37.5
 symbol RXMode = %111
@@ -110,6 +129,11 @@ symbol RXMode = %111
 '########
 '########
 '########
+
+
+symbol AltThresholdHigh = 5000
+symbol AltThresholdLow = 1000
+
 
 table ("$$APEX,")		'start of string
 
@@ -228,31 +252,40 @@ gosub WriteComma
 'GET GPS (lat)
 
 gosub GetLatitude
-poke 60,"-"
+poke RAMLatStart,"-"
 for b20 = 1 to 9			'copy values into free RAM
 	peek b20,b19
-	b18 = b20 + 60
+	b18 = b20 + RAMLatStart
 	poke b18,b19
 next
-b10 = ramptr
+'b10 = ramptr
 
 if b0 <> 0 then
 	if b10 = "S" then
-		ramptr = ramptr + 10
-		b11 = 60
+	'	ramptr = ramptr + 10
+		'b11 = RAMLatStart
+		poke RAMlatptr,0
+		write LGLatStartptr,0
 	else
-		ramptr = ramptr + 9
-		b11 = 61
+	'	ramptr = ramptr + 9
+	'	b11 = RAMLatStart + 1
+		poke RAMlatptr,1
+		write LGLatStartptr,1
 	endif
-	b12 = 69
-	gosub RTCRAMWriteMany
+	b10 = LGLatStartPtr + 1
+	b11 = RamLatStart
+	b12 = RAMLatEnd
+	gosub ROMWriteMany
+	'gosub RTCRAMWriteMany
+else
+	poke RAMlatptr,100
 endif
-gosub WriteComma
+'gosub WriteComma
 
 
 
 'GET GPS (long)
-poke 60,"-"
+poke RAMlongStart,"-"
 gosub GetLongitude
 
 b30 = b12
@@ -261,24 +294,33 @@ b32 = b0	'copy whether valid
 
 for b20 = 1 to 10			'copy values into free RAM
 	peek b20,b19
-	b18 = b20 + 60
+	b18 = b20 + RAMlongStart
 	poke b18,b19
 next
-b10 = ramptr
+'b10 = ramptr
 
 if b0 <> 0 then
 	if b11 = "W" then
-		ramptr = ramptr + 11
-		b11 = 60
+		'ramptr = ramptr + 11
+		'b11 = RAMlongStart
+		poke RAMlongptr,0
+		write LGLongStartptr,0
 	else
-		ramptr = ramptr + 10
-		b11 = 61
+		'ramptr = ramptr + 10
+		'b11 = RAMlongStart + 1
+		poke RAMlongptr,1
+		write LGLongstartptr,1
 	endif
-	b12 = 70
-
-	gosub RTCRAMWriteMany
+	b10 = LGLongStartptr + 1
+	b11 = RAMlongStart
+	b12 = RAMLongEnd
+	gosub ROMWriteMany
+		
+	'gosub RTCRAMWriteMany
+else
+	poke RAMlongptr,100
 endif	
-gosub WriteComma
+'gosub WriteComma
 
 
 'GET GPS (alt)
@@ -289,9 +331,12 @@ if b0 <> 0 then
 	for b20 = 1 to 5			'copy values into free RAM
 		peek b20,b19
 		b18 = b20 + 20
+		b17 = b20 + RAMAltptr
 		poke b18,b19
+		poke b17,b19
 	next
-	b10 = ramptr
+	'b10 = ramptr
+	
 	
 	b20 = 5
 	if b21 <> "0" then writealt
@@ -307,11 +352,9 @@ if b0 <> 0 then
 	
 	writealt:
 	
-	ramptr = ramptr + b20
+	
+	'ramptr = ramptr + b20
 
-	b11 = 26 - b20
-	b12 = 25
-	gosub RTCRAMWriteMany
 	
 	b5 = b5 - 48
 	b4 = b4 - 48
@@ -319,11 +362,13 @@ if b0 <> 0 then
 	b2 = b2 - 48
 	b1 = b1 - 48
 	
+	'poke RAMaltptr,100	
 	if b5 > 9 then altdone
 	if b4 > 9 then altdone
 	if b3 > 9 then altdone
 	if b2 > 9 then altdone
-	if b1 > 9 then altdone			
+	if b1 > 9 then altdone
+	poke RAMAltptr,b20			
 
 	w25 = b5
 	
@@ -339,16 +384,123 @@ if b0 <> 0 then
 	
 	sertxd("alt: ",#w25,cr,lf,cr,lf)
 	
+	'read max altitude
+	
+	read MaxAltitudelROM,b20
+	read MAXAltitudehROM,b21	'w10
+	sertxd("previous max alt: ",#w10,cr,lf)
+	
+	if w25 > w10 then			'new highest alt
+		sertxd("Write max alt: ",#w25,cr,lf)
+		write MaxAltitudelROM,b50
+		write MAXAltitudehROM,b51
+		w10 = w25
+	endif
+	
+	'landed?
+	
+	if w10 > AltThresholdHigh then
+		if w25 < AltThresholdlow then
+			'about to land
+			write AboutToland,1
+			sertxd("write about to land",cr,lf)
+		endif
+	endif	
+	
+	
 	altdone:
+	
+else
+
+	poke RAMaltptr,100
+	
 	
 endif
 
+read AboutToLand,b55
+'b55 = 1			'REMOVE LATER!!!!!
+sertxd("read about to land: ",#b55,cr,lf)
 
-'check if current altitude > highest
-	'update highest
+
+'now actually write GPS values
+
+peek RAMlatptr,b20
+if b20 > 30 then
+	if b55 > 0 then
+		b10 = RAMlatStart
+		b11 = LGLatStartptr + 1
+		b12 = LGLatEnd
+		gosub ROMReadMany
+		read LGLatStartptr,b20
+		poke RAMlatptr,b20
+	endif
+endif
+if b20 < 30 then
+
+	b10 = ramptr
+	peek RAMlatptr,b11
+	b11 = b11 + RAMlatstart
+	b12 = RAMlatend
+	b13 = b12 - b11
+	b13 = b13 + 1
+	ramptr = ramptr + b13
+	gosub RTCRAMWriteMany
+	
+endif
+gosub writecomma
 
 
-gosub WriteComma
+
+peek RAMlongptr,b20
+if b20 > 30 then
+	if b55 > 0 then
+		b10 = RAMlongStart
+		b11 = LGLongStartptr + 1
+		b12 = LGLongEnd
+		gosub ROMReadMany
+		read LGLongStartptr,b20
+		poke RAMlongptr,b20
+	endif
+endif
+if b20 < 30 then
+
+	b10 = ramptr
+	peek RAMlongptr,b11
+	b11 = b11 + RAMlongstart
+	b12 = RAMlongEnd
+	b13 = b12 - b11
+	b13 = b13 + 1
+	ramptr = ramptr + b13
+	gosub RTCRAMWriteMany
+	
+endif
+gosub writecomma
+
+
+peek RAMaltptr,b20
+sertxd("altptr: ",#b20,cr,lf)
+if b20 < 30 then
+
+	b10 = ramptr
+	
+	peek RAMAltptr,b13
+	ramptr = ramptr + b13
+	b11 = RAMAltEnd - b13
+	b11 = b11 + 1
+	b12 = RAMaltEnd
+	gosub RTCRAMWriteMany
+	
+endif
+gosub writecomma
+
+
+
+
+
+
+
+
+'gosub WriteComma
 
 'GPS speed/bearing
 
@@ -705,7 +857,7 @@ low radiocstx
 low c.6
 wait 5
 
-hsersetup TXBaud, TXMode
+hsersetup TXBauds, TXMode
 
 ptr = 0
 for b16 = 0 to ramptr
@@ -714,7 +866,17 @@ next
 
 low c.6
 
-wait 3
+'wait 3
+
+'hsersetup TXBaudf, TXMode
+
+'ptr = 0
+'for b16 = 0 to ramptr
+'	hserout 0,(@ptrinc)
+'next
+
+wait 2
+
 hsersetup OFF
 high radiocstx
 low radiocsrx
@@ -736,7 +898,7 @@ next
 hsersetup RXBaud, RXMode
 low radiocsrx
 sertxd("GO",cr,lf)
-wait 10
+'wait 10
 sertxd("STOP",cr,lf)
 
 'wait 10
@@ -1605,3 +1767,43 @@ b9 = 5
   'End Select
   'SerTxd( #w23 )
   Return
+  
+  
+ROMWriteMany:
+'b10 - ROM start address
+'b11 - PIC start address
+'b12 - PIC end address
+b45 = b10
+b46 = b11
+b47 = b12
+
+for b48 = b46 to b47
+
+	peek b48,b49
+	write b45,b49
+	b45 = b45 + 1
+
+next
+
+
+return
+
+ROMReadMany:
+'b10 - RAM start address
+'b11 - ROM start address
+'b12 - ROM end address
+b45 = b10
+b46 = b11
+b47 = b12
+
+for b48 = b46 to b47
+
+	read b48,b49
+	poke b45,b49
+
+	b45 = b45 + 1
+
+next
+
+
+return

@@ -91,6 +91,7 @@ symbol PacketPtrlROM = 0x50
 symbol PacketPtrhROM = 0x51
 symbol MaxAltitudelROM = 0x52
 symbol MaxAltitudehROM = 0x53
+symbol AboutToLand = 0x54
 
 symbol PacketPtrl = b38
 symbol PacketPtrh = b39
@@ -202,6 +203,7 @@ RST:
 
 write PacketPtrlROM,0
 write PacketPtrhROM,0
+write AboutToLand,0
 
 sertxd("done",cr,lf)
 
