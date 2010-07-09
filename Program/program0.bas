@@ -1676,7 +1676,7 @@ GetSpeedBearing:
 
 serin [2000,endgps],GPSIn2,T4800,("GPVTG,"),b5,b6,b7,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3
 b4 = ","
-if b1 = "," then
+if b5 = "," then
 	b0 = 0
 else
 	b0 = 1
