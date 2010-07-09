@@ -22,6 +22,7 @@ Partial Class settingsFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(settingsFrm))
         Me.lstInterfaces = New System.Windows.Forms.ListBox()
         Me.btninterfaceAdd = New System.Windows.Forms.Button()
         Me.btnInterfaceEdit = New System.Windows.Forms.Button()
@@ -238,8 +239,9 @@ Partial Class settingsFrm
         Me.Controls.Add(Me.TableLayoutPanel2)
         Me.Controls.Add(Me.GroupBox2)
         Me.Controls.Add(Me.GroupBox1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "settingsFrm"
-        Me.Text = "settingsFrm"
+        Me.Text = "Settings"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()

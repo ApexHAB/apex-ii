@@ -464,7 +464,7 @@ Partial Class EditInterfaceSettings
         Me.Name = "EditInterfaceSettings"
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Dialog1"
+        Me.Text = "Add Interface"
         Me.TableLayoutPanel1.ResumeLayout(False)
         Me.pnlFilter.ResumeLayout(False)
         Me.pnlFilter.PerformLayout()

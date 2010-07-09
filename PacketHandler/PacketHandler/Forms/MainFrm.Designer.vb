@@ -23,6 +23,7 @@ Partial Class MainFrm
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim Frame1 As PacketHandler.Frame = New PacketHandler.Frame()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainFrm))
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.tabData = New System.Windows.Forms.TabControl()
         Me.tpAllData = New System.Windows.Forms.TabPage()
@@ -170,6 +171,7 @@ Partial Class MainFrm
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.tabData)
         Me.Controls.Add(Me.btnSettings)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "MainFrm"
         Me.Text = "Packet Handler"
         Me.tabData.ResumeLayout(False)
