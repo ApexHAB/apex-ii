@@ -1,6 +1,8 @@
 Balloon - KCI-1500 (1) - 83.45 GBP
 Diode, Schottky - 1N5821 (2) - 4.47 GBP
 Sensor, Pressure - MPX6115 (2) - 5.00 USD
+Plug, PL-259 (2) - 2.45 GBP
+Adaptor, PL-259 to SMA - 3.98 GBP
 
 --------------
-Total: 87.92 GBP
+Total: 97.37 GBP
