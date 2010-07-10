@@ -450,6 +450,23 @@ read AboutToLand,b55
 'b55 = 1			'REMOVE LATER!!!!!
 sertxd("read about to land: ",#b55,cr,lf)
 
+if b55 > 0 then
+	b55 = 0
+	sertxd("SEND TEXT",cr,lf)
+	'text start sequence
+
+	serout phoneMOSI,N2400,("ATZ",cr,lf)
+	serin [1000,phonefail],phoneMISO,n2400,("OK")
+	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
+	serin [1000,phonefail],phoneMISO,n2400,("OK")
+
+	sertxd("FINSIH THIS BIT")
+	
+	b55 = 1
+	failphone:
+	
+endif
+
 
 'now actually write GPS values
 
@@ -476,6 +493,7 @@ if b20 < 30 then
 	gosub RTCRAMWriteMany
 	
 endif
+
 gosub writecomma
 
 

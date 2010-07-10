@@ -140,12 +140,12 @@
 		</field>		
 		<field>
 			<seq>12</seq>
-			<name>Pressure</name>
+			<name>Pressure (mb)</name>
 			<type>Sensor</type>
 			<encoding>PressureRaw</encoding>
 			<encoding2>HexInteger</encoding2>
-			<scaling></scaling>
-			<offset></offset>
+			<scaling>0.2713336047</scaling>
+			<offset>105.5555556</offset>
 			<unit></unit>
 			<dp>0</dp>
 		</field>

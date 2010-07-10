@@ -542,7 +542,7 @@ Public Class Frame
                     Dim tempdoub2 As Double
                     Double.TryParse(GPSla, tempdoub)
                     Double.TryParse(GPSlo, tempdoub2)
-                    GPScoord_ = New GPScoord(GPSla, GPSlo)
+                    GPScoord_ = New GPScoord(tempdoub, tempdoub2)
                 Case PacketStructure.Encoding.dddmmmm
                     If (GPSla.Length > 4) And (GPSlo.Length > 4) Then
                         Dim a As String

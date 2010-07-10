@@ -157,8 +157,8 @@
 
     Public Sub New(ByVal LatitudeAPRS As String, ByVal LongitudeAPRS As String)
 
-        If LatitudeAPRS.Length < 8 Then Exit Sub
-        If LongitudeAPRS.Length < 9 Then Exit Sub
+        '    If LatitudeAPRS.Length < 8 Then Exit Sub
+        '  If LongitudeAPRS.Length < 9 Then Exit Sub
 
         Dim latdeg As Integer = Integer.Parse(LatitudeAPRS.Substring(0, 2))
         Dim latmin As Single = Integer.Parse(LatitudeAPRS.Substring(2, 2)) + (Integer.Parse(LatitudeAPRS.Substring(5, 2)) / 100)
