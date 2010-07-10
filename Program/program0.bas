@@ -90,7 +90,6 @@ symbol RAMptr = b53	'ptrs store the next value to read
 symbol tableptr = b54
 
 
-
 symbol PacketPtrlROM = 0x50
 symbol PacketPtrhROM = 0x51
 symbol MaxAltitudelROM = 0x52
@@ -163,7 +162,7 @@ DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 
 
 
-serrxd [2000,main],("C")
+serrxd [4000,main],("C")
 
 run 2
 
@@ -808,10 +807,10 @@ crc = crc ^ 0x0000
 
 w5 = crc
 
-sertxd("CK: ",#w5,cr,lf)
+'sertxd("CK: ",#w5,cr,lf)
 
 gosub bintohex
-sertxd(b0,b1,b2,b3,cr,lf)
+'sertxd(b0,b1,b2,b3,cr,lf)
 
 ptr = ramptr + 1
 ramptr = ramptr + 7
@@ -834,9 +833,24 @@ next b16
 
 'write to flash
 
+
+w7 = PacketPtr / 2
+w8 = PacketPtr AND 1
+
+if w8 > 0 then
+	b13 = 128
+	
+
+else
+	b13 = 0
+
+endif
+
 b10 = ramptr
-b13 = 0
-w7 = PacketPtr
+if ramptr > 128 then : b10 = 128 endif
+
+
+
 gosub FlashWritePage
 pause 100
 'read status
@@ -984,7 +998,7 @@ ramptr = ramptr + 5
 b11 = 20
 b12 = 24
 gosub RTCRAMWriteMany
-sertxd("OMG IT WORKED :O",cr,lf)
+'sertxd("OMG IT WORKED :O",cr,lf)
 
 return
 

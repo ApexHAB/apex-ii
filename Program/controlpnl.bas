@@ -87,11 +87,19 @@ symbol tableptr = b54
 
 
 
+
 symbol PacketPtrlROM = 0x50
 symbol PacketPtrhROM = 0x51
 symbol MaxAltitudelROM = 0x52
 symbol MaxAltitudehROM = 0x53
 symbol AboutToLand = 0x54
+
+symbol LGLatStartptr = 0x55			'55
+symbol LGLatEnd = LGLatStartptr + 10 	'65
+symbol LGLongStartptr = LGLatStartptr + 11'66
+symbol LGLongEnd = LGLatStartptr + 22	'77
+
+
 
 symbol PacketPtrl = b38
 symbol PacketPtrh = b39
@@ -102,7 +110,7 @@ symbol PacketPtr = w19
 '########
 
 table ("$$APEX,")
-
+'setfreq em8
 start:
 
 high adccs
@@ -204,6 +212,9 @@ RST:
 write PacketPtrlROM,0
 write PacketPtrhROM,0
 write AboutToLand,0
+write MaxAltitudelROM,0
+write MaxAltitudehROM,0
+
 
 sertxd("done",cr,lf)
 
@@ -213,7 +224,9 @@ goto start
 
 MULTI:
 
+sertxd("switch to 78600 baud",cr,lf)
 sertxd("Enter start page to read, max: 2047 (4 digits): ")
+setfreq em64
 serrxd b16,b17,b18,b19
 
 b16 = b16 - 48
@@ -266,22 +279,26 @@ for b16 = 0 to 255
 	b17 = @ptrinc
 
 	
-	if b17 = cr then
+	if b17 = 255 then
 		sertxd(cr,lf)
 		goto multidone1
 	endif
 	
-	if b17 = lf then
-		sertxd(cr,lf)
-		goto multidone1		
-	endif
+	'if b17 = 255 then
+	'	sertxd(cr,lf)
+	'	goto multidone1		
+	'endif
 
 	sertxd(b17)
 
 next
 multidone1:
+sertxd(cr,lf,cr,lf,cr,lf)
 next
+sertxd("back to 9600",cr,lf)
 
+setfreq m8
+wait 3
 goto start
 
 
