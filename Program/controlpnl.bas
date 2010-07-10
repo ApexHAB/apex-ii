@@ -273,6 +273,7 @@ b10 = 255
 gosub FlashReadSpad
 
 ptr = 0
+b18 = 0
 
 for b16 = 0 to 255
 
@@ -280,8 +281,14 @@ for b16 = 0 to 255
 
 	
 	if b17 = 255 then
-		sertxd(cr,lf)
-		goto multidone1
+		if b18 = 0 then
+			sertxd(cr,lf,cr,lf)
+			b18 = 1
+		endif
+		
+	else
+		
+		sertxd(b17)	
 	endif
 	
 	'if b17 = 255 then
@@ -289,11 +296,11 @@ for b16 = 0 to 255
 	'	goto multidone1		
 	'endif
 
-	sertxd(b17)
+	
 
 next
 multidone1:
-sertxd(cr,lf,cr,lf,cr,lf)
+
 next
 sertxd("back to 9600",cr,lf)
 

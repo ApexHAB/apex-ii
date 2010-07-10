@@ -554,6 +554,22 @@ gosub WriteComma
 
 'temps
 
+
+
+owout tempow,%1001,($55,40,241,136,209,1,0,0,139,$44)
+owout tempow,%1001,($55,40,250,228,94,2,0,0,228,$44)
+
+ pause 750 '‘ wait 750ms with strong pullup 
+ 
+owout tempow,%0001,($55,40,241,136,209,1,0,0,139,$BE) 
+ owin tempow,%0000,(b26,b27) '‘ read in result 
+
+owout tempow,%0001,($55,40,250,228,94,2,0,0,228,$BE) 
+owin tempow,%0000,(b0,b1) '‘ read in result 
+
+
+for b16 = 0 to 1
+
 gosub PrintReadTemp12
 for b20 = 0 to 5			'copy values into free RAM
 	peek b20,b19
@@ -569,19 +585,9 @@ b12 = b9 + 60
 gosub RTCRAMwritemany
 
 gosub WriteComma
+w0 = w13
+next
 
-b16 = "0"
-b17 = "."
-b18 = "0"
-b19 = "0"
-
-b10 = ramptr
-ramptr = ramptr + 4
-b11 = 16
-b12 = 19
-gosub RTCRAMWriteMany
-
-gosub WriteComma
 
 
 
@@ -1748,11 +1754,11 @@ PrintReadTemp12:
 'b8 - start
 'b9 - end (5)
 
-b0 = "-"
-b3 = "."
-b9 = 5
+'takes a value in on w0
 
- ReadTemp12 tempow, w0
+
+
+ 'ReadTemp12 tempow, w0
   If bit15 <> 0 Then
     SerTxd( "-" )
     b8 = 0
@@ -1780,6 +1786,11 @@ b9 = 5
   '  Case < 10 : SerTxd( "0"   )
   'End Select
   'SerTxd( #w23 )
+  
+  b0 = "-"
+b3 = "."
+b9 = 5
+  
   Return
   
   
