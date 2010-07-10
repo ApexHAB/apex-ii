@@ -89,7 +89,8 @@ symbol CurrentAltitudeh = b51
 symbol RAMptr = b53	'ptrs store the next value to read
 symbol tableptr = b54
 
-
+symbol CamBotBoolROM = 0x4E
+symbol CamTopboolRom = 0x4F
 symbol PacketPtrlROM = 0x50
 symbol PacketPtrhROM = 0x51
 symbol MaxAltitudelROM = 0x52
@@ -132,6 +133,7 @@ symbol RXMode = %111
 
 symbol AltThresholdHigh = 5000
 symbol AltThresholdLow = 1000
+symbol AltFallingDistance = 100
 
 
 table ("$$APEX,")		'start of string
@@ -143,7 +145,7 @@ table ("IRDOhyxapr")
 table ("IRDFh7wv7k")
 table ("SHUTp1cX7W")
 table ("TESTN86GhH")
-table ("XXXXXXXXXX")		'blanking
+table ("FILMg3Ger3")		'blanking
 table ("XXXXXXXXXX")
 table ("XXXXXXXXXX")
 table ("XXXXXXXXXX")
@@ -394,6 +396,23 @@ if b0 <> 0 then
 		write MaxAltitudelROM,b50
 		write MAXAltitudehROM,b51
 		w10 = w25
+	else
+		w11 = w10 - w25
+		if w11 >= altfallingdistance then
+			if w25 >= altthresholdhigh then
+				read camtopboolrom,b26
+				if b26 = 0 then
+					write camtopboolrom,1
+					sertxd("TOP FILM",cr,lf)
+					high cam1
+					high cam2
+					pause 200
+					low cam2
+					low cam1
+				endif
+			endif
+		endif
+		
 	endif
 	
 	'landed?
@@ -403,6 +422,17 @@ if b0 <> 0 then
 			'about to land
 			write AboutToland,1
 			sertxd("write about to land",cr,lf)
+			
+			read cambotboolrom,b16
+			if b16 = 0 then
+				write cambotboolrom,1
+				sertxd("DOWN FILM",cr,lf)
+				high cam1
+				high cam2
+				pause 200
+				low cam2
+				low cam1
+			endif
 		endif
 	endif	
 	
@@ -979,7 +1009,7 @@ do while ptr < 254
 	if b18 = 10 then
 		b15 = b15 - 0x80  ' remove memory offset
 		b15 = b15 / 10
-		branch b15,(pingcmd,cdwncmd)
+		branch b15,(pingcmd,cdwncmd,IRDoncmd,IRDoffcmd,shutdowncmd,testcmd,filmcmd)
 		return
 	endif	
 
@@ -993,11 +1023,11 @@ return
 
 pingcmd:
 
-b20 = "P"
-b21 = "O"
-b22 = "N"
-b23 = "G"
-b24 = ","
+b20 = ","
+b21 = "P"
+b22 = "O"
+b23 = "N"
+b24 = "G"
 
 b10 = ramptr
 ramptr = ramptr + 5
@@ -1015,11 +1045,11 @@ pause 500
 low FET2
 
 
-b20 = "C"
-b21 = "D"
-b22 = "W"
-b23 = "N"
-b24 = ","
+b20 = ","
+b21 = "C"
+b22 = "D"
+b23 = "W"
+b24 = "N"
 
 b10 = ramptr
 ramptr = ramptr + 5
@@ -1027,10 +1057,93 @@ b11 = 20
 b12 = 24
 gosub RTCRAMWriteMany
 
+return
+
+IRDoncmd:
+
+b20 = ","
+b21 = "I"
+b22 = "R"
+b23 = "D"
+b24 = "N"
+
+b10 = ramptr
+ramptr = ramptr + 5
+b11 = 20
+b12 = 24
+gosub RTCRAMWriteMany
 
 return
 
+IRDoffcmd:
 
+b20 = ","
+b21 = "I"
+b22 = "R"
+b23 = "D"
+b24 = "F"
+
+b10 = ramptr
+ramptr = ramptr + 5
+b11 = 20
+b12 = 24
+gosub RTCRAMWriteMany
+
+return
+
+shutdowncmd:
+
+b20 = ","
+b21 = "S"
+b22 = "H"
+b23 = "U"
+b24 = "T"
+
+b10 = ramptr
+ramptr = ramptr + 5
+b11 = 20
+b12 = 24
+gosub RTCRAMWriteMany
+
+return
+
+testcmd:
+
+b20 = ","
+b21 = "T"
+b22 = "E"
+b23 = "S"
+b24 = "T"
+
+b10 = ramptr
+ramptr = ramptr + 5
+b11 = 20
+b12 = 24
+gosub RTCRAMWriteMany
+
+return
+
+filmcmd:
+
+high Cam1
+high cam2
+pause 200
+low cam1
+low cam2
+
+b20 = ","
+b21 = "F"
+b22 = "I"
+b23 = "L"
+b24 = "M"
+
+b10 = ramptr
+ramptr = ramptr + 5
+b11 = 20
+b12 = 24
+gosub RTCRAMWriteMany
+
+return
 
 
 

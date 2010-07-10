@@ -87,7 +87,8 @@ symbol tableptr = b54
 
 
 
-
+symbol CamBotBoolROM = 0x4E
+symbol CamTopboolRom = 0x4F
 symbol PacketPtrlROM = 0x50
 symbol PacketPtrhROM = 0x51
 symbol MaxAltitudelROM = 0x52
@@ -208,7 +209,8 @@ goto start
 
 
 RST:
-
+write cambotboolrom,0
+write camtopboolrom,0
 write PacketPtrlROM,0
 write PacketPtrhROM,0
 write AboutToLand,0
