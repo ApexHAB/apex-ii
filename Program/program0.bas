@@ -131,9 +131,9 @@ symbol RXMode = %111
 '########
 
 
-symbol AltThresholdHigh = 5000
-symbol AltThresholdLow = 1000
-symbol AltFallingDistance = 100
+symbol AltThresholdHigh = 190
+symbol AltThresholdLow = 110
+symbol AltFallingDistance = 50
 
 
 table ("$$APEX,")		'start of string
@@ -383,16 +383,16 @@ if b0 <> 0 then
 	w25 = w25 + w11
 
 	
-	sertxd("alt: ",#w25,cr,lf,cr,lf)
+	sertxd("alt: ",#w25,cr,lf)
 	
 	'read max altitude
 	
 	read MaxAltitudelROM,b20
 	read MAXAltitudehROM,b21	'w10
-	sertxd("previous max alt: ",#w10,cr,lf)
+	sertxd("R alt: ",#w10,cr,lf)
 	
 	if w25 > w10 then			'new highest alt
-		sertxd("Write max alt: ",#w25,cr,lf)
+		sertxd("W alt: ",#w25,cr,lf)
 		write MaxAltitudelROM,b50
 		write MAXAltitudehROM,b51
 		w10 = w25
@@ -403,7 +403,7 @@ if b0 <> 0 then
 				read camtopboolrom,b26
 				if b26 = 0 then
 					write camtopboolrom,1
-					sertxd("TOP FILM",cr,lf)
+					sertxd("T FILM",cr,lf)
 					high cam1
 					high cam2
 					pause 200
@@ -421,12 +421,12 @@ if b0 <> 0 then
 		if w25 < AltThresholdlow then
 			'about to land
 			write AboutToland,1
-			sertxd("write about to land",cr,lf)
+			sertxd("w land",cr,lf)
 			
 			read cambotboolrom,b16
 			if b16 = 0 then
 				write cambotboolrom,1
-				sertxd("DOWN FILM",cr,lf)
+				sertxd("D FILM",cr,lf)
 				high cam1
 				high cam2
 				pause 200
@@ -448,22 +448,23 @@ endif
 
 read AboutToLand,b55
 'b55 = 1			'REMOVE LATER!!!!!
-sertxd("read about to land: ",#b55,cr,lf)
+sertxd("r land: ",#b55,cr,lf)
 
 if b55 > 0 then
 	b55 = 0
-	sertxd("SEND TEXT",cr,lf)
+	sertxd("TXT",cr,lf)
 	'text start sequence
 
 	serout phoneMOSI,N2400,("ATZ",cr,lf)
 	serin [1000,phonefail],phoneMISO,n2400,("OK")
 	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
 	serin [1000,phonefail],phoneMISO,n2400,("OK")
+	serout phoneMOSI,N2400,("AT+CMGS=",34,"07922123456",34,cr,lf)
+	serin [1000,phonefail],phoneMISO,n2400,(">")
 
-	sertxd("FINSIH THIS BIT")
 	
 	b55 = 1
-	failphone:
+	phonefail:
 	
 endif
 
@@ -481,19 +482,27 @@ if b20 > 30 then
 		poke RAMlatptr,b20
 	endif
 endif
-if b20 < 30 then
 
-	b10 = ramptr
-	peek RAMlatptr,b11
-	b11 = b11 + RAMlatstart
-	b12 = RAMlatend
-	b13 = b12 - b11
-	b13 = b13 + 1
+
+
+b10 = ramptr
+peek RAMlatptr,b11
+b11 = b11 + RAMlatstart
+b12 = RAMlatend
+b13 = b12 - b11
+b13 = b13 + 1
+
+if b55 > 0 then
+	for b21 = b11 to b12
+		peek b21,b22
+		serout phoneMOSI,N2400,(b22)
+	next 
+	serout phoneMOSI,N2400,(",")
+endif	
+if b20 < 30 then	
 	ramptr = ramptr + b13
-	gosub RTCRAMWriteMany
-	
+	gosub RTCRAMWriteMany	
 endif
-
 gosub writecomma
 
 
@@ -509,34 +518,49 @@ if b20 > 30 then
 		poke RAMlongptr,b20
 	endif
 endif
-if b20 < 30 then
 
-	b10 = ramptr
-	peek RAMlongptr,b11
-	b11 = b11 + RAMlongstart
-	b12 = RAMlongEnd
-	b13 = b12 - b11
-	b13 = b13 + 1
+
+b10 = ramptr
+peek RAMlongptr,b11
+b11 = b11 + RAMlongstart
+b12 = RAMlongEnd
+b13 = b12 - b11
+b13 = b13 + 1
+
+if b55 > 0 then
+	for b21 = b11 to b12
+		peek b21,b22
+		serout phoneMOSI,N2400,(b22)
+	next 
+endif	
+if b20 < 30 then	
 	ramptr = ramptr + b13
-	gosub RTCRAMWriteMany
-	
+	gosub RTCRAMWriteMany	
 endif
 gosub writecomma
+serout phoneMOSI,N2400,(",")
 
 
 peek RAMaltptr,b20
-sertxd("altptr: ",#b20,cr,lf)
-if b20 < 30 then
+'sertxd("altptr: ",#b20,cr,lf)
 
-	b10 = ramptr
-	
-	peek RAMAltptr,b13
+
+b10 = ramptr	
+peek RAMAltptr,b13
+
+b11 = RAMAltEnd - b13
+b11 = b11 + 1
+b12 = RAMaltEnd
+if b55 > 0 then
+	for b21 = b11 to b12
+		peek b21,b22
+		serout phoneMOSI,N2400,(b22)
+	next
+	serout phoneMOSI,N2400,(26)
+endif	
+if b20 < 30 then	
 	ramptr = ramptr + b13
-	b11 = RAMAltEnd - b13
-	b11 = b11 + 1
-	b12 = RAMaltEnd
-	gosub RTCRAMWriteMany
-	
+	gosub RTCRAMWriteMany	
 endif
 gosub writecomma
 
@@ -910,7 +934,7 @@ pause 100
 'read status
 b10 = _RDSR
 gosub FlashRead_byte
-sertxd("flash status: ",#b0)
+sertxd("fs: ",#b0)
 
 
 'increment and write counter
@@ -965,9 +989,9 @@ next
 
 hsersetup RXBaud, RXMode
 low radiocsrx
-sertxd("GO",cr,lf)
+sertxd("G",cr,lf)
 'wait 10
-sertxd("STOP",cr,lf)
+sertxd("S",cr,lf)
 
 'wait 10
 goto main
@@ -1027,7 +1051,8 @@ do while ptr < 254
 	if b18 = 10 then
 		b15 = b15 - 0x80  ' remove memory offset
 		b15 = b15 / 10
-		branch b15,(pingcmd,cdwncmd,IRDoncmd,IRDoffcmd,shutdowncmd,testcmd,filmcmd)
+		branch b15,(pingcmd,cdwncmd,null,null,null,null,filmcmd)
+		null:
 		return
 	endif	
 
@@ -1077,6 +1102,7 @@ gosub RTCRAMWriteMany
 
 return
 
+#rem
 IRDoncmd:
 
 b20 = ","
@@ -1140,7 +1166,7 @@ b12 = 24
 gosub RTCRAMWriteMany
 
 return
-
+#endrem
 filmcmd:
 
 high Cam1
@@ -1865,12 +1891,7 @@ return
 '#endrem
 
 
-ConfigureGPS:
 
-'gpsout2
-
-
-return 
 
 
 
