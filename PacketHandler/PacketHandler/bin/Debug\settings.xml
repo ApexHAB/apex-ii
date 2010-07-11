@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GlobalSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <logFolder>/Users/jon/Documents/Apex/ApexII/git/PacketHandler/PacketHandler/bin/Debug</logFolder>
+  <Interfaces>
+    <InterfaceSettings>
+      <TCPHost>robertharrison.org/listen/view.php?reg=/APEX/</TCPHost>
+      <TCPPort>80</TCPPort>
+      <sBaud>2400</sBaud>
+      <sPort />
+      <sParity>None</sParity>
+      <sDatabits>8</sDatabits>
+      <sStopbits>One</sStopbits>
+      <Timer>60</Timer>
+      <XMLStructurePath>/Users/jon/Documents/Apex/ApexII/git/XML/apexii_test.xml</XMLStructurePath>
+      <PacketStructure>
+        <PacketType>UKHAS</PacketType>
+      </PacketStructure>
+      <Enabled>true</Enabled>
+      <InterfaceName>dl</InterfaceName>
+      <InterfaceDirection>DataIn</InterfaceDirection>
+      <InterfaceType>DLINTERNET</InterfaceType>
+      <Filters />
+    </InterfaceSettings>
+  </Interfaces>
+  <TimeZone>0</TimeZone>
+  <UseUTC>false</UseUTC>
+</GlobalSettings>
