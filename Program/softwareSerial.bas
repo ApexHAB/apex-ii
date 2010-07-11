@@ -128,18 +128,18 @@ high radioCSRX
 
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 
-setfreq em16
-
+setfreq k250
+low radiocsrx
 main:
 
-b10 = "H"
+'b10 = "HELLOHELLO"
 
-gosub sofser
+'gosub sofser
 
-wait 1
+'wait 1
 
-serout a.4,n1200,("H")
-WAIT 2
+serout a.4,n1200,("HELLOHELLO")
+pause 100
 
 goto main
 

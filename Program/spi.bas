@@ -208,7 +208,7 @@ wait 2
 goto main3
 
 main2:
-
+'goto sdf
 'b10 = _WREN
 'gosub FlashWrite_byte
 
@@ -218,7 +218,7 @@ main2:
 'b10 = _BE
 'gosub FlashWrite_byte
 
-'for b20 = 0 to 100
+'for b20 = 0 to 10
 'pause 50
 
 'b10 = _RDSR
@@ -229,13 +229,17 @@ main2:
 
 'wait 10
 
+b10 = _RDSR
+gosub FlashRead_Byte
+sertxd("   ",#b0,cr,lf)
 
-b10 = _WREN
-gosub FlashSingleOpCode
 
-b10 = _WRSR
-b11 = 0
-gosub FlashWrite_byte
+'b10 = _WREN
+'gosub FlashSingleOpCode
+
+'b10 = _WRSR
+'b11 = 0
+'gosub FlashWrite_byte
 
 ptr = 0
 @ptrinc = 1
@@ -246,10 +250,10 @@ ptr = 0
 @ptrinc = 18
 @ptrinc = 86
 
-b10 = 3
-b13 = 0
-b14 = 4
-b15 = 0
+b10 = 5
+b13 = 10
+b14 = 251
+b15 = 5
 gosub FlashWritePage
 
 wait 1
@@ -264,10 +268,10 @@ b0 = b0 and 1
 
 
 
-w5 = 20
+b10 = 20
 b13 = 0
-b14 = 4
-b15 = 0
+b14 = 251
+b15 = 5
 gosub FlashReadSpad
 
 ptr = 0

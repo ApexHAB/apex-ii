@@ -111,7 +111,7 @@ symbol PacketPtr = w19
 '########
 
 table ("$$APEX,")
-'setfreq em8
+setfreq em64
 start:
 
 high adccs
@@ -186,7 +186,7 @@ next
 goto start
 
 BE:
-
+setfreq m8 
 b10 = _WREN
 gosub FlashSingleOpCode
 
@@ -201,7 +201,7 @@ b10 = _BE
 gosub FlashSingleOpCode
 
 wait 7
-
+setfreq em64
 sertxd("done",cr,lf)
 
 
@@ -226,9 +226,9 @@ goto start
 
 MULTI:
 
-sertxd("switch to 78600 baud",cr,lf)
+'sertxd("switch to 78600 baud",cr,lf)
 sertxd("Enter start page to read, max: 2047 (4 digits): ")
-setfreq em64
+'setfreq em64
 serrxd b16,b17,b18,b19
 
 b16 = b16 - 48
@@ -304,9 +304,9 @@ next
 multidone1:
 
 next
-sertxd("back to 9600",cr,lf)
+'sertxd("back to 9600",cr,lf)
 
-setfreq m8
+'setfreq m8
 wait 3
 goto start
 

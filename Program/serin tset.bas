@@ -99,7 +99,7 @@ symbol PacketPtrl = b38
 symbol PacketPtrh = b39
 symbol PacketPtr = w19
 
-symbol TXBaud = 39999	'8mhz:39999 for 50 baud
+symbol TXBaud = 53332	'8mhz:39999 for 50 baud
 symbol TXMode = %110
 symbol RXBaud = B300_8
 symbol RXMode = %111
@@ -136,16 +136,26 @@ DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 low radiocsrx
 
 
-hsersetup RXBaud, RXMode
+setfreq m8
 
 main1:
-
+hsersetup 53332, %111
 ptr = 0
+wait 10
+'hserout 0,("##HELLO##")
 
-hserin 0,5
-
-sertxd(@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc)
-pause 100
+'pause 100
+ptr = 0
+hsersetup off
+for b1 = 0 to 100
+sertxd(@ptrinc)
+next
+ptr = 0
+for b1 = 0 to 100
+@ptrinc = 0
+next
+sertxd(cr,lf,cr,lf)
+'pause 1000
 
 
 

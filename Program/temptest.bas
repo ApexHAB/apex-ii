@@ -127,3 +127,33 @@ high radioCSTX
 high radioCSRX
 
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
+
+main:
+
+
+gosub ShowReadTemp12InW0
+wait 1
+goto main
+
+
+ShowReadTemp12InW0:
+ ReadTemp12 tempow, w0
+  If bit15 <> 0 Then
+    SerTxd( "-" )
+    w0 = -w0
+  Else
+    SerTxd( "+" )
+  End If
+  w1 = 0
+  If bit0 = 1 Then : w1 = w1 + 06 : End If
+  If bit1 = 1 Then : w1 = w1 + 13 : End If
+  If bit2 = 1 Then : w1 = w1 + 25 : End If
+  If bit3 = 1 Then : w1 = w1 + 50 : End If
+  w0 = w0 / 16
+  SerTxd( #w0, "." )
+  Select Case w1
+    Case =    0 : SerTxd( "000" )
+    Case < 10 : SerTxd( "0"   )
+  End Select
+  SerTxd( #w1 )
+  Return

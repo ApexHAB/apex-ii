@@ -2,6 +2,10 @@
 #no_data
 '#no_table
 #slot 0
+
+#define oscFreq64
+'#define oscFreq8
+
 symbol rtcCS = b.6
 symbol MISO = Pina.3
 symbol MOSI = a.4
@@ -50,7 +54,8 @@ symbol hserinIP = c.7
 symbol radioCSTX = d.4	'CS for the radio, one is tx, other rx
 symbol radioCSRX = d.5
 
-symbol RSSI = pinb.0	'adc pin for radio RSSI o/p
+symbol RSSI = b.0	'adc pin for radio RSSI o/p
+
 
 symbol PhoneMOSI = a.0	'phone in
 symbol PhoneMISO = a.1	'phone out
@@ -114,10 +119,10 @@ symbol RAMAltptr = 83
 symbol RAMAltStart = 84
 symbol RAMAltend = 88
 
+
 symbol PacketPtrl = b38
 symbol PacketPtrh = b39
 symbol PacketPtr = w19
-
 
 'symbol TXBaud = 39999	'8mhz:39999 for 50 baud
 symbol TXBaudf = 39999
@@ -125,6 +130,14 @@ symbol TXBauds = B300_8
 symbol TXMode = %110
 symbol RXBaud = 53332	'37.5
 symbol RXMode = %111
+
+#ifdef oscFreq8
+symbol lightcountT = 10
+symbol temppause = 750
+#else
+symbol lightcountT = 80
+symbol temppause = 6000
+#endif
 
 '########
 '########
@@ -134,6 +147,7 @@ symbol RXMode = %111
 symbol AltThresholdHigh = 190
 symbol AltThresholdLow = 110
 symbol AltFallingDistance = 50
+symbol AboutToLandCntMax = 6
 
 
 table ("$$APEX,")		'start of string
@@ -162,9 +176,9 @@ high lightcs
 
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 
+setfreq em64
 
-
-serrxd [4000,main],("C")
+serrxd [32000,main],("C")
 
 run 2
 
@@ -172,11 +186,12 @@ run 2
 
 
 main:
+'setfreq m8
 
 
-
-
-
+#ifdef oscFreq64
+setfreq em64
+#endif
 'gosub RTCRAMClear
 RAMptr = 0
 tableptr = 0
@@ -420,7 +435,12 @@ if b0 <> 0 then
 	if w10 > AltThresholdHigh then
 		if w25 < AltThresholdlow then
 			'about to land
-			write AboutToland,1
+			read AboutToLand,b16
+			if b16 <= AboutToLandCntMax then
+				b16 = b16 + 1
+				write AboutToland,b16
+			endif
+			
 			sertxd("w land",cr,lf)
 			
 			read cambotboolrom,b16
@@ -446,15 +466,21 @@ else
 	
 endif
 
+#ifdef oscFreq16
+	setfreq em64
+#endif
+
 read AboutToLand,b55
 'b55 = 1			'REMOVE LATER!!!!!
 sertxd("r land: ",#b55,cr,lf)
 
-if b55 > 0 then
+if b55 >= AboutToLandCntMax then
 	b55 = 0
 	sertxd("TXT",cr,lf)
 	'text start sequence
 
+	setfreq m8
+	
 	serout phoneMOSI,N2400,("ATZ",cr,lf)
 	serin [1000,phonefail],phoneMISO,n2400,("OK")
 	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
@@ -463,17 +489,21 @@ if b55 > 0 then
 	serin [1000,phonefail],phoneMISO,n2400,(">")
 
 	
-	b55 = 1
+	b55 = AboutToLandCntMax
 	phonefail:
+	#ifdef oscFreq16
+		setfreq em64
+	#endif
 	
 endif
 
 
 'now actually write GPS values
-
+b52 = 0
 peek RAMlatptr,b20
 if b20 > 30 then
-	if b55 > 0 then
+	if b55 >= AboutToLandCntMax then
+		b52 = 1
 		b10 = RAMlatStart
 		b11 = LGLatStartptr + 1
 		b12 = LGLatEnd
@@ -484,7 +514,6 @@ if b20 > 30 then
 endif
 
 
-
 b10 = ramptr
 peek RAMlatptr,b11
 b11 = b11 + RAMlatstart
@@ -492,12 +521,16 @@ b12 = RAMlatend
 b13 = b12 - b11
 b13 = b13 + 1
 
-if b55 > 0 then
+if b55 >= AboutToLandCntMax then
+	setfreq m8
 	for b21 = b11 to b12
 		peek b21,b22
 		serout phoneMOSI,N2400,(b22)
 	next 
 	serout phoneMOSI,N2400,(",")
+	#ifdef oscFreq16
+		setfreq em64
+	#endif
 endif	
 if b20 < 30 then	
 	ramptr = ramptr + b13
@@ -506,10 +539,12 @@ endif
 gosub writecomma
 
 
+'LONG
+
 
 peek RAMlongptr,b20
 if b20 > 30 then
-	if b55 > 0 then
+	if b55 >= AboutToLandCntMax then
 		b10 = RAMlongStart
 		b11 = LGLongStartptr + 1
 		b12 = LGLongEnd
@@ -527,18 +562,25 @@ b12 = RAMlongEnd
 b13 = b12 - b11
 b13 = b13 + 1
 
-if b55 > 0 then
+if b55 >= AboutToLandCntMax then
+	setfreq m8
 	for b21 = b11 to b12
 		peek b21,b22
 		serout phoneMOSI,N2400,(b22)
-	next 
+	next
+	serout phoneMOSI,N2400,(",")
+	#ifdef oscFreq16
+		setfreq em64
+	#endif
 endif	
 if b20 < 30 then	
 	ramptr = ramptr + b13
 	gosub RTCRAMWriteMany	
 endif
 gosub writecomma
-serout phoneMOSI,N2400,(",")
+
+
+'ALT
 
 
 peek RAMaltptr,b20
@@ -551,12 +593,14 @@ peek RAMAltptr,b13
 b11 = RAMAltEnd - b13
 b11 = b11 + 1
 b12 = RAMaltEnd
-if b55 > 0 then
+if b55 >= AboutToLandCntMax then
+	setfreq m8
 	for b21 = b11 to b12
 		peek b21,b22
 		serout phoneMOSI,N2400,(b22)
 	next
 	serout phoneMOSI,N2400,(26)
+
 endif	
 if b20 < 30 then	
 	ramptr = ramptr + b13
@@ -566,7 +610,9 @@ gosub writecomma
 
 
 
-
+	#ifdef oscFreq16
+		setfreq em64
+	#endif
 
 
 
@@ -631,7 +677,7 @@ gosub WriteComma
 owout tempow,%1001,($55,40,241,136,209,1,0,0,139,$44)
 owout tempow,%1001,($55,40,250,228,94,2,0,0,228,$44)
 
- pause 750 '‘ wait 750ms with strong pullup 
+ pause temppause '‘ wait 750ms with strong pullup 
  
 owout tempow,%0001,($55,40,241,136,209,1,0,0,139,$BE) 
  owin tempow,%0000,(b26,b27) '‘ read in result 
@@ -722,8 +768,8 @@ for b25 = 1 to 3
 	if b16 = %10 then : high lightS0 endif
 	
 	low lightCS
-	pause 20
-	count lightout,10,b17
+	pause lightcountT
+	count lightout,lightcountT,b17
 	high lightCS
 	
 	if b17 > 40 then highenough
@@ -744,7 +790,7 @@ low lightS2
 low lightS3
 low lightCS
 pause 20
-count lightout,10,b10
+count lightout,lightcountT,b10
 high lightCS
 low a.4
 pause 100
@@ -765,7 +811,7 @@ high lightS2
 high lightS3
 low lightCS
 pause 20
-count lightout,10,b11
+count lightout,lightcountT,b11
 high lightCS
 low a.4
 pause 100
@@ -775,7 +821,7 @@ low lightS2
 high lightS3
 low lightCS
 pause 20
-count lightout,10,b10
+count lightout,lightcountT,b10
 high lightCS
 low a.4
 pause 100
@@ -783,20 +829,13 @@ pause 100
 
 gosub bintohex
 
+b4 = b25 + 48
 b10 = ramptr
-ramptr = ramptr + 4
+ramptr = ramptr + 5
 b11 = 0
-b12 = 3
+b12 = 4
 gosub RTCRAMWriteMany
 
-'gosub writecomma
-
-b25 = b25 + 48
-b10 = ramptr
-ramptr = ramptr + 1
-b11 = 25
-b12 = 25
-gosub RTCRAMWriteMany
 gosub writecomma
 DirsA = DirsA AND %11110111
 
@@ -810,7 +849,32 @@ gosub writecomma
 
 'RSSI
 
+b10 = b39
+gosub bintohex
+b10 = ramptr
+ramptr = ramptr + 2
+b11 = 2
+b12 = 3
+gosub rtcramwritemany
+
 'no comma needed - end of string
+
+
+
+if b52 > 0 then
+if b55 > 0 then
+
+	b19 = ","
+	b20 = "L"
+	b21 = "G"
+	b10 = ramptr
+	ramptr = ramptr + 3
+	b11 = 19
+	b12 = 21
+	gosub RTCRAMwritemany
+
+endif
+endif
 
 
 'turn off RX/hserin
@@ -928,13 +992,13 @@ b10 = ramptr
 if ramptr > 128 then : b10 = 128 endif
 
 
-
+setfreq em64
 gosub FlashWritePage
 pause 100
 'read status
 b10 = _RDSR
 gosub FlashRead_byte
-sertxd("fs: ",#b0)
+sertxd("#####fs: ",#b0)
 
 
 'increment and write counter
@@ -943,12 +1007,24 @@ PacketPtr = PacketPtr + 1
 write PacketPtrhROM,PacketPtrh
 write PacketPtrlROM,PacketPtrl
 
+
+
+'sertxd for testing
+ptr = 0
+for b15 = 0 to ramptr
+sertxd(@ptrinc)
+next
+sertxd(cr,lf)
+
+
 'transmit scratchpad
 high radiocsrx
 low radiocstx
 low c.6
-wait 5
 
+
+setfreq m8
+wait 5
 hsersetup TXBauds, TXMode
 
 ptr = 0
@@ -956,7 +1032,7 @@ for b16 = 0 to ramptr
 	hserout 0,(@ptrinc)
 next
 
-low c.6
+
 
 'wait 3
 
@@ -972,13 +1048,7 @@ wait 2
 hsersetup OFF
 high radiocstx
 low radiocsrx
-'sertxd for testing
 
-ptr = 0
-for b15 = 0 to ramptr
-sertxd(@ptrinc)
-next
-sertxd(cr,lf)
 
 
 'enable RX
@@ -989,8 +1059,19 @@ next
 
 hsersetup RXBaud, RXMode
 low radiocsrx
-sertxd("G",cr,lf)
-'wait 10
+'sertxd("G",cr,lf)
+adcsetup = %0001000000000000
+b39 = 0
+for b16 = 0 to 9
+	readadc RSSI,b17
+	if b17 > b39 then
+		b39 = b17
+	endif
+	wait 1
+next
+#ifdef oscFreq64
+setfreq em64 
+#endif
 sertxd("S",cr,lf)
 
 'wait 10
@@ -1049,8 +1130,14 @@ do while ptr < 254
 	endif
 	
 	if b18 = 10 then
+	
+		'reply to hte command
+	'	for b20 = 
+	
 		b15 = b15 - 0x80  ' remove memory offset
 		b15 = b15 / 10
+		
+	
 		branch b15,(pingcmd,cdwncmd,null,null,null,null,filmcmd)
 		null:
 		return
@@ -1787,16 +1874,11 @@ GetLatitude:
 'b10 - N/S or ',' for no fix
 
 
-' use b45 to skip over decimal point
+setfreq m8
 serin [2000,endgps], GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b6,b7,b8,b9,b45,b10',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0
-'serin [2000,endlat], GPSIn2,T4800,(",")
-
-'sertxd("Lat",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
-
-'if b10 <> "," then	'Will be E or W if position is known, otherwise ,
-
-'endif
-
+#ifdef oscFreq64
+setfreq em64 
+#endif
 if b1 = "," then
 	b0 = 0
 else
@@ -1811,11 +1893,11 @@ GetLongitude:
 'result in variables b1-b11
 'b11 as b10 as above
 'b12:b13 - # sats
+setfreq m8
 serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b45,b11,b45,b45,b45,b12,b13
-'serin [2000,endlong],GPSIn2,T4800,(",")
-'serin [2000,endlong],GPSIn2,T4800,(","),b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9,b45,b10'b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9
-'sertxd("Lon",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
-'sertxd(b12,b13,cr,lf)
+#ifdef oscFreq64
+setfreq em64 
+#endif
 if b0 = "," then 
 	b0 = 0
 else
@@ -1831,11 +1913,11 @@ GetAltitude:
 'result in variables b1-b5
 'b11 as b10 as above
 'b12:b13 - # sats
+setfreq m8
 serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b45,b11,b45,b45,b45,b12,b13,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5
-'serin [2000,endlong],GPSIn2,T4800,(",")
-'serin [2000,endlong],GPSIn2,T4800,(","),b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9,b45,b10'b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3,b4,b5,b45,b6,b7,b8,b9
-'sertxd("Lon",b1,b2,b3,b4,b5,b6,b7,b8,b9,b10)
-'sertxd(b12,b13,cr,lf)
+#ifdef oscFreq64
+setfreq em64 
+#endif
 if b0 = "," then 
 	b0 = 0
 else
@@ -1850,8 +1932,11 @@ GetSpeedBearing:
 'b1-b3 : speed kms
 'b4 - ","
 
-
+setfreq m8
 serin [2000,endgps],GPSIn2,T4800,("GPVTG,"),b5,b6,b7,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b1,b2,b3
+#ifdef oscFreq64
+setfreq em64 
+#endif
 b4 = ","
 if b5 = "," then
 	b0 = 0
@@ -1869,8 +1954,11 @@ GetUTCTime:
 'b6 - ':'
 'b7,b8 - sec
 'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
-
+setfreq m8
 serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b1,b2,b4,b5,b7,b8',b45,b45,b45,b45,b0',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b9,b10
+#ifdef oscFreq64
+setfreq em64 
+#endif
 'sertxd("UTC: ",b1,b2,"h ",b3,b4,"m ",b5,b6,"s", 13,10)
 
 if b2 = "," then
