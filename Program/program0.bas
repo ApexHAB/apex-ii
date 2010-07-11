@@ -186,7 +186,7 @@ run 2
 
 
 main:
-'setfreq m8
+setfreq m8
 
 
 #ifdef oscFreq64
@@ -217,6 +217,7 @@ read PacketPtrlROM,PacketPtrl		'get next packet id
 read PacketPtrhROM,PacketPtrh		
 
 bintoascii PacketPtr,b15,b16,b17,b18,b19	'convert to ascii
+
 b10 = ramptr
 
 b20 = 5
@@ -239,6 +240,17 @@ b11 = 20 - b20
 b12 = 19
 gosub RTCRAMWriteMany		'send all 5 values
 gosub WriteComma
+
+
+
+
+'turn on radio
+
+hsersetup OFF
+high radiocsrx
+low radiocstx
+hsersetup TXBauds, TXMode
+
 
 
 'GET GPS (time)
@@ -413,12 +425,16 @@ if b0 <> 0 then
 		w10 = w25
 	else
 		w11 = w10 - w25
+		sertxd("fallen: ",#w11,cr,lf)
 		if w11 >= altfallingdistance then
 			if w25 >= altthresholdhigh then
 				read camtopboolrom,b26
-				if b26 = 0 then
-					write camtopboolrom,1
-					sertxd("T FILM",cr,lf)
+				sertxd("rdtb ",#b26,cr,lf)
+				b26 = b26 + 1
+				write camtopboolrom,b26
+				if b26 = 2 then
+					
+					sertxd("T FM",cr,lf)
 					high cam1
 					high cam2
 					pause 200
@@ -441,12 +457,15 @@ if b0 <> 0 then
 				write AboutToland,b16
 			endif
 			
-			sertxd("w land",cr,lf)
+			sertxd("w lnd",cr,lf)
 			
 			read cambotboolrom,b16
-			if b16 = 0 then
-				write cambotboolrom,1
-				sertxd("D FILM",cr,lf)
+			sertxd("rdbb ",#b16,cr,lf)
+			b16 = b16 + 1
+			write cambotboolrom,b16
+			if b16 = 2 then
+			
+				sertxd("DFM",cr,lf)
 				high cam1
 				high cam2
 				pause 200
@@ -483,7 +502,7 @@ if b55 >= AboutToLandCntMax then
 	
 	serout phoneMOSI,N2400,("ATZ",cr,lf)
 	serin [1000,phonefail],phoneMISO,n2400,("OK")
-	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
+'	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
 	serin [1000,phonefail],phoneMISO,n2400,("OK")
 	serout phoneMOSI,N2400,("AT+CMGS=",34,"07922123456",34,cr,lf)
 	serin [1000,phonefail],phoneMISO,n2400,(">")
@@ -849,7 +868,7 @@ gosub writecomma
 
 'RSSI
 
-b10 = b39
+b10 = b37
 gosub bintohex
 b10 = ramptr
 ramptr = ramptr + 2
@@ -878,8 +897,7 @@ endif
 
 
 'turn off RX/hserin
-high radiocsrx
-hsersetup OFF
+
 
 
 
@@ -991,8 +1009,9 @@ endif
 b10 = ramptr
 if ramptr > 128 then : b10 = 128 endif
 
-
+#ifdef oscfreq64
 setfreq em64
+#endif
 gosub FlashWritePage
 pause 100
 'read status
@@ -1018,14 +1037,14 @@ sertxd(cr,lf)
 
 
 'transmit scratchpad
-high radiocsrx
-low radiocstx
+setfreq m8
+
 low c.6
 
-
-setfreq m8
-wait 5
 hsersetup TXBauds, TXMode
+
+'wait 5
+
 
 ptr = 0
 for b16 = 0 to ramptr
@@ -1034,14 +1053,14 @@ next
 
 
 
-'wait 3
+wait 3
 
-'hsersetup TXBaudf, TXMode
+hsersetup TXBaudf, TXMode
 
-'ptr = 0
-'for b16 = 0 to ramptr
-'	hserout 0,(@ptrinc)
-'next
+ptr = 0
+for b16 = 0 to ramptr
+	hserout 0,(@ptrinc)
+next
 
 wait 2
 
@@ -1061,18 +1080,19 @@ hsersetup RXBaud, RXMode
 low radiocsrx
 'sertxd("G",cr,lf)
 adcsetup = %0001000000000000
-b39 = 0
+b37 = 0
 for b16 = 0 to 9
-	readadc RSSI,b17
-	if b17 > b39 then
-		b39 = b17
+	readadc 12,b17
+	if b17 > b37 then
+		b37 = b17
 	endif
 	wait 1
 next
 #ifdef oscFreq64
 setfreq em64 
 #endif
-sertxd("S",cr,lf)
+
+sertxd("S ",#b37,cr,lf)
 
 'wait 10
 goto main
