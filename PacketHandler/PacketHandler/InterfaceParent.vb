@@ -220,6 +220,10 @@ Public Class InterfaceParent
 
     Public Function Write(ByVal frame As Frame, Optional ByVal frameOrigin As InterfaceSettings = Nothing) As Boolean  'this function formats the frame as it feels best
 
+        If Not frame.CheckSum Then
+
+        End If
+
         Select Case interfacesettings_.InterfaceType
             Case InterfaceTypes.MAPPOINT
                 Select Case frameOrigin.InterfaceName

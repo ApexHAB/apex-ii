@@ -151,7 +151,7 @@ symbol AboutToLandCntMax = 6
 symbol CameraHyst = 3
 symbol AltThresholdLowC = 120
 
-table ("$$APEX,")		'start of string
+
 
 'no commands can be stored on or past 0xF8
 table 0x80,("PINGftnjqw")	'ping command and pwd
@@ -195,19 +195,22 @@ setfreq em64
 #endif
 'gosub RTCRAMClear
 RAMptr = 0
-tableptr = 0
+
 
 'write packet start
-readtable tableptr,b15
-tableptr  = tableptr + 1
-do while b15 <> ","
-	b10 = RAMptr
-	b11 = b15
-	gosub RTCRAMWriteSingle
-	ramptr = ramptr + 1
-	readtable tableptr,b15
-	tableptr  = tableptr + 1
-loop
+
+b16 = "$"
+b17 = "$"
+b18 = "A"
+b19 = "P"
+b20 = "E"
+b21 = "X"
+
+b10 = 0
+b11 = 16
+b12 = 21
+gosub RTCRAMWRitemany
+
 
 gosub WriteComma
 
@@ -247,7 +250,7 @@ gosub WriteComma
 
 'turn on radio
 
-hsersetup OFF
+
 high radiocsrx
 low radiocstx
 hsersetup TXBauds, TXMode

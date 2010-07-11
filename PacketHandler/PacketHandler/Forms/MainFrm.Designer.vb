@@ -22,7 +22,7 @@ Partial Class MainFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim Frame1 As PacketHandler.Frame = New PacketHandler.Frame()
+
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainFrm))
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.tabData = New System.Windows.Forms.TabControl()
@@ -146,11 +146,7 @@ Partial Class MainFrm
         '
         'HuD_UC1
         '
-        Frame1.Callsign = Nothing
-        Frame1.Sats = 0
-        Frame1.StatusPacketStartText = "sgsballoon:"
-        Frame1.TimeZone = 0
-        Me.HuD_UC1.FrameToDisplay = Frame1
+       
         Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
         Me.HuD_UC1.Name = "HuD_UC1"
         Me.HuD_UC1.Size = New System.Drawing.Size(430, 181)

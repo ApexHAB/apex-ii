@@ -452,7 +452,7 @@ Public Class Frame
         Dim GPSlo As String = ""
         Dim GPSfrmat As PacketStructure.Encoding
 
-        Dim tempint As Integer
+        'Dim tempint As Integer
         Dim tempUint As UInteger
         Dim tempsing As Single
         Dim tempdoub As Double

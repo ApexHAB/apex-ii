@@ -410,7 +410,7 @@ Public Class MainFrm
 
                     AddToFile(RunningDir & "\" & InterfaceDetails.InterfaceName + ".txt", output)
 
-                    HuD_UC1.FrameToDisplay = frame
+                    HuD_UC1.AddFrame(frame)
 
                     If frame.CheckSum = True Then
                         AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)

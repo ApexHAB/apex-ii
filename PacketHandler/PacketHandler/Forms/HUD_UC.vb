@@ -79,23 +79,26 @@
 
 #Region "Properties"
 
-    Public Property FrameToDisplay() As Frame
+    Public ReadOnly Property FrameToDisplay() As Frame
         Get
             Return FrameToDisplay_
         End Get
-        Set(ByVal value As Frame)
-            FrameToDisplay_ = value
-            secondsSinceLast = 0
+        'Set(ByVal value As Frame)
+        '    FrameToDisplay_ = value
+        '    secondsSinceLast = 0
 
-            SetLB("", lbTimer)  ' lbTimer.Text = ""
-            ResetClock()
-            Updateth()
-        End Set
+        '    SetLB("", lbTimer)  ' lbTimer.Text = ""
+        '    ResetClock()
+        '    Updateth()
+        'End Set
     End Property
 
 
 #End Region
 
+    Public Function AddFrame(ByVal frame As Frame)
+        Return True
+    End Function
 
 
     Public Sub ClearDisplay()
