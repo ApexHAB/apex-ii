@@ -148,7 +148,8 @@ symbol AltThresholdHigh = 190
 symbol AltThresholdLow = 110
 symbol AltFallingDistance = 50
 symbol AboutToLandCntMax = 6
-
+symbol CameraHyst = 3
+symbol AltThresholdLowC = 120
 
 table ("$$APEX,")		'start of string
 
@@ -431,8 +432,9 @@ if b0 <> 0 then
 				read camtopboolrom,b26
 				sertxd("rdtb ",#b26,cr,lf)
 				b26 = b26 + 1
+				if b26 > 250 then : b26 = 240 endif
 				write camtopboolrom,b26
-				if b26 = 2 then
+				if b26 = CameraHyst then
 					
 					sertxd("T FM",cr,lf)
 					high cam1
@@ -459,11 +461,15 @@ if b0 <> 0 then
 			
 			sertxd("w lnd",cr,lf)
 			
+		endif
+		if w25 < AltThresholdlowC then
+			
 			read cambotboolrom,b16
 			sertxd("rdbb ",#b16,cr,lf)
 			b16 = b16 + 1
+			if b16 > 250 then : b16 = 240 endif
 			write cambotboolrom,b16
-			if b16 = 2 then
+			if b16 = CameraHyst then
 			
 				sertxd("DFM",cr,lf)
 				high cam1
@@ -1975,7 +1981,7 @@ GetUTCTime:
 'b7,b8 - sec
 'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
 setfreq m8
-serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b1,b2,b4,b5,b7,b8',b45,b45,b45,b45,b0',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b9,b10
+'serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b1,b2,b4,b5,b7,b8',b45,b45,b45,b45,b0',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b9,b10
 #ifdef oscFreq64
 setfreq em64 
 #endif
