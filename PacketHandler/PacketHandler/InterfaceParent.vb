@@ -220,18 +220,28 @@ Public Class InterfaceParent
 
     Public Function Write(ByVal frame As Frame, Optional ByVal frameOrigin As InterfaceSettings = Nothing) As Boolean  'this function formats the frame as it feels best
 
-        If Not frame.CheckSum Then
 
-        End If
 
         Select Case interfacesettings_.InterfaceType
             Case InterfaceTypes.MAPPOINT
-                Select Case frameOrigin.InterfaceName
-                    Case "Manual"
-                        MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 2, 3, 0.5)
-                    Case Else
-                        MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 1, 5, 0.5)
-                End Select
+                If Not frame.CheckSum Then
+                    MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, -1, 1, 0.5)
+                Else
+                    Select Case frameOrigin.InterfaceName
+                        Case "Manual"
+                            MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 2, 3, 0.5)
+                        Case Else
+                            Select Case frameOrigin.InterfaceType
+                                Case InterfaceTypes.DLINTERNET
+                                    MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 1, 4, 0.5)
+                                Case InterfaceTypes.FLDIGI
+                                    MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 3, 5, 0.5)
+                                Case Else
+                                    MappointHandler.PlotPoint(frame.GPSCoordinates, frame.PcktCounter, 4, 2, 0.5)
+                            End Select
+                    End Select
+                End If
+
                 Return True
 
             Case Else

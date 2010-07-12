@@ -91,182 +91,198 @@ Public Class MainFrm
         End Try
     End Sub
 
-#Region "Button events"
+    '#Region "Button events"
 
-    Private Sub btnSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSettings.Click
-        Dim dialog As New settingsFrm
-        dialog.Settings = GlobalSettings_
-        dialog.ShowDialog()
+    '    Private Sub btnSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSettings.Click
+    '        Dim dialog As New settingsFrm
+    '        dialog.Settings = GlobalSettings_
+    '        dialog.ShowDialog()
 
-        If dialog.DialogResult = Windows.Forms.DialogResult.OK Then
-            GlobalSettings_ = dialog.Settings
-            UpdateInterfaces()
-        End If
-        UpdateForm()
+    '        If dialog.DialogResult = Windows.Forms.DialogResult.OK Then
+    '            GlobalSettings_ = dialog.Settings
+    '            UpdateInterfaces()
+    '        End If
+    '        UpdateForm()
 
-        GlobalSettings_.SaveToDisk(RunningDir & "\settings.xml")
+    '        GlobalSettings_.SaveToDisk(RunningDir & "\settings.xml")
 
-    End Sub
-
-
-    'Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-    '    UpdateForm()
-    'End Sub
-
-    Private Sub btnBalloonUplink_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBalloonUplink.Click
-        Dim uplink As New UplinkFrm(GlobalSettings_)
-        uplink.ShowDialog()
-        If uplink.DialogResult = Windows.Forms.DialogResult.OK Then
-            For Each i As InterfaceParent In Interfaces
-                If i.InterfaceName = uplink.MsgInterface Then
-                    i.Write(uplink.MessageSent)
-                    AddToRTB(Date.UtcNow.ToShortTimeString, Color.Purple, uplink.MsgInterface)
-                    AddToRTB("  " & uplink.MessageSent & vbCrLf, Color.Black, uplink.MsgInterface)
-
-                End If
-            Next
-        End If
-
-    End Sub
-
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        'Dim pf As New PacketStructure
-        'pf.PacketType = PacketFormats.APRS
-        'HuD_UC1.FrameToDisplay = New Frame("@124840h5121.89N/00011.43W085/000/A=000000AVDATA-IT768OT679PP168A1453 SGSBALLOON", pf)
-        Dim pf As New PacketStructure
-        pf.PacketType = PacketFormats.UKHAS
-
-        If testingXMLPath = "" Then
-            Dim selector As New OpenFileDialog()
-
-            With selector
-                .Multiselect = False
-                .Title = "Select XML string format file"
-                .Filter = "XML Files (*.xml)|*.xml"
-                .CheckFileExists = True
-                .CheckPathExists = True
-                .ShowDialog()
-            End With
-
-            Dim xmlpath As String = selector.FileName
-            testingXMLPath = xmlpath
-        End If
-
-        If System.IO.File.Exists(testingXMLPath) = False Then
-            testingXMLPath = ""
-            Exit Sub
-        End If
-
-        pf.LoadXML(testingXMLPath)
-
-        'Dim frame As New Frame(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), pf)
-        'HuD_UC1.FrameToDisplay = frame
-        'GoodFrames.Add(frame)
-        'Dim isd As New InterfaceSettings()
-        'isd.PacketStructure = pf
-        'isd.InterfaceName = "Manual"
-        Interfaces(0).GetInterfaceSettings.PacketStructure = pf
-        LineReceivedStr(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), Interfaces(0).GetInterfaceSettings, "", "")
+    '    End Sub
 
 
-    End Sub
+    '    'Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+    '    '    UpdateForm()
+    '    'End Sub
+
+    '    Private Sub btnBalloonUplink_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBalloonUplink.Click
+    '        Dim uplink As New UplinkFrm(GlobalSettings_)
+    '        uplink.ShowDialog()
+    '        If uplink.DialogResult = Windows.Forms.DialogResult.OK Then
+    '            For Each i As InterfaceParent In Interfaces
+    '                If i.InterfaceName = uplink.MsgInterface Then
+    '                    i.Write(uplink.MessageSent)
+    '                    AddToRTB(Date.UtcNow.ToShortTimeString, Color.Purple, uplink.MsgInterface)
+    '                    AddToRTB("  " & uplink.MessageSent & vbCrLf, Color.Black, uplink.MsgInterface)
+
+    '                End If
+    '            Next
+    '        End If
+
+    '    End Sub
+
+    '    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+    '        'Dim pf As New PacketStructure
+    '        'pf.PacketType = PacketFormats.APRS
+    '        'HuD_UC1.FrameToDisplay = New Frame("@124840h5121.89N/00011.43W085/000/A=000000AVDATA-IT768OT679PP168A1453 SGSBALLOON", pf)
+    '        Dim pf As New PacketStructure
+    '        pf.PacketType = PacketFormats.UKHAS
+
+    '        If testingXMLPath = "" Then
+    '            Dim selector As New OpenFileDialog()
+
+    '            With selector
+    '                .Multiselect = False
+    '                .Title = "Select XML string format file"
+    '                .Filter = "XML Files (*.xml)|*.xml"
+    '                .CheckFileExists = True
+    '                .CheckPathExists = True
+    '                .ShowDialog()
+    '            End With
+
+    '            Dim xmlpath As String = selector.FileName
+    '            testingXMLPath = xmlpath
+    '        End If
+
+    '        If System.IO.File.Exists(testingXMLPath) = False Then
+    '            testingXMLPath = ""
+    '            Exit Sub
+    '        End If
+
+    '        pf.LoadXML(testingXMLPath)
+
+    '        'Dim frame As New Frame(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), pf)
+    '        'HuD_UC1.FrameToDisplay = frame
+    '        'GoodFrames.Add(frame)
+    '        'Dim isd As New InterfaceSettings()
+    '        'isd.PacketStructure = pf
+    '        'isd.InterfaceName = "Manual"
+    '        Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+    '        LineReceivedStr(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), Interfaces(0).GetInterfaceSettings, "", "")
 
 
-
-    Private Sub Button2_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
-        ' GlobalSettings_.SaveToDisk("TEST.xml")
-        ErrorMessages = ErrorMessages & "TEST MESSAGE" & vbCrLf
-        If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
-
-    End Sub
+    '    End Sub
 
 
 
-    Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
-        Dim selector As New OpenFileDialog()
-        With selector
-            .Multiselect = False
-            .Title = "Select File to Load"
-            .Filter = "Text Files (*.txt)|*.txt"
-            .CheckFileExists = True
-            .CheckPathExists = True
-            .ShowDialog()
-        End With
+    '    Private Sub Button2_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
+    '        ' GlobalSettings_.SaveToDisk("TEST.xml")
+    '        ErrorMessages = ErrorMessages & "TEST MESSAGE" & vbCrLf
+    '        If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
 
-        Dim datapath As String = selector.FileName
-        selector = New OpenFileDialog()
-
-        With selector
-            .Multiselect = False
-            .Title = "Select XML string format file"
-            .Filter = "XML Files (*.xml)|*.xml"
-            .CheckFileExists = True
-            .CheckPathExists = True
-            .ShowDialog()
-        End With
-
-        Dim xmlpath As String = selector.FileName
-        If System.IO.File.Exists(xmlpath) = False Then Exit Sub
-
-        Dim interface_ As InterfaceParent
-        Dim mappoint As Boolean = False
-        'find mappoint interface
-        For Each i As InterfaceParent In Interfaces
-            If i.GetInterfaceSettings.InterfaceType = InterfaceTypes.MAPPOINT Then
-                interface_ = i
-                mappoint = True
-                Exit For
-            End If
-        Next
-
-
-        Dim str As String = ""
-
-        Dim pf As New PacketStructure
-        pf.PacketType = PacketFormats.UKHAS
-        pf.LoadXML(xmlpath)
-
-
-        Try
-            If System.IO.File.Exists(datapath) = False Then Exit Sub
-
-            Dim reader As New System.IO.StreamReader(datapath)
-
-            While Not reader.EndOfStream
-
-
-                str = reader.ReadLine()
-                If str <> "" Then
-                    ' Dim frame As New Frame(str, pf)
-
-                    Interfaces(0).GetInterfaceSettings.PacketStructure = pf
-                    LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "")
-
-
-                    ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
-                End If
-            End While
-
-        Catch ex As Exception
-            MsgBox("File cannot be read")
-            ErrorMessages = ErrorMessages & "File Read Error - " & ex.Message & vbCrLf
-
-            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
-        End Try
-
-    End Sub
-
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
-        Dim pf As New PacketStructure
-        pf.PacketType = PacketFormats.UKHAS
-        pf.LoadXML("C:\apexi.xml")
-        Dim fr As Frame = New Frame("$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL", pf)
+    '    End Sub
 
 
 
-    End Sub
+    '    Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
+    '        Dim selector As New OpenFileDialog()
+    '        With selector
+    '            .Multiselect = False
+    '            .Title = "Select File to Load"
+    '            .Filter = "Text Files (*.txt)|*.txt"
+    '            .CheckFileExists = True
+    '            .CheckPathExists = True
+    '            .ShowDialog()
+    '        End With
 
-#End Region
+    '        Dim datapath As String = selector.FileName
+    '        selector = New OpenFileDialog()
+
+    '        With selector
+    '            .Multiselect = False
+    '            .Title = "Select XML string format file"
+    '            .Filter = "XML Files (*.xml)|*.xml"
+    '            .CheckFileExists = True
+    '            .CheckPathExists = True
+    '            .ShowDialog()
+    '        End With
+
+    '        Dim xmlpath As String = selector.FileName
+    '        If System.IO.File.Exists(xmlpath) = False Then Exit Sub
+
+    '        Dim interface_ As InterfaceParent
+    '        Dim mappoint As Boolean = False
+    '        'find mappoint interface
+    '        For Each i As InterfaceParent In Interfaces
+    '            If i.GetInterfaceSettings.InterfaceType = InterfaceTypes.MAPPOINT Then
+    '                interface_ = i
+    '                mappoint = True
+    '                Exit For
+    '            End If
+    '        Next
+
+
+    '        Dim str As String = ""
+
+    '        Dim pf As New PacketStructure
+    '        pf.PacketType = PacketFormats.UKHAS
+    '        pf.LoadXML(xmlpath)
+
+
+    '        Try
+    '            If System.IO.File.Exists(datapath) = False Then Exit Sub
+
+    '            Dim reader As New System.IO.StreamReader(datapath)
+
+    '            While Not reader.EndOfStream
+
+
+    '                str = reader.ReadLine()
+    '                If str <> "" Then
+    '                    ' Dim frame As New Frame(str, pf)
+
+    '                    Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+    '                    LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "")
+
+
+    '                    ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
+    '                End If
+    '            End While
+
+    '        Catch ex As Exception
+    '            MsgBox("File cannot be read")
+    '            ErrorMessages = ErrorMessages & "File Read Error - " & ex.Message & vbCrLf
+
+    '            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+    '        End Try
+
+    '    End Sub
+
+    '    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button3.Click
+    '        Dim pf As New PacketStructure
+    '        pf.PacketType = PacketFormats.UKHAS
+    '        pf.LoadXML("C:\apexi.xml")
+    '        Dim fr As Frame = New Frame("$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL", pf)
+
+
+
+    '    End Sub
+
+    '    Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
+    '        If interStatus Is Nothing Then
+    '            interStatus = New InterfaceStatus(Interfaces)
+    '            interStatus.Show()
+    '        Else
+    '            If interStatus.Visible = False Then
+
+    '                interStatus = New InterfaceStatus(Interfaces)
+    '                interStatus.Show()
+    '            End If
+    '        End If
+
+
+
+    '    End Sub
+
+    '#End Region
 
 #Region "update functions"
 
@@ -384,61 +400,64 @@ Public Class MainFrm
         ' Debug.WriteLine(output)
 
         'DoRecieved(output, InterfaceDetails, ToCall, FromCall)
-
-        Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
-        Frames.Add(frame)
-
-
-        Dim lineendp As String = ""
-        Dim lineendr As String = ""
-
-        If Not (frame.ProcessedString.EndsWith(vbCrLf) Or frame.ProcessedString.EndsWith(vbLf) Or frame.ProcessedString.EndsWith(vbCr)) Then
-            lineendp = vbCrLf
-        End If
-        If Not (frame.RawString.EndsWith(vbCrLf) Or frame.RawString.EndsWith(vbLf) Or frame.RawString.EndsWith(vbCr)) Then
-            lineendr = vbCrLf
-        End If
+        Try
+            Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
+            Frames.Add(frame)
 
 
+            Dim lineendp As String = ""
+            Dim lineendr As String = ""
+
+            If Not (frame.ProcessedString.EndsWith(vbCrLf) Or frame.ProcessedString.EndsWith(vbLf) Or frame.ProcessedString.EndsWith(vbCr)) Then
+                lineendp = vbCrLf
+            End If
+            If Not (frame.RawString.EndsWith(vbCrLf) Or frame.RawString.EndsWith(vbLf) Or frame.RawString.EndsWith(vbCr)) Then
+                lineendr = vbCrLf
+            End If
 
 
 
 
-        For Each j As InterfaceParent In Interfaces
-            If j.InterfaceName = InterfaceDetails.InterfaceName Then
-                If j.StoreFrame(frame) Then
 
-                    AddToFile(RunningDir & "\" & InterfaceDetails.InterfaceName + ".txt", output)
 
-                    HuD_UC1.AddFrame(frame)
+            For Each j As InterfaceParent In Interfaces
+                If j.InterfaceName = InterfaceDetails.InterfaceName Then
+                    If j.StoreFrame(frame) Then
 
-                    If frame.CheckSum = True Then
-                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
-                        AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                    Else
-                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
-                        AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
-                    End If
+                        AddToFile(RunningDir & "\" & InterfaceDetails.InterfaceName + ".txt", output)
 
-                    For Each i As InterfaceParent In Interfaces
-                        If i.InterfaceName <> InterfaceDetails.InterfaceName Then
-                            If i.CanWrite = True Then
-                                If i.Write(frame, InterfaceDetails) = True Then
-                                    If frame.CheckSum = True Then
-                                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
-                                        AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                                    Else
-                                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
-                                        AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                        HuD_UC1.AddFrame(frame)
+
+                        If frame.CheckSum = True Then
+                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
+                            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                        Else
+                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
+                            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                        End If
+
+                        For Each i As InterfaceParent In Interfaces
+                            If i.InterfaceName <> InterfaceDetails.InterfaceName Then
+                                If i.CanWrite = True Then
+                                    If i.Write(frame, InterfaceDetails) = True Then
+                                        If frame.CheckSum = True Then
+                                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
+                                            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                                        Else
+                                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
+                                            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                                        End If
                                     End If
                                 End If
                             End If
-                        End If
-                    Next
+                        Next
+                    End If
                 End If
-            End If
-        Next
-
+            Next
+        Catch ex As Exception
+            ErrorMessages = ErrorMessages & "File Load Error" & vbCrLf
+            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        End Try
 
 
     End Sub
@@ -490,7 +509,166 @@ Public Class MainFrm
     End Sub
 
 
-    Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button5.Click
+
+
+    Private Sub iStatusChange(ByVal NewStatus As InterfaceParent.InterfaceStatus, ByVal Message As String, ByVal InterfaceDetails As InterfaceSettings)
+        '   Debug.WriteLine("I STATUS CHANGE")
+        UpdateStatus()
+
+    End Sub
+
+
+#Region "toolbar"
+    Private Sub SettingsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SettingsToolStripMenuItem.Click
+        Dim dialog As New settingsFrm
+        dialog.Settings = GlobalSettings_
+        dialog.ShowDialog()
+
+        If dialog.DialogResult = Windows.Forms.DialogResult.OK Then
+            GlobalSettings_ = dialog.Settings
+            UpdateInterfaces()
+        End If
+        UpdateForm()
+
+        GlobalSettings_.SaveToDisk(RunningDir & "\settings.xml")
+    End Sub
+
+    Private Sub UplinkToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UplinkToolStripMenuItem.Click
+        Dim uplink As New UplinkFrm(GlobalSettings_)
+        uplink.ShowDialog()
+        If uplink.DialogResult = Windows.Forms.DialogResult.OK Then
+            For Each i As InterfaceParent In Interfaces
+                If i.InterfaceName = uplink.MsgInterface Then
+                    i.Write(uplink.MessageSent)
+                    AddToRTB(Date.UtcNow.ToShortTimeString, Color.Purple, uplink.MsgInterface)
+                    AddToRTB("  " & uplink.MessageSent & vbCrLf, Color.Black, uplink.MsgInterface)
+
+                End If
+            Next
+        End If
+    End Sub
+
+
+    Private Sub LoadFileToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LoadFileToolStripMenuItem.Click
+        Dim selector As New OpenFileDialog()
+        With selector
+            .Multiselect = False
+            .Title = "Select File to Load"
+            .Filter = "Text Files (*.txt)|*.txt"
+            .CheckFileExists = True
+            .CheckPathExists = True
+            .ShowDialog()
+        End With
+
+        Dim datapath As String = selector.FileName
+        selector = New OpenFileDialog()
+
+        With selector
+            .Multiselect = False
+            .Title = "Select XML string format file"
+            .Filter = "XML Files (*.xml)|*.xml"
+            .CheckFileExists = True
+            .CheckPathExists = True
+            .ShowDialog()
+        End With
+
+        Dim xmlpath As String = selector.FileName
+        If System.IO.File.Exists(xmlpath) = False Then Exit Sub
+
+        Dim interface_ As InterfaceParent
+        Dim mappoint As Boolean = False
+        'find mappoint interface
+        For Each i As InterfaceParent In Interfaces
+            If i.GetInterfaceSettings.InterfaceType = InterfaceTypes.MAPPOINT Then
+                interface_ = i
+                mappoint = True
+                Exit For
+            End If
+        Next
+
+
+        Dim str As String = ""
+
+        Dim pf As New PacketStructure
+        pf.PacketType = PacketFormats.UKHAS
+        pf.LoadXML(xmlpath)
+
+
+        Try
+            If System.IO.File.Exists(datapath) = False Then Exit Sub
+
+            Dim reader As New System.IO.StreamReader(datapath)
+
+            While Not reader.EndOfStream
+
+
+                str = reader.ReadLine()
+                If str <> "" Then
+                    ' Dim frame As New Frame(str, pf)
+
+                    Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+                    LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "")
+
+
+                    ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
+                End If
+            End While
+
+        Catch ex As Exception
+            MsgBox("File cannot be read")
+            ErrorMessages = ErrorMessages & "File Read Error - " & ex.Message & vbCrLf
+
+            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        End Try
+
+    End Sub
+
+
+    Private Sub AddPacketToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddPacketToolStripMenuItem.Click
+        'Dim pf As New PacketStructure
+        'pf.PacketType = PacketFormats.APRS
+        'HuD_UC1.FrameToDisplay = New Frame("@124840h5121.89N/00011.43W085/000/A=000000AVDATA-IT768OT679PP168A1453 SGSBALLOON", pf)
+        Dim pf As New PacketStructure
+        pf.PacketType = PacketFormats.UKHAS
+
+        If testingXMLPath = "" Then
+            Dim selector As New OpenFileDialog()
+
+            With selector
+                .Multiselect = False
+                .Title = "Select XML string format file"
+                .Filter = "XML Files (*.xml)|*.xml"
+                .CheckFileExists = True
+                .CheckPathExists = True
+                .ShowDialog()
+            End With
+
+            Dim xmlpath As String = selector.FileName
+            testingXMLPath = xmlpath
+        End If
+
+        If System.IO.File.Exists(testingXMLPath) = False Then
+            testingXMLPath = ""
+            Exit Sub
+        End If
+
+        pf.LoadXML(testingXMLPath)
+
+        'Dim frame As New Frame(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), pf)
+        'HuD_UC1.FrameToDisplay = frame
+        'GoodFrames.Add(frame)
+        'Dim isd As New InterfaceSettings()
+        'isd.PacketStructure = pf
+        'isd.InterfaceName = "Manual"
+        Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+        LineReceivedStr(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), Interfaces(0).GetInterfaceSettings, "", "")
+
+    End Sub
+
+
+
+
+    Private Sub StatusToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusToolStripMenuItem.Click
         If interStatus Is Nothing Then
             interStatus = New InterfaceStatus(Interfaces)
             interStatus.Show()
@@ -501,15 +679,6 @@ Public Class MainFrm
                 interStatus.Show()
             End If
         End If
-
-
-
     End Sub
-
-    Private Sub iStatusChange(ByVal NewStatus As InterfaceParent.InterfaceStatus, ByVal Message As String, ByVal InterfaceDetails As InterfaceSettings)
-        '   Debug.WriteLine("I STATUS CHANGE")
-        UpdateStatus()
-
-    End Sub
-
+#End Region
 End Class

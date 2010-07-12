@@ -22,7 +22,6 @@ Partial Class MainFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainFrm))
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.tabData = New System.Windows.Forms.TabControl()
@@ -35,14 +34,33 @@ Partial Class MainFrm
         Me.Button4 = New System.Windows.Forms.Button()
         Me.btnLoad = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.ViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GPSFormatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripComboBox2 = New System.Windows.Forms.ToolStripComboBox()
+        Me.StatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ManualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LoadFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddPacketToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddPointToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SendToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UplinkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HuD_UC1 = New PacketHandler.HUD_UC()
+        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.WithGPSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ValidToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnSettings
         '
-        Me.btnSettings.Location = New System.Drawing.Point(393, 12)
+        Me.btnSettings.Location = New System.Drawing.Point(382, 498)
         Me.btnSettings.Name = "btnSettings"
         Me.btnSettings.Size = New System.Drawing.Size(63, 26)
         Me.btnSettings.TabIndex = 0
@@ -80,7 +98,7 @@ Partial Class MainFrm
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(193, 12)
+        Me.Button1.Location = New System.Drawing.Point(182, 498)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(63, 26)
         Me.Button1.TabIndex = 2
@@ -89,7 +107,7 @@ Partial Class MainFrm
         '
         'btnBalloonUplink
         '
-        Me.btnBalloonUplink.Location = New System.Drawing.Point(331, 12)
+        Me.btnBalloonUplink.Location = New System.Drawing.Point(320, 498)
         Me.btnBalloonUplink.Name = "btnBalloonUplink"
         Me.btnBalloonUplink.Size = New System.Drawing.Size(56, 26)
         Me.btnBalloonUplink.TabIndex = 3
@@ -98,7 +116,7 @@ Partial Class MainFrm
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(76, 7)
+        Me.Button2.Location = New System.Drawing.Point(65, 493)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(65, 16)
         Me.Button2.TabIndex = 5
@@ -108,7 +126,7 @@ Partial Class MainFrm
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(28, 21)
+        Me.Button3.Location = New System.Drawing.Point(17, 507)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(72, 16)
         Me.Button3.TabIndex = 7
@@ -118,7 +136,7 @@ Partial Class MainFrm
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(28, 7)
+        Me.Button4.Location = New System.Drawing.Point(17, 493)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(42, 12)
         Me.Button4.TabIndex = 8
@@ -128,7 +146,7 @@ Partial Class MainFrm
         '
         'btnLoad
         '
-        Me.btnLoad.Location = New System.Drawing.Point(262, 12)
+        Me.btnLoad.Location = New System.Drawing.Point(251, 498)
         Me.btnLoad.Name = "btnLoad"
         Me.btnLoad.Size = New System.Drawing.Size(63, 26)
         Me.btnLoad.TabIndex = 9
@@ -137,26 +155,152 @@ Partial Class MainFrm
         '
         'Button5
         '
-        Me.Button5.Location = New System.Drawing.Point(124, 12)
+        Me.Button5.Location = New System.Drawing.Point(113, 498)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(63, 26)
         Me.Button5.TabIndex = 10
         Me.Button5.Text = "Status"
         Me.Button5.UseVisualStyleBackColor = True
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewToolStripMenuItem, Me.ManualToolStripMenuItem, Me.SendToolStripMenuItem, Me.SettingsToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(462, 24)
+        Me.MenuStrip1.TabIndex = 11
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'ViewToolStripMenuItem
+        '
+        Me.ViewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayToolStripMenuItem, Me.StatusToolStripMenuItem})
+        Me.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem"
+        Me.ViewToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.ViewToolStripMenuItem.Text = "View"
+        '
+        'DisplayToolStripMenuItem
+        '
+        Me.DisplayToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.GPSFormatToolStripMenuItem})
+        Me.DisplayToolStripMenuItem.Name = "DisplayToolStripMenuItem"
+        Me.DisplayToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DisplayToolStripMenuItem.Text = "Display"
+        '
+        'ShowToolStripMenuItem
+        '
+        Me.ShowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1, Me.ValidToolStripMenuItem})
+        Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ShowToolStripMenuItem.Text = "Show"
+        '
+        'GPSFormatToolStripMenuItem
+        '
+        Me.GPSFormatToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox2})
+        Me.GPSFormatToolStripMenuItem.Name = "GPSFormatToolStripMenuItem"
+        Me.GPSFormatToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GPSFormatToolStripMenuItem.Text = "GPS Format"
+        '
+        'ToolStripComboBox2
+        '
+        Me.ToolStripComboBox2.Items.AddRange(New Object() {"Decimal", "DMS"})
+        Me.ToolStripComboBox2.Name = "ToolStripComboBox2"
+        Me.ToolStripComboBox2.Size = New System.Drawing.Size(121, 23)
+        '
+        'StatusToolStripMenuItem
+        '
+        Me.StatusToolStripMenuItem.Name = "StatusToolStripMenuItem"
+        Me.StatusToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.StatusToolStripMenuItem.Text = "Status"
+        '
+        'ManualToolStripMenuItem
+        '
+        Me.ManualToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadFileToolStripMenuItem, Me.AddPacketToolStripMenuItem, Me.AddPointToolStripMenuItem})
+        Me.ManualToolStripMenuItem.Name = "ManualToolStripMenuItem"
+        Me.ManualToolStripMenuItem.Size = New System.Drawing.Size(59, 20)
+        Me.ManualToolStripMenuItem.Text = "Manual"
+        '
+        'LoadFileToolStripMenuItem
+        '
+        Me.LoadFileToolStripMenuItem.Name = "LoadFileToolStripMenuItem"
+        Me.LoadFileToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.LoadFileToolStripMenuItem.Text = "Load File"
+        '
+        'AddPacketToolStripMenuItem
+        '
+        Me.AddPacketToolStripMenuItem.Name = "AddPacketToolStripMenuItem"
+        Me.AddPacketToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.AddPacketToolStripMenuItem.Text = "Add Packet"
+        '
+        'AddPointToolStripMenuItem
+        '
+        Me.AddPointToolStripMenuItem.Name = "AddPointToolStripMenuItem"
+        Me.AddPointToolStripMenuItem.Size = New System.Drawing.Size(134, 22)
+        Me.AddPointToolStripMenuItem.Text = "Add Point"
+        '
+        'SendToolStripMenuItem
+        '
+        Me.SendToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UplinkToolStripMenuItem})
+        Me.SendToolStripMenuItem.Name = "SendToolStripMenuItem"
+        Me.SendToolStripMenuItem.Size = New System.Drawing.Size(45, 20)
+        Me.SendToolStripMenuItem.Text = "Send"
+        '
+        'UplinkToolStripMenuItem
+        '
+        Me.UplinkToolStripMenuItem.Name = "UplinkToolStripMenuItem"
+        Me.UplinkToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
+        Me.UplinkToolStripMenuItem.Text = "Uplink"
+        '
+        'SettingsToolStripMenuItem
+        '
+        Me.SettingsToolStripMenuItem.Name = "SettingsToolStripMenuItem"
+        Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
+        Me.SettingsToolStripMenuItem.Text = "Settings"
+        '
         'HuD_UC1
         '
-       
         Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
         Me.HuD_UC1.Name = "HuD_UC1"
         Me.HuD_UC1.Size = New System.Drawing.Size(430, 181)
         Me.HuD_UC1.TabIndex = 6
         '
+        'ToolStripComboBox1
+        '
+        Me.ToolStripComboBox1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AllToolStripMenuItem, Me.WithGPSToolStripMenuItem})
+        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
+        Me.ToolStripComboBox1.Size = New System.Drawing.Size(152, 22)
+        Me.ToolStripComboBox1.Text = "Failed"
+        '
+        'AllToolStripMenuItem
+        '
+        Me.AllToolStripMenuItem.Checked = True
+        Me.AllToolStripMenuItem.CheckOnClick = True
+        Me.AllToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.AllToolStripMenuItem.Name = "AllToolStripMenuItem"
+        Me.AllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.AllToolStripMenuItem.Text = "All"
+        '
+        'WithGPSToolStripMenuItem
+        '
+        Me.WithGPSToolStripMenuItem.Checked = True
+        Me.WithGPSToolStripMenuItem.CheckOnClick = True
+        Me.WithGPSToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.WithGPSToolStripMenuItem.Name = "WithGPSToolStripMenuItem"
+        Me.WithGPSToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.WithGPSToolStripMenuItem.Text = "With GPS"
+        '
+        'ValidToolStripMenuItem
+        '
+        Me.ValidToolStripMenuItem.Checked = True
+        Me.ValidToolStripMenuItem.CheckOnClick = True
+        Me.ValidToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ValidToolStripMenuItem.Name = "ValidToolStripMenuItem"
+        Me.ValidToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ValidToolStripMenuItem.Text = "Valid"
+        '
         'MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(462, 488)
+        Me.ClientSize = New System.Drawing.Size(462, 536)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnLoad)
         Me.Controls.Add(Me.Button4)
@@ -167,12 +311,17 @@ Partial Class MainFrm
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.tabData)
         Me.Controls.Add(Me.btnSettings)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "MainFrm"
         Me.Text = "Packet Handler"
         Me.tabData.ResumeLayout(False)
         Me.tpAllData.ResumeLayout(False)
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents btnSettings As System.Windows.Forms.Button
@@ -187,6 +336,24 @@ Partial Class MainFrm
     Friend WithEvents Button4 As System.Windows.Forms.Button
     Friend WithEvents btnLoad As System.Windows.Forms.Button
     Friend WithEvents Button5 As System.Windows.Forms.Button
+    Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+    Friend WithEvents ManualToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SendToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SettingsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents LoadFileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AddPacketToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AddPointToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents UplinkToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ViewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents DisplayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ShowToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GPSFormatToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripComboBox2 As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents StatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripComboBox1 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents WithGPSToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ValidToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 
 End Class

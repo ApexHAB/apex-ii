@@ -92,7 +92,7 @@ symbol CurrentAltitude = w25
 symbol CurrentAltitudel = b50
 symbol CurrentAltitudeh = b51
 symbol RAMptr = b53	'ptrs store the next value to read
-symbol tableptr = b54
+symbol phonectr = b54
 
 symbol CamBotBoolROM = 0x4E
 symbol CamTopboolRom = 0x4F
@@ -194,7 +194,7 @@ setfreq m8
 setfreq em64
 #endif
 'gosub RTCRAMClear
-RAMptr = 0
+
 
 
 'write packet start
@@ -209,6 +209,7 @@ b21 = "X"
 b10 = 0
 b11 = 16
 b12 = 21
+ramptr = 6
 gosub RTCRAMWRitemany
 
 
@@ -511,9 +512,22 @@ if b55 >= AboutToLandCntMax then
 	
 	serout phoneMOSI,N2400,("ATZ",cr,lf)
 	serin [1000,phonefail],phoneMISO,n2400,("OK")
-'	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
+	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
 	serin [1000,phonefail],phoneMISO,n2400,("OK")
-	serout phoneMOSI,N2400,("AT+CMGS=",34,"07922123456",34,cr,lf)
+	serout phoneMOSI,N2400,("AT+CMGS=",34)
+	
+	b10 = phonectr % 3
+	phonectr = phonectr + 1
+	select case b10
+		case 0
+			serout phoneMOSI,N2400,("07922123456")
+		case 1
+			serout phoneMOSI,N2400,("07922123457")
+		case 2
+			serout phoneMOSI,N2400,("07922123458")
+	end select
+	serout phoneMOSI,N2400,(34,cr,lf)
+	
 	serin [1000,phonefail],phoneMISO,n2400,(">")
 
 	
@@ -1161,7 +1175,15 @@ do while ptr < 254
 	if b18 = 10 then
 	
 		'reply to hte command
-	'	for b20 = 
+		b21 = b15 + 4
+		gosub writecomma
+		for b20 = b15 to b21
+			readtable b20,b11
+			b10 = ramptr
+			ramptr = ramptr + 1
+			gosub RTCRAMWriteSingle
+			
+		next
 	
 		b15 = b15 - 0x80  ' remove memory offset
 		b15 = b15 / 10
@@ -1182,11 +1204,6 @@ return
 
 pingcmd:
 
-b20 = ","
-b21 = "P"
-b22 = "O"
-b23 = "N"
-b24 = "G"
 
 b10 = ramptr
 ramptr = ramptr + 5
@@ -1204,11 +1221,6 @@ pause 500
 low FET2
 
 
-b20 = ","
-b21 = "C"
-b22 = "D"
-b23 = "W"
-b24 = "N"
 
 b10 = ramptr
 ramptr = ramptr + 5
@@ -1291,11 +1303,6 @@ pause 200
 low cam1
 low cam2
 
-b20 = ","
-b21 = "F"
-b22 = "I"
-b23 = "L"
-b24 = "M"
 
 b10 = ramptr
 ramptr = ramptr + 5
@@ -1490,7 +1497,7 @@ return
 '################################################
 '################################################
 '################################################
-
+#rem
 RTCReadSingle:
 'b10 - address
 'b0 - read value
@@ -1520,7 +1527,7 @@ high rtccs
 
 
 return
-
+#endrem
 
 RTCWriteSingle:
 'b10 - address
@@ -1588,7 +1595,7 @@ high RTCCS
 
 return
 
-
+#rem
 RTCRAMReadSingle:
 
 'b10 - RAM addr
@@ -1632,7 +1639,7 @@ low rtccs
 
 
 return
-
+#endrem
 RTCRAMReadSpad:
 
 'b10 - start address
@@ -1681,7 +1688,7 @@ ramptr = ramptr + 1
 return
 
 
-
+#rem
 bcd_decimal:
 'input/output on b10,b11,b12,b13
 
@@ -1695,7 +1702,7 @@ bcd_decimal:
 	let b13 = b13 & %00001111 + b45
 
 return
-
+#endrem
 
 bintohex:
 'b10,b11 input
@@ -1858,9 +1865,9 @@ for b45 = 1 to 3
 	pulsout sclk, 10
 	b10 = b10 * 2
 next b45
-pause 1
+'pause 1
 pulsout sclk, 10
-pause 1
+'pause 1
 pulsout sclk, 10
 
 w0 = 0
@@ -1984,7 +1991,7 @@ GetUTCTime:
 'b7,b8 - sec
 'b0 -  GPS quality indicator (0=invalid; 1=GPS fix; 2=Diff. GPS fix)
 setfreq m8
-'serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b1,b2,b4,b5,b7,b8',b45,b45,b45,b45,b0',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b9,b10
+serin [2000,endgps],GPSIn2,T4800,("$GPGGA,"),b1,b2,b4,b5,b7,b8',b45,b45,b45,b45,b0',b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b45,b0,b45,b9,b10
 #ifdef oscFreq64
 setfreq em64 
 #endif

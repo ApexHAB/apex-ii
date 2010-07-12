@@ -33,21 +33,22 @@ Public Class MapPointInterface
 
         location = app.ActiveMap.GetLocation(coords.sLatitudeDecimal, coords.sLongitudeDecimal)
 
-        If lastpnt.ContainsKey(seqence) And seqence >= 0 Then
-            location2 = app.ActiveMap.GetLocation(lastpnt(seqence).sLatitudeDecimal, lastpnt(seqence).sLongitudeDecimal)
+        If seqence >= 0 Then
+            If lastpnt.ContainsKey(seqence) Then
+                location2 = app.ActiveMap.GetLocation(lastpnt(seqence).sLatitudeDecimal, lastpnt(seqence).sLongitudeDecimal)
 
-            Dim shape_ As Shape
-            'Dim map_ As Map = app.ActiveMap
-            shape_ = app.ActiveMap.Shapes.AddLine(location, location2)
-            shape_.Line.Weight = Weight
-            lastpnt(seqence) = coords
+                Dim shape_ As Shape
+                'Dim map_ As Map = app.ActiveMap
+                shape_ = app.ActiveMap.Shapes.AddLine(location, location2)
+                shape_.Line.Weight = Weight
+                lastpnt(seqence) = coords
 
-            'app.ActiveMap.Shapes.AddLine(location, location2)
-        Else
-            lastpnt.Add(seqence, coords)
+                'app.ActiveMap.Shapes.AddLine(location, location2)
+            Else
+                lastpnt.Add(seqence, coords)
 
+            End If
         End If
-
 
 
         app.ActiveMap.AddPushpin(location, name).Symbol = PushPinType
