@@ -35,21 +35,25 @@ Partial Class GraphUC
         '
         Me.Panel1.AutoScroll = True
         Me.Panel1.Controls.Add(Me.chtData)
-        Me.Panel1.Location = New System.Drawing.Point(81, 23)
+        Me.Panel1.Location = New System.Drawing.Point(3, 3)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(519, 223)
+        Me.Panel1.Size = New System.Drawing.Size(519, 214)
         Me.Panel1.TabIndex = 0
         '
         'chtData
         '
+        ChartArea1.AxisX.Title = "Time"
+        ChartArea1.AxisY.Title = "moo"
         ChartArea1.Name = "ChartArea1"
         Me.chtData.ChartAreas.Add(ChartArea1)
         Me.chtData.Location = New System.Drawing.Point(3, 3)
+        Me.chtData.Margin = New System.Windows.Forms.Padding(0)
         Me.chtData.Name = "chtData"
         Series1.ChartArea = "ChartArea1"
         Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
         Series1.Name = "Series1"
         Series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Series1.YValuesPerPoint = 6
         Me.chtData.Series.Add(Series1)
         Me.chtData.Size = New System.Drawing.Size(497, 207)
         Me.chtData.TabIndex = 0
@@ -62,9 +66,10 @@ Partial Class GraphUC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackColor = System.Drawing.Color.White
         Me.Controls.Add(Me.Panel1)
         Me.Name = "GraphUC"
-        Me.Size = New System.Drawing.Size(603, 260)
+        Me.Size = New System.Drawing.Size(528, 232)
         Me.Panel1.ResumeLayout(False)
         CType(Me.chtData, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

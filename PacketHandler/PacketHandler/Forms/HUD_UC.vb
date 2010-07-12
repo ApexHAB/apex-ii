@@ -5,7 +5,7 @@
 #Region "Fields"
 
     'Private FrameToDisplay_ As Frame = New Frame()
-    Private WithEvents timeSinceLastTmr As Timer = New Timer()
+    Private WithEvents timeSinceLastTmr As New System.Timers.Timer
     Private secondsSinceLast As Integer = 0
     Private DisplayAllPackets_ As Boolean = False
     Private DisplayIfGPS_ As Boolean = True
@@ -155,6 +155,7 @@
     Public Sub ClearDisplay()
         FrameDisplaying = Nothing
         ResetClock()
+        SetLB("", lbTimer)
         UpdateDisplay()
     End Sub
 
@@ -166,7 +167,11 @@
             lbTime.Text = FrameDisplaying.PacketTime
         End If
 
-
+        If FrameDisplaying.CheckSum Then
+            rctBorder.BorderColor = Color.Black
+        Else
+            rctBorder.BorderColor = Color.Red
+        End If
 
 
         timeSinceLastTmr.Enabled = True
@@ -206,35 +211,40 @@
 
     End Sub
 
-    Private Sub Timer_tick() Handles timeSinceLastTmr.Tick
+    Private Sub Timer_tick() Handles timeSinceLastTmr.Elapsed
         secondsSinceLast = secondsSinceLast + 1
         UpdateClock()
+        ResetClock()
     End Sub
 
     Private Sub UpdateClock()
         Dim tempint = 0
-
+        Dim str As String
         tempint = Math.Truncate(secondsSinceLast / 60)
         ' lbTimer.Text = tempint.ToString() & ":"
-        SetLB(tempint.ToString() & ":", lbTimer)
+        str = tempint.ToString() & ":"
+        'SetLB(tempint.ToString() & ":", lbTimer)
 
         tempint = (secondsSinceLast Mod 60)
-        If tempint < 10 Then SetLB(lbTimer.Text & "0", lbTimer) 'lbTimer.Text = lbTimer.Text & "0"
+        If tempint < 10 Then str = str & "0" ' SetLB(lbTimer.Text & "0", lbTimer) 'lbTimer.Text = lbTimer.Text & "0"
 
         ' lbTimer.Text = lbTimer.Text & tempint.ToString
-        SetLB(lbTimer.Text & tempint.ToString, lbTimer)
-
-
+        ' SetLB(lbTimer.Text & tempint.ToString, lbTimer)
+        str = str & tempint.ToString
+        SetLB(str, lbTimer)
 
 
     End Sub
 
     Public Sub ResetClock()
-        timeSinceLastTmr = New Timer()
+        timeSinceLastTmr.Stop()
+        timeSinceLastTmr.Enabled = False
+        timeSinceLastTmr.close()
+        timeSinceLastTmr = New System.Timers.Timer()
         timeSinceLastTmr.Interval = 1000
         timeSinceLastTmr.Enabled = True
         'lbTimer.Text = ""
-        SetLB("", lbTimer)
+        ' SetLB("", lbTimer)
     End Sub
 
 
@@ -243,5 +253,4 @@
         timeSinceLastTmr.Interval = 1000
 
     End Sub
-
 End Class

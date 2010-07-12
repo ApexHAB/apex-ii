@@ -46,7 +46,8 @@ Public Class InterfaceParent
     Private PacketHashes As New List(Of String) 'used so not to duplicate incorrect checksum packets
 
 
-    Public Event LineRecievedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
+    Public Event updategraph()
+    Public Event LineRecievedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String, ByVal UpdateGraph As Boolean)
     ' Public Event LineRecievedbyte(ByVal output() As Byte, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String) '## add from/to fields
     Public Event InterfaceStatusChange(ByVal NewStatus As InterfaceStatus, ByVal Message As String, ByVal InterfaceDetails As InterfaceSettings)
 
@@ -178,7 +179,7 @@ Public Class InterfaceParent
                     For i As Integer = 0 To InputBufferPtr - 1
                         str = str & ChrW(InputBuffer(i))
                     Next
-                    RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                    RaiseEvent LineRecievedStr(str, interfacesettings_, "", "", False)
                     'Debug.WriteLine(str)
                     InputBufferPtr = 0
                 End If
@@ -187,7 +188,7 @@ Public Class InterfaceParent
                     For Each c As Byte In InputBuffer
                         str = str & ChrW(c)
                     Next
-                    RaiseEvent LineRecievedStr(str, interfacesettings_, "", "")
+                    RaiseEvent LineRecievedStr(str, interfacesettings_, "", "", False)
                     Debug.WriteLine(str)
                     InputBufferPtr = 0
                 Else
@@ -199,7 +200,7 @@ Public Class InterfaceParent
         Next
 
 
-
+        RaiseEvent updategraph()
 
 
     End Sub
@@ -295,7 +296,7 @@ Public Class InterfaceParent
             If reg.IsMatch(str) Then
                 '  Debug.WriteLine("match")
                 ' Debug.WriteLine()
-                RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "")
+                RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "", False)
             End If
 
             If reg2.IsMatch(str) Then
@@ -322,7 +323,7 @@ Public Class InterfaceParent
         '    ' Debug.WriteLine("EXITwe")
         'End Try
 
-
+        RaiseEvent updategraph()
 
     End Sub
 

@@ -18,10 +18,24 @@ Public Class MainFrm
 
 #Region "threading"
     'Delegate Sub popgraphdel(ByVal frame As Frame)
+    Delegate Sub UpdateGraphdel()
     Delegate Sub UpdateStatusDel()
     Delegate Sub AddtoRTBDel(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
     'Delegate Sub RecievedDel(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
     'Delegate Sub AddFrameDel(ByVal Frame As Frame)
+    Private Sub UpdateGraph()
+        If Not graphs Is Nothing Then
+            If graphs.InvokeRequired Then
+                Dim del As New UpdateGraphdel(AddressOf UpdateGraph)
+                Me.Invoke(del)
+            Else
+                If Not graphs Is Nothing Then
+                    graphs.DisplayData(datahandler)
+                End If
+            End If
+
+        End If
+    End Sub
     Private Sub UpdateStatus()
         If Not interStatus Is Nothing Then
             If interStatus.InvokeRequired Then
@@ -402,6 +416,7 @@ Public Class MainFrm
                 ' AddHandler Interfaces(Interfaces.Count - 1).LineRecievedbyte, AddressOf LineReceivedByte
                 AddHandler Interfaces(Interfaces.Count - 1).LineRecievedStr, AddressOf LineReceivedStr
                 AddHandler Interfaces(Interfaces.Count - 1).InterfaceStatusChange, AddressOf iStatusChange
+                AddHandler Interfaces(Interfaces.Count - 1).updategraph, AddressOf UpdateGraph
             End If
         Next
 
@@ -416,17 +431,11 @@ Public Class MainFrm
 
 #Region "packet recieved"
 
-    'Private Sub popgraph(ByVal frame As Frame)
-    '    If datahandler.AddFrame(frame) Then
-    '        Chart2.Series("Altitude").Points.Clear()
-    '        For Each kv As KeyValuePair(Of DateTime, Double) In datahandler.Altitudes
-    '            Chart2.Series("Altitude").Points.AddXY(kv.Key, kv.Value)
-    '        Next
-    '    End If
-    'End Sub
+ 
 
 
-    Private Sub LineReceivedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
+
+    Private Sub LineReceivedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String, ByVal bUpdateGraph As Boolean)
         ' Debug.WriteLine(output)
 
         'DoRecieved(output, InterfaceDetails, ToCall, FromCall)
@@ -440,7 +449,8 @@ Public Class MainFrm
         ' If datahandler Is Nothing Then datahandler = New DataHandler(InterfaceDetails.PacketStructure)
         datahandler.AddFrame(frame)
 
-        If Not graphs Is Nothing Then graphs.DisplayData(datahandler)
+        If (Not graphs Is Nothing) And (bUpdateGraph = True) Then UpdateGraph()
+
 
 
         Dim lineendp As String = ""
@@ -632,32 +642,33 @@ Public Class MainFrm
         pf.LoadXML(xmlpath)
 
 
-        Try
-            If System.IO.File.Exists(datapath) = False Then Exit Sub
+        ' Try
+        If System.IO.File.Exists(datapath) = False Then Exit Sub
 
-            Dim reader As New System.IO.StreamReader(datapath)
+        Dim reader As New System.IO.StreamReader(datapath)
 
-            While Not reader.EndOfStream
-
-
-                str = reader.ReadLine()
-                If str <> "" Then
-                    ' Dim frame As New Frame(str, pf)
-
-                    Interfaces(0).GetInterfaceSettings.PacketStructure = pf
-                    LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "")
+        While Not reader.EndOfStream
 
 
-                    ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
-                End If
-            End While
+            str = reader.ReadLine()
+            If str <> "" Then
+                ' Dim frame As New Frame(str, pf)
 
-        Catch ex As Exception
-            MsgBox("File cannot be read")
-            ErrorMessages = ErrorMessages & "File Read Error - " & ex.Message & vbCrLf
+                Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+                LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "", False)
 
-            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
-        End Try
+
+                ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
+            End If
+        End While
+        If (Not graphs Is Nothing) Then graphs.DisplayData(datahandler)
+
+        'Catch ex As Exception
+        '    MsgBox("File cannot be read")
+        '    ErrorMessages = ErrorMessages & "File Read Error - " & ex.Message & vbCrLf
+
+        '    If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        'End Try
 
     End Sub
 
@@ -699,7 +710,7 @@ Public Class MainFrm
         'isd.PacketStructure = pf
         'isd.InterfaceName = "Manual"
         Interfaces(0).GetInterfaceSettings.PacketStructure = pf
-        LineReceivedStr(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), Interfaces(0).GetInterfaceSettings, "", "")
+        LineReceivedStr(InputBox("enter", , "$$APEX,0013,12:34:12,5114.4253,-00014.5264,00167,34,06,27.12,31.20,A34,545,53,58,B4,2,62,15,MOOO_LOL"), Interfaces(0).GetInterfaceSettings, "", "", True)
 
     End Sub
 
@@ -721,7 +732,20 @@ Public Class MainFrm
             End If
         End If
     End Sub
-#End Region
+
+    Private Sub DataToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DataToolStripMenuItem.Click
+        If graphs Is Nothing Then
+            graphs = New Graphs(datahandler)
+            graphs.Show()
+        Else
+            If graphs.Visible = False Then
+                graphs = New Graphs(datahandler)
+                graphs.Show()
+            End If
+
+        End If
+    End Sub
+
 
     Private Sub ToolStripComboBox2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripComboBox2.Click
         Select Case ToolStripComboBox2.Text
@@ -735,11 +759,12 @@ Public Class MainFrm
                 HuD_UC1.DisplayIfGPS = True
         End Select
     End Sub
+#End Region
 
 
 
-    Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
-        graphs = New Graphs
-        graphs.Show()
+
+    Private Sub HuD_UC1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HuD_UC1.Load
+
     End Sub
 End Class

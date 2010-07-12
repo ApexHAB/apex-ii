@@ -8,9 +8,12 @@
         InitializeComponent()
 
         chtData.Titles("Title1").Text = Title
+        chtData.ChartAreas(0).AxisY.Title = YAxis
     End Sub
 
     Public Sub DisplayData(ByVal data As List(Of KeyValuePair(Of DateTime, Double)))
+
+
 
         chtData.Series("Series1").Points.Clear()
         For Each kv As KeyValuePair(Of DateTime, Double) In data
@@ -18,5 +21,14 @@
         Next
 
     End Sub
+
+    Public Sub DisplayAdd(ByVal data As List(Of KeyValuePair(Of DateTime, Double)))
+
+
+        For Each kv As KeyValuePair(Of DateTime, Double) In data
+            chtData.Series("Series1").Points.AddXY(kv.Key, kv.Value)
+        Next
+    End Sub
+
 
 End Class

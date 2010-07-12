@@ -7,22 +7,33 @@ Public Class Graphs
 
     End Sub
 
+    Public Sub New(Optional ByVal data As DataHandler = Nothing)
+        InitializeComponent()
+
+        If Not data Is Nothing Then DisplayData(data)
+    End Sub
+
     Public Sub DisplayData(ByVal data As DataHandler)
 
 
         For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
             If Not chpnl.Controls.ContainsKey(kv.Key) Then
-                Dim chtuc As New GraphUC(kv.Key)
+                Dim chtuc As New GraphUC("", kv.Key)
                 chtuc.Name = kv.Key
-                chtuc.Location = New System.Drawing.Point(3, 260 * chpnl.Controls.Count)
+                chtuc.Location = New System.Drawing.Point(3, 214 * chpnl.Controls.Count)
                 chpnl.Controls.Add(chtuc)
             End If
 
             Dim graphuc As GraphUC = chpnl.Controls(kv.Key)
-            graphuc.DisplayData(kv.Value)
-           
-        Next
 
+            If data.ValuesChanged Is Nothing Then
+                graphuc.DisplayData(kv.Value)
+            Else
+                graphuc.DisplayAdd(data.ValuesChanged(kv.Key))
+            End If
+
+        Next
+        data.ValuesChanged = Nothing
 
 
         'Dim comp As New seriescomparer
@@ -60,8 +71,8 @@ Public Class Graphs
 
     End Sub
 
-  
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'Dim series1 As New Series
         'Series1.ChartArea = "ChartArea1"
         'Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
@@ -69,6 +80,10 @@ Public Class Graphs
         'series1.Name = "moo"
         'Series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
         'Chart1.Series.Add(series1)
+    End Sub
+
+    Private Sub Graphs_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.SizeChanged
+        chpnl.Size = New System.Drawing.Size(chpnl.Width, Me.Height - 38) ' = Me.Height - 60
     End Sub
 End Class
 

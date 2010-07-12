@@ -22,10 +22,6 @@ Partial Class MainFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim Title1 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainFrm))
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.tabData = New System.Windows.Forms.TabControl()
@@ -53,13 +49,11 @@ Partial Class MainFrm
         Me.SendToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UplinkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Button6 = New System.Windows.Forms.Button()
+        Me.DataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HuD_UC1 = New PacketHandler.HUD_UC()
-        Me.Chart2 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
-        CType(Me.Chart2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnSettings
@@ -171,13 +165,13 @@ Partial Class MainFrm
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewToolStripMenuItem, Me.ManualToolStripMenuItem, Me.SendToolStripMenuItem, Me.SettingsToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(997, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(455, 24)
         Me.MenuStrip1.TabIndex = 11
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'ViewToolStripMenuItem
         '
-        Me.ViewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayToolStripMenuItem, Me.StatusToolStripMenuItem})
+        Me.ViewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DisplayToolStripMenuItem, Me.StatusToolStripMenuItem, Me.DataToolStripMenuItem})
         Me.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem"
         Me.ViewToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.ViewToolStripMenuItem.Text = "View"
@@ -266,51 +260,27 @@ Partial Class MainFrm
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.SettingsToolStripMenuItem.Text = "Settings"
         '
-        'Button6
+        'DataToolStripMenuItem
         '
-        Me.Button6.Location = New System.Drawing.Point(424, 36)
-        Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(75, 23)
-        Me.Button6.TabIndex = 12
-        Me.Button6.Text = "Button6"
-        Me.Button6.UseVisualStyleBackColor = True
+        Me.DataToolStripMenuItem.Name = "DataToolStripMenuItem"
+        Me.DataToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
+        Me.DataToolStripMenuItem.Text = "Data"
         '
         'HuD_UC1
         '
         Me.HuD_UC1.DisplayAllPackets = True
         Me.HuD_UC1.DisplayIfGPS = True
-        Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
+        Me.HuD_UC1.ForeColor = System.Drawing.Color.Black
+        Me.HuD_UC1.Location = New System.Drawing.Point(12, 27)
         Me.HuD_UC1.Name = "HuD_UC1"
-        Me.HuD_UC1.Size = New System.Drawing.Size(430, 181)
+        Me.HuD_UC1.Size = New System.Drawing.Size(437, 189)
         Me.HuD_UC1.TabIndex = 6
-        '
-        'Chart2
-        '
-        ChartArea1.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea1)
-        Legend1.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend1)
-        Me.Chart2.Location = New System.Drawing.Point(576, 96)
-        Me.Chart2.Name = "Chart2"
-        Series1.ChartArea = "ChartArea1"
-        Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
-        Series1.Legend = "Legend1"
-        Series1.Name = "Altitude"
-        Series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
-        Me.Chart2.Series.Add(Series1)
-        Me.Chart2.Size = New System.Drawing.Size(353, 300)
-        Me.Chart2.TabIndex = 13
-        Me.Chart2.Text = "Chart2"
-        Title1.Name = "Altitude"
-        Me.Chart2.Titles.Add(Title1)
         '
         'MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(997, 536)
-        Me.Controls.Add(Me.Chart2)
-        Me.Controls.Add(Me.Button6)
+        Me.ClientSize = New System.Drawing.Size(455, 481)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnLoad)
         Me.Controls.Add(Me.Button4)
@@ -324,13 +294,14 @@ Partial Class MainFrm
         Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
+        Me.MaximumSize = New System.Drawing.Size(471, 519)
+        Me.MinimumSize = New System.Drawing.Size(471, 257)
         Me.Name = "MainFrm"
         Me.Text = "Packet Handler"
         Me.tabData.ResumeLayout(False)
         Me.tpAllData.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
-        CType(Me.Chart2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -362,8 +333,7 @@ Partial Class MainFrm
     Friend WithEvents ToolStripComboBox2 As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents StatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripComboBox1 As System.Windows.Forms.ToolStripComboBox
-    Friend WithEvents Button6 As System.Windows.Forms.Button
-    Friend WithEvents Chart2 As System.Windows.Forms.DataVisualization.Charting.Chart
+    Friend WithEvents DataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 
 End Class

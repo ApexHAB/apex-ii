@@ -39,6 +39,8 @@ Partial Class HUD_UC
         Me.dgValue = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.lbcomm = New System.Windows.Forms.Label()
         Me.lbGPSpos = New System.Windows.Forms.Label()
+        Me.ShapeContainer1 = New Microsoft.VisualBasic.PowerPacks.ShapeContainer()
+        Me.rctBorder = New Microsoft.VisualBasic.PowerPacks.RectangleShape()
         CType(Me.dgvData, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -46,7 +48,7 @@ Partial Class HUD_UC
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(189, 3)
+        Me.Label3.Location = New System.Drawing.Point(196, 5)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(170, 15)
         Me.Label3.TabIndex = 16
@@ -56,7 +58,7 @@ Partial Class HUD_UC
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(192, 139)
+        Me.Label2.Location = New System.Drawing.Point(199, 141)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(160, 15)
         Me.Label2.TabIndex = 13
@@ -65,7 +67,7 @@ Partial Class HUD_UC
         'lbTimer
         '
         Me.lbTimer.AutoSize = True
-        Me.lbTimer.Location = New System.Drawing.Point(358, 140)
+        Me.lbTimer.Location = New System.Drawing.Point(365, 142)
         Me.lbTimer.Name = "lbTimer"
         Me.lbTimer.Size = New System.Drawing.Size(0, 13)
         Me.lbTimer.TabIndex = 12
@@ -75,7 +77,7 @@ Partial Class HUD_UC
         Me.lbError.AutoSize = True
         Me.lbError.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbError.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
-        Me.lbError.Location = New System.Drawing.Point(3, 137)
+        Me.lbError.Location = New System.Drawing.Point(10, 139)
         Me.lbError.Name = "lbError"
         Me.lbError.Size = New System.Drawing.Size(74, 16)
         Me.lbError.TabIndex = 11
@@ -87,7 +89,7 @@ Partial Class HUD_UC
         Me.lbHeading.AutoSize = True
         Me.lbHeading.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbHeading.ForeColor = System.Drawing.Color.Navy
-        Me.lbHeading.Location = New System.Drawing.Point(97, 110)
+        Me.lbHeading.Location = New System.Drawing.Point(104, 112)
         Me.lbHeading.Name = "lbHeading"
         Me.lbHeading.Size = New System.Drawing.Size(0, 16)
         Me.lbHeading.TabIndex = 4
@@ -97,7 +99,7 @@ Partial Class HUD_UC
         Me.lbAlt.AutoSize = True
         Me.lbAlt.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbAlt.ForeColor = System.Drawing.Color.Navy
-        Me.lbAlt.Location = New System.Drawing.Point(97, 84)
+        Me.lbAlt.Location = New System.Drawing.Point(104, 86)
         Me.lbAlt.Name = "lbAlt"
         Me.lbAlt.Size = New System.Drawing.Size(0, 16)
         Me.lbAlt.TabIndex = 3
@@ -107,7 +109,7 @@ Partial Class HUD_UC
         Me.lbSpeed.AutoSize = True
         Me.lbSpeed.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbSpeed.ForeColor = System.Drawing.Color.Navy
-        Me.lbSpeed.Location = New System.Drawing.Point(111, 58)
+        Me.lbSpeed.Location = New System.Drawing.Point(118, 60)
         Me.lbSpeed.Name = "lbSpeed"
         Me.lbSpeed.Size = New System.Drawing.Size(0, 16)
         Me.lbSpeed.TabIndex = 2
@@ -117,7 +119,7 @@ Partial Class HUD_UC
         Me.lbTime.AutoSize = True
         Me.lbTime.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbTime.ForeColor = System.Drawing.Color.Navy
-        Me.lbTime.Location = New System.Drawing.Point(52, 9)
+        Me.lbTime.Location = New System.Drawing.Point(59, 11)
         Me.lbTime.Name = "lbTime"
         Me.lbTime.Size = New System.Drawing.Size(0, 16)
         Me.lbTime.TabIndex = 1
@@ -126,7 +128,7 @@ Partial Class HUD_UC
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(3, 9)
+        Me.Label7.Location = New System.Drawing.Point(10, 11)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(43, 16)
         Me.Label7.TabIndex = 0
@@ -136,7 +138,7 @@ Partial Class HUD_UC
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(3, 110)
+        Me.Label6.Location = New System.Drawing.Point(10, 112)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(86, 16)
         Me.Label6.TabIndex = 0
@@ -146,7 +148,7 @@ Partial Class HUD_UC
         '
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.Location = New System.Drawing.Point(3, 86)
+        Me.Label5.Location = New System.Drawing.Point(10, 88)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(86, 16)
         Me.Label5.TabIndex = 0
@@ -156,7 +158,7 @@ Partial Class HUD_UC
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(3, 60)
+        Me.Label4.Location = New System.Drawing.Point(10, 62)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(105, 16)
         Me.Label4.TabIndex = 0
@@ -172,7 +174,7 @@ Partial Class HUD_UC
         Me.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvData.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.dgName, Me.dgValue})
         Me.dgvData.GridColor = System.Drawing.SystemColors.Control
-        Me.dgvData.Location = New System.Drawing.Point(192, 21)
+        Me.dgvData.Location = New System.Drawing.Point(199, 23)
         Me.dgvData.Name = "dgvData"
         Me.dgvData.RowHeadersVisible = False
         Me.dgvData.Size = New System.Drawing.Size(223, 109)
@@ -193,7 +195,7 @@ Partial Class HUD_UC
         'lbcomm
         '
         Me.lbcomm.AutoSize = True
-        Me.lbcomm.Location = New System.Drawing.Point(7, 163)
+        Me.lbcomm.Location = New System.Drawing.Point(14, 165)
         Me.lbcomm.Name = "lbcomm"
         Me.lbcomm.Size = New System.Drawing.Size(0, 13)
         Me.lbcomm.TabIndex = 18
@@ -201,10 +203,28 @@ Partial Class HUD_UC
         'lbGPSpos
         '
         Me.lbGPSpos.AutoSize = True
-        Me.lbGPSpos.Location = New System.Drawing.Point(13, 36)
+        Me.lbGPSpos.Location = New System.Drawing.Point(20, 38)
         Me.lbGPSpos.Name = "lbGPSpos"
         Me.lbGPSpos.Size = New System.Drawing.Size(0, 13)
         Me.lbGPSpos.TabIndex = 19
+        '
+        'ShapeContainer1
+        '
+        Me.ShapeContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.ShapeContainer1.Margin = New System.Windows.Forms.Padding(0)
+        Me.ShapeContainer1.Name = "ShapeContainer1"
+        Me.ShapeContainer1.Shapes.AddRange(New Microsoft.VisualBasic.PowerPacks.Shape() {Me.rctBorder})
+        Me.ShapeContainer1.Size = New System.Drawing.Size(436, 187)
+        Me.ShapeContainer1.TabIndex = 20
+        Me.ShapeContainer1.TabStop = False
+        '
+        'rctBorder
+        '
+        Me.rctBorder.BorderColor = System.Drawing.Color.Black
+        Me.rctBorder.BorderWidth = 4
+        Me.rctBorder.Location = New System.Drawing.Point(3, 2)
+        Me.rctBorder.Name = "rctBorder"
+        Me.rctBorder.Size = New System.Drawing.Size(429, 180)
         '
         'HUD_UC
         '
@@ -225,8 +245,10 @@ Partial Class HUD_UC
         Me.Controls.Add(Me.lbSpeed)
         Me.Controls.Add(Me.lbAlt)
         Me.Controls.Add(Me.lbHeading)
+        Me.Controls.Add(Me.ShapeContainer1)
+        Me.ForeColor = System.Drawing.Color.Black
         Me.Name = "HUD_UC"
-        Me.Size = New System.Drawing.Size(422, 189)
+        Me.Size = New System.Drawing.Size(436, 187)
         CType(Me.dgvData, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -249,5 +271,7 @@ Partial Class HUD_UC
     Friend WithEvents dgValue As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents lbcomm As System.Windows.Forms.Label
     Friend WithEvents lbGPSpos As System.Windows.Forms.Label
+    Friend WithEvents ShapeContainer1 As Microsoft.VisualBasic.PowerPacks.ShapeContainer
+    Friend WithEvents rctBorder As Microsoft.VisualBasic.PowerPacks.RectangleShape
 
 End Class

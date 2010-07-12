@@ -11,6 +11,7 @@ Public Class DataHandler
     '   Dim Altitudes_ As New List(Of KeyValuePair(Of DateTime, Double))
 
     Dim Values_ As New Dictionary(Of String, List(Of KeyValuePair(Of DateTime, Double)))
+    Dim ValuesAdded_ As Dictionary(Of String, List(Of KeyValuePair(Of DateTime, Double)))
 
 #Region "properties"
 
@@ -18,6 +19,15 @@ Public Class DataHandler
         Get
             Return Values_
         End Get
+    End Property
+
+    Public Property ValuesChanged As Dictionary(Of String, List(Of KeyValuePair(Of DateTime, Double)))
+        Get
+            Return ValuesAdded_
+        End Get
+        Set(ByVal value As Dictionary(Of String, List(Of KeyValuePair(Of DateTime, Double))))
+            ValuesAdded_ = value
+        End Set
     End Property
 
     'Public ReadOnly Property PacketStructure As PacketStructure
@@ -50,7 +60,9 @@ Public Class DataHandler
 
     Public Function AddFrame(ByVal frame As Frame) As Boolean
 
-        '  If Not frame.CheckSum Then Return False
+        If Not frame.CheckSum Then Return False
+
+
 
         Dim dt As DateTime
 
@@ -59,7 +71,7 @@ Public Class DataHandler
         If ValidPackets.Contains(frame.PcktCounter) Then Return False
         ValidPackets.Add(frame.PcktCounter)
 
-        Dim sortbool As Boolean = False
+
 
         For Each kv As KeyValuePair(Of String, Double) In frame.PICdata
 
@@ -83,7 +95,8 @@ Public Class DataHandler
         Return True
     End Function
 
-    Private Sub AddKVPair(ByVal KV As KeyValuePair(Of String, Double), ByVal dt As DateTime)
+    Private Function AddKVPair(ByVal KV As KeyValuePair(Of String, Double), ByVal dt As DateTime) As Boolean
+        'returns whether the action is an addition or insertion
         Dim sortbool As Boolean = False
         If Not Values_.ContainsKey(KV.Key) Then Values_.Add(KV.Key, New List(Of KeyValuePair(Of DateTime, Double)))
 
@@ -96,8 +109,14 @@ Public Class DataHandler
         If sortbool Then
             Dim sorter As New DateKeyComp
             Values_(KV.Key).Sort(sorter)
+            ValuesAdded_ = Nothing
+        Else
+            If ValuesAdded_ Is Nothing Then ValuesAdded_ = New Dictionary(Of String, List(Of KeyValuePair(Of DateTime, Double)))
+            If Not ValuesAdded_.ContainsKey(KV.Key) Then ValuesAdded_.Add(KV.Key, New List(Of KeyValuePair(Of DateTime, Double)))
+            ValuesAdded_(KV.Key).Add(New KeyValuePair(Of DateTime, Double)(dt, KV.Value))
         End If
-    End Sub
+        Return sortbool
+    End Function
 
     Private Function GenerateHash(ByVal SourceText As String) As String
         'Create an encoding object to ensure the encoding standard for the source text
