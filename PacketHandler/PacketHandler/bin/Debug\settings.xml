@@ -4,44 +4,6 @@
   <Interfaces>
     <InterfaceSettings>
       <TCPHost>127.0.0.1</TCPHost>
-      <TCPPort>8080</TCPPort>
-      <sBaud>2400</sBaud>
-      <sPort />
-      <sParity>None</sParity>
-      <sDatabits>8</sDatabits>
-      <sStopbits>One</sStopbits>
-      <Timer>0</Timer>
-      <XMLStructurePath />
-      <PacketStructure>
-        <PacketType>BLANK</PacketType>
-      </PacketStructure>
-      <Enabled>false</Enabled>
-      <InterfaceName>sfef</InterfaceName>
-      <InterfaceDirection>BLANK</InterfaceDirection>
-      <InterfaceType>GOOGLEEARTH</InterfaceType>
-      <Filters />
-    </InterfaceSettings>
-    <InterfaceSettings>
-      <TCPHost>127.0.0.1</TCPHost>
-      <TCPPort>8080</TCPPort>
-      <sBaud>2400</sBaud>
-      <sPort />
-      <sParity>None</sParity>
-      <sDatabits>8</sDatabits>
-      <sStopbits>One</sStopbits>
-      <Timer>0</Timer>
-      <XMLStructurePath />
-      <PacketStructure>
-        <PacketType>BLANK</PacketType>
-      </PacketStructure>
-      <Enabled>false</Enabled>
-      <InterfaceName>qwe4tu</InterfaceName>
-      <InterfaceDirection>BLANK</InterfaceDirection>
-      <InterfaceType>FLDIGI</InterfaceType>
-      <Filters />
-    </InterfaceSettings>
-    <InterfaceSettings>
-      <TCPHost>127.0.0.1</TCPHost>
       <TCPPort>7322</TCPPort>
       <sBaud>2400</sBaud>
       <sPort />
@@ -49,7 +11,7 @@
       <sDatabits>8</sDatabits>
       <sStopbits>One</sStopbits>
       <Timer>0</Timer>
-      <XMLStructurePath>C:\Users\Matt\Desktop\apexii_test.xml</XMLStructurePath>
+      <XMLStructurePath>C:\Users\Matt\Documents\APEX\XML\apexii_test.xml</XMLStructurePath>
       <PacketStructure>
         <PacketType>UKHAS</PacketType>
       </PacketStructure>
@@ -57,44 +19,6 @@
       <InterfaceName>fl</InterfaceName>
       <InterfaceDirection>DataIn</InterfaceDirection>
       <InterfaceType>FLDIGI</InterfaceType>
-      <Filters />
-    </InterfaceSettings>
-    <InterfaceSettings>
-      <TCPHost>127.0.0.1</TCPHost>
-      <TCPPort>8080</TCPPort>
-      <sBaud>2400</sBaud>
-      <sPort />
-      <sParity>None</sParity>
-      <sDatabits>8</sDatabits>
-      <sStopbits>One</sStopbits>
-      <Timer>0</Timer>
-      <XMLStructurePath />
-      <PacketStructure>
-        <PacketType>APRS</PacketType>
-      </PacketStructure>
-      <Enabled>true</Enabled>
-      <InterfaceName>mp</InterfaceName>
-      <InterfaceDirection>DataSharingOut</InterfaceDirection>
-      <InterfaceType>MAPPOINT</InterfaceType>
-      <Filters />
-    </InterfaceSettings>
-    <InterfaceSettings>
-      <TCPHost>robertharrison.org/listen/view.php?reg=/ATLAS/</TCPHost>
-      <TCPPort>80</TCPPort>
-      <sBaud>2400</sBaud>
-      <sPort />
-      <sParity>None</sParity>
-      <sDatabits>8</sDatabits>
-      <sStopbits>One</sStopbits>
-      <Timer>360</Timer>
-      <XMLStructurePath>C:\Users\Matt\Desktop\apexii_test - Copy (2).xml</XMLStructurePath>
-      <PacketStructure>
-        <PacketType>UKHAS</PacketType>
-      </PacketStructure>
-      <Enabled>false</Enabled>
-      <InterfaceName>dl</InterfaceName>
-      <InterfaceDirection>DataIn</InterfaceDirection>
-      <InterfaceType>DLINTERNET</InterfaceType>
       <Filters />
     </InterfaceSettings>
   </Interfaces>

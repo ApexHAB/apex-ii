@@ -99,3 +99,5 @@ C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatus.resources
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatus.resources
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatusUC.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.Graphs.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.GraphUC.resources

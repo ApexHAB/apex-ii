@@ -1,11 +1,17 @@
 ﻿Public Class HUD_UC
     'will need to be changed to use the new PacketStructure class.
+
+
 #Region "Fields"
 
-    Private FrameToDisplay_ As Frame = New Frame()
+    'Private FrameToDisplay_ As Frame = New Frame()
     Private WithEvents timeSinceLastTmr As Timer = New Timer()
     Private secondsSinceLast As Integer = 0
-
+    Private DisplayAllPackets_ As Boolean = False
+    Private DisplayIfGPS_ As Boolean = True
+    Private FrameDisplaying As Frame
+    'Private LastValid As Frame
+    Private LastGoodGPS As GPScoord
 
 #End Region
 
@@ -79,50 +85,104 @@
 
 #Region "Properties"
 
-    Public ReadOnly Property FrameToDisplay() As Frame
-        Get
-            Return FrameToDisplay_
-        End Get
-        'Set(ByVal value As Frame)
-        '    FrameToDisplay_ = value
-        '    secondsSinceLast = 0
 
-        '    SetLB("", lbTimer)  ' lbTimer.Text = ""
-        '    ResetClock()
-        '    Updateth()
-        'End Set
+    'Public ReadOnly Property FrameToDisplay() As Frame
+    '    'Get
+    '    '    Return FrameToDisplay_
+    '    'End Get
+    '    'Set(ByVal value As Frame)
+    '    '    FrameToDisplay_ = value
+    '    '    secondsSinceLast = 0
+
+    '    '    SetLB("", lbTimer)  ' lbTimer.Text = ""
+    '    '    ResetClock()
+    '    '    Updateth()
+    '    'End Set
+    'End Property
+
+    Public Property DisplayAllPackets As Boolean
+        Get
+            Return DisplayAllPackets_
+        End Get
+        Set(ByVal value As Boolean)
+            DisplayAllPackets_ = value
+        End Set
     End Property
 
-
+    Public Property DisplayIfGPS As Boolean
+        Get
+            Return DisplayIfGPS_
+        End Get
+        Set(ByVal value As Boolean)
+            DisplayIfGPS_ = value
+        End Set
+    End Property
 #End Region
 
     Public Function AddFrame(ByVal frame As Frame)
+
+        If Not DisplayAllPackets_ And (Not frame.CheckSum) Then
+
+            If (Not DisplayIfGPS_) Then Return False
+
+            If frame.GPSCoordinates Is Nothing Then Return False
+        End If
+
+        If FrameDisplaying Is Nothing Then
+            FrameDisplaying = frame
+            SetLB("", lbTimer)  ' lbTimer.Text = ""
+            secondsSinceLast = 0
+            ResetClock()
+            Updateth()
+            Return True
+        Else
+            If FrameDisplaying.PcktCounter < frame.PcktCounter Then
+                FrameDisplaying = frame
+                SetLB("", lbTimer)  ' lbTimer.Text = ""
+                secondsSinceLast = 0
+                ResetClock()
+                Updateth()
+                Return True
+            Else
+                Return False
+            End If
+        End If
+
         Return True
     End Function
 
 
     Public Sub ClearDisplay()
-        FrameToDisplay_ = New Frame()
+        FrameDisplaying = Nothing
         ResetClock()
         UpdateDisplay()
     End Sub
 
     Public Sub UpdateDisplay()
-        If Not FrameToDisplay_.Empty Then
-            lbAlt.Text = FrameToDisplay_.Altitude
-            lbHeading.Text = FrameToDisplay_.Heading
-            lbSpeed.Text = FrameToDisplay_.Speed
-            lbTime.Text = FrameToDisplay_.PacketTime
+        If Not FrameDisplaying.Empty Then
+            lbAlt.Text = FrameDisplaying.Altitude
+            lbHeading.Text = FrameDisplaying.Heading
+            lbSpeed.Text = FrameDisplaying.Speed
+            lbTime.Text = FrameDisplaying.PacketTime
         End If
 
+
+
+
         timeSinceLastTmr.Enabled = True
-        lbcomm.Text = FrameToDisplay_.Comment
+        lbcomm.Text = FrameDisplaying.Comment
 
-        If FrameToDisplay_.GPSCoordinates Is Nothing Then
-            lbGPSpos.Text = ""
+        If FrameDisplaying.GPSCoordinates Is Nothing Then
+            If LastGoodGPS Is Nothing Then
+                lbGPSpos.Text = ""
+            Else
+                lbGPSpos.Text = Math.Round(LastGoodGPS.sLatitudeDecimal, 4).ToString + "  " + Math.Round(LastGoodGPS.sLongitudeDecimal, 4).ToString
+                lbGPSpos.ForeColor = Color.Blue
+            End If
         Else
-            lbGPSpos.Text = Math.Round(FrameToDisplay_.GPSCoordinates.sLatitudeDecimal, 4).ToString + "  " + Math.Round(FrameToDisplay_.GPSCoordinates.sLongitudeDecimal, 4).ToString
-
+            lbGPSpos.Text = Math.Round(FrameDisplaying.GPSCoordinates.sLatitudeDecimal, 4).ToString + "  " + Math.Round(FrameDisplaying.GPSCoordinates.sLongitudeDecimal, 4).ToString
+            lbGPSpos.ForeColor = Color.Black
+            LastGoodGPS = FrameDisplaying.GPSCoordinates
         End If
 
         For i As Integer = 1 To dgvData.Rows.Count
@@ -132,7 +192,7 @@
 
 
         Dim a As String() = {"", ""}
-        For Each k As KeyValuePair(Of String, Double) In FrameToDisplay_.PICdata
+        For Each k As KeyValuePair(Of String, Double) In FrameDisplaying.PICdata
 
             a(0) = k.Key
             a(1) = k.Value.ToString

@@ -22,6 +22,10 @@ Partial Class MainFrm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim Title1 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainFrm))
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.tabData = New System.Windows.Forms.TabControl()
@@ -38,6 +42,7 @@ Partial Class MainFrm
         Me.ViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DisplayToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripComboBox()
         Me.GPSFormatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripComboBox2 = New System.Windows.Forms.ToolStripComboBox()
         Me.StatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -48,14 +53,13 @@ Partial Class MainFrm
         Me.SendToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UplinkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Button6 = New System.Windows.Forms.Button()
         Me.HuD_UC1 = New PacketHandler.HUD_UC()
-        Me.ToolStripComboBox1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.WithGPSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ValidToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Chart2 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
+        CType(Me.Chart2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btnSettings
@@ -167,7 +171,7 @@ Partial Class MainFrm
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewToolStripMenuItem, Me.ManualToolStripMenuItem, Me.SendToolStripMenuItem, Me.SettingsToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(462, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(997, 24)
         Me.MenuStrip1.TabIndex = 11
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -182,21 +186,28 @@ Partial Class MainFrm
         '
         Me.DisplayToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ShowToolStripMenuItem, Me.GPSFormatToolStripMenuItem})
         Me.DisplayToolStripMenuItem.Name = "DisplayToolStripMenuItem"
-        Me.DisplayToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.DisplayToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.DisplayToolStripMenuItem.Text = "Display"
         '
         'ShowToolStripMenuItem
         '
-        Me.ShowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1, Me.ValidToolStripMenuItem})
+        Me.ShowToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox1})
         Me.ShowToolStripMenuItem.Name = "ShowToolStripMenuItem"
-        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ShowToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
         Me.ShowToolStripMenuItem.Text = "Show"
+        '
+        'ToolStripComboBox1
+        '
+        Me.ToolStripComboBox1.Items.AddRange(New Object() {"'All'", "'Only Valid'", "'Valid' and 'Failed with GPS'"})
+        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
+        Me.ToolStripComboBox1.Size = New System.Drawing.Size(152, 23)
+        Me.ToolStripComboBox1.Text = "'Valid' and 'Failed with GPS'"
         '
         'GPSFormatToolStripMenuItem
         '
         Me.GPSFormatToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripComboBox2})
         Me.GPSFormatToolStripMenuItem.Name = "GPSFormatToolStripMenuItem"
-        Me.GPSFormatToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GPSFormatToolStripMenuItem.Size = New System.Drawing.Size(136, 22)
         Me.GPSFormatToolStripMenuItem.Text = "GPS Format"
         '
         'ToolStripComboBox2
@@ -208,7 +219,7 @@ Partial Class MainFrm
         'StatusToolStripMenuItem
         '
         Me.StatusToolStripMenuItem.Name = "StatusToolStripMenuItem"
-        Me.StatusToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.StatusToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.StatusToolStripMenuItem.Text = "Status"
         '
         'ManualToolStripMenuItem
@@ -255,52 +266,51 @@ Partial Class MainFrm
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.SettingsToolStripMenuItem.Text = "Settings"
         '
+        'Button6
+        '
+        Me.Button6.Location = New System.Drawing.Point(424, 36)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(75, 23)
+        Me.Button6.TabIndex = 12
+        Me.Button6.Text = "Button6"
+        Me.Button6.UseVisualStyleBackColor = True
+        '
         'HuD_UC1
         '
+        Me.HuD_UC1.DisplayAllPackets = True
+        Me.HuD_UC1.DisplayIfGPS = True
         Me.HuD_UC1.Location = New System.Drawing.Point(19, 57)
         Me.HuD_UC1.Name = "HuD_UC1"
         Me.HuD_UC1.Size = New System.Drawing.Size(430, 181)
         Me.HuD_UC1.TabIndex = 6
         '
-        'ToolStripComboBox1
+        'Chart2
         '
-        Me.ToolStripComboBox1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AllToolStripMenuItem, Me.WithGPSToolStripMenuItem})
-        Me.ToolStripComboBox1.Name = "ToolStripComboBox1"
-        Me.ToolStripComboBox1.Size = New System.Drawing.Size(152, 22)
-        Me.ToolStripComboBox1.Text = "Failed"
-        '
-        'AllToolStripMenuItem
-        '
-        Me.AllToolStripMenuItem.Checked = True
-        Me.AllToolStripMenuItem.CheckOnClick = True
-        Me.AllToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.AllToolStripMenuItem.Name = "AllToolStripMenuItem"
-        Me.AllToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.AllToolStripMenuItem.Text = "All"
-        '
-        'WithGPSToolStripMenuItem
-        '
-        Me.WithGPSToolStripMenuItem.Checked = True
-        Me.WithGPSToolStripMenuItem.CheckOnClick = True
-        Me.WithGPSToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.WithGPSToolStripMenuItem.Name = "WithGPSToolStripMenuItem"
-        Me.WithGPSToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.WithGPSToolStripMenuItem.Text = "With GPS"
-        '
-        'ValidToolStripMenuItem
-        '
-        Me.ValidToolStripMenuItem.Checked = True
-        Me.ValidToolStripMenuItem.CheckOnClick = True
-        Me.ValidToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ValidToolStripMenuItem.Name = "ValidToolStripMenuItem"
-        Me.ValidToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.ValidToolStripMenuItem.Text = "Valid"
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend1)
+        Me.Chart2.Location = New System.Drawing.Point(576, 96)
+        Me.Chart2.Name = "Chart2"
+        Series1.ChartArea = "ChartArea1"
+        Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series1.Legend = "Legend1"
+        Series1.Name = "Altitude"
+        Series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
+        Me.Chart2.Series.Add(Series1)
+        Me.Chart2.Size = New System.Drawing.Size(353, 300)
+        Me.Chart2.TabIndex = 13
+        Me.Chart2.Text = "Chart2"
+        Title1.Name = "Altitude"
+        Me.Chart2.Titles.Add(Title1)
         '
         'MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(462, 536)
+        Me.ClientSize = New System.Drawing.Size(997, 536)
+        Me.Controls.Add(Me.Chart2)
+        Me.Controls.Add(Me.Button6)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnLoad)
         Me.Controls.Add(Me.Button4)
@@ -320,6 +330,7 @@ Partial Class MainFrm
         Me.tpAllData.ResumeLayout(False)
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
+        CType(Me.Chart2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -350,10 +361,9 @@ Partial Class MainFrm
     Friend WithEvents GPSFormatToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripComboBox2 As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents StatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ToolStripComboBox1 As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents AllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents WithGPSToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ValidToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ToolStripComboBox1 As System.Windows.Forms.ToolStripComboBox
+    Friend WithEvents Button6 As System.Windows.Forms.Button
+    Friend WithEvents Chart2 As System.Windows.Forms.DataVisualization.Charting.Chart
 
 
 End Class

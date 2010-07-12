@@ -3,6 +3,7 @@ Public Class MainFrm
 
     Public RunningDir As String = System.IO.Directory.GetCurrentDirectory()
 
+    Private datahandler As New DataHandler()
 
     Dim app As Application
     Private GlobalSettings_ As New GlobalSettings
@@ -11,10 +12,12 @@ Public Class MainFrm
     Private Frames As New Collection()      'stores for the purpose of what order frames arrived in
     Private testingXMLPath = ""
     Dim interStatus As InterfaceStatus
+    Dim graphs As Graphs
 
     Private ErrorMessages As String = ""
 
 #Region "threading"
+    'Delegate Sub popgraphdel(ByVal frame As Frame)
     Delegate Sub UpdateStatusDel()
     Delegate Sub AddtoRTBDel(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
     'Delegate Sub RecievedDel(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
@@ -31,6 +34,17 @@ Public Class MainFrm
             End If
         End If
     End Sub
+
+    'Private Sub popgraphth(ByVal frame As Frame)
+
+    '    If Chart2.InvokeRequired Then
+    '        Dim del As New popgraphdel(AddressOf popgraphth)
+    '        Me.Invoke(del, frame)
+    '    Else
+    '        popgraph(frame)
+    '    End If
+    'End Sub
+
 
     Private Sub AddToRTBTh(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
         Dim a(2) As Object ' = {text, colour, tabpagename}
@@ -366,13 +380,21 @@ Public Class MainFrm
 
     Private Sub UpdateInterfaces()
         'updates interfaces list and adds events
+        Dim removeflag As Boolean = False
 
-        For i As Integer = 0 To Interfaces.Count - 1
-            If Not ((GlobalSettings_.ContainsInterface(Interfaces(i).InterfaceName)) Or (Interfaces(i).InterfaceName = "Manual")) Then
-                Interfaces.RemoveAt(i)
-            End If
-        Next
+        Do
+            For i As Integer = 0 To Interfaces.Count - 1
+                If Not ((GlobalSettings_.ContainsInterface(Interfaces(i).InterfaceName)) Or (Interfaces(i).InterfaceName = "Manual")) Then
+                    Interfaces.RemoveAt(i)
+                    removeflag = True
+                    Exit For
+                End If
+                removeflag = False
+            Next
 
+        Loop While removeflag
+
+   
 
         For Each i As InterfaceSettings In GlobalSettings_.Interfaces   'add new interfaces
             If Not ContainsInterface(i.InterfaceName) Then
@@ -394,70 +416,86 @@ Public Class MainFrm
 
 #Region "packet recieved"
 
+    'Private Sub popgraph(ByVal frame As Frame)
+    '    If datahandler.AddFrame(frame) Then
+    '        Chart2.Series("Altitude").Points.Clear()
+    '        For Each kv As KeyValuePair(Of DateTime, Double) In datahandler.Altitudes
+    '            Chart2.Series("Altitude").Points.AddXY(kv.Key, kv.Value)
+    '        Next
+    '    End If
+    'End Sub
 
 
     Private Sub LineReceivedStr(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
         ' Debug.WriteLine(output)
 
         'DoRecieved(output, InterfaceDetails, ToCall, FromCall)
-        Try
-            Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
-            Frames.Add(frame)
-
-
-            Dim lineendp As String = ""
-            Dim lineendr As String = ""
-
-            If Not (frame.ProcessedString.EndsWith(vbCrLf) Or frame.ProcessedString.EndsWith(vbLf) Or frame.ProcessedString.EndsWith(vbCr)) Then
-                lineendp = vbCrLf
-            End If
-            If Not (frame.RawString.EndsWith(vbCrLf) Or frame.RawString.EndsWith(vbLf) Or frame.RawString.EndsWith(vbCr)) Then
-                lineendr = vbCrLf
-            End If
+        '  Try
 
 
 
+        Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
+        Frames.Add(frame)
+
+        ' If datahandler Is Nothing Then datahandler = New DataHandler(InterfaceDetails.PacketStructure)
+        datahandler.AddFrame(frame)
+
+        If Not graphs Is Nothing Then graphs.DisplayData(datahandler)
+
+
+        Dim lineendp As String = ""
+        Dim lineendr As String = ""
+
+        If Not (frame.ProcessedString.EndsWith(vbCrLf) Or frame.ProcessedString.EndsWith(vbLf) Or frame.ProcessedString.EndsWith(vbCr)) Then
+            lineendp = vbCrLf
+        End If
+        If Not (frame.RawString.EndsWith(vbCrLf) Or frame.RawString.EndsWith(vbLf) Or frame.RawString.EndsWith(vbCr)) Then
+            lineendr = vbCrLf
+        End If
 
 
 
-            For Each j As InterfaceParent In Interfaces
-                If j.InterfaceName = InterfaceDetails.InterfaceName Then
-                    If j.StoreFrame(frame) Then
 
-                        AddToFile(RunningDir & "\" & InterfaceDetails.InterfaceName + ".txt", output)
 
-                        HuD_UC1.AddFrame(frame)
 
-                        If frame.CheckSum = True Then
-                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
-                            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                        Else
-                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
-                            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
-                        End If
+        For Each j As InterfaceParent In Interfaces
+            If j.InterfaceName = InterfaceDetails.InterfaceName Then
+                If j.StoreFrame(frame) Then
 
-                        For Each i As InterfaceParent In Interfaces
-                            If i.InterfaceName <> InterfaceDetails.InterfaceName Then
-                                If i.CanWrite = True Then
-                                    If i.Write(frame, InterfaceDetails) = True Then
-                                        If frame.CheckSum = True Then
-                                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
-                                            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                                        Else
-                                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
-                                            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
-                                        End If
+                    AddToFile(RunningDir & "\" & InterfaceDetails.InterfaceName + ".txt", output)
+
+                    HuD_UC1.AddFrame(frame)
+
+                    If frame.CheckSum = True Then
+                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
+                        AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                    Else
+                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
+                        AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                    End If
+
+                    For Each i As InterfaceParent In Interfaces
+                        If i.InterfaceName <> InterfaceDetails.InterfaceName Then
+                            If i.CanWrite = True Then
+                                If i.Write(frame, InterfaceDetails) = True Then
+                                    If frame.CheckSum = True Then
+                                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
+                                        AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                                    Else
+                                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
+                                        AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
                                     End If
                                 End If
                             End If
-                        Next
-                    End If
+                        End If
+                    Next
                 End If
-            Next
-        Catch ex As Exception
-            ErrorMessages = ErrorMessages & "File Load Error" & vbCrLf
-            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
-        End Try
+            End If
+        Next
+        ' Catch ex As Exception
+        '     ErrorMessages = ErrorMessages & ex.Message & vbCrLf
+        '     If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        ' End Try
 
 
     End Sub
@@ -671,14 +709,37 @@ Public Class MainFrm
     Private Sub StatusToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StatusToolStripMenuItem.Click
         If interStatus Is Nothing Then
             interStatus = New InterfaceStatus(Interfaces)
+
+
             interStatus.Show()
         Else
             If interStatus.Visible = False Then
 
                 interStatus = New InterfaceStatus(Interfaces)
+
                 interStatus.Show()
             End If
         End If
     End Sub
 #End Region
+
+    Private Sub ToolStripComboBox2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToolStripComboBox2.Click
+        Select Case ToolStripComboBox2.Text
+            Case "'All'"
+                HuD_UC1.DisplayAllPackets = True
+            Case "'Only Valid'"
+                HuD_UC1.DisplayAllPackets = False
+                HuD_UC1.DisplayIfGPS = False
+            Case "'Valid' and 'Failed with GPS'"
+                HuD_UC1.DisplayAllPackets = False
+                HuD_UC1.DisplayIfGPS = True
+        End Select
+    End Sub
+
+
+
+    Private Sub Button6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button6.Click
+        graphs = New Graphs
+        graphs.Show()
+    End Sub
 End Class

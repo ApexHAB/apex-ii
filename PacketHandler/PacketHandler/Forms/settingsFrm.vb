@@ -56,6 +56,14 @@
         End If
     End Sub
 
+    Private Sub btnInterfaceDel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInterfaceDel.Click
+        Dim i As Integer = lstInterfaces.SelectedIndex
+        If (lstInterfaces.SelectedIndex < lstInterfaces.Items.Count) And (lstInterfaces.SelectedIndex >= 0) Then
+            settings_.Interfaces.RemoveAt(i)
+            UpdateFields()
+        End If
+    End Sub
+
   
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOK.Click
         settings_.UseUTC = chkUTC.Checked
@@ -80,4 +88,6 @@
 
         txtLogFolder.Text = fv.SelectedPath
     End Sub
+
+ 
 End Class
