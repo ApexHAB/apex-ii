@@ -521,10 +521,19 @@ Public Class Frame
                             End If
 
                             If (packetStructure_.GetField(i).FieldType = PacketStructure.FieldType.sensor) Then
-                                Double.TryParse(fields(i), tempdoub)
-                                tempdoub = tempdoub * packetStructure_.GetField(i).ScaleFactor
-                                tempdoub = tempdoub + packetStructure_.GetField(i).Offset
-                                Pdata_.Add(packetStructure_.GetField(i).FieldName, tempdoub)
+                                Select Case packetStructure_.GetField(i).Encoding
+                                    Case PacketStructure.Encoding.light_value
+                                        Pdata_.Add("Light - Clear", ProcessLight(fields(i))(0))
+                                        Pdata_.Add("Light - Red", ProcessLight(fields(i))(1))
+                                        Pdata_.Add("Light - Green", ProcessLight(fields(i))(2))
+                                        Pdata_.Add("Light - Blue", ProcessLight(fields(i))(3))
+                                    Case Else
+                                        Double.TryParse(fields(i), tempdoub)
+                                        tempdoub = tempdoub * packetStructure_.GetField(i).ScaleFactor
+                                        tempdoub = tempdoub + packetStructure_.GetField(i).Offset
+                                        Pdata_.Add(packetStructure_.GetField(i).FieldName, tempdoub)
+                                End Select
+
                             End If
                         End If
                     End If
@@ -579,6 +588,41 @@ Public Class Frame
 
 
     End Sub
+
+    Private Function ProcessLight(ByVal valuestr As String) As Double()
+        Dim output() As Double = {0, 0, 0, 0}
+        Dim value As ULong
+        If ULong.TryParse(valuestr, value) = False Then Return output
+
+        Dim clear As ULong = value And &HFF0000000
+        Dim red As ULong = value And &HFF00000
+        Dim green As ULong = value And &HFF000
+        Dim blue As ULong = value And &HFF0
+        Dim scaling As ULong = value And &HF
+
+        clear = clear / (2 ^ (7 * 4))
+        red = red / (2 ^ (5 * 4))
+        green = green / (2 ^ (3 * 4))
+        blue = blue / (2 ^ (1 * 4))
+
+        If scaling = 1 Then
+            For i As Integer = 0 To 3
+                output(i) = output(1) * 50
+            Next
+        ElseIf scaling = 2 Then
+            For i As Integer = 0 To 3
+                output(i) = output(1) * 5
+            Next
+        End If
+
+        output(0) = clear
+        output(1) = red
+        output(2) = green
+        output(3) = blue
+
+        Return output
+
+    End Function
 
     Private Function CRC16_CITT(ByVal input As String) As UInteger
 

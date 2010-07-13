@@ -103,105 +103,105 @@
 
     Public Sub LoadXML(ByVal FilePath As String)
         If FilePath = "" Then Exit Sub
-        ' Try
+        Try
 
 
 
 
-        Dim xmlrd As System.Xml.XmlTextReader = New System.Xml.XmlTextReader(FilePath)
+            Dim xmlrd As System.Xml.XmlTextReader = New System.Xml.XmlTextReader(FilePath)
 
-        'clear current fields dictionary
-        Fields_.Clear()
+            'clear current fields dictionary
+            Fields_.Clear()
 
-        While Not xmlrd.EOF
-            xmlrd.Read()
-            If xmlrd.IsStartElement Then
-                Select Case xmlrd.Name
-                    Case "sentence_delimiter"
-                        ' Debug.WriteLine("SD " + xmlrd.ReadElementContentAsString)
-                        sentenceDelimiter_ = xmlrd.ReadElementContentAsString
-                    Case "field_delimiter"
-                        'Debug.WriteLine("FD " + xmlrd.ReadElementContentAsString)
-                        fielddelimiter_ = xmlrd.ReadElementContentAsString.First()
-                    Case "fields"
-                        ' Debug.WriteLine("Fs " + xmlrd.ReadElementContentAsString)
+            While Not xmlrd.EOF
+                xmlrd.Read()
+                If xmlrd.IsStartElement Then
+                    Select Case xmlrd.Name
+                        Case "sentence_delimiter"
+                            ' Debug.WriteLine("SD " + xmlrd.ReadElementContentAsString)
+                            sentenceDelimiter_ = xmlrd.ReadElementContentAsString
+                        Case "field_delimiter"
+                            'Debug.WriteLine("FD " + xmlrd.ReadElementContentAsString)
+                            fielddelimiter_ = xmlrd.ReadElementContentAsString.First()
+                        Case "fields"
+                            ' Debug.WriteLine("Fs " + xmlrd.ReadElementContentAsString)
 
-                    Case "callsign"
-                        '  Debug.WriteLine("cs " + xmlrd.ReadElementContentAsString)
-                        callsign_ = xmlrd.ReadElementContentAsString
+                        Case "callsign"
+                            '  Debug.WriteLine("cs " + xmlrd.ReadElementContentAsString)
+                            callsign_ = xmlrd.ReadElementContentAsString
 
-                    Case "field"
-                        Dim fld As New PacketField
-                        fld = DefualtPacketField()
-                        Dim seq As Integer = 0
-                        Dim str As String
+                        Case "field"
+                            Dim fld As New PacketField
+                            fld = DefualtPacketField()
+                            Dim seq As Integer = 0
+                            Dim str As String
 
-                        xmlrd.Read()
-                        While Not ((xmlrd.IsStartElement = False) And (xmlrd.Name = "field"))   'go through every element in field
+                            xmlrd.Read()
+                            While Not ((xmlrd.IsStartElement = False) And (xmlrd.Name = "field"))   'go through every element in field
 
 
-                            If xmlrd.IsStartElement Then
-                                Select Case xmlrd.Name.ToLower
-                                    Case "seq"
-                                        str = xmlrd.ReadElementString()
-                                        If str <> "" Then
-                                            Integer.TryParse(str, seq)
-                                        End If
-                                    Case "name"
-                                        str = xmlrd.ReadElementString()
-                                        If str <> "" Then
-                                            fld.FieldName = str
-                                        End If
-                                    Case "type"
-                                        str = xmlrd.ReadElementString().ToLower
-                                        If [Enum].IsDefined(GetType(FieldType), str) = True Then
-                                            fld.FieldType = [Enum].Parse(GetType(FieldType), str, True)
-                                        End If
-                                    Case "encoding"
-                                        str = xmlrd.ReadElementString().ToLower
-                                        If [Enum].IsDefined(GetType(Encoding), str) = True Then
-                                            fld.Encoding = [Enum].Parse(GetType(Encoding), str, True)
-                                        End If
-                                    Case "encoding2"
-                                        str = xmlrd.ReadElementString().ToLower
-                                        If [Enum].IsDefined(GetType(Encoding), str) = True Then
-                                            fld.Encoding2 = [Enum].Parse(GetType(Encoding), str, True)
-                                        End If
-                                    Case "scaling"
-                                        str = xmlrd.ReadElementString()
-                                        If str <> "" Then
-                                            Double.TryParse(str, fld.ScaleFactor)
-                                        End If
-                                    Case "offset"
-                                        str = xmlrd.ReadElementString()
-                                        If str <> "" Then
-                                            Double.TryParse(str, fld.Offset)
-                                        End If
-                                    Case "unit"
-                                        str = xmlrd.ReadElementString().ToLower
-                                        If [Enum].IsDefined(GetType(Units), str) = True Then
-                                            fld.Unit = [Enum].Parse(GetType(Units), str, True)
-                                        End If
-                                    Case "dp"
-                                        str = xmlrd.ReadElementString()
-                                        If str <> "" Then
-                                            Integer.TryParse(str, fld.DP)
-                                        End If
-                                    Case Else
-                                        xmlrd.Read()
-                                End Select
-                            End If
+                                If xmlrd.IsStartElement Then
+                                    Select Case xmlrd.Name.ToLower
+                                        Case "seq"
+                                            str = xmlrd.ReadElementString()
+                                            If str <> "" Then
+                                                Integer.TryParse(str, seq)
+                                            End If
+                                        Case "name"
+                                            str = xmlrd.ReadElementString()
+                                            If str <> "" Then
+                                                fld.FieldName = str
+                                            End If
+                                        Case "type"
+                                            str = xmlrd.ReadElementString().ToLower
+                                            If [Enum].IsDefined(GetType(FieldType), str) = True Then
+                                                fld.FieldType = [Enum].Parse(GetType(FieldType), str, True)
+                                            End If
+                                        Case "encoding"
+                                            str = xmlrd.ReadElementString().ToLower
+                                            If [Enum].IsDefined(GetType(Encoding), str) = True Then
+                                                fld.Encoding = [Enum].Parse(GetType(Encoding), str, True)
+                                            End If
+                                        Case "encoding2"
+                                            str = xmlrd.ReadElementString().ToLower
+                                            If [Enum].IsDefined(GetType(Encoding), str) = True Then
+                                                fld.Encoding2 = [Enum].Parse(GetType(Encoding), str, True)
+                                            End If
+                                        Case "scaling"
+                                            str = xmlrd.ReadElementString()
+                                            If str <> "" Then
+                                                Double.TryParse(str, fld.ScaleFactor)
+                                            End If
+                                        Case "offset"
+                                            str = xmlrd.ReadElementString()
+                                            If str <> "" Then
+                                                Double.TryParse(str, fld.Offset)
+                                            End If
+                                        Case "unit"
+                                            str = xmlrd.ReadElementString().ToLower
+                                            If [Enum].IsDefined(GetType(Units), str) = True Then
+                                                fld.Unit = [Enum].Parse(GetType(Units), str, True)
+                                            End If
+                                        Case "dp"
+                                            str = xmlrd.ReadElementString()
+                                            If str <> "" Then
+                                                Integer.TryParse(str, fld.DP)
+                                            End If
+                                        Case Else
+                                            xmlrd.Read()
+                                    End Select
+                                End If
 
-                        End While
+                            End While
 
-                        Fields_.Add("A" & seq.ToString, fld)
+                            Fields_.Add("A" & seq.ToString, fld)
 
-                End Select
-            End If
-        End While
-        ' Catch
-        'MsgBox("XML load failed")
-        ' End Try
+                    End Select
+                End If
+            End While
+        Catch
+            MsgBox("XML load failed")
+        End Try
 
     End Sub
 

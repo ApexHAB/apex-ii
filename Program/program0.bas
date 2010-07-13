@@ -789,7 +789,7 @@ gosub writecomma
 
 'ird1
 w5 = 0
-w6 = 0
+w11 = 0
 serout radIn,irdBaud,("C1")
 
 serin [irdWait,irddone],radOut,irdBaud,("##"),b10,b11,b22,b23

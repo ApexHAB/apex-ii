@@ -439,73 +439,73 @@ Public Class MainFrm
         ' Debug.WriteLine(output)
 
         'DoRecieved(output, InterfaceDetails, ToCall, FromCall)
-        '  Try
+        Try
 
 
 
-        Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
-        Frames.Add(frame)
+            Dim frame As New Frame(output, InterfaceDetails.PacketStructure)
+            Frames.Add(frame)
 
-        ' If datahandler Is Nothing Then datahandler = New DataHandler(InterfaceDetails.PacketStructure)
-        datahandler.AddFrame(frame)
+            ' If datahandler Is Nothing Then datahandler = New DataHandler(InterfaceDetails.PacketStructure)
+            datahandler.AddFrame(frame)
 
-        If (Not graphs Is Nothing) And (bUpdateGraph = True) Then UpdateGraph()
-
-
-
-        Dim lineendp As String = ""
-        Dim lineendr As String = ""
-
-        If Not (frame.ProcessedString.EndsWith(vbCrLf) Or frame.ProcessedString.EndsWith(vbLf) Or frame.ProcessedString.EndsWith(vbCr)) Then
-            lineendp = vbCrLf
-        End If
-        If Not (frame.RawString.EndsWith(vbCrLf) Or frame.RawString.EndsWith(vbLf) Or frame.RawString.EndsWith(vbCr)) Then
-            lineendr = vbCrLf
-        End If
+            If (Not graphs Is Nothing) And (bUpdateGraph = True) Then UpdateGraph()
 
 
+
+            Dim lineendp As String = ""
+            Dim lineendr As String = ""
+
+            If Not (frame.ProcessedString.EndsWith(vbCrLf) Or frame.ProcessedString.EndsWith(vbLf) Or frame.ProcessedString.EndsWith(vbCr)) Then
+                lineendp = vbCrLf
+            End If
+            If Not (frame.RawString.EndsWith(vbCrLf) Or frame.RawString.EndsWith(vbLf) Or frame.RawString.EndsWith(vbCr)) Then
+                lineendr = vbCrLf
+            End If
 
 
 
 
-        For Each j As InterfaceParent In Interfaces
-            If j.InterfaceName = InterfaceDetails.InterfaceName Then
-                If j.StoreFrame(frame) Then
 
-                    AddToFile(RunningDir & "\" & InterfaceDetails.InterfaceName + ".txt", output)
 
-                    HuD_UC1.AddFrame(frame)
+            For Each j As InterfaceParent In Interfaces
+                If j.InterfaceName = InterfaceDetails.InterfaceName Then
+                    If j.StoreFrame(frame) Then
 
-                    If frame.CheckSum = True Then
-                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
-                        AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                    Else
-                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
-                        AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
-                    End If
+                        AddToFile(RunningDir & "\" & InterfaceDetails.InterfaceName + ".txt", output)
 
-                    For Each i As InterfaceParent In Interfaces
-                        If i.InterfaceName <> InterfaceDetails.InterfaceName Then
-                            If i.CanWrite = True Then
-                                If i.Write(frame, InterfaceDetails) = True Then
-                                    If frame.CheckSum = True Then
-                                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
-                                        AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
-                                    Else
-                                        AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
-                                        AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                        HuD_UC1.AddFrame(frame)
+
+                        If frame.CheckSum = True Then
+                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, InterfaceDetails.InterfaceName)
+                            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                        Else
+                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, InterfaceDetails.InterfaceName)
+                            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                        End If
+
+                        For Each i As InterfaceParent In Interfaces
+                            If i.InterfaceName <> InterfaceDetails.InterfaceName Then
+                                If i.CanWrite = True Then
+                                    If i.Write(frame, InterfaceDetails) = True Then
+                                        If frame.CheckSum = True Then
+                                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Black, i.InterfaceName)
+                                            AddToRTBTh(frame.RawString & lineendr, Color.Black, "")
+                                        Else
+                                            AddToRTBTh(frame.ProcessedString & lineendp, Color.Red, i.InterfaceName)
+                                            AddToRTBTh(frame.RawString & lineendr, Color.Red, "")
+                                        End If
                                     End If
                                 End If
                             End If
-                        End If
-                    Next
+                        Next
+                    End If
                 End If
-            End If
-        Next
-        ' Catch ex As Exception
-        '     ErrorMessages = ErrorMessages & ex.Message & vbCrLf
-        '     If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
-        ' End Try
+            Next
+        Catch ex As Exception
+            ErrorMessages = ErrorMessages & ex.Message & vbCrLf
+            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        End Try
 
 
     End Sub
@@ -642,33 +642,33 @@ Public Class MainFrm
         pf.LoadXML(xmlpath)
 
 
-        ' Try
-        If System.IO.File.Exists(datapath) = False Then Exit Sub
+        Try
+            If System.IO.File.Exists(datapath) = False Then Exit Sub
 
-        Dim reader As New System.IO.StreamReader(datapath)
+            Dim reader As New System.IO.StreamReader(datapath)
 
-        While Not reader.EndOfStream
-
-
-            str = reader.ReadLine()
-            If str <> "" Then
-                ' Dim frame As New Frame(str, pf)
-
-                Interfaces(0).GetInterfaceSettings.PacketStructure = pf
-                LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "", False)
+            While Not reader.EndOfStream
 
 
-                ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
-            End If
-        End While
-        If (Not graphs Is Nothing) Then graphs.DisplayData(datahandler)
+                str = reader.ReadLine()
+                If str <> "" Then
+                    ' Dim frame As New Frame(str, pf)
 
-        'Catch ex As Exception
-        '    MsgBox("File cannot be read")
-        '    ErrorMessages = ErrorMessages & "File Read Error - " & ex.Message & vbCrLf
+                    Interfaces(0).GetInterfaceSettings.PacketStructure = pf
+                    LineReceivedStr(str, Interfaces(0).GetInterfaceSettings, "", "", False)
 
-        '    If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
-        'End Try
+
+                    ' If mappoint = True Then interface_.WriteMappoint(frame.GPSCoordinates, 5, 2, 0.5)
+                End If
+            End While
+            If (Not graphs Is Nothing) Then graphs.DisplayData(datahandler)
+
+        Catch ex As Exception
+            MsgBox("File cannot be read")
+            ErrorMessages = ErrorMessages & "File Read Error - " & ex.Message & vbCrLf
+
+            If Not interStatus Is Nothing Then interStatus.Messages = ErrorMessages
+        End Try
 
     End Sub
 

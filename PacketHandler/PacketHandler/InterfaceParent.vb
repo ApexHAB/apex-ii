@@ -267,61 +267,61 @@ Public Class InterfaceParent
         ' Debug.WriteLine("ENTERING")
 
 
-        'Try
+        Try
 
-        Dim urlstr As String = interfacesettings_.TCPHost
-        Dim uri As New System.Uri(urlstr, System.UriKind.RelativeOrAbsolute)
+            Dim urlstr As String = interfacesettings_.TCPHost
+            Dim uri As New System.Uri(urlstr, System.UriKind.RelativeOrAbsolute)
 
-        If uri.IsAbsoluteUri = False Then
-            urlstr = "http://" & urlstr
-        End If
-
-        Dim wr As HttpWebRequest = WebRequest.Create(urlstr)
-        Dim ws As HttpWebResponse = CType(wr.GetResponse(), HttpWebResponse)
-        Dim reader As StreamReader = New StreamReader(ws.GetResponseStream())
-
-        Dim str As String = ""
-
-        Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
-        Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
-
-
-        While Not reader.EndOfStream
-            str = reader.ReadLine()
-            ' Debug.WriteLine(str)
-
-
-
-
-            If reg.IsMatch(str) Then
-                '  Debug.WriteLine("match")
-                ' Debug.WriteLine()
-                RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "", False)
+            If uri.IsAbsoluteUri = False Then
+                urlstr = "http://" & urlstr
             End If
 
-            If reg2.IsMatch(str) Then
-                Exit While
-            End If
+            Dim wr As HttpWebRequest = WebRequest.Create(urlstr)
+            Dim ws As HttpWebResponse = CType(wr.GetResponse(), HttpWebResponse)
+            Dim reader As StreamReader = New StreamReader(ws.GetResponseStream())
+
+            Dim str As String = ""
+
+            Dim reg As New Regex(interfacesettings_.PacketStructure.CallSign, RegexOptions.IgnoreCase)
+            Dim reg2 As New Regex("</BODY>|</HTML>", RegexOptions.IgnoreCase)
 
 
-        End While
-        ws.Close()
-
-        If interfacesettings_.Timer < 30 Then interfacesettings_.Timer = 30
-        timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
-        timer.Enabled = True
-
-        '  Debug.WriteLine("EXIT")
+            While Not reader.EndOfStream
+                str = reader.ReadLine()
+                ' Debug.WriteLine(str)
 
 
-        'Catch ex As Exception
-        '    If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
-        '    timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
-        '    timer.Enabled = True
-        '    RaiseEvent InterfaceStatusChange(InterfaceStatus.Inactive, ex.Message, interfacesettings_)
-        '    Messages_ = Messages_ & "DL Error  - " & ex.Message & vbCrLf
-        '    ' Debug.WriteLine("EXITwe")
-        'End Try
+
+
+                If reg.IsMatch(str) Then
+                    '  Debug.WriteLine("match")
+                    ' Debug.WriteLine()
+                    RaiseEvent LineRecievedStr(interfacesettings_.PacketStructure.SentenceDelimiter & str.Substring(reg.Match(str).Index), interfacesettings_, "", "", False)
+                End If
+
+                If reg2.IsMatch(str) Then
+                    Exit While
+                End If
+
+
+            End While
+            ws.Close()
+
+            If interfacesettings_.Timer < 30 Then interfacesettings_.Timer = 30
+            timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+            timer.Enabled = True
+
+            '  Debug.WriteLine("EXIT")
+
+
+        Catch ex As Exception
+            If interfacesettings_.Timer < 10 Then interfacesettings_.Timer = 4
+            timer = New System.Timers.Timer(interfacesettings_.Timer * 1000)
+            timer.Enabled = True
+            RaiseEvent InterfaceStatusChange(InterfaceStatus.Inactive, ex.Message, interfacesettings_)
+            Messages_ = Messages_ & "DL Error  - " & ex.Message & vbCrLf
+            ' Debug.WriteLine("EXITwe")
+        End Try
 
         RaiseEvent updategraph()
 
