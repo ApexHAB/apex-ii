@@ -10,9 +10,9 @@ symbol dataOut = output5
 setfreq m8
 main:
 
-serin datain,t4800,("C1")
+serin datain,t9600_8,("C1")
 pause 300
-serout dataOut,N4800,("##",b0,b1,b2,b3)
+serout dataOut,n9600_8,("##",b0,b1,b2,b3)
 count ird1,40000,w0
 count ird2,40000,w1
 

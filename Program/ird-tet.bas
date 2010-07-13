@@ -129,13 +129,18 @@ high radioCSRX
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 main1:
 sertxd("OOPS",cr,lf)
-
+setfreq em64
 main:
 
-serout d.0,n4800,("C1")
-serin [1000,main1],d.1,n4800,("##"),b0,b1,b2,b3
+serout d.0,n9600_64,("C1")
+serin [8000,main1],d.1,n9600_64,("##"),b0,b1,b2,b3
 
 sertxd(#w0,"  ",#w1,cr,lf)
-wait 45
 
+wait 60
+wait 60
+wait 60
+wait 60
+wait 60
+wait 60
 goto main
