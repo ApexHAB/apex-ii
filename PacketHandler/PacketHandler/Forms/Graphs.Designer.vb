@@ -43,7 +43,7 @@ Partial Class Graphs
         Me.MaximumSize = New System.Drawing.Size(632, 1240)
         Me.MinimumSize = New System.Drawing.Size(632, 240)
         Me.Name = "Graphs"
-        Me.Text = "Graphs"
+        Me.Text = "Data"
         Me.ResumeLayout(False)
 
     End Sub
