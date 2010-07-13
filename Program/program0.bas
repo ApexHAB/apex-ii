@@ -13,7 +13,7 @@ symbol SCLK = b.7
 symbol adcCS = a.2
 symbol memCS = d.6
 
-symbol radIn = Pind.0	'radiation serial in
+symbol radIn = d.0	'radiation serial in
 symbol radOut = d.1	'radiation serial out, can be switched with above pin
 
 symbol lightCS = d.3
@@ -134,9 +134,13 @@ symbol RXMode = %111
 #ifdef oscFreq8
 symbol lightcountT = 10
 symbol temppause = 750
+symbol irdBaud = n9600_8
+symbol irdWait = 1000
 #else
 symbol lightcountT = 80
 symbol temppause = 6000
+symbol irdBaud = n9600_64
+symbol irdWait = 8000
 #endif
 
 '########
@@ -156,11 +160,12 @@ symbol AltThresholdLowC = 120
 'no commands can be stored on or past 0xF8
 table 0x80,("PINGftnjqw")	'ping command and pwd
 table ("CDWNtqnhgr")		'cutdown command and pwd
+table ("FILMg3Ger3")
 table ("IRDOhyxapr")
 table ("IRDFh7wv7k")
 table ("SHUTp1cX7W")
 table ("TESTN86GhH")
-table ("FILMg3Ger3")		'blanking
+				'blanking
 table ("XXXXXXXXXX")
 table ("XXXXXXXXXX")
 table ("XXXXXXXXXX")
@@ -424,13 +429,13 @@ if b0 <> 0 then
 	sertxd("R alt: ",#w10,cr,lf)
 	
 	if w25 > w10 then			'new highest alt
-		sertxd("W alt: ",#w25,cr,lf)
+		sertxd("W alt ",#w25,cr,lf)
 		write MaxAltitudelROM,b50
 		write MAXAltitudehROM,b51
 		w10 = w25
 	else
 		w11 = w10 - w25
-		sertxd("fallen: ",#w11,cr,lf)
+		sertxd("fall ",#w11,cr,lf)
 		if w11 >= altfallingdistance then
 			if w25 >= altthresholdhigh then
 				read camtopboolrom,b26
@@ -501,7 +506,7 @@ endif
 
 read AboutToLand,b55
 'b55 = 1			'REMOVE LATER!!!!!
-sertxd("r land: ",#b55,cr,lf)
+sertxd("r land ",#b55,cr,lf)
 
 if b55 >= AboutToLandCntMax then
 	b55 = 0
@@ -783,10 +788,33 @@ gosub writecomma
 
 
 'ird1
+w5 = 0
+w6 = 0
+serout radIn,irdBaud,("C1")
+
+serin [irdWait,irddone],radOut,irdBaud,("##"),b10,b11,b22,b23
+
+irddone:
+
+gosub bintohex
+
+b10 = ramptr
+ramptr = ramptr + 4
+b11 = 0
+b12 = 3
+gosub RTCRAMWriteMany
+
 gosub writecomma
-
-
 'ird2
+w5 = w11
+gosub bintohex
+b10 = ramptr
+ramptr = ramptr + 4
+b11 = 0
+b12 = 3
+gosub RTCRAMWriteMany
+
+
 gosub writecomma
 
 
@@ -1040,7 +1068,7 @@ pause 100
 'read status
 b10 = _RDSR
 gosub FlashRead_byte
-sertxd("#####fs: ",#b0)
+sertxd("fs ",#b0)
 
 
 'increment and write counter
@@ -1189,8 +1217,8 @@ do while ptr < 254
 		b15 = b15 / 10
 		
 	
-		branch b15,(pingcmd,cdwncmd,null,null,null,null,filmcmd)
-		null:
+		branch b15,(pingcmd,cdwncmd,filmcmd)
+		
 		return
 	endif	
 
