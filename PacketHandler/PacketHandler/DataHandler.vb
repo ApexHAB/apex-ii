@@ -79,7 +79,7 @@ Public Class DataHandler
 
         Next
 
-        Dim kv1 As New KeyValuePair(Of String, Double)("altitude", frame.Altitude)
+        Dim kv1 As New KeyValuePair(Of String, Double)("altitude", CDbl(frame.Altitude))
         AddKVPair(kv1, dt)
 
         kv1 = New KeyValuePair(Of String, Double)("sats", frame.Sats)

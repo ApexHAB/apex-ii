@@ -10,7 +10,7 @@ Public Class MainFrm
     ' Private Interfaces As New Collection()      'used to hold interfaceParents
     Private Interfaces As New List(Of InterfaceParent)
     Private Frames As New Collection()      'stores for the purpose of what order frames arrived in
-    Private testingXMLPath = ""
+    Private testingXMLPath As String = ""
     Dim interStatus As InterfaceStatus
     Dim graphs As Graphs
 
