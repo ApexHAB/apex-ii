@@ -37,73 +37,73 @@ Public Class Graphs
 
     Public Sub DisplayData(ByVal data As DataHandler)
 
-        Try
+        '   Try
 
-            For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
-                If kv.Key.ToLower.Contains("temp") Then
-                    DisplayDataAddSeries("temp", "Temperature /C")
-                    DisplayDataAddData("temp", kv, data)
+        For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
+            If kv.Key.ToLower.Contains("temp") Then
+                DisplayDataAddSeries("temp", "Temperature /C")
+                DisplayDataAddData("temp", kv, data)
 
-                ElseIf kv.Key.ToLower.Contains("ird") Then
-                    DisplayDataAddSeries("ird", "IRD Counts")
-                    DisplayDataAddData("ird", kv, data)
+            ElseIf kv.Key.ToLower.Contains("ird") Then
+                DisplayDataAddSeries("ird", "IRD Counts")
+                DisplayDataAddData("ird", kv, data)
 
-                Else
+            Else
 
-                    If Not chpnl.Controls.ContainsKey(kv.Key) Then
-                        Dim chtuc As New GraphUC("", kv.Key)
-                        chtuc.Name = kv.Key
-                        chtuc.Location = New System.Drawing.Point(3, 214 * chpnl.Controls.Count)
-                        chpnl.Controls.Add(chtuc)
-                    End If
-
-                    Dim graphuc As GraphUC = chpnl.Controls(kv.Key)
-
-                    If data.ValuesChanged Is Nothing Then
-                        graphuc.DisplayData(kv.Value)
-                    Else
-                        graphuc.DisplayAdd(data.ValuesChanged(kv.Key))
-                    End If
-
+                If Not chpnl.Controls.ContainsKey(kv.Key) Then
+                    Dim chtuc As New GraphUC("", kv.Key)
+                    chtuc.Name = kv.Key
+                    chtuc.Location = New System.Drawing.Point(3, 214 * chpnl.Controls.Count)
+                    chpnl.Controls.Add(chtuc)
                 End If
 
+                Dim graphuc As GraphUC = chpnl.Controls(kv.Key)
 
-            Next
-            data.ValuesChanged = Nothing
+                If data.ValuesChanged Is Nothing Then
+                    graphuc.DisplayData(kv.Value)
+                Else
+                    graphuc.DisplayAdd(data.ValuesChanged(kv.Key))
+                End If
+
+            End If
 
 
-            'Dim comp As New seriescomparer
+        Next
+        data.ValuesChanged = Nothing
 
-            'For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
-            '    If kv.Key = "altitude" Then
-            '        If Not Chart1.Series.Contains(New Series(kv.Key), comp) Then
-            '            Dim ser As New Series
-            '            Dim cha As New ChartArea
-            '            Dim leg As New Legend
-            '            cha.Name = "CA_" & kv.Key
-            '            Chart1.ChartAreas.Add(cha)
-            '            leg.Name = "LEG_" & kv.Key
-            '            Chart1.Legends.Add(leg)
 
-            '            ser.ChartArea = "CA_" & kv.Key
-            '            ser.ChartType = SeriesChartType.Line
-            '            ser.Legend = "LEG_" & kv.Key
+        'Dim comp As New seriescomparer
 
-            '            ser.Name = kv.Key
-            '            ser.XValueType = ChartValueType.Time
-            '            Chart1.Series.Add(ser)
-            '        End If
+        'For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
+        '    If kv.Key = "altitude" Then
+        '        If Not Chart1.Series.Contains(New Series(kv.Key), comp) Then
+        '            Dim ser As New Series
+        '            Dim cha As New ChartArea
+        '            Dim leg As New Legend
+        '            cha.Name = "CA_" & kv.Key
+        '            Chart1.ChartAreas.Add(cha)
+        '            leg.Name = "LEG_" & kv.Key
+        '            Chart1.Legends.Add(leg)
 
-            '        Chart1.Series(kv.Key).Points.Clear()
+        '            ser.ChartArea = "CA_" & kv.Key
+        '            ser.ChartType = SeriesChartType.Line
+        '            ser.Legend = "LEG_" & kv.Key
 
-            '        For Each kv1 As KeyValuePair(Of DateTime, Double) In kv.Value
-            '            Chart1.Series(kv.Key).Points.AddXY(kv1.Key, kv1.Value)
-            '        Next
-            '    End If
-            'Next
-        Catch ex As Exception
-            Me.Text = "Function not installed"
-        End Try
+        '            ser.Name = kv.Key
+        '            ser.XValueType = ChartValueType.Time
+        '            Chart1.Series.Add(ser)
+        '        End If
+
+        '        Chart1.Series(kv.Key).Points.Clear()
+
+        '        For Each kv1 As KeyValuePair(Of DateTime, Double) In kv.Value
+        '            Chart1.Series(kv.Key).Points.AddXY(kv1.Key, kv1.Value)
+        '        Next
+        '    End If
+        'Next
+        '  Catch ex As Exception
+        'Me.Text = "Function not installed"
+        '  End Try
 
 
 

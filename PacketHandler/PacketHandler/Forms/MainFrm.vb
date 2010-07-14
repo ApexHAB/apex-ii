@@ -18,19 +18,19 @@ Public Class MainFrm
 
 #Region "threading"
     'Delegate Sub popgraphdel(ByVal frame As Frame)
-    Delegate Sub UpdateGraphdel()
+    Delegate Sub UpdateGraphdel(ByVal data As DataHandler)
     Delegate Sub UpdateStatusDel()
     Delegate Sub AddtoRTBDel(ByVal text As String, ByVal colour As System.Drawing.Color, ByVal tabpagename As String)
     'Delegate Sub RecievedDel(ByVal output As String, ByVal InterfaceDetails As InterfaceSettings, ByVal ToCall As String, ByVal FromCall As String)
     'Delegate Sub AddFrameDel(ByVal Frame As Frame)
-    Private Sub UpdateGraph()
+    Private Sub UpdateGraph(ByVal data As DataHandler)
         If Not graphs Is Nothing Then
             If graphs.InvokeRequired Then
                 Dim del As New UpdateGraphdel(AddressOf UpdateGraph)
-                Me.Invoke(del)
+                Me.Invoke(del, data)
             Else
                 If Not graphs Is Nothing Then
-                    graphs.DisplayData(datahandler)
+                    graphs.DisplayData(data)
                 End If
             End If
 
@@ -416,7 +416,7 @@ Public Class MainFrm
                 ' AddHandler Interfaces(Interfaces.Count - 1).LineRecievedbyte, AddressOf LineReceivedByte
                 AddHandler Interfaces(Interfaces.Count - 1).LineRecievedStr, AddressOf LineReceivedStr
                 AddHandler Interfaces(Interfaces.Count - 1).InterfaceStatusChange, AddressOf iStatusChange
-                AddHandler Interfaces(Interfaces.Count - 1).updategraph, AddressOf UpdateGraph
+                AddHandler Interfaces(Interfaces.Count - 1).updategraph, AddressOf UpdateGraphb
             End If
         Next
 
@@ -426,7 +426,9 @@ Public Class MainFrm
     End Sub
 
 #End Region
-
+    Private Sub updategraphb()
+        UpdateGraph(datahandler)
+    End Sub
 
 
 #Region "packet recieved"
@@ -449,7 +451,7 @@ Public Class MainFrm
             ' If datahandler Is Nothing Then datahandler = New DataHandler(InterfaceDetails.PacketStructure)
             datahandler.AddFrame(frame)
 
-            If (Not graphs Is Nothing) And (bUpdateGraph = True) Then UpdateGraph()
+            If (Not graphs Is Nothing) And (bUpdateGraph = True) Then UpdateGraph(datahandler)
 
 
 
