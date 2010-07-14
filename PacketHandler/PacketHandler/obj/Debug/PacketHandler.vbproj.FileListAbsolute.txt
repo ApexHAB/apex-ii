@@ -29,24 +29,6 @@ C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MappointSettingsUC.resources
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.UplinkFrm.resources
 C:\Users\Matt\Documents\Visual Studio 2008\Projects\PacketHandler\PacketHandler\obj\Debug\PacketHandler.HUD_UC.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.exe
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.pdb
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.xml
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\Interop.MapPoint.dll
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\Interop.MapPoint.dll
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.vbproj.ResolveComReference.cache
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.HUD_UC.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.EditInterfaceSettings.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MainFrm.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.Resources.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.settingsFrm.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.UplinkFrm.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.read.1.tlog
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.write.1.tlog
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb
 F:\PacketHandler\PacketHandler\obj\Debug\Interop.MapPoint.dll
 F:\PacketHandler\PacketHandler\obj\Debug\PacketHandler.vbproj.ResolveComReference.cache
 F:\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
@@ -73,8 +55,6 @@ F:\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.read.1.tlog
 F:\PacketHandler\PacketHandler\obj\Debug\ResGen.read.1.tlog
 F:\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.write.1.tlog
 F:\PacketHandler\PacketHandler\obj\Debug\ResGen.write.1.tlog
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.read.1.tlog
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\GenerateResource-ResGen.write.1.tlog
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.exe
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.pdb
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.xml
@@ -95,9 +75,27 @@ C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatusUC.resources
-C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatus.resources
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatus.resources
 C:\Documents and Settings\Matt\My Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatusUC.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.exe
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.pdb
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.xml
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\Interop.MapPoint.dll
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\Interop.MapPoint.dll
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.vbproj.ResolveComReference.cache
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.Graphs.resources
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.GraphUC.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatus.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.HUD_UC.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.EditInterfaceSettings.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.MainFrm.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.InterfaceStatusUC.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.Resources.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.settingsFrm.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.UplinkFrm.resources
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.read.1.tlog
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.write.1.tlog
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb

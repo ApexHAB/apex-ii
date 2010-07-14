@@ -13,59 +13,97 @@ Public Class Graphs
         If Not data Is Nothing Then DisplayData(data)
     End Sub
 
+    Private Sub DisplayDataAddSeries(ByVal contains As String, ByVal yValue As String)
+        If Not chpnl.Controls.ContainsKey(contains) Then
+            Dim chtuc As New GraphUC("", yValue)
+            chtuc.Name = contains
+            chtuc.Location = New System.Drawing.Point(3, 214 * chpnl.Controls.Count)
+            chtuc.EnableMultiLines()
+
+            chpnl.Controls.Add(chtuc)
+        End If
+    End Sub
+
+    Private Sub DisplayDataAddData(ByVal seriesname As String, ByVal KV As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))), ByVal data As DataHandler)
+
+        Dim graphuc As GraphUC = chpnl.Controls(seriesname)
+
+        If Data.ValuesChanged Is Nothing Then
+            graphuc.DisplayDataMulti(KV.Value, KV.Key)
+        Else
+            graphuc.DisplayDataMultiAdd(Data.ValuesChanged(KV.Key), KV.Key)
+        End If
+    End Sub
+
     Public Sub DisplayData(ByVal data As DataHandler)
 
+        Try
 
-        For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
-            If Not chpnl.Controls.ContainsKey(kv.Key) Then
-                Dim chtuc As New GraphUC("", kv.Key)
-                chtuc.Name = kv.Key
-                chtuc.Location = New System.Drawing.Point(3, 214 * chpnl.Controls.Count)
-                chpnl.Controls.Add(chtuc)
-            End If
+            For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
+                If kv.Key.ToLower.Contains("temp") Then
+                    DisplayDataAddSeries("temp", "Temperature /C")
+                    DisplayDataAddData("temp", kv, data)
 
-            Dim graphuc As GraphUC = chpnl.Controls(kv.Key)
+                ElseIf kv.Key.ToLower.Contains("ird") Then
+                    DisplayDataAddSeries("ird", "IRD Counts")
+                    DisplayDataAddData("ird", kv, data)
 
-            If data.ValuesChanged Is Nothing Then
-                graphuc.DisplayData(kv.Value)
-            Else
-                graphuc.DisplayAdd(data.ValuesChanged(kv.Key))
-            End If
+                Else
 
-        Next
-        data.ValuesChanged = Nothing
+                    If Not chpnl.Controls.ContainsKey(kv.Key) Then
+                        Dim chtuc As New GraphUC("", kv.Key)
+                        chtuc.Name = kv.Key
+                        chtuc.Location = New System.Drawing.Point(3, 214 * chpnl.Controls.Count)
+                        chpnl.Controls.Add(chtuc)
+                    End If
+
+                    Dim graphuc As GraphUC = chpnl.Controls(kv.Key)
+
+                    If data.ValuesChanged Is Nothing Then
+                        graphuc.DisplayData(kv.Value)
+                    Else
+                        graphuc.DisplayAdd(data.ValuesChanged(kv.Key))
+                    End If
+
+                End If
 
 
-        'Dim comp As New seriescomparer
+            Next
+            data.ValuesChanged = Nothing
 
-        'For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
-        '    If kv.Key = "altitude" Then
-        '        If Not Chart1.Series.Contains(New Series(kv.Key), comp) Then
-        '            Dim ser As New Series
-        '            Dim cha As New ChartArea
-        '            Dim leg As New Legend
-        '            cha.Name = "CA_" & kv.Key
-        '            Chart1.ChartAreas.Add(cha)
-        '            leg.Name = "LEG_" & kv.Key
-        '            Chart1.Legends.Add(leg)
 
-        '            ser.ChartArea = "CA_" & kv.Key
-        '            ser.ChartType = SeriesChartType.Line
-        '            ser.Legend = "LEG_" & kv.Key
+            'Dim comp As New seriescomparer
 
-        '            ser.Name = kv.Key
-        '            ser.XValueType = ChartValueType.Time
-        '            Chart1.Series.Add(ser)
-        '        End If
+            'For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
+            '    If kv.Key = "altitude" Then
+            '        If Not Chart1.Series.Contains(New Series(kv.Key), comp) Then
+            '            Dim ser As New Series
+            '            Dim cha As New ChartArea
+            '            Dim leg As New Legend
+            '            cha.Name = "CA_" & kv.Key
+            '            Chart1.ChartAreas.Add(cha)
+            '            leg.Name = "LEG_" & kv.Key
+            '            Chart1.Legends.Add(leg)
 
-        '        Chart1.Series(kv.Key).Points.Clear()
+            '            ser.ChartArea = "CA_" & kv.Key
+            '            ser.ChartType = SeriesChartType.Line
+            '            ser.Legend = "LEG_" & kv.Key
 
-        '        For Each kv1 As KeyValuePair(Of DateTime, Double) In kv.Value
-        '            Chart1.Series(kv.Key).Points.AddXY(kv1.Key, kv1.Value)
-        '        Next
-        '    End If
-        'Next
+            '            ser.Name = kv.Key
+            '            ser.XValueType = ChartValueType.Time
+            '            Chart1.Series.Add(ser)
+            '        End If
 
+            '        Chart1.Series(kv.Key).Points.Clear()
+
+            '        For Each kv1 As KeyValuePair(Of DateTime, Double) In kv.Value
+            '            Chart1.Series(kv.Key).Points.AddXY(kv1.Key, kv1.Value)
+            '        Next
+            '    End If
+            'Next
+        Catch ex As Exception
+            Me.Text = "Function not installed"
+        End Try
 
 
 
@@ -85,17 +123,4 @@ Public Class Graphs
     Private Sub Graphs_SizeChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.SizeChanged
         chpnl.Size = New System.Drawing.Size(chpnl.Width, Me.Height - 38) ' = Me.Height - 60
     End Sub
-End Class
-
-Class seriescomparer
-    Implements IEqualityComparer(Of Series)
-
-    Public Function Equals1(ByVal x As System.Windows.Forms.DataVisualization.Charting.Series, ByVal y As System.Windows.Forms.DataVisualization.Charting.Series) As Boolean Implements System.Collections.Generic.IEqualityComparer(Of System.Windows.Forms.DataVisualization.Charting.Series).Equals
-        If x.Name = y.Name Then Return True
-        Return False
-    End Function
-
-    Public Function GetHashCode1(ByVal obj As System.Windows.Forms.DataVisualization.Charting.Series) As Integer Implements System.Collections.Generic.IEqualityComparer(Of System.Windows.Forms.DataVisualization.Charting.Series).GetHashCode
-        Return obj.ToString.GetHashCode
-    End Function
 End Class

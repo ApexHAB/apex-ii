@@ -23,6 +23,7 @@ Partial Class GraphUC
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
         Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Dim Title1 As System.Windows.Forms.DataVisualization.Charting.Title = New System.Windows.Forms.DataVisualization.Charting.Title()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -46,11 +47,15 @@ Partial Class GraphUC
         ChartArea1.AxisY.Title = "moo"
         ChartArea1.Name = "ChartArea1"
         Me.chtData.ChartAreas.Add(ChartArea1)
+        Legend1.Enabled = False
+        Legend1.Name = "Legend1"
+        Me.chtData.Legends.Add(Legend1)
         Me.chtData.Location = New System.Drawing.Point(3, 3)
         Me.chtData.Margin = New System.Windows.Forms.Padding(0)
         Me.chtData.Name = "chtData"
         Series1.ChartArea = "ChartArea1"
         Series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
+        Series1.Legend = "Legend1"
         Series1.Name = "Series1"
         Series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time
         Series1.YValuesPerPoint = 6

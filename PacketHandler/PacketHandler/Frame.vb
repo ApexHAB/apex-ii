@@ -605,20 +605,31 @@ Public Class Frame
         green = green / (2 ^ (3 * 4))
         blue = blue / (2 ^ (1 * 4))
 
-        If scaling = 1 Then
-            For i As Integer = 0 To 3
-                output(i) = output(1) * 50
-            Next
-        ElseIf scaling = 2 Then
-            For i As Integer = 0 To 3
-                output(i) = output(1) * 5
-            Next
-        End If
-
         output(0) = clear
         output(1) = red
         output(2) = green
         output(3) = blue
+
+
+        If scaling = 1 Then
+            For i As Integer = 0 To 3
+                output(i) = output(i) * 50
+            Next
+        ElseIf scaling = 2 Then
+            For i As Integer = 0 To 3
+                output(i) = output(i) * 5
+            Next
+        ElseIf scaling = 4 Then
+            For i As Integer = 0 To 3
+                output(i) = output(i) / 10
+            Next
+        ElseIf scaling = 5 Then
+            For i As Integer = 0 To 3
+                output(i) = output(i) / 100
+            Next
+        End If
+
+
 
         Return output
 

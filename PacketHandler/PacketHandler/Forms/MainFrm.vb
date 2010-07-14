@@ -525,35 +525,41 @@ Public Class MainFrm
 
 
     Private Sub MainFrm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim i As New InterfaceSettings
-        i.InterfaceName = "Manual"
-        i.InterfaceType = InterfaceTypes.BLANK
-        Interfaces.Add(New InterfaceParent(i))
-
         Try
 
-            If System.IO.File.Exists(RunningDir & "\settings.xml") Then
-                Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
-                Dim reader As New System.IO.StreamReader(RunningDir + "\settings.xml")
+            Dim i As New InterfaceSettings
+            i.InterfaceName = "Manual"
+            i.InterfaceType = InterfaceTypes.BLANK
+            Interfaces.Add(New InterfaceParent(i))
 
-                GlobalSettings_ = ser.Deserialize(reader)
+            Try
 
-                reader.Close()
-            End If
+                If System.IO.File.Exists(RunningDir & "\settings.xml") Then
+                    Dim ser As New System.Xml.Serialization.XmlSerializer(GetType(GlobalSettings))
+                    Dim reader As New System.IO.StreamReader(RunningDir + "\settings.xml")
 
-        Catch ex As Exception
+                    GlobalSettings_ = ser.Deserialize(reader)
 
-            ErrorMessages = ErrorMessages & "File Load Error" & vbCrLf
+                    reader.Close()
+                End If
 
+            Catch ex As Exception
+
+                ErrorMessages = ErrorMessages & "File Load Error" & vbCrLf
+
+            End Try
+
+            UpdateInterfaces()
+            UpdateForm()
+
+
+            For Each i_ As InterfaceSettings In GlobalSettings_.Interfaces
+                i_.PacketStructure.LoadXML(i.XMLStructurePath)
+            Next
+
+        Catch
+            MsgBox("Error has happened. Error code - bollocks")
         End Try
-
-        UpdateInterfaces()
-        UpdateForm()
-
-
-        For Each i_ As InterfaceSettings In GlobalSettings_.Interfaces
-            i_.PacketStructure.LoadXML(i.XMLStructurePath)
-        Next
     End Sub
 
 
