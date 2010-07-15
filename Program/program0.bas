@@ -133,11 +133,14 @@ symbol RXMode = %111
 
 #ifdef oscFreq8
 symbol lightcountT = 10
+symbol lightcountTl = 100
+
 symbol temppause = 750
 symbol irdBaud = n9600_8
 symbol irdWait = 1000
 #else
 symbol lightcountT = 80
+symbol lightcountTl = 800
 symbol temppause = 6000
 symbol irdBaud = n9600_64
 symbol irdWait = 8000
@@ -188,19 +191,26 @@ serrxd [32000,main],("C")
 
 run 2
 
-
+setfreq em64
+'sertxd("Rst")
 
 
 main:
-setfreq m8
 
+settimer 49110				' 1 second major tick
+timer = 65415 				' preload to 120 tick
+toflag = 0
+setintflags %10000000,%10000000	' interrupt on toflag
 
+sertxd("Rst2")
 #ifdef oscFreq64
 setfreq em64
+#else
+'setfreq m8
 #endif
 'gosub RTCRAMClear
 
-
+sertxd("x ",#b37)
 
 'write packet start
 
@@ -256,12 +266,13 @@ gosub WriteComma
 
 'turn on radio
 
-
+sertxd("f ",#b37)
+hsersetup off
 high radiocsrx
 low radiocstx
 hsersetup TXBauds, TXMode
 
-
+sertxd("c ",#b37)
 
 'GET GPS (time)
 
@@ -506,30 +517,30 @@ endif
 
 read AboutToLand,b55
 'b55 = 1			'REMOVE LATER!!!!!
-sertxd("r land ",#b55,cr,lf)
+sertxd("r land ",#b55," ")
 
 if b55 >= AboutToLandCntMax then
 	b55 = 0
-	sertxd("TXT",cr,lf)
+	sertxd("TXT ")
 	'text start sequence
 
 	setfreq m8
 	
-	serout phoneMOSI,N2400,("ATZ",cr,lf)
-	serin [1000,phonefail],phoneMISO,n2400,("OK")
-	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
-	serin [1000,phonefail],phoneMISO,n2400,("OK")
-	serout phoneMOSI,N2400,("AT+CMGS=",34)
+'	serout phoneMOSI,N2400,("ATZ",cr,lf)
+'	serin [1000,phonefail],phoneMISO,n2400,("OK")
+'	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
+'	serin [1000,phonefail],phoneMISO,n2400,("OK")
+'	serout phoneMOSI,N2400,("AT+CMGS=",34)
 	
 	b10 = phonectr % 3
 	phonectr = phonectr + 1
 	select case b10
 		case 0
-			serout phoneMOSI,N2400,("07922123456")
-		case 1
-			serout phoneMOSI,N2400,("07922123457")
-		case 2
-			serout phoneMOSI,N2400,("07922123458")
+	'		serout phoneMOSI,N2400,("07922123456")
+	'	case 1
+	'		serout phoneMOSI,N2400,("07922123457")
+	'	case 2
+	'		serout phoneMOSI,N2400,("07922123458")
 	end select
 	serout phoneMOSI,N2400,(34,cr,lf)
 	
@@ -823,10 +834,11 @@ gosub writecomma
 
 
 'check light
-
+low lightCS
 high lightS2
 low lightS3
-
+w10 = lightcountT
+b26 = 0
 for b25 = 1 to 3
 
 	
@@ -837,20 +849,41 @@ for b25 = 1 to 3
 	b16 = b25 AND %10
 	if b16 = %10 then : high lightS0 endif
 	
-	low lightCS
-	pause lightcountT
-	count lightout,lightcountT,b17
-	high lightCS
 	
-	if b17 > 40 then highenough
-	if b25 = 3 then highenough
+	
+	count lightout,lightcountT,w9
+
+	
+	if w9 > 40 then highenough
+	if b25 = 3 then
+		'sertxd("I ",#w9)
+		
+		count lightout,lightcountTl,w9
+		w10 = lightcountTl
+		if w9 =< 2 then
+			b26 = 1
+			w10 = lightcountTl * 100
+			goto highenough
+		endif
+		
+		if w9 =< 20 then
+			b26 = 1
+			w10 = lightcountTl * 10
+			goto highenough
+		endif
+		
+
+		
+	
+		goto highenough
+	endif 
 
 
 next
 
 highenough:
-low a.4
-pause 100
+
+count lightout,w10,b17
 'sertxd("scale - ",#b25,cr,lf)
 'sertxd("red - ",#b17,cr,lf)
 
@@ -858,12 +891,12 @@ b11 = b17
 
 low lightS2
 low lightS3
-low lightCS
+
 pause 20
-count lightout,lightcountT,b10
+count lightout,w10,b10
 high lightCS
-low a.4
-pause 100
+
+
 'sertxd("red - ",#b10,cr,lf)
 
 gosub bintohex
@@ -874,32 +907,35 @@ b11 = 0
 b12 = 3
 gosub RTCRAMWriteMany
 
+low lightCS
+
 b16 = b25 AND 1					'lightS0 is shared by clk so restore value
 if b16 = 1 then : high lights1 endif
 
 high lightS2
 high lightS3
-low lightCS
-pause 20
-count lightout,lightcountT,b11
-high lightCS
-low a.4
-pause 100
+
+
+count lightout,w10,b11
+
+
+
 'sertxd("grn - ",#b11,cr,lf)
 
 low lightS2
 high lightS3
-low lightCS
-pause 20
-count lightout,lightcountT,b10
+
+
+count lightout,w10,b10
 high lightCS
-low a.4
-pause 100
+
+
 'sertxd("blue - ",#b10,cr,lf)
 
 gosub bintohex
 
 b4 = b25 + 48
+b4 = b4 + b26
 b10 = ramptr
 ramptr = ramptr + 5
 b11 = 0
@@ -911,9 +947,15 @@ DirsA = DirsA AND %11110111
 
 
 
+
+
+
+
+
+
 'check humidity
 
-gosub writecomma
+'gosub writecomma
 
 
 
@@ -2135,4 +2177,14 @@ for b48 = b46 to b47
 next
 
 
+return
+
+interrupt:
+	timer = 65415
+	toflag = 0
+	sertxd("###IPT######################################")
+
+	setintflags %10000000,%10000000
+	pause 100
+	reset
 return

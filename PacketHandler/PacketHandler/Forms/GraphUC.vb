@@ -18,7 +18,7 @@ Public Class GraphUC
 
 
         chtData.Series("Series1").Points.Clear()
-        For Each kv As KeyValuePair(Of DateTime, Double) In data
+        For Each kv As KeyValuePair(Of DateTime, Double) In data            '#something is wrong with this 
             chtData.Series("Series1").Points.AddXY(kv.Key, kv.Value)
         Next
 
@@ -29,6 +29,7 @@ Public Class GraphUC
         AddSeries(seriesname)
 
         chtData.Series(seriesname).Points.Clear()
+
         For Each kv As KeyValuePair(Of DateTime, Double) In data
             chtData.Series(seriesname).Points.AddXY(kv.Key, kv.Value)
         Next
@@ -47,6 +48,11 @@ Public Class GraphUC
         If Not chtData.Series.Contains(New Series(seriesname), comp) Then
             Dim series1 As New Series
             series1.ChartArea = "ChartArea1"
+            If seriesname.ToLower.Contains("red") Then series1.Color = Color.Red
+            If seriesname.ToLower.Contains("green") Then series1.Color = Color.Green
+            If seriesname.ToLower.Contains("blue") Then series1.Color = Color.Blue
+            If seriesname.ToLower.Contains("clear") Then series1.Color = Color.Gray
+
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line
             series1.Legend = "Legend1"
             series1.Name = seriesname

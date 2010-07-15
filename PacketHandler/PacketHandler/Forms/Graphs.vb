@@ -28,47 +28,53 @@ Public Class Graphs
 
         Dim graphuc As GraphUC = chpnl.Controls(seriesname)
 
-        If Data.ValuesChanged Is Nothing Then
+        If data.ValuesChanged Is Nothing Then
+
             graphuc.DisplayDataMulti(KV.Value, KV.Key)
         Else
-            graphuc.DisplayDataMultiAdd(Data.ValuesChanged(KV.Key), KV.Key)
+            If data.ValuesChanged.ContainsKey(KV.Key) Then graphuc.DisplayDataMultiAdd(data.ValuesChanged(KV.Key), KV.Key)
         End If
+
     End Sub
 
     Public Sub DisplayData(ByVal data As DataHandler)
 
-        '   Try
+        Try
 
-        For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
-            If kv.Key.ToLower.Contains("temp") Then
-                DisplayDataAddSeries("temp", "Temperature /C")
-                DisplayDataAddData("temp", kv, data)
+            For Each kv As KeyValuePair(Of String, List(Of KeyValuePair(Of DateTime, Double))) In data.Values
+                If kv.Key.ToLower.Contains("temp") Then
+                    DisplayDataAddSeries("temp", "Temperature /C")
+                    DisplayDataAddData("temp", kv, data)
 
-            ElseIf kv.Key.ToLower.Contains("ird") Then
-                DisplayDataAddSeries("ird", "IRD Counts")
-                DisplayDataAddData("ird", kv, data)
+                ElseIf kv.Key.ToLower.Contains("ird") Then
+                    DisplayDataAddSeries("ird", "IRD Counts")
+                    DisplayDataAddData("ird", kv, data)
 
-            Else
+                ElseIf kv.Key.ToLower.Contains("light") Then
+                    DisplayDataAddSeries("light", "Light Level")
+                    DisplayDataAddData("light", kv, data)
 
-                If Not chpnl.Controls.ContainsKey(kv.Key) Then
-                    Dim chtuc As New GraphUC("", kv.Key)
-                    chtuc.Name = kv.Key
-                    chtuc.Location = New System.Drawing.Point(3, 214 * chpnl.Controls.Count)
-                    chpnl.Controls.Add(chtuc)
-                End If
-
-                Dim graphuc As GraphUC = chpnl.Controls(kv.Key)
-
-                If data.ValuesChanged Is Nothing Then
-                    graphuc.DisplayData(kv.Value)
                 Else
-                    graphuc.DisplayAdd(data.ValuesChanged(kv.Key))
+
+                    If Not chpnl.Controls.ContainsKey(kv.Key) Then
+                        Dim chtuc As New GraphUC("", kv.Key)
+                        chtuc.Name = kv.Key
+                        chtuc.Location = New System.Drawing.Point(3, 214 * chpnl.Controls.Count)
+                        chpnl.Controls.Add(chtuc)
+                    End If
+
+                    Dim graphuc As GraphUC = chpnl.Controls(kv.Key)
+
+                    If data.ValuesChanged Is Nothing Then
+                        graphuc.DisplayData(kv.Value)
+                    Else
+                        If data.ValuesChanged.ContainsKey(kv.Key) Then graphuc.DisplayAdd(data.ValuesChanged(kv.Key))
+                    End If
+
+
                 End If
 
-            End If
-
-
-        Next
+            Next
         data.ValuesChanged = Nothing
 
 
@@ -101,9 +107,9 @@ Public Class Graphs
         '        Next
         '    End If
         'Next
-        '  Catch ex As Exception
-        'Me.Text = "Function not installed"
-        '  End Try
+        Catch ex As Exception
+
+        End Try
 
 
 

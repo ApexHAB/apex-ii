@@ -99,3 +99,7 @@ C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\ResGen.write.
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.xml
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.pdb
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.exe.manifest
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler.application
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe.manifest
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.application
