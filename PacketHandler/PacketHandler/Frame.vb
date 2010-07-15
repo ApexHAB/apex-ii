@@ -531,7 +531,7 @@ Public Class Frame
                                         Double.TryParse(fields(i), tempdoub)
                                         tempdoub = tempdoub * packetStructure_.GetField(i).ScaleFactor
                                         tempdoub = tempdoub + packetStructure_.GetField(i).Offset
-                                        Pdata_.Add(packetStructure_.GetField(i).FieldName, tempdoub)
+                                        Pdata_.Add(packetStructure_.GetField(i).FieldName, Math.Round(tempdoub, packetStructure_.GetField(i).DP))
                                 End Select
 
                             End If

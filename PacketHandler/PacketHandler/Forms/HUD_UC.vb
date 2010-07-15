@@ -206,6 +206,9 @@
 
             dgvData.Rows.Add(a)
         Next
+        a(0) = "Sats"
+        a(1) = FrameDisplaying.Sats
+        dgvData.Rows.Add(a)
 
 
 

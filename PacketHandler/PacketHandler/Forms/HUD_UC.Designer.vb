@@ -195,7 +195,7 @@ Partial Class HUD_UC
         'lbcomm
         '
         Me.lbcomm.AutoSize = True
-        Me.lbcomm.Location = New System.Drawing.Point(14, 165)
+        Me.lbcomm.Location = New System.Drawing.Point(14, 158)
         Me.lbcomm.Name = "lbcomm"
         Me.lbcomm.Size = New System.Drawing.Size(0, 13)
         Me.lbcomm.TabIndex = 18
