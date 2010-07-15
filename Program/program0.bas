@@ -192,14 +192,14 @@ high lightcs
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 
 setfreq em64
-
+b36 = 1
 serrxd [32000,main],("C")
 
 run 2
 
-setfreq em64
+
 'sertxd("Rst")
-b36 = 1
+
 
 main:
 
@@ -985,6 +985,7 @@ if b55 > 0 then
 endif
 endif
 
+
 if b36 > 0 then
 
 	
@@ -1007,6 +1008,7 @@ endif
 
 
 'camera thing
+sertxd("### 35: ",#b35,cr,lf)
 
 if b35 > 0 then
 	b35 = b35 - 1
