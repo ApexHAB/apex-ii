@@ -138,12 +138,17 @@ symbol lightcountTl = 100
 symbol temppause = 750
 symbol irdBaud = n9600_8
 symbol irdWait = 1000
+
+symbol phoneBaud = t9600_8
+symbol phonetimeout = 1000
 #else
 symbol lightcountT = 80
 symbol lightcountTl = 800
 symbol temppause = 6000
 symbol irdBaud = n9600_64
 symbol irdWait = 8000
+symbol phoneBaud = t9600_64
+symbol phonetimeout = 8000
 #endif
 
 '########
@@ -164,12 +169,13 @@ symbol AltThresholdLowC = 120
 table 0x80,("PINGftnjqw")	'ping command and pwd
 table ("CDWNtqnhgr")		'cutdown command and pwd
 table ("FILMg3Ger3")
+table ("RESTt6gdEr")
 table ("IRDOhyxapr")
 table ("IRDFh7wv7k")
 table ("SHUTp1cX7W")
 table ("TESTN86GhH")
 				'blanking
-table ("XXXXXXXXXX")
+
 table ("XXXXXXXXXX")
 table ("XXXXXXXXXX")
 table ("XXXXXXXXXX")
@@ -193,12 +199,12 @@ run 2
 
 setfreq em64
 'sertxd("Rst")
-
+b36 = 1
 
 main:
 
 settimer 49110				' 1 second major tick
-timer = 65415 				' preload to 120 tick
+timer = 65315 				' preload to 120 tick
 toflag = 0
 setintflags %10000000,%10000000	' interrupt on toflag
 
@@ -524,34 +530,32 @@ if b55 >= AboutToLandCntMax then
 	sertxd("TXT ")
 	'text start sequence
 
-	setfreq m8
 	
-'	serout phoneMOSI,N2400,("ATZ",cr,lf)
-'	serin [1000,phonefail],phoneMISO,n2400,("OK")
-'	serout phoneMOSI,N2400,("AT+CSCA=",34,"+447802092035",34,cr,lf)
-'	serin [1000,phonefail],phoneMISO,n2400,("OK")
-'	serout phoneMOSI,N2400,("AT+CMGS=",34)
+	
+'	serout phoneMOSI,phoneBaud,("ATZ",cr,lf)
+'	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,("OK")
+'	serout phoneMOSI,phoneBaud,("AT+CSCA=",34,"+447802092035",34,cr,lf)
+'	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,("OK")
+'	serout phoneMOSI,phoneBaud,("AT+CMGS=",34)
 	
 	b10 = phonectr % 3
 	phonectr = phonectr + 1
 	select case b10
 		case 0
-	'		serout phoneMOSI,N2400,("07922123456")
+	'		serout phoneMOSI,phoneBaud,("07922123456")
 	'	case 1
-	'		serout phoneMOSI,N2400,("07922123457")
+	'		serout phoneMOSI,phoneBaud,("07922123457")
 	'	case 2
-	'		serout phoneMOSI,N2400,("07922123458")
+	'		serout phoneMOSI,phoneBaud,("07922123458")
 	end select
-	serout phoneMOSI,N2400,(34,cr,lf)
+	serout phoneMOSI,phoneBaud,(34,cr,lf)
 	
-	serin [1000,phonefail],phoneMISO,n2400,(">")
+	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,(">")
 
 	
 	b55 = AboutToLandCntMax
 	phonefail:
-	#ifdef oscFreq16
-		setfreq em64
-	#endif
+
 	
 endif
 
@@ -580,15 +584,12 @@ b13 = b12 - b11
 b13 = b13 + 1
 
 if b55 >= AboutToLandCntMax then
-	setfreq m8
+
 	for b21 = b11 to b12
 		peek b21,b22
-		serout phoneMOSI,N2400,(b22)
+		serout phoneMOSI,phoneBaud,(b22)
 	next 
-	serout phoneMOSI,N2400,(",")
-	#ifdef oscFreq16
-		setfreq em64
-	#endif
+
 endif	
 if b20 < 30 then	
 	ramptr = ramptr + b13
@@ -621,15 +622,13 @@ b13 = b12 - b11
 b13 = b13 + 1
 
 if b55 >= AboutToLandCntMax then
-	setfreq m8
+	
 	for b21 = b11 to b12
 		peek b21,b22
-		serout phoneMOSI,N2400,(b22)
+		serout phoneMOSI,phoneBaud,(b22)
 	next
-	serout phoneMOSI,N2400,(",")
-	#ifdef oscFreq16
-		setfreq em64
-	#endif
+	serout phoneMOSI,phoneBaud,(",")
+
 endif	
 if b20 < 30 then	
 	ramptr = ramptr + b13
@@ -652,12 +651,12 @@ b11 = RAMAltEnd - b13
 b11 = b11 + 1
 b12 = RAMaltEnd
 if b55 >= AboutToLandCntMax then
-	setfreq m8
+
 	for b21 = b11 to b12
 		peek b21,b22
-		serout phoneMOSI,N2400,(b22)
+		serout phoneMOSI,phoneBaud,(b22)
 	next
-	serout phoneMOSI,N2400,(26)
+	serout phoneMOSI,phoneBaud,(26)
 
 endif	
 if b20 < 30 then	
@@ -668,9 +667,7 @@ gosub writecomma
 
 
 
-	#ifdef oscFreq16
-		setfreq em64
-	#endif
+
 
 
 
@@ -861,7 +858,7 @@ for b25 = 1 to 3
 		count lightout,lightcountTl,w9
 		w10 = lightcountTl
 		if w9 =< 2 then
-			b26 = 1
+			b26 = 2
 			w10 = lightcountTl * 100
 			goto highenough
 		endif
@@ -988,10 +985,37 @@ if b55 > 0 then
 endif
 endif
 
+if b36 > 0 then
+
+	
+	b19 = ","
+	b20 = "R"
+	b21 = "T"
+	b10 = ramptr
+	ramptr = ramptr + 3
+	b11 = 19
+	b12 = 21
+	gosub RTCRAMwritemany
+	b36 = 0
+
+endif
+
 
 'turn off RX/hserin
 
 
+
+
+'camera thing
+
+if b35 > 0 then
+	b35 = b35 - 1
+	if b35 = 0 then
+		low cam1
+		low cam2
+	endif
+
+endif
 
 
 
@@ -1245,13 +1269,14 @@ do while ptr < 254
 	if b18 = 10 then
 	
 		'reply to hte command
-		b21 = b15 + 4
+		b21 = b15 + 3
 		gosub writecomma
 		for b20 = b15 to b21
 			readtable b20,b11
 			b10 = ramptr
 			ramptr = ramptr + 1
 			gosub RTCRAMWriteSingle
+		
 			
 		next
 	
@@ -1259,7 +1284,7 @@ do while ptr < 254
 		b15 = b15 / 10
 		
 	
-		branch b15,(pingcmd,cdwncmd,filmcmd)
+		branch b15,(pingcmd,cdwncmd,filmcmd,rstcmd)
 		
 		return
 	endif	
@@ -1275,29 +1300,26 @@ return
 pingcmd:
 
 
-b10 = ramptr
-ramptr = ramptr + 5
-b11 = 20
-b12 = 24
-gosub RTCRAMWriteMany
+
 'sertxd("OMG IT WORKED :O",cr,lf)
 
 return
 
 cdwncmd:
-
+high FET1
 high FET2
-pause 500
+pause 8000
 low FET2
+low FET1
 
 
 
-b10 = ramptr
-ramptr = ramptr + 5
-b11 = 20
-b12 = 24
-gosub RTCRAMWriteMany
 
+
+return
+
+rstcmd:
+reset
 return
 
 #rem
@@ -1369,16 +1391,10 @@ filmcmd:
 
 high Cam1
 high cam2
-pause 200
-low cam1
-low cam2
+b35 = 5
 
 
-b10 = ramptr
-ramptr = ramptr + 5
-b11 = 20
-b12 = 24
-gosub RTCRAMWriteMany
+
 
 return
 
@@ -2180,9 +2196,9 @@ next
 return
 
 interrupt:
-	timer = 65415
+	timer = 65315
 	toflag = 0
-	sertxd("###IPT######################################")
+	sertxd("IPT")
 
 	setintflags %10000000,%10000000
 	pause 100

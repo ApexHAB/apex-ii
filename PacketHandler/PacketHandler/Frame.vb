@@ -621,11 +621,11 @@ Public Class Frame
             Next
         ElseIf scaling = 4 Then
             For i As Integer = 0 To 3
-                output(i) = output(i) / 10
+                output(i) = output(i) / 100
             Next
         ElseIf scaling = 5 Then
             For i As Integer = 0 To 3
-                output(i) = output(i) / 100
+                output(i) = output(i) / 1000
             Next
         End If
 
