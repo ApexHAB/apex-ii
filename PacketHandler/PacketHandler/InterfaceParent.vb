@@ -368,7 +368,7 @@ Public Class InterfaceParent
                     Status_ = InterfaceStatus.Active
 
                 Case InterfaceTypes.MAPPOINT
-                    CanConnect_ = False
+                    CanConnect_ = True
                     MappointHandler = New MapPointInterface()
                     Status_ = InterfaceStatus.Active
 
