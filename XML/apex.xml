@@ -14,6 +14,7 @@
     </txtype>
     <sentence>
         <sentence_delimiter>$$</sentence_delimiter>
+	<string_limit>200</string_limit>
         <field_delimiter>,</field_delimiter>
         <fields>17</fields>
         <callsign>APEX</callsign>
