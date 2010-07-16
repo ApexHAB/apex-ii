@@ -772,7 +772,37 @@ Public Class MainFrm
 
 
 
-    Private Sub HuD_UC1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles HuD_UC1.Load
+    Private Sub HuD_UC1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
+    End Sub
+
+    Private Sub AddPointToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AddPointToolStripMenuItem.Click
+        Dim dia As New AddPoint
+        dia.ShowDialog()
+        Try
+            If dia.DialogResult = Windows.Forms.DialogResult.OK Then
+                Dim co As GPScoord
+
+                If dia.NMEA Then
+                    co = New GPScoord(dia.Latitude, dia.Longitude)
+                Else
+                    Dim temp1 As Double
+                    Dim temp2 As Double
+                    Double.TryParse(dia.Latitude, temp1)
+                    Double.TryParse(dia.Longitude, temp2)
+                    co = New GPScoord(temp1, temp2)
+                End If
+
+
+                Dim fm As New Frame
+                For Each i As InterfaceParent In Interfaces
+                    If i.GetInterfaceSettings.InterfaceType = InterfaceTypes.MAPPOINT Then
+                        i.WriteMappoint(co, 2, 3, 0.5)
+                    End If
+                Next
+            End If
+        Catch
+            MsgBox("Incorrect Format")
+        End Try
     End Sub
 End Class

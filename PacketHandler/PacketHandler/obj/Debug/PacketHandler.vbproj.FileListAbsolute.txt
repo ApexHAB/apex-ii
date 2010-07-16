@@ -104,3 +104,4 @@ C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\PacketHandler
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.exe.manifest
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.application
 C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug\System.Windows.Forms.DataVisualization.dll
+C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\obj\Debug\PacketHandler.AddPoint.resources

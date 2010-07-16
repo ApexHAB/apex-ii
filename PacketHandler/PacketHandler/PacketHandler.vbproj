@@ -22,7 +22,7 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\Matt\Desktop\ph1\</PublishUrl>
+    <PublishUrl>C:\Users\Matt\Documents\APEX\installer\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -33,13 +33,12 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>Packet Handler</ProductName>
-    <PublisherName>Matt Brejza</PublisherName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <PublisherName>APEX</PublisherName>
+    <ApplicationRevision>6</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <BootstrapperComponentsLocation>Relative</BootstrapperComponentsLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -117,6 +116,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataHandler.vb" />
+    <Compile Include="Forms\AddPoint.Designer.vb">
+      <DependentUpon>AddPoint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AddPoint.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\Graphs.Designer.vb">
       <DependentUpon>Graphs.vb</DependentUpon>
     </Compile>
@@ -201,6 +206,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\AddPoint.resx">
+      <DependentUpon>AddPoint.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Graphs.resx">
       <DependentUpon>Graphs.vb</DependentUpon>
     </EmbeddedResource>

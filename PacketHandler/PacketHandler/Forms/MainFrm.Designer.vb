@@ -42,6 +42,7 @@ Partial Class MainFrm
         Me.GPSFormatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripComboBox2 = New System.Windows.Forms.ToolStripComboBox()
         Me.StatusToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ManualToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.LoadFileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AddPacketToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -49,7 +50,6 @@ Partial Class MainFrm
         Me.SendToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UplinkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
@@ -216,6 +216,12 @@ Partial Class MainFrm
         Me.StatusToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
         Me.StatusToolStripMenuItem.Text = "Status"
         '
+        'DataToolStripMenuItem
+        '
+        Me.DataToolStripMenuItem.Name = "DataToolStripMenuItem"
+        Me.DataToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
+        Me.DataToolStripMenuItem.Text = "Data"
+        '
         'ManualToolStripMenuItem
         '
         Me.ManualToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LoadFileToolStripMenuItem, Me.AddPacketToolStripMenuItem, Me.AddPointToolStripMenuItem})
@@ -260,32 +266,26 @@ Partial Class MainFrm
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.SettingsToolStripMenuItem.Text = "Settings"
         '
-        'DataToolStripMenuItem
-        '
-        Me.DataToolStripMenuItem.Name = "DataToolStripMenuItem"
-        Me.DataToolStripMenuItem.Size = New System.Drawing.Size(112, 22)
-        Me.DataToolStripMenuItem.Text = "Data"
-        '
         'HuD_UC1
         '
-        Me.HuD_UC1.DisplayAllPackets = True
+        Me.HuD_UC1.DisplayAllPackets = False
         Me.HuD_UC1.DisplayIfGPS = True
         Me.HuD_UC1.ForeColor = System.Drawing.Color.Black
-        Me.HuD_UC1.Location = New System.Drawing.Point(12, 27)
+        Me.HuD_UC1.Location = New System.Drawing.Point(7, 30)
         Me.HuD_UC1.Name = "HuD_UC1"
-        Me.HuD_UC1.Size = New System.Drawing.Size(437, 189)
-        Me.HuD_UC1.TabIndex = 6
+        Me.HuD_UC1.Size = New System.Drawing.Size(436, 187)
+        Me.HuD_UC1.TabIndex = 12
         '
         'MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(455, 481)
+        Me.Controls.Add(Me.HuD_UC1)
         Me.Controls.Add(Me.Button5)
         Me.Controls.Add(Me.btnLoad)
         Me.Controls.Add(Me.Button4)
         Me.Controls.Add(Me.Button3)
-        Me.Controls.Add(Me.HuD_UC1)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.btnBalloonUplink)
         Me.Controls.Add(Me.Button1)
@@ -313,7 +313,6 @@ Partial Class MainFrm
     Friend WithEvents RichTextBox1 As System.Windows.Forms.RichTextBox
     Friend WithEvents btnBalloonUplink As System.Windows.Forms.Button
     Friend WithEvents Button2 As System.Windows.Forms.Button
-    Friend WithEvents HuD_UC1 As PacketHandler.HUD_UC
     Friend WithEvents Button3 As System.Windows.Forms.Button
     Friend WithEvents Button4 As System.Windows.Forms.Button
     Friend WithEvents btnLoad As System.Windows.Forms.Button
@@ -334,6 +333,7 @@ Partial Class MainFrm
     Friend WithEvents StatusToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripComboBox1 As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents DataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents HuD_UC1 As PacketHandler.HUD_UC
 
 
 End Class
