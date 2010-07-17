@@ -8,6 +8,7 @@
             <shift>425</shift>
             <coding>ascii-8</coding>
             <baud>50</baud>
+	    <baud1>300</baud1>
             <parity>none</parity>
             <stop>1</stop>
         </rtty>
@@ -89,14 +90,14 @@
             <seq>10</seq>
             <dbfield>int_temp</dbfield>
             <minsize>0</minsize>
-            <maxsize>5</maxsize>
+            <maxsize>7</maxsize>
             <datatype>decimal</datatype>
         </field>
         <field>
             <seq>11</seq>
             <dbfield>ext_temp</dbfield>
             <minsize>0</minsize>
-            <maxsize>5</maxsize>
+            <maxsize>7</maxsize>
             <datatype>decimal</datatype>
         </field>
         <field>
