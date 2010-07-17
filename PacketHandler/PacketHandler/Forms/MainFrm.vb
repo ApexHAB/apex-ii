@@ -805,4 +805,126 @@ Public Class MainFrm
             MsgBox("Incorrect Format")
         End Try
     End Sub
+
+    Private Sub TempToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TempToolStripMenuItem.Click
+        'Dim l As New List(Of GPScoord)
+        'Dim a As New List(Of Single)
+        'For Each i As InterfaceParent In Interfaces
+        '    If i.InterfaceName = "Manual" Then
+        '        For Each f As Frame In i.GetFrames
+        '            If Not f.GPSCoordinates Is Nothing Then
+        '                l.Add(f.GPSCoordinates)
+        '                a.Add(Single.Parse(f.Altitude))
+        '            End If
+        '        Next
+        '        CreateKML(l, a, "C:\users\matt\desktop")
+        '    End If
+        'Next
+    End Sub
+
+    Private Function CreateKML(ByVal coordinates As List(Of GPScoord), ByVal altitudes As List(Of Single), ByVal path As String)
+        Dim a As Integer
+        Dim IsAbs As Boolean = True
+        Dim FileSavePathKML As String = path
+        If FileSavePathKML.Length < 5 Then
+            Return False
+            Exit Function
+        End If
+        'Try
+        Dim writer As New System.IO.StreamWriter(FileSavePathKML & "\track.kml", False)
+
+
+        writer.WriteLine("<?xml version=""1.0"" encoding=""UTF-8""?>")
+        writer.WriteLine("<kml xmlns=""http://www.opengis.net/kml/2.2"">")
+        writer.WriteLine("<Document>")
+
+        writer.WriteLine("<name>Paths</name>")
+        writer.WriteLine("<visibility>1</visibility>")
+
+        writer.WriteLine("<Placemark>")
+        writer.WriteLine("<name>Rel" & a & "</name>")
+        writer.WriteLine("<visibility>1</visibility>")
+        writer.WriteLine("<LineString>")
+        writer.WriteLine("<extrude>1</extrude>")
+        writer.WriteLine("<tessellate>1</tessellate>")
+        '   If coordinates(0).Substring(coordinates(0).Length - 1, 1) = "0" Then
+        'writer.WriteLine("<altitudeMode>relative</altitudeMode>")
+        '   IsAbs = False
+        '  Else
+        writer.WriteLine("<altitudeMode>absolute</altitudeMode>")
+        '  End If
+        writer.WriteLine("<coordinates>")
+
+
+
+        For a = 0 To coordinates.Count - 1
+
+            '   If coordinates(a).Substring(coordinates(a).Length - 1, 1) = "0" Then
+
+            '  If IsAbs = False Then
+            writer.WriteLine(coordinates(a).sLongitudeDecimal & "," & coordinates(a).sLatitudeDecimal & "," & altitudes(a))
+            '  Else
+            'writer.WriteLine("</coordinates>")
+            'writer.WriteLine("</LineString>")
+            'writer.WriteLine("</Placemark>")
+
+            'writer.WriteLine("<Placemark>")
+            'writer.WriteLine("<name>Rel" & a & "</name>")
+            'writer.WriteLine("<visibility>1</visibility>")
+            'writer.WriteLine("<LineString>")
+            'writer.WriteLine("<extrude>1</extrude>")
+            'writer.WriteLine("<tessellate>1</tessellate>")
+            'writer.WriteLine("<altitudeMode>relative</altitudeMode>")
+            'writer.WriteLine("<coordinates>")
+            'writer.WriteLine(coordinates(a - 1))
+            'writer.WriteLine(coordinates(a))
+            ' End If
+            'IsAbs = False
+
+
+            'Else
+
+            'If IsAbs = True Then
+            '    writer.WriteLine(coordinates(a))
+            'Else
+            '    writer.WriteLine("</coordinates>")
+            '    writer.WriteLine("</LineString>")
+            '    writer.WriteLine("</Placemark>")
+
+            '    writer.WriteLine("<Placemark>")
+            '    writer.WriteLine("<name>Abs" & a & "</name>")
+            '    writer.WriteLine("<visibility>1</visibility>")
+            '    writer.WriteLine("<LineString>")
+            '    writer.WriteLine("<extrude>1</extrude>")
+            '    writer.WriteLine("<tessellate>1</tessellate>")
+            '    writer.WriteLine("<altitudeMode>absolute</altitudeMode>")
+            '    writer.WriteLine("<coordinates>")
+            '    writer.WriteLine(coordinates(a - 1))
+            '    writer.WriteLine(coordinates(a))
+            'End If
+            'IsAbs = True
+
+            'End If
+
+        Next
+
+        writer.WriteLine("</coordinates>")
+        writer.WriteLine("</LineString>")
+        writer.WriteLine("</Placemark>")
+
+        writer.WriteLine("</Document>")
+        writer.WriteLine("</kml>")
+
+
+        writer.Close()
+
+        ' Catch ex As Exception
+        '     MsgBox(ex.Message)
+        '     Return False
+        '    Exit Function
+        ' End Try
+
+
+        Return True
+    End Function
 End Class

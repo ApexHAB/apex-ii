@@ -51,6 +51,7 @@ Partial Class MainFrm
         Me.UplinkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.HuD_UC1 = New PacketHandler.HUD_UC()
+        Me.TempToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -162,7 +163,7 @@ Partial Class MainFrm
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewToolStripMenuItem, Me.ManualToolStripMenuItem, Me.SendToolStripMenuItem, Me.SettingsToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewToolStripMenuItem, Me.ManualToolStripMenuItem, Me.SendToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.TempToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(455, 24)
@@ -276,6 +277,12 @@ Partial Class MainFrm
         Me.HuD_UC1.Size = New System.Drawing.Size(436, 187)
         Me.HuD_UC1.TabIndex = 12
         '
+        'TempToolStripMenuItem
+        '
+        Me.TempToolStripMenuItem.Name = "TempToolStripMenuItem"
+        Me.TempToolStripMenuItem.Size = New System.Drawing.Size(47, 20)
+        Me.TempToolStripMenuItem.Text = "temp"
+        '
         'MainFrm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -334,6 +341,7 @@ Partial Class MainFrm
     Friend WithEvents ToolStripComboBox1 As System.Windows.Forms.ToolStripComboBox
     Friend WithEvents DataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HuD_UC1 As PacketHandler.HUD_UC
+    Friend WithEvents TempToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 
 End Class
