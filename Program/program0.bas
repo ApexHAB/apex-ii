@@ -164,12 +164,16 @@ symbol CameraHyst = 3
 symbol AltThresholdLowC = 120
 
 
+'phone stuff
+
+table 0x00,("07922123456")
+
 
 'no commands can be stored on or past 0xF8
-table 0x80,("PINGftnjqw")	'ping command and pwd
-table ("CDWNtqnhgr")		'cutdown command and pwd
-table ("FILMg3Ger3")
-table ("RESTt6gdEr")
+table 0x80,("PING5TjypQ")	'ping command and pwd
+table ("CDWNytB48U")		'cutdown command and pwd
+table ("FILMhdERY7")
+table ("RESTg3nBhG")
 table ("IRDOhyxapr")
 table ("IRDFh7wv7k")
 table ("SHUTp1cX7W")
@@ -208,7 +212,7 @@ timer = 65315 				' preload to 120 tick
 toflag = 0
 setintflags %10000000,%10000000	' interrupt on toflag
 
-sertxd("Rst2")
+'sertxd("Rst2")
 #ifdef oscFreq64
 setfreq em64
 #else
@@ -216,7 +220,7 @@ setfreq em64
 #endif
 'gosub RTCRAMClear
 
-sertxd("x ",#b37)
+'sertxd("x ",#b37)
 
 'write packet start
 
@@ -272,13 +276,13 @@ gosub WriteComma
 
 'turn on radio
 
-sertxd("f ",#b37)
+'sertxd("f ",#b37)
 hsersetup off
 high radiocsrx
 low radiocstx
 hsersetup TXBauds, TXMode
 
-sertxd("c ",#b37)
+'sertxd("c ",#b37)
 
 'GET GPS (time)
 
@@ -437,37 +441,35 @@ if b0 <> 0 then
 	w25 = w25 + w11
 
 	
-	sertxd("alt: ",#w25,cr,lf)
+	'sertxd("alt: ",#w25,cr,lf)
 	
 	'read max altitude
 	
 	read MaxAltitudelROM,b20
 	read MAXAltitudehROM,b21	'w10
-	sertxd("R alt: ",#w10,cr,lf)
+	'sertxd("R alt: ",#w10,cr,lf)
 	
 	if w25 > w10 then			'new highest alt
-		sertxd("W alt ",#w25,cr,lf)
+		'sertxd("W alt ",#w25,cr,lf)
 		write MaxAltitudelROM,b50
 		write MAXAltitudehROM,b51
 		w10 = w25
 	else
 		w11 = w10 - w25
-		sertxd("fall ",#w11,cr,lf)
+		'sertxd("fall ",#w11,cr,lf)
 		if w11 >= altfallingdistance then
 			if w25 >= altthresholdhigh then
 				read camtopboolrom,b26
-				sertxd("rdtb ",#b26,cr,lf)
+				'sertxd("rdtb ",#b26,cr,lf)
 				b26 = b26 + 1
 				if b26 > 250 then : b26 = 240 endif
 				write camtopboolrom,b26
 				if b26 = CameraHyst then
 					
-					sertxd("T FM",cr,lf)
+					'sertxd("T FM",cr,lf)
 					high cam1
 					high cam2
-					pause 200
-					low cam2
-					low cam1
+					b35 = 5
 				endif
 			endif
 		endif
@@ -485,24 +487,22 @@ if b0 <> 0 then
 				write AboutToland,b16
 			endif
 			
-			sertxd("w lnd",cr,lf)
+			'sertxd("w lnd",cr,lf)
 			
 		endif
 		if w25 < AltThresholdlowC then
 			
 			read cambotboolrom,b16
-			sertxd("rdbb ",#b16,cr,lf)
+			'sertxd("rdbb ",#b16,cr,lf)
 			b16 = b16 + 1
 			if b16 > 250 then : b16 = 240 endif
 			write cambotboolrom,b16
 			if b16 = CameraHyst then
 			
-				sertxd("DFM",cr,lf)
+				'sertxd("DFM",cr,lf)
 				high cam1
 				high cam2
-				pause 200
-				low cam2
-				low cam1
+				b35 = 5
 			endif
 		endif
 	endif	
@@ -523,7 +523,7 @@ endif
 
 read AboutToLand,b55
 'b55 = 1			'REMOVE LATER!!!!!
-sertxd("r land ",#b55," ")
+'sertxd("r land ",#b55," ")
 
 if b55 >= AboutToLandCntMax then
 	b55 = 0
@@ -531,26 +531,33 @@ if b55 >= AboutToLandCntMax then
 	'text start sequence
 
 	
-	
-'	serout phoneMOSI,phoneBaud,("ATZ",cr,lf)
-'	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,("OK")
-'	serout phoneMOSI,phoneBaud,("AT+CSCA=",34,"+447802092035",34,cr,lf)
-'	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,("OK")
-'	serout phoneMOSI,phoneBaud,("AT+CMGS=",34)
+	serout phoneMOSI,phoneBaud,("AT",0x0D)
+	pause 1600
+	serout phoneMOSI,phoneBaud,("ATZ",0x0D)
+	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,("OK")
+	pause 1600
+	serout phoneMOSI,phoneBaud,("AT+CMGF=1",0x0D)
+	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,("OK")
+	pause 400
+	serout phoneMOSI,phonebaud,("ATE0",0x0D)
+	pause 400
+	serout phoneMOSI,phoneBaud,("AT+CMGS=",34)
+	'	serout phoneMOSI,phoneBaud,("AT+CMGS=",34)
 	
 	b10 = phonectr % 3
 	phonectr = phonectr + 1
 	select case b10
 		case 0
-	'		serout phoneMOSI,phoneBaud,("07922123456")
-	'	case 1
-	'		serout phoneMOSI,phoneBaud,("07922123457")
-	'	case 2
-	'		serout phoneMOSI,phoneBaud,("07922123458")
+			serout phoneMOSI,phoneBaud,("07922123456")
+		case 1
+			serout phoneMOSI,phoneBaud,("07922123457")
+		case 2
+			serout phoneMOSI,phoneBaud,("07922123458")
 	end select
-	serout phoneMOSI,phoneBaud,(34,cr,lf)
-	
-	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,(">")
+	serout phoneMOSI,phoneBaud,(34,0x0D)
+	serin [phonetimeout,phonefail],phoneMISO,phoneBaud,(62,32)
+
+	'serin [phonetimeout,phonefail],phoneMISO,phoneBaud,(">")
 
 	
 	b55 = AboutToLandCntMax
@@ -2200,7 +2207,7 @@ return
 interrupt:
 	timer = 65315
 	toflag = 0
-	sertxd("IPT")
+'	sertxd("IPT")
 
 	setintflags %10000000,%10000000
 	pause 100
