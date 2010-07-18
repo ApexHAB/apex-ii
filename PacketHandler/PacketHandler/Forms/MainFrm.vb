@@ -809,18 +809,52 @@ Public Class MainFrm
     Private Sub TempToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TempToolStripMenuItem.Click
         'Dim l As New List(Of GPScoord)
         'Dim a As New List(Of Single)
+
         'For Each i As InterfaceParent In Interfaces
         '    If i.InterfaceName = "Manual" Then
+        '        CreateGPX(i.GetFrames)
         '        For Each f As Frame In i.GetFrames
         '            If Not f.GPSCoordinates Is Nothing Then
         '                l.Add(f.GPSCoordinates)
         '                a.Add(Single.Parse(f.Altitude))
         '            End If
         '        Next
-        '        CreateKML(l, a, "C:\users\matt\desktop")
+        '        ' CreateKML(l, a, "C:\users\matt\desktop")
         '    End If
         'Next
     End Sub
+
+    Private Sub CreateGPX(ByVal frames As Collection)
+
+        Dim writer As New System.IO.StreamWriter("c:\users\matt\desktop\track.gpx")
+
+
+
+        writer.WriteLine("<?xml version=""1.0"" encoding=""UTF-8"" standalone=""no"" ?>")
+        writer.WriteLine("<trk>")
+        writer.WriteLine("<name>track</name>")
+        writer.WriteLine("<trkseg>")
+
+
+
+        For Each f As Frame In frames
+            If (Not f.GPSCoordinates Is Nothing) And (f.PacketTime <> "") Then
+
+                writer.WriteLine("<trkpt lat=""" & f.GPSCoordinates.sLatitudeDecimal & """ lon=""" & f.GPSCoordinates.sLongitudeDecimal & """>")
+                writer.WriteLine("<ele>" & f.Altitude & "</ele>")
+              
+                writer.WriteLine("<time>2010-07-17T" & DateTime.Parse(f.PacketTime).TimeOfDay.Add(TimeSpan.FromMinutes(-2)).ToString & "Z</time>")
+                writer.WriteLine("</trkpt>")
+            End If
+        Next
+
+        writer.WriteLine("</trkseg>")
+        writer.WriteLine("</trk>")
+        writer.WriteLine("</gpx>")
+        writer.Close()
+
+    End Sub
+
 
     Private Function CreateKML(ByVal coordinates As List(Of GPScoord), ByVal altitudes As List(Of Single), ByVal path As String)
         Dim a As Integer
