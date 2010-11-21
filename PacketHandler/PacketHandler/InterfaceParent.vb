@@ -52,11 +52,11 @@ Public Class InterfaceParent
     Public Event InterfaceStatusChange(ByVal NewStatus As InterfaceStatus, ByVal Message As String, ByVal InterfaceDetails As InterfaceSettings)
 
 #Region "Properties"
-    Public ReadOnly Property GetFrames As Collection
-        Get
-            Return Frames
-        End Get
-    End Property
+    'Public ReadOnly Property GetFrames As Collection
+    '    Get
+    '        Return Frames
+    '    End Get
+    'End Property
 
     Public ReadOnly Property Messages As String
         Get
