@@ -11,13 +11,13 @@ symbol memCS = d.6
 symbol radIn = Pind.0	'radiation serial in
 symbol radOut = d.1	'radiation serial out, can be switched with above pin
 
-
 symbol lightCS = d.3
 symbol lightOut = c.0
 symbol lightS0 = c.5
 symbol lightS1 = b.7
 symbol lightS2 = a.4
 symbol lightS3 = a.3
+
 
 symbol FET1 = b.1		'FET O/Ps
 symbol FET2 = d.7
@@ -128,54 +128,64 @@ high radioCSRX
 
 DirsB = DirsB AND %11110011	'set GPS input pins as inputs
 
+high lights2
+low lights3
+low lightcs
+setfreq em64
+
 main:
-high lights2
-high lights3
-low lightCS
 
-count lightout,100,w1
+high lights1
+low lights0
+count lightout,8,w1
+count lightout,80,w2
+count lightout,80,b20
+count lightout,400,w3
+count lightout,800,w4
 
-high lightCS
-low a.4
-pause 100
+sertxd("    2% ",#w1,"  ",#w2,"   ",#w3,"   ",#w4,"  ",#b20,cr,lf)
+high a.4
+timer = 0
 
-sertxd(" ",#w1)
-pause 200
+wait 5
 
-low lights2
-high lights3
-low lightCS
-
-count lightout,100,w1
-
-high lightCS
-low a.4
-pause 100
-sertxd(" ",#w1)
-pause 200
-
-high lights2
-low lights3
-low lightCS
-
-count lightout,100,w1
-
-high lightCS
-low a.4
-pause 100
-sertxd(" ",#w1)
-pause 200
-low lights2
-low lights3
-low lightCS
-
-count lightout,100,w1
-
-high lightCS
-low a.4
-pause 100
-sertxd(" ",#w1,cr,lf)
-pause 200
-sertxd("g         b          c          r ",cr,lf)
 goto main
 
+
+high lights0
+low lights1
+
+
+count lightout,1,w1
+count lightout,10,w2
+count lightout,50,w3
+count lightout,100,w4
+settimer count 65535
+pause 10
+settimer off
+sertxd("    20% ",#w1,"  ",#w2,"   ",#w3,"   ",#w4,"  ",#timer,cr,lf)
+high a.4
+timer = 0
+
+wait 5
+
+
+high lights1
+high lights0
+
+count lightout,1,w1
+count lightout,10,w2
+count lightout,50,w3
+count lightout,100,w4
+settimer count 65535
+pause 10
+settimer off
+sertxd("    100% ",#w1,"  ",#w2,"   ",#w3,"   ",#w4,"  ",#timer,cr,lf)
+high a.4
+timer = 0
+
+
+wait 5
+
+
+goto main
