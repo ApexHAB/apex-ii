@@ -1,3 +1,6 @@
+'concept program with the RTC ram not used
+'DO NOT USE THIS PROGRAM
+
 #picaxe40x2
 #no_data
 '#no_table
@@ -203,8 +206,6 @@ serrxd [32000,main],("C")
 
 run 2
 
-low cam1
-low cam2
 
 'sertxd("Rst")
 
@@ -228,21 +229,18 @@ setfreq em64
 
 'write packet start
 
-b16 = "$"
-b17 = "$"
-b18 = "A"
-b19 = "P"
-b20 = "E"
-b21 = "X"
+ptr = 0
 
-b10 = 0
-b11 = 16
-b12 = 21
-ramptr = 6
-gosub RTCRAMWRitemany
+@ptrinc = "$"
+@ptrinc = "$"
+@ptrinc = "A"
+@ptrinc = "P"
+@ptrinc = "E"
+@ptrinc = "X"
+@ptrinc = ","
 
 
-gosub WriteComma
+
 
 
 'write packet ID
@@ -267,13 +265,14 @@ b20 = 1
 
 writepckt:
 
-ramptr = ramptr + b20
-
 b11 = 20 - b20
+for b21 = b11 to 19
+	peek b21,b22
+	@ptrinc = b22
+next
 
-b12 = 19
-gosub RTCRAMWriteMany		'send all 5 values
-gosub WriteComma
+
+@ptrinc = ","
 
 
 
@@ -294,20 +293,14 @@ low radiocstx
 
 
 gosub GETUTCTime
-for b20 = 1 to 8			'copy values into free RAM
-	peek b20,b19
-	b18 = b20 + 60
-	poke b18,b19
-next
 if b0 <> 0 then
-	b10 = ramptr
-	ramptr = ramptr + 8
-	b11 = 61
-	b12 = 68
-
-	gosub RTCRAMWriteMany
+	for b20 = 1 to 8			'copy values into free RAM
+		peek b20,b19
+		@ptrinc = b19
+	next
 endif
-gosub WriteComma
+
+@ptrinc = ","
 
 
 
@@ -607,7 +600,7 @@ if b20 < 30 then
 	ramptr = ramptr + b13
 	gosub RTCRAMWriteMany	
 endif
-gosub writecomma
+@ptrinc = ","
 
 
 'LONG
@@ -646,8 +639,7 @@ if b20 < 30 then
 	ramptr = ramptr + b13
 	gosub RTCRAMWriteMany	
 endif
-gosub writecomma
-
+@ptrinc = ","
 
 'ALT
 
@@ -675,7 +667,7 @@ if b20 < 30 then
 	ramptr = ramptr + b13
 	gosub RTCRAMWriteMany	
 endif
-gosub writecomma
+@ptrinc = ","
 
 
 
@@ -690,22 +682,13 @@ if cycleCount < maxcycles then
 
 gosub GetSpeedBearing
 
-for b20 = 1 to 7			'copy values into free RAM
-	peek b20,b19
-	b18 = b20 + 60
-	poke b18,b19
-next
-b10 = ramptr
-
 if b0 <> 0 then
-	ramptr = ramptr + 7
-	b11 = 61
-	b12 = 67
-	gosub RTCRAMWriteMany
-else
-	gosub WriteComma	
+	for b20 = 1 to 7			'copy values into free RAM
+		peek b20,b19
+		@ptrinc = b19
+	next
 endif
-gosub WriteComma
+@ptrinc = ","
 
 'gosub WriteComma
 
@@ -718,14 +701,11 @@ gosub WriteComma
 'GPS sats
 
 if b32 <> 0 then
-	b10 = ramptr
-	ramptr = ramptr + 2
-	b11 = 30
-	b12 = 31
-	gosub RTCRAMWriteMany
+	@ptrinc = 30
+	@ptrinc = 31
 endif
 
-gosub WriteComma
+@ptrinc = ","
 'phone stuff
 
 
@@ -755,22 +735,15 @@ owin tempow,%0000,(b0,b1) '‘ read in result
 
 for b16 = 0 to 1
 
-gosub PrintReadTemp12
-for b20 = 0 to 5			'copy values into free RAM
-	peek b20,b19
-	b18 = b20 + 60
-	poke b18,b19
-next
-b10 = ramptr
-b20 = b9 - b8
-b20 = b20 + 1
-ramptr = ramptr + b20
-b11 = b8 + 60
-b12 = b9 + 60
-gosub RTCRAMwritemany
+	gosub PrintReadTemp12
 
-gosub WriteComma
-w0 = w13
+	for b20 = b8 to b9
+		peek b20,b19
+		@ptrinc = b19
+	next
+
+	@ptrinc = ","
+	w0 = w13
 next
 
 
@@ -790,7 +763,7 @@ b12 = 3
 ramptr = ramptr + 3
 gosub RTCRAMWriteMany
 
-gosub writecomma
+@ptrinc = ","
 
 b10 = 0
 gosub ADCShift
@@ -804,7 +777,7 @@ b12 = 3
 ramptr = ramptr + 3
 gosub RTCRAMWriteMany
 
-gosub writecomma
+@ptrinc = ","
 
 
 if cyclecount = 0 then
@@ -826,7 +799,7 @@ b11 = 0
 b12 = 3
 gosub RTCRAMWriteMany
 
-gosub writecomma
+@ptrinc = ","
 'ird2
 w5 = w11
 gosub bintohex
@@ -839,10 +812,10 @@ gosub RTCRAMWriteMany
 
 
 else
-	gosub writecomma
+	@ptrinc = ","
 endif
 
-gosub writecomma
+@ptrinc = ","
 
 
 'check light
@@ -954,7 +927,7 @@ b11 = 0
 b12 = 4
 gosub RTCRAMWriteMany
 
-gosub writecomma
+@ptrinc = ","
 DirsA = DirsA AND %11110111
 
 
@@ -985,8 +958,8 @@ gosub rtcramwritemany
 
 else			'(if 50 baud packet)
 
-	for b15 = 1 to 10				'<-- change this
-		gosub writecomma	
+	for b15 = 1 to 6				'<-- change this
+		@ptrinc = ","	
 	next
 
 endif
@@ -1043,21 +1016,7 @@ endif
 
 
 
-'process RX buffer
-ptr = 0
-do
-	b0 = @ptrinc
-	'sertxd(b0)
-	if b0 = "#" then
-	'	sertxd("# found",cr,lf)		
-		if @ptrinc = "#" then
-		'	sertxd("## found",cr,lf)
-			gosub commandfound
-		endif
-		
-		
-	endif
-loop while ptr < 253
+
 
 
 
@@ -1072,16 +1031,13 @@ loop while ptr < 253
 
 
 'copy RTC RAM to spad
-ptr = 0
-for w8 = 0 to 1023
-	@ptrinc = 0
-next
 
-ramptr = ramptr - 1	'so ptr now contains the last bit of data rather than next location
 
-b10 = 0
-b11 = ramptr
-gosub RTCRAMReadSpad
+ramptr = ptr - 1	'so ptr now contains the last bit of data rather than next location
+
+'b10 = 0
+'b11 = ramptr
+'gosub RTCRAMReadSpad
 
 'CRC
 
@@ -1239,6 +1195,22 @@ if cyclecount = maxcycles then
 	next
 
 	cyclecount = 0
+	
+	'process RX buffer
+	ptr = 0
+	do
+		b0 = @ptrinc
+		'sertxd(b0)
+		if b0 = "#" then
+		'	sertxd("# found",cr,lf)		
+			if @ptrinc = "#" then
+			'	sertxd("## found",cr,lf)
+				gosub commandfound
+			endif
+			
+		
+		endif
+	loop while ptr < 253
 
 else
 
@@ -1312,13 +1284,10 @@ do while ptr < 254
 	
 		'reply to hte command
 		b21 = b15 + 3
-		gosub writecomma
+		@ptrinc = ","
 		for b20 = b15 to b21
 			readtable b20,b11
-			b10 = ramptr
-			ramptr = ramptr + 1
-			gosub RTCRAMWriteSingle
-		
+			@ptrinc = b11
 			
 		next
 	
@@ -1615,205 +1584,6 @@ high memCS
 return
 
 
-
-'################################################
-'################################################
-'################################################
-
-'		RTC INTERFACE COMMANDS
-
-'################################################
-'################################################
-'################################################
-#rem
-RTCReadSingle:
-'b10 - address
-'b0 - read value
-
-low sclk
-low rtccs
-b10 = b10 AND %01111111		'clear MSB for read
-
-
-b48 = b10
-gosub clockout	'write address
-
-for b45 = 0 to 7
-
-	high sclk
-	low sclk
-	
-	b0 = b0 << 1
-	if MISO is on then
-		b0 = b0 OR 1
-	endif
-	
-
-next b45
-
-high rtccs
-
-
-return
-#endrem
-
-RTCWriteSingle:
-'b10 - address
-'b11 - value
-
-
-low sclk
-low rtccs
-b10 = b10 OR %10000000		'set MSB for read
-
-
-
-b48 = b10
-gosub clockout	'write address
-
-b48 = b11
-gosub clockout	'write value
-
-high rtccs
-
-
-return
-
-
-RTCRAMWriteSingle:
-'b10 - RAM addr
-'b11 - RAM data
-
-b40 = b10	'copy variables
-b41 = b11
-
-b10 = 0x18
-b11 = b40
-gosub RTCWriteSingle
-
-b10 = 0x19
-b11 = b41
-gosub RTCWriteSingle
-
-return
-
-RTCRAMWriteMany:
-'writes a number of bytes to ram from the PIC RAM (remember 0-56 of ram = b0-b56)
-'b10 - RTCRAM start addr
-'b11 - PIC RAM start addr
-'b12 - PIC RAM end addr
-
-b40 = b10	'copy variables
-b41 = b11
-b42 = b12
-
-b10 = 0x18		'write RTC RAM start address
-b11 = b40
-gosub RTCWriteSingle
-
-low RTCCS
-b48 = 0x99
-gosub clockout	'write address
-
-for b43 = b41 to b42
-	peek b43,b48
-	gosub clockout	'write value
-next
-high RTCCS
-
-return
-
-#rem
-RTCRAMReadSingle:
-
-'b10 - RAM addr
-'b0 - value
-
-b40 = b10	'copy variables
-b41 = b11
-
-b10 = 0x18
-b11 = b40
-gosub RTCWriteSingle
-
-b10 = 0x19
-gosub RTCReadSingle
-
-
-return
-
-RTCRAMClear:
-
-b10 = 0x18
-b11 = 0
-gosub RTCWriteSingle
-
-low rtccs
-b48 = 0x99
-gosub clockout	'write address
-
-low MOSI
-for b48 = 0 to 255	
-for b45 = 0 to 7	
-	high sclk
-	low sclk
-
-next b45
-next b48
-
-high rtccs
-
-low rtccs
-
-
-return
-#endrem
-RTCRAMReadSpad:
-
-'b10 - start address
-'b11 - end address
-'data saved in spad
-
-b40 = b10	'copy variables
-b41 = b11
-
-b10 = 0x18
-b11 = b40
-gosub RTCWriteSingle
-
-
-low rtccs
-b48 = 0x19
-gosub clockout	'write address
-
-ptr = 0
-
-for b48 = b40 to b41
-	for b45 = 0 to 7
-
-		high sclk
-		low sclk
-	
-		b49 = b49 << 1
-		if MISO is on then
-			b49 = b49 OR 1
-		endif
-		
-	next b45
-	@ptrinc = b49
-next b48
-
-high rtccs
-
-return
-
-
-WriteComma:
-b10 = RAMptr
-b11 = ","
-gosub RTCRAMWriteSingle
-ramptr = ramptr + 1
-return
 
 
 #rem
@@ -2245,4 +2015,24 @@ interrupt:
 	setintflags %10000000,%10000000
 	pause 100
 	reset
+return
+
+
+'RTCRAMWriteMany fake routine, uses ptrinc instead
+RTCRAMWriteMany:
+
+'writes a number of bytes to ram from the PIC RAM (remember 0-56 of ram = b0-b56)
+'b10 - RTCRAM start addr
+'b11 - PIC RAM start addr
+'b12 - PIC RAM end addr
+
+
+
+
+for b43 = b11 to b12
+	peek b43,b48
+	@ptrinc = b48	'write value
+next
+
+
 return
