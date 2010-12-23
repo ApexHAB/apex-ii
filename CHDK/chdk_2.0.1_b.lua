@@ -12,6 +12,14 @@ set_backlight(0)
 
 logfile=io.open("A/FLIGHTLOG.log","wb")
 io.output(logfile)
+
+function timerwait()
+	for i=0,a do
+	sleep(1)
+	end
+	capture()
+end
+
  
 repeat
 wait_click(key_delay)
@@ -32,9 +40,9 @@ function capture()
   press("shoot_half")
   set_focus_status(25535)
   log("shooting...")
-<<< get battery voltage
-<<< get temps
-<<< log("tbat",tbat,"tccd",tccd,"vbat",vbat)
+--get battery voltage
+--get temps
+--log("tbat",tbat,"tccd",tccd,"vbat",vbat)
   press("shoot_full")
   release("shoot_full")
   release("shoot_half")
@@ -56,3 +64,4 @@ end
 end
 log("done!")
 logfile:close()
+
