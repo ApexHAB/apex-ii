@@ -12,12 +12,16 @@ set_backlight(0)
 
 logfile=io.open("A/FLIGHTLOG.log","wb")
 io.output(logfile)
- 
+
+function timerwait()
+    for i=0,a do
+        sleep(1)
+    end
+    capture()
+end
+
 repeat
-wait_click(key_delay)
-  if is_pressed "remote" then
-   capture()
-  end
+    timerwait()
 until false
 
 function set_focus_status(n)
@@ -29,30 +33,29 @@ function set_focus_status(n)
 end
 
 function capture()
-  press("shoot_half")
-  set_focus_status(25535)
-  log("shooting...")
-<<< get battery voltage
-<<< get temps
-<<< log("tbat",tbat,"tccd",tccd,"vbat",vbat)
-  press("shoot_full")
-  release("shoot_full")
-  release("shoot_half")
-  repeat
-    sleep(1)
-  until get_shooting() ~= true
+    press("shoot_half")
+    set_focus_status(25535)
+    log("shooting...")
+    --get battery voltage
+    --get temps
+    --log("tbat",tbat,"tccd",tccd,"vbat",vbat)
+    press("shoot_full")
+    release("shoot_full")
+    release("shoot_half")
+    repeat
+        sleep(1)
+    until get_shooting() ~= true
 end
   
 logfile=io.open("A/FLIGHTLOG.log","wb")
 io.output(logfile)
  
 function log(...)
-	io.write(...)
-	io.write("\n")
+    io.write(...)
+    io.write("\n")
 end
- 
- 
 
 end
 log("done!")
 logfile:close()
+

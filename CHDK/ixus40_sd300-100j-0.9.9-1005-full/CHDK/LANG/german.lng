@@ -1,0 +1,578 @@
+// CHDK language file 
+// -----------------------------------------------
+// Optimale Schriftart: Libsans16b (mit Umlauten)
+// und Codepage Win1252 (West European Latin) 
+// -----------------------------------------------
+// <id> "<text>"
+
+  1 "Hauptmenü"
+
+  2 "RAW-Einstellungen"
+  3 "OSD-Einstellungen"
+  4 "Histogramm-Einstellungen"
+  5 "Zebra-Einstellungen"
+  6 "Skript-Einstellungen"
+  7 "Anzeige-Einstellungen"
+  8 "Verschiedene Einstellungen"
+  9 "Debugging-Einstellungen"
+ 10 "Standardwerte zurücksetzen..."
+ 11 "Einstellungen speichern..."
+
+ 12 "zurück"
+
+ 13 "RAW"
+
+ 14 "Speichere RAW"
+ 16 "Nur 1. RAW einer Serie"
+ 17 "RAW-Datei in JPEG-Ordner"
+ 18 "RAW-Datei Präfix"
+ 19 "RAW-Datei Endung"
+
+ 20 "OSD"
+
+ 21 "OSD-Anzeige an/aus"
+ 22 "Status-Anzeige an/aus"
+ 23 "Zeige diverse Werte"
+ 24 "    Zoomanzeige-Typ"
+ 25 "Zeige DOF Rechner"
+ 26 "Zeige Uhr"
+ 27 "OSD-Layouteditor..."
+ 28 "Batterie-Anzeige"
+
+ 29 "Histogramm"
+
+ 30 "Zeige Live-Histogramm"
+ 31 "Histogramm-Layout"
+ 32 "Histogramm-Modus"
+ 33 "Zeige Belichtungswarnungen"
+ 34 "Ignoriere Grenzwertspitzen"
+ 35 "Automatische Vergrößerung"
+
+ 36 "Zebra"
+
+ 37 "Zeige Zebra"
+ 38 "Zebra-Modus"
+ 39 "Unterbeli-Grenzwert"
+ 40 "Überbeli-Grenzwert"
+ 41 "Orig.-Anzeige wiederherstellen"
+ 42 "OSD wiederherstellen"
+ 43 "Überlagere Zebra mit:"
+
+ 44 "Skript"
+
+ 45 "Lade Skript-Datei..."
+ 46 "Verzög. nach Shoot(,1s)"
+ 47 "aktuelles Skript"
+ 48 "Skript-Parameter"
+
+ 49 "Anzeige-Einstellungen"
+
+ 50 "Sprache..."
+ 51 "OSD-Codepage"
+ 52 "Lade RBF-Schriftart..."
+ 53 "Farben"
+ 54 "OSD-Text"
+ 55 "OSD-Hintergrund"
+ 56 "Histogramm"
+ 57 "Histogramm-Hintergrund"
+ 58 "Histogramm-Rahmen"
+ 59 "Histogramm-EXP-Marker"
+ 60 "Zebra-Unterbelichtung"
+ 61 "Zebra-Überbelichtung"
+ 62 "Batterie-Symbol"
+ 63 "Menü-Text"
+ 64 "Menü-Hintergrund"
+ 65 "Textbetrachter-Text"
+ 66 "Textbetrachter-Hintergrund"
+
+ 67 "Verschiedenes"
+
+ 68 "Datei-Browser"
+ 69 "Kalender"
+ 70 "Textbetrachter"
+ 71 "Spiele"
+ 72 "Taschenlampe"
+ 73 "Zeige Startbildschirm"
+ 74 "Nutze Zoomtasten für MF"
+ 75 "<ALT> Modus-Taste"
+ 76 "Farbpalette anzeigen"
+ 77 "Zeige Versions-Info"
+ 78 "Zeige Speicher-Info"
+
+
+ 79 "Debugging-Einstellungen"
+
+ 80 "Debug-Daten-Anzeige"
+ 81 "PropCase-Seite"
+ 82 "Zeige verschiedene Werte"
+ 83 "Speicher-Browser"
+ 84 "ALT[+/-] Debug-Funkt."
+ 85 "Mache SD-Karte bootfähig..."
+
+
+ 86 "Batterie"
+
+ 87 "Spannung MAX (mV)"
+ 88 "Spannung MIN (mV)"
+ 89 "25+ Schritte"
+ 90 "Zeige Prozent"
+ 91 "Zeige Volt"
+ 92 "Zeige Symbol"
+
+
+ 93 "Textbetrachter"
+
+ 94 "Öffne neue Datei..."
+ 95 "Zuletzt geöffnete Datei..."
+ 96 "Lade RBF-Schriftart..."
+ 97 "Codepage"
+ 98 "Wortweiser Zeilenumbruch"
+ 99 "Autoscroll aktivieren"
+100 "Autoscroll-Verzög. (Sek.)"
+
+101 "Spiele"
+
+102 "Reversi"
+103 "Sokoban"
+
+104 "***Einstellungen zurücksetzen***"
+105 "Sicher, daß Sie die\nOptionen zurücksetzen möchten?"
+
+106 "***Versions-Info***"
+107 "CHDK Ver: %s %s\nDatum:    %s\nZeit:    %s\nKamera:  %s\nFW Vers: %s\nCompiler: %s"
+
+108 "***Speicher-Info***"
+109 "Freier Speicher: %d Bytes\nCHDK Größe:      %d Bytes\ngeladen bei: 0x%X"
+
+110 "*** Information ***"
+111 "Bitte in Wiedergabe-Modus\numschalten und\nerneut versuchen!"
+
+112 "Datei-Browser"
+113 "Wähle Skriptdatei"
+114 "Wähle Textdatei"
+115 "Wähle RBF-Schriftart-Datei"
+116 "Wähle Sprachdatei"
+
+117 "Januar"
+118 "Februar"
+119 "März"
+120 "April"
+121 "Mai"
+122 "Juni"
+123 "Juli"
+124 "August"
+125 "September"
+126 "Oktober"
+127 "November"
+128 "Dezember"
+
+129 "Mo"
+130 "Di"
+131 "Mi"
+132 "Do"
+133 "Fr"
+134 "Sa"
+135 "So"
+
+136 "Heute:"
+
+137 "Ok"
+138 "Ja"
+139 "Nein"
+140 "Abbruch"
+
+141 "Histogramm"
+142 "DOF-Rechner"
+143 "Status-Anzeige"
+144 "Diverse Werte"
+145 "Batt-Symbol"
+146 "Batt-Text"
+147 "Uhr"
+
+148 "Drücke SET für bestimmte Farbe"
+149 "   Drücke MENU zum Verlassen    "
+150 "Farbe"
+151 "Mit %s Farbe auswählen"
+
+152 "*** Spielergebnis ***"
+153 "Sie haben gewonnen! :)"
+154 "Sie haben verloren! :("
+155 "Unentschieden! :/"
+
+156 "*** falscher Zug ***"
+157 "Hier können Sie nicht setzen!"
+158 "Diese Feld ist nicht leer!"
+
+159 "Zug: Spieler "
+160 "Zug: Computer"
+161 "  GAME  OVER  "
+162 " Weiß  Schwarz "
+
+163 "*** Über ***"
+
+164 "  Level"
+165 "  Züge"
+166 "*** Fertig ***"
+167 "Super!\n  Sie haben es geschafft!  "
+
+168 "*** GESTARTET ***"
+169 "*** UNTERBROCHEN ***"
+170 "*** BEENDET ***"
+
+171 "*** Ordner löschen ***"
+172 "SICHER, daß Sie\nALLE Dateien im Ordner\nlöschen möchten?"
+173 "*** Datei löschen ***"
+174 "SICHER, daß Sie\ndie ausgewählte Datei\nlöschen möchten?"
+
+175 "Benchmark"
+176 "Berechnung..."
+177 "Kamera-Benchmark: Starten mit [SET]"
+178 "Bildschirm"
+179 "Schreiben      :"
+180 "Lesen          :"
+181 "Speicher"
+182 "Speicherkarte"
+183 "Schreiben (RAW):"
+184 "Schreiben (Mem):"
+185 "Schreiben (64k):"
+186 "Lesen     (64k):"
+
+187 "Stromsparmodus aus"
+
+188 "Ausschneiden"
+189 "Kopieren"
+190 "Einfügen"
+191 "Löschen"
+192 "Auswahl umkehren"
+193 "*** Datei verschieben ***"
+194 "SICHER, daß Sie die\n%d ausgewählten Dateien\nvon %s/\n hierher verschieben möchten?"
+195 "*** Datei kopieren ***"
+196 "SICHER, daß Sie die\n%d ausgewählten Dateien\nvon %s/\n hierher kopieren möchten?"
+197 "*** Datei löschen ***"
+198 "SICHER, daß Sie die\n%d ausgewählten Dateien\n löschen möchten?"
+199 "Bitte warten..."
+
+200 "Zeige Gitternetzlinien"
+201 "Lade Gitternetzlinien..."
+202 "Gitternetzlinien"
+203 "Gitternetz-Einstellungen"
+204 "Auswahl Gitternetz-Datei..."
+205 "Aktuelles Gitternetz"
+
+206 "Rausch-Reduktion"
+
+207 "Ersetze Gitternetzfarbe"
+208 "Linienfarben"
+209 "Füllfarbe"
+
+210 "DOF-Rechner"
+211 "DOF-Rechner"
+212 "Canon Motiv-Dist. als Nah-Limit" 
+213 "Benutze EXIF Motiv-Dist. (PC65)"
+214 "Zeige Motiv-Dist. in Div."
+215 "Zeige Nah-Limit in Div."
+216 "Zeige Fern-Limit in Div."
+217 "Zeige Hyperfocal-Dist. in Div."
+218 "Zeige Schärfentiefe in Div."
+
+219 "Diverse Werte"
+220 "Diverse Werte"
+221 "Zeige im Rückblick-Modus"	
+222 "Zeige Zoom"		
+223 "Zeige 'reale' Blende"
+224 "Zeige 'reale' ISO"
+225 "Zeige 'Market' ISO"
+226 "Zeige ISO nur bei AutoISO"
+227 "Zeige eingest. Beli-Wert"
+228 "Zeige gemes. Beli-Wert"
+229 "Zeige eingest. Helligkeitswert"
+230 "Zeige gemes. Helligkeitswert"
+231 "Zeige überbel. Wert (kein Blitz!)"
+232 "Zeige Szenen-Luminanz"
+
+233 "Video-Einstellungen"
+234 "Video-Einstellungen"
+235 "Video-Modus"
+236 "Video-Bitrate"
+237 "Video-Qualität"
+
+238 "Extra-Foto"
+239 "Extra-Foto-Einstellungen"
+240 "Ersetze Verschlusszeit"
+241 "    Multiplikator"
+242 "Ersetze Blenden-Wert"
+243 "Ersetze ISO-Wert"
+244 "    Multiplikator"
+245 "Ersetze Fokus-Distanz"
+246 "    Eingabeschrittweite"
+
+247 "Reihe im fortlauf. Modus"
+248 "Reihe im fortlauf. Modus"
+249 "Tv-Reihe Betrag"
+250 "Av-Reihe Betrag"
+251 "ISO-Reihe Betrag"
+252 "    Multiplikator"
+253 "Fokus-Reihe Betrag"
+254 "    Multiplikator"
+255 "Reihen-Typ"
+
+256 "Autostart"
+257 "USB-Fernbedienung an/aus"
+
+258 "Beli-Kontrolle (Blitz aus)"
+259 "Beli-Kontrolle (Blitz aus)"
+260 "Neuberechnung Belichtung"
+261 "Tv Exposure Neuberechnung"
+262 "Av Exposure Neuberechnung"
+263 "ISO Exposure Neuberechnung"
+
+264 "Lösche Ersatzwerte bei Neustart"
+
+265 "Zeige Canon-Überbeli-Wert"
+
+266 "RAW-Enwicklung"
+267 "Bitte Kamera im Auf-\nnahmemodus starten und ein Bild\nmachen."
+268 "RAW-Datei auswählen"
+269 "RAW-Summe"
+270 "RAW-Mittelwert"
+271 "Nicht genug Speicherkartenplatz:\n%dM benötigt, %dM verfügbar."
+
+272 "OSD im Review-Modus an/aus"
+273 "Task-List-Start"
+
+274 "Motiventfernung von Linse"
+
+275 "Lösche Beträge bei Neustart"
+
+276 "Erzeuge Karte mit 2 Partitionen"
+277 "Tausche Partitionen"
+278 "Das ZERSTÖRT ALLE INFORMATIONEN\nauf der Karte. Fortsetzen?"
+279 "Diese Karte hat nur eine Partition."
+280 "Fehler"
+281 "Warnung"
+282 "Information"
+283 "RGB-Zebra (nur Überbel.)"
+
+284 "ND-Filter-Status"
+
+285 "Zeige Histo-Ev-Raster"
+
+286 "OSD-Warnung"
+287 "OSD-Warnung-Hintergrund"
+288 "Speicherplatz-Symbol-Farbe"
+289 "Zeige Speicherplatz-Symbol"
+290 "Verbleib. Platz"
+291 "Zeige Speicherplatz in Prozent"
+292 "Zeige Speicherplatz in MB"
+293 "Speicherplatz-Text"
+294 "Zeige Anzahl verbleib. RAW"
+295 "Verbleib. RAW"
+
+296 "Zeige RAW-Status"
+
+297 "Zeige Werte in Video"
+
+298 "    Verschlusszeit-Typ"
+
+299 "Benutzermenü-Status"
+300 "Benutzermenü"
+
+301 " "
+
+302 "Linsen-Adpt.-Skala 100=1x"
+
+303 "Balken-Anzeige"
+304 "    Balkenlänge"
+305 "    Breite/Höhe"
+306 "    Untergrenze (%)"
+307 "    Untergrenze (MB)"
+308 "Einheit der Warnung"
+309 "Untergrenze Warnung"
+
+310 "Opt. Zoom aktivieren"
+
+311 "Uhrzeit-Einstellungen"
+312 "Uhrzeit-Einstellungen"
+313 "Uhrzeit-Format"
+314 "Speicherplatz-Hintergrund"
+315 "12-Stunden-Anzeige"
+316 "Halbgedr. Auslöser"
+
+317 "RAW-Anzeige-Einstellungen"
+318 "RAW-Anzeige"
+
+319 "Speicherplatz-Anzeige"
+320 "Speicherplatz-Anzeige"
+
+321 "Benutzer-Auto-ISO"
+322 "Benutzer-Auto-ISO"
+323 "Benutzer-Auto-ISO aktivieren"
+324 "Min. Verschlusszeit"
+325 "Benutzer-Faktor (1/FL/F)"
+326 "IS Faktor (Tv x Faktor)"
+327 "Max. ISO Hi (x10)"
+328 "Max. ISO Auto (x10)"
+329 "Min. ISO (x10)"
+
+330 "Menü-Titel-Text"
+331 "Menü-Titel-Hintergrund"
+332 "Menü-Cursor-Text"
+333 "Menü-Cursor-Hintergrund"
+334 "Menü zentriert"
+
+335 "Zoomgeräusche abschalten" 
+
+336 "Pixelfehler entfernen" 
+337 "Aus" 
+338 "Mittelw." 
+339 "RAWconv" 
+
+340 "Ersatzwerte-Text"
+341 "Ersatzwerte-Hintergrund"
+342 "Sperre Ersatzwerte"
+
+343 "    Inkl. AutoISO & Reihen"
+344 "    Ausnahmen"
+345 "    Aus bei Videoaufn."
+
+346 "Zeige Restzeit Video"
+347 "    Wiederholrate (Sek.)"
+348 "Restzeit Video"
+349 "Lösche Einstellungen bei Start"
+
+350 "Schneller Ev-Wechsel an/aus"
+351 "    Schrittweite (1 EV)"
+352 "Ev-Korrektur"
+
+353 "Sicher, dass Sie ALLE RAW-Dateien\nim DCIM-Ordner ohne dazugehörige JPG\nlöschen wollen?"
+354 "Sicher, dass Sie ALLE RAW-Dateien\nim ausgew. Ordner ohne dazugehörige JPG\nlöschen wollen?"
+355 "Sicher, dass Sie RAW-Dateien ohne\ndazügehörige JPG (ausgeschl. markierte)\nlöschen wollen?"
+356 "RAW-Löschung\nkann hier nicht angewendet werden"
+357 "*** Lösche RAW-Dateien ***"
+358 "Lösche RAW"
+ 
+359 "Benutzermenü als Hauptmenü"
+
+360 "Symbolfont laden"
+361 "Wähle Symbolfont-Datei"
+362 "Symbole an/aus"
+363 "Symbol"
+364 "Symbol-Hintergrund"
+
+365 "Tonwertkurven"
+366 "Tonwertkurven"
+367 "Lade Kurvenprofile..."
+368 "Kurven an/aus"
+369 "Wähle Kurven-Datei aus"
+
+370 "Konturenüberlagerung"
+371 "Konturenüberlagerung"
+372 "Konturenüberlagerung an/aus"
+373 "    Grenzwert"
+374 "    Überlagerungsfarbe"
+
+375 "USB-Fernbedienung-Parameter"
+376 "USB-Fernbedienung-Parameter"
+377 "Synchro-Funktion an/aus"
+378 "Synchro an/aus"
+379 "Synchro Verzögerung an/aus"
+380 "    Verzögerung 0.1ms"
+381 "    Verzögerung 0.1s"
+
+382 "AF-Taste"
+
+383 "Lade Standardparameter ..."
+384 "Parameter-Satz-Nr."
+
+385 "RAW im Sportmodus aus"
+386 "RAW bei Reihenaufnahme aus"
+387 "RAW bei Ev-Bracketing aus"
+388 "RAW bei Selbstauslöser aus"
+389 "Ausnahmen"
+390 "RAW-Ausnahmen"
+391 "Ausnahmewarnung an/aus"
+
+392 "Auto-Auswahl 1. Menü-Zeile"
+
+393 "Zeitlimit 0,1s"
+394 "Synchro-Funktion"
+
+395 "Schnelle Video-Kontrolle"
+
+396 "Temperatur"
+397 "Temperaturanzeige"
+
+398 "Video-Qualität-Kontrolle"
+
+399 "Fernbedienung-Zoom"
+400 "Zoom Zeitlimit 0.1s"
+
+401 "Start-Sound an/aus"
+
+402 "RAW-Subtr.-Präfix"
+403 "RAW-Subtr.-Endung"
+404 "Subtr. du. Eingangswert"
+405 "Subtr. du. Ausgangswert"
+406 "von"
+407 "...%d mehr Dateien"
+408 "Abziehen"
+409 "Subtr. von markiert."
+
+410 "Parameterspeicher an/aus"
+
+411 "Video-Ev-Anzeige"
+
+412 "    Zoom-Wert"
+413 "Ersetze Zoom-Wert"
+414 "    Bei Neustart löschen"
+
+415 "RAW-Präfix für Reihe"
+
+416 "    in Fahrenheit"
+
+417 "Lade Konturen ..."
+418 "Speichere Konturen ..."
+419 "Auch im Wiedegabe-Modus?"
+421 "Lade und setze Zoom"
+422 "Panorama-Modus"
+
+423 "2. Vorhang Blitzsynchro"
+
+424 "DNG-Format"
+425 "RAW-Puffer nutzen"
+426 "Datei badpixel.bin fehlt!\nBitte starte \nCHDK/SCRIPTS/TEST/badpixel.lua"
+427 "Zeige RAW Speicherzeit"
+
+428 "4 Gewinnt"
+429 "Gegner:"
+430 "Mensch"
+431 "Spieler 1 hat gewonnen"
+432 "Spieler 2 hat gewonnen"
+433 "Ich habe gewonnen :-)"
+434 "Unentschieden"
+
+435 "RAW im Konturen-Modus aus"
+436 "RAW im Auto-Modus aus"
+
+437 "   NUR in Video"
+438 "   Stärke des Blitzes"
+
+439 "DNG als Dateiendung"
+440 "DNG sichtbar via USB"
+
+441 "Mastermind"
+442 "wählbare Farben"
+443 "richtige Stelle"
+444 "mit enthalten"
+445 "RICHTIG :-)"
+446 "GAME OVER"
+447 "[<-][->]   Spalte wählen"
+448 "[UP][DOWN] Farbe wählen"
+449 "[SET]      nächste Reihe"
+450 "KEINE FARBEN DOPPELT"
+451 "Dateien zurücksetzen ..."
+452 "Kamera neu starten ..."
+453 "Erzwinge manuellen Blitz"
+456 "Konturenfilterung"
+457 "Kontinuierlich anz."
+458 "   Pano-Überlappung (%)"

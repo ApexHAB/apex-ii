@@ -1,0 +1,595 @@
+/ / Archivo en lenguaje CHDK
+/ / Formato de la lengua línea:
+/ / <id> "<text>"
+/ / <id> - Debe ser positivo
+/ / <text> - Cualquier texto encerrado en comillas
+  
+   1 "Menú principal"
+
+   2 "Opciones RAW"
+   3 "Opciones OSD"
+   4 "Opciones de Histograma"
+   5 "Opciones de Zebra"
+   6 "Opciones de Sec. de Comandos"
+   7 "Opciones de Visualización"
+   8 "Varios"
+   9 "Opciones de depuración"
+  10 "Restablecer Opciones predeterminadas..."
+  11 "Guardar Opciones Ahora ..."
+
+/ / 12 "<- Volver"
+  12 "Volver"
+
+
+  13 "RAW"
+
+  14 "Guardar RAW"
+  16 "Sólo 1er RAW en una serie"
+  17 "Guardar RAW en Dir c/JPEG"
+  18 "Prefijo Archivo RAW"
+  19 "Extensión Archivo RAW"
+
+
+  20 "OSD"
+
+  21 "Ver OSD"
+  22 "Ver Estado en Pantalla"
+  23 "Ver Valores Miscelaneos"
+  24 "Valor de Zoom"
+  25 "Ver Cálculos de DOF"
+  26 "Ver Reloj"
+  27 "Editar Posición de OSD"
+/ / 28 "Batería ->"
+  28 "Batería"
+
+
+  29 "Histograma"
+
+  30 "Ver Histograma en vivo"
+  31 "Diseño del Histograma"
+  32 "Modo de Histograma"
+  33 "Ver en Histo. Sobre/Bajo EXP"
+  34 "Ignorar máximos en Bordes"
+  35 "Ampliar Automático"
+
+
+  36 "Zebra"
+
+  37 "Dibujar Zebra"
+  38 "Modo Zebra"
+  39 "Umbral Baja-Exposición"
+  40 "Umbral Sobre-Exposición"
+  41 "Restaurar Pantalla Original"
+  42 "Restaurar OSD"
+  43 "Ver Histo/OSD con Zebra"
+
+
+  44 "Sec. de Comandos"
+
+  45 "Carga Sec. de Comandos ..."
+  46 "Retardo Disp. Sec.(.1 s)"
+  47 "Título de Secuencia"
+  48 "Opc. de Sec. de Comandos"
+
+
+  49 "Opciones de Visualización"
+
+  50 "Idioma ..."
+  51 "Pag. Códigos OSD"
+  52 "Tipografía RBF del Menú ..."
+  53 "Colores"
+  54 "Texto de OSD"
+  55 "Fondo de OSD"
+  56 "Histograma"
+  57 "Fondo de Histograma"
+  58 "Borde de Histograma"
+  59 "Marcadores EXP de Histograma"
+  60 "Bajaexposición en Zebra"
+  61 "Sobrexposición en Zebra"
+  62 "Icono de Batería"
+  63 "Texto de Menú"
+  64 "Fondo de Menú"
+  65 "Texto en Lector de Archivo"
+  66 "Fondo en Lector de Archivo"
+
+
+  67 "Varios"
+
+  68 "Explorador de archivos"
+  69 "Calendario"
+  70 "Lector de Archivo de Texto"
+  71 "Juegos"
+  72 "Linterna"
+  73 "Ver Bienvenida en Inicio"
+  74 "Usar botones de zoom para MF"
+  75 "<ALT> Botón de modalidad"
+  76 "Paleta de Colores"
+  77 "Ver Datos de Versión"
+  78 "Ver Información de memoria"
+
+
+  79 "Opciones de Depuración"
+
+/ / 80 "Ver PropCases"
+  80 "Ver Datos Depuración"
+  81 "Página PropCase"
+  82 "Ver Valores Miscelaneos"
+  83 "Explorador de Memoria"
+/ / 84 "Volcado de memoria RAM en ALT + / - Pulse"
+  84 "Función de Depuración ALT +/-"
+  85 "Crear Tarjeta de Arranque ..."
+
+
+  86 "Opciones de Batería"
+
+  87 "Volt. Max. Batería (mV)"
+  88 "Volt. Min. Batería (mV)"
+  89 "Tamaño Paso (ON=25,OFF=1mV)"
+  90 "Ver Porcentaje de Batería"
+  91 "Ver Voltaje de Batería"
+  92 "Ver Icono de Batería"
+
+
+  93 "Lector de Archivo de Texto"
+
+  94 "Abrir Archivo Nuevo ..."
+  95 "Abrir último archivo"
+  96 "Escoga la Tipografía RBF"
+  97 "Página de Códigos"
+  98 "No Cortar Palabras"
+  99 "Desplazamiento Automático"
+ 100 "Retardo Desplaz. (seg.)"
+
+
+101 "Juegos"
+
+102 "Reversi"
+103 "Sokoban"
+
+
+104 "*** Valores Predeterminados ***"
+105 "¿Está seguro de volver a \nlos valores predeterminados?"
+
+106 "*** Información de Versión ***"
+107 "Versión CHDK:% s% s \nFecha:% s \nHora:% s \nCámara:% s \nVersión FW:% s"
+
+108 "*** Información de Memoria ***"
+109 "Memoria libre:% d bytes \nTamaño CHDK:% d bytes \nCargado en: 0x% X"
+
+110 "*** Información ***"
+111 "Por favor, enciende tu cámara \nen modo PLAY \nY vuelve a intentarlo.:)"
+
+/ / Navegador de archivos títulos
+112 "Explorador de Archivos"
+113 "Escoja Archivo de Comandos"
+114 "Escoja Archivo de texto"
+115 "Escoja Archivo Tipos RBF"
+116 "Escoja Archivo de Idioma"
+
+/ / Para el calendario
+117 "Enero"
+118 "Febrero"
+119 "Marzo"
+120 "Abril"
+121 "Mayo"
+122 "Junio"
+123 "Julio"
+124 "Agosto"
+125 "Septiembre"
+126 "Octubre"
+127 "Noviembre"
+128 "Diciembre"
+
+129 "Lun"
+130 "Mar"
+131 "Mié"
+132 "Jue"
+133 "Vie"
+134 "Sáb"
+135 "Dom"
+
+136 "Hoy:"
+
+/ / Messagebox botones
+137 "Ok"
+138 "Sí"
+139 "No"
+140 "Cancelar"
+
+/ / OSD editor de diseño
+141 "Histograma"
+142 "Calc DOF"
+143 "Estado"
+144 "Valores Misc"
+145 "Icono de Bat."
+146 "Texto de Bat."
+147 "Reloj"
+
+/ / Paleta
+148 "Pulse SET para escoger un color particular"
+149 "     Pulse Menú para Salir        "
+150 "Color"
+151 "Use %s para seleccionar color"
+
+/ / Reversi
+152 "*** Resultados del juego ***"
+153 "Ganó el juego!:)"
+154 "Perdió el juego!:("
+155 "Dibujar!:/"
+
+156 "*** Movida Errada ***"
+157 "No puede mover aquí!"
+158 "Esta celda no está vacía!"
+
+159 "Mover: TU     "
+160 "Mover: PC     "
+
+161 "Juego Terminado"
+162 "Blanco  Negro  "
+
+163 "*** Acerca De ***"
+
+/ / Sokoban
+164 "  Nivel"
+165 "  Movidas"
+166 "*** Terminado ***"
+167 "¡SÍ! \n ¡Usted lo logró!"
+
+/ / Console
+168 "*** Iniciado ***"
+169 "*** Interrumpido ***"
+170 "*** Terminado ***"
+
+/ / Explorador de archivos
+171 "*** Eliminar Directorio ***"
+172 "¿Está seguro de eliminar \ntodos los archivos del \ndirectorio seleccionado?"
+173 "*** Eliminar Archivos ***"
+174 "¿Estás seguro de eliminar \nlos archivos seleccionados?"
+
+/ / Referencia
+175 "Rendimiento"
+176 "Calculando ..."
+177 "Rend. de Cámara      [SET] para iniciar"
+178 "pantalla"
+179 "Escritura:"
+180 "Lectura:"
+181 "Memoria"
+182 "Tarjeta Flash"
+183 "Escritura (RAW):"
+184 "Lectura (MEM):"
+185 "Escritura (64k):"
+186 "Lectura (64k):"
+
+187 "Deshab. LCD Off"
+
+188 "Cortar"
+189 "Copiar"
+190 "Pegar"
+191 "Borrar"
+192 "Seleccionar inverso"
+193 "*** Cortar archivos ***"
+194 "¿Está seguro de cortar \n %d archivos seleccionados \n de %s/?"
+195 "*** Copiar los archivos"
+196 "¿Está seguro de copiar \n %d archivos seleccionados \n de %s/?"
+197 "*** Eliminar archivos ***"
+198 "¿Está seguro de eliminar \n %d archivos seleccionados?"
+199 "Por favor, espere ..."
+
+200 "Ver líneas de Cuadrícula"
+201 "Carga archivo de Cuadrícula ..."
+202 "Cuadrícula"
+/ / 203 "Grid ->"
+203 "Cuadrícula"
+204 "Escojer Archivo de Cuadrícula"
+205 "Cuadrícula Actual"
+
+206 "Restar Cuadro Oscuro"
+
+207 "Forzar Colores de Cuadrícula"
+208 "Color de Línea"
+209 "Color de Relleno"
+
+210 "Calculador DOF"
+/ / 211 "Calculadora DOF ->"
+211 "Calculador DOF"
+212 "Dist. Suj. Canon->Lím. cerc."
+213 "Usar Dist. Suj. EXIF (PC65)"
+214 "Ver Dist. Suj. en Misc."
+215 "Ver Límite Cercano en Misc."
+216 "Ver Límite Lejano en Misc."
+217 "Ver Dist. Hiperfocal en Misc."
+218 "Ver Prof. Campo en Misc."
+
+
+219 "Valores Miscelaneos"
+/ / 220 "Varios Valores ->"
+220 "Valores Miscelaneos"
+221 "Ver en modo de revisión"
+222 "Ver Zoom"
+223 "Ver Apertura 'real'"
+224 "Ver ISO 'real'"
+225 "Ver ISO 'mercado'"
+226 "Ver ISO sólo en modo AutoISO"
+227 "Ver Ajuste Exp. EV (Tv + Av)"
+228 "Ver Ev Medido (BV + Sv)"
+229 "Ver Ajuste BV (brillo)"
+230 "Ver BV Medido"
+231 "Ver Valor SobreExp (NO Flash!)"
+232 "Ver Luminancia de Escena"
+
+233 "Opciones de Video"
+/ / 234 "Parámetros de vídeo ->"
+234 "Opciones de Video"
+235 "Modo de Video"
+236 "Bitrate de Video"
+237 "Calidad de vídeo"
+
+
+238 "Opciones Extra de Fotografía"
+/ / 239 "Extra Operaciones de fotos ->"
+239 "Opciones Extra de Fotografía"
+240 "Forzar veloc. Obtur."
+241 "   Factor Multip."
+242 "Forzar Apertura"
+243 "Forzar ISO"
+244 "   Factor Multip."
+245 "Forzar Dist. Objeto"
+246 "   Factor Multip. (mm)"
+
+247 "Bracketing en Modo Continuo"
+/ / 248 "Bracketing en modo continuo ->"
+248 "Bracketing en Modo Continuo"
+249 "Valor Bracketing Tv"
+250 "Valor Bracketing Av"
+251 "Valor Bracketing ISO"
+252 "   Factor Multip."
+253 "Valor Brack. Dist. Suj. (MF)"
+254 "   Factor Multip. (mm)"
+255 "Tipo de Bracketing"
+
+256 "Autoinicio"
+257 "Habilitar Remoto"
+
+258 "Control de Exposición (NO Flash)"
+/ / 259 "Control de la exposición (No Flash) ->"
+259 "Control de Exposición (NO Flash)"
+260 "Recalc Exposición"
+261 "Orden Recalc exposición Tv"
+262 "Orden Recalc exposición AV"
+263 "Orden Recalc exposición ISO"
+
+264 "Borrar Forzados en Inicio"
+
+265 "Ver Valor Canon de Sobre-Exp."
+
+266 "Desarrollar RAW"
+267 "Por favor cambie la cámara a\nmodo grabación y tome\nuna fotografía."
+268 "Seleccione el archivo RAW"
+269 "Suma de RAW"
+270 "Promedio de RAW"
+271 "No hay suficiente espacio en tarjeta:\n%dM requerido, %dM disponible"
+
+272 "Ver OSD en el modo de revisión"
+/ / 273 "Ver datos de parámetros"
+273 "Comienzo Lista de Tareas"
+
+274 "Dist. Sujeto de la Lente"
+
+275 "Borrar Bracketing en Inicio"
+
+276 "Crear Tarjeta con dos Particiones"
+277 "Cambiar Particiones"
+278 "Esto DESTRUYE TODA LA INFORMACION\nen la tarjeta. ¿Continuar?"
+279 "Esta tarjeta sólo tiene una partición"
+280 "Error"
+281 "Advertencia"
+282 "Información"
+283 "RGB Zebra (Solo Sobre-exp.)"
+
+284 "Estado Filtro ND"
+
+285 "Ver Cuadrícula Histo Ev"
+
+286 "Alarma de OSD"
+287 "Fondo de Alarma OSD"
+288 "Icono de Espacio Restante"
+289 "Ver Icono Esp. Arch."
+290 "Espacio Restante"
+291 "Ver Espacio Arch. en porcent."
+292 "Ver Espacio Arch. en MB"
+293 "Texto Espacio Archivos"
+294 "  Ver disparos RAW Restantes"
+295 "RAW Restantes"
+
+296 "Ver estado RAW"
+
+297 "Ver Valores en Vídeo"
+
+298 "  Tipo enum Veloc. Disparo"
+299 "Menú de usuario Hab."
+300 "Menú de Usuario"
+301 " "
+
+302 "Adap. Esc. lente, 100=1x"
+303 "Ver Barra Espaciadora"
+304 "  Tamaño en Pantalla"
+305 "  Ancho/Alto"
+306 "  Porcentaje de Umbral"
+307 "  Umbral MB"
+308 "Unidad Alerta"
+309 "  Umbral de Alerta"
+310 "Habilitar zoom óptico"
+/ / 311 "Reloj ->"
+311 "Reloj"
+312 "Configuración del Reloj"
+313 "Formato de Reloj"
+314 "Fondo Espacio Restante"
+315 "Indicador 12h en Reloj"
+316 "Ver OSD @medio obturador"
+
+317 "Conf. Visualiz. RAW"
+/ / 318 "Raw ->"
+318 "RAW"
+
+319 "Conf. Visualiz. Espacio Archivos"
+/ / 320 "Filespace ->"
+320 "Espacio de Archivos"
+
+321 "Auto ISO Personalizado"
+/ / 322 "Custom Auto ISO ->"
+322 "Auto ISO Personalizado"
+323 "Hab. Auto ISO Personalizado"
+324 "Veloc. Mín. de Obtura."
+325 "Fact. Pers. (1/FL/factor)"
+326 "Fact. IS (Tv*factor)"
+327 "ISO Máximo Alto (x10)"
+328 "ISO Máximo AUTO (x10)"
+329 "ISO Mínimo (x10)"
+
+330 "Texto del Título del Menú"
+331 "Fondo del Título del Menú"
+332 "Texto del Cursor"
+333 "Fondo del Cursor"
+334 "Centrar Menú"
+335 "Mudo durante zoom"
+
+336 "Borrar Pixel Sucio"
+337 "Apagado"
+338 "Promedio"
+339 "RAWconv"
+
+340 "Forzar"
+341 "Forzar Fondo"
+342 "Deshab. valores Forzados"
+343 "Incluir AutoIso y Bracketing?"
+344 "  Ocultar?"
+345 "Deshab. @Grabación de Video?"
+346 "Ver tiempo restante de Video?"
+347 "Razón de Refresco (~seg)"
+348 "Tiempo Rest. Vídeo"
+349 "Limp. Param. Video Inicio?"
+350 "Habilitar Switch Ev Rápido?"
+351 " Tamaño de paso (1 EV)"
+352 "Corrección Ev"
+353 "¿Está seguro de borrar los Archivos \nRAW sin el correspondiente JPG? \nen carpeta DCIM?"
+354 "¿Está seguro de borrar los Archivos \nRAW sin el correspondiente JPG? \nen carpeta seleccionada?"
+355 "¿Está seguro de borrar los Archivos \nRAW sin el correspondiente JPG? \n(Excluyendo los marcados)"
+356 "Función de Purgar RAW\nno aplica a este item"
+357 "*** Purgar Archivos RAW ***"
+358 "Purgar RAW"
+ 
+359 "Menú de usuario como Raiz"
+
+360 "Tipografía de Símbolos"
+361 "Seleccionar el Archivo de Símbolos"
+362 "Habilitar Símbolos"
+363 "Texto del Símbolo"
+364 "Fondo del Símbolo"
+
+365 "Curvas Propias"
+/ / "366" Custom curvas -> "
+366 "Curvas Propias"
+367 "Cargar Perfil de Curva ..."
+368 "Habilitar Curva"
+369 "Seleccionar Archivo de Curva"
+
+370 "Linea de Borde"
+371 "Linea de Borde"
+
+372 "Activar Linea de Borde"
+373 "Color de linea de Borde"
+374 "Color de linea de Borde"
+
+375 "Opciones de Remoto"
+376 "Opciones de Remoto"
+377 "Habilitar Remoto"
+378 "Habilitar Sincronía"
+379 "Habilitar Retardo Sincronía"
+380 "Retardo Sincronía 0.1ms"
+381 "Retardo Sincronía 0.1s"
+
+382 "Botón de AF"
+383 "Carga Parámetros Pre-estab."
+384 "Ajuste de Parámetros"
+
+385 "Anular RAW @Deportes"
+386 "Anular RAW @Burst"
+387 "Anular RAW @EV Bracketing"
+388 "Anular RAW @temporizador"
+
+389 "Excepciones"
+390 "Menú de Excepciones RAW"
+391 "Alertar Excepción?"
+392 "Siempre Selec. 1ra Ent. Menú"
+
+393 "Time-out (0.1s)"
+394 "Sincronización Remota"
+395 "Control de Video Rápido?"
+396 "Temperatura"
+397 "Ver Temperatura?"
+398 "Control de Calidad de Video?"
+399 "Habilitar Zoom Remoto"
+400 "Time-out de Zoom 0.1s "
+401 "Sonido de Inicio"
+402 "Prefijo Resta de RAW"
+
+
+403 "Extensión Resta de RAW"
+
+/ / 404->sets what value in the file being subtracted is considered zero.
+/ / 404 "Subtract input dark value"
+404 "Valor Cero en Archivo Restado"
+
+/ / 405->sets the minimum value that will produced by subtracting.
+/ / 405 "Subtract output dark value"
+405 "Valor Mínimo al restar"
+
+406 "desde"
+407 "...%d archivos mas"
+408 "Restar"
+409 "Restar de Marcados"
+410 "Guardar parámetros"
+411 "Ev pantalla de vídeo"
+412 "Valor Forzado de Zoom"
+413 "Forzar Zoom"
+414 "   Limpiar al Comienzo"
+415 "Agrega sufijo RAW"
+416 "  En Fahrenheit"
+417 "Cargar Linea de Borde"
+418 "Grabar Linea de Borde"
+419 "Habil. en Reproduc."
+420 "Limpiar Mem. Interna"
+421 "Cargar+Fijar Zoom"
+422 "Bloq. Linea de Borde"
+423 "Sinc. flash 2da Cortina"
+424 "Formato DNG"
+425 "Buffer Cache de RAW"
+426 "No encuentra CHDK/badpixel.bin\n Por favor ejecute secuencia\nCHDK/SCRIPTS/TEST/badpixel.lua"
+427 "Ver Tiempo Grabado de Raw"
+428 "Connect 4"
+429 "Oponente:"
+430 "Humano"
+431 "Ganó el Jugador 1"
+432 "Ganó el Jugador 2"
+433 "Perdiste!"
+434 "Juego empatado!"
+435 "Deshab. Raw @ EdgerOverlay"
+436 "Deshab. Raw @ Auto Mode"
+437 "Habil. flash en video?"
+438 "  Potencia Flash"
+439 "Extensión Arch. 'DNG'"
+440 "DNG visible via USB"
+441 "Mastermind"
+442 "colores disponibles"
+443 "en el lugar correcto"
+444 "color en respuesta"
+445 "CORRECTO:-)"
+446 "FIN JUEGO"
+447 "[<-][->] Escoja columna"
+448 "[UP][DOWN] Escoja color"
+449 "[SET] prox. fila"
+450 "COLOR DOBLE NO"
+451 "Reset archivos"
+452 "Reiniciar Cámara..."
+453 "Forzar flash manual"
+     "Force manual flash"
