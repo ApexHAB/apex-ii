@@ -163,7 +163,7 @@ symbol AltFallingDistance = 50
 symbol AboutToLandCntMax = 6
 symbol CameraHyst = 3
 symbol AltThresholdLowC = 120
-symbol maxcycles = 3
+symbol maxcycles = 1
 
 
 'phone stuff
@@ -1196,13 +1196,17 @@ if cycleCount = maxcycles then
 
 else
 
-
+	for b20 = 0 to 2
 
 	hsersetup TXBaudf, TXMode
 
 	ptr = 0
 	for b16 = 0 to ramptr
 		hserout 0,(@ptrinc)
+	next
+	
+	wait 1
+	
 	next
 
 
