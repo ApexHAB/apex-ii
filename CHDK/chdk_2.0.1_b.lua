@@ -1,3 +1,5 @@
+require "propcase"
+require "capmode"
 print("Hello CHDK !")
 
 --[[
@@ -42,9 +44,26 @@ function capture()
     press("shoot_full")
     release("shoot_full")
     release("shoot_half")
-    repeat
-        sleep(1)
-    until get_shooting() ~= true
+end
+
+function vbatt()
+    props=require("propcase")
+    tv=get_prop(props.TV)
+
+end
+
+function gtime()
+    ttime=get_time("D,h,m,s")
+    log(ttime)
+end
+
+function gtemp()
+    ftemp = get_temperature(0)
+    log(ftemp)
+     ftemp = get_temperature(1)
+    log(ftemp)
+     ftemp = get_temperature(2)
+    log(ftemp)
 end
   
 logfile=io.open("A/FLIGHTLOG.log","wb")
