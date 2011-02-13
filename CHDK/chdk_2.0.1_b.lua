@@ -1,30 +1,41 @@
 require "propcase"
 require "capmode"
-print("Hello CHDK !")
+--print("Hello CHDK !")
 
 --[[
 @title APEX II 2.00.1 BETA
 @param a Interval in Seconds
-@default a 1
+@default a 5
  
 based on APEX II 1st Launch Script
 http://chdk.setepontos.com/index.php/topic,2646.0.html
 set_backlight(0)
 --]]
 
-logfile=io.open("A/FLIGHTLOG.log","wb")
-io.output(logfile)
+--logfile=io.open("A/FLIGHTLOG.log","wb")
+--io.output(logfile)
 
 function timerwait()
     for i=0,a do
-        sleep(1)
+        sleep(1000)
     end
-    capture()
+    capture1()
 end
 
-repeat
-    timerwait()
-until false
+function capture1()
+  set_focus_status(25535)
+  press("shoot_half")
+  sleep(1000)
+    -- log("shooting...")
+    --get battery voltage
+    --get temps
+    --log("tbat",tbat,"tccd",tccd,"vbat",vbat)
+  press("shoot_full")
+    repeat 
+    sleep(100)
+  until get_shooting() == true
+  release("shoot_full")
+end
 
 function set_focus_status(n)
     if get_propset() == 2 then
@@ -34,18 +45,7 @@ function set_focus_status(n)
     end
 end
 
-function capture()
-    press("shoot_half")
-    set_focus_status(25535)
-    log("shooting...")
-    --get battery voltage
-    --get temps
-    --log("tbat",tbat,"tccd",tccd,"vbat",vbat)
-    press("shoot_full")
-    release("shoot_full")
-    release("shoot_half")
-end
-
+--[[
 function vbatt()
     props=require("propcase")
     tv=get_prop(props.TV)
@@ -73,8 +73,15 @@ function log(...)
     io.write(...)
     io.write("\n")
 end
+]]--
+--******Start of Script*****--
+repeat
+    timerwait()
+until false
 
-end
+--end
+
+--[[
 log("done!")
 logfile:close()
-
+]]--
