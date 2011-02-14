@@ -23,14 +23,16 @@ function timerwait()
 end
 
 function capture1()
-  set_focus_status(25535)
-  press("shoot_half")
-  sleep(1000)
-    -- log("shooting...")
+   set_aflock(0)
+   press("shoot_half")
+   sleep(2000)
+   set_focus(65535)
+   set_aflock(1)
+     -- log("shooting...")
     --get battery voltage
     --get temps
     --log("tbat",tbat,"tccd",tccd,"vbat",vbat)
-  press("shoot_full")
+   press("shoot_full")
     repeat 
     sleep(100)
   until get_shooting() == true
