@@ -1,19 +1,17 @@
 require "propcase"
 require "capmode"
---print("Hello CHDK !")
+--print("Hello CHDK!")
 
 --[[
 @title APEX II 2.00.1 BETA
 @param a Interval in Seconds
 @default a 5
- 
+
 based on APEX II 1st Launch Script
 http://chdk.setepontos.com/index.php/topic,2646.0.html
 set_backlight(0)
 --]]
 
---logfile=io.open("A/FLIGHTLOG.log","wb")
---io.output(logfile)
 
 function timerwait()
     for i=0,a do
@@ -28,7 +26,7 @@ function capture1()
    sleep(2000)
    set_focus(65535)
    set_aflock(1)
-     -- log("shooting...")
+   log("shooting...")
     --get battery voltage
     --get temps
     --log("tbat",tbat,"tccd",tccd,"vbat",vbat)
@@ -40,11 +38,11 @@ function capture1()
 end
 
 function set_focus_status(n)
-    if get_propset() == 2 then
-        set_prop(6,n -1)
-    else
-        set_prop(11,n -1)
-    end
+	if get_propset() == 2 then
+		set_prop(6,n -1)
+		else
+		set_prop(11,n -1)
+		end
 end
 
 --[[
@@ -54,10 +52,7 @@ function vbatt()
 
 end
 
-function gtime()
-    ttime=get_time("D,h,m,s")
-    log(ttime)
-end
+
 
 function gtemp()
     ftemp = get_temperature(0)
@@ -67,23 +62,57 @@ function gtemp()
      ftemp = get_temperature(2)
     log(ftemp)
 end
-  
-logfile=io.open("A/FLIGHTLOG.log","wb")
-io.output(logfile)
- 
+]]--
+
+function gtemp()
+    ftemp = get_temperature(0)
+    log(ftemp)
+     ftemp = get_temperature(1)
+    log(ftemp)
+     ftemp = get_temperature(2)
+    log(ftemp)
+end
+
+function timestamp()
+    Year=get_time("Y")
+    Month=get_time("M")
+    Day=get_time("D")
+    Hour=get_time("h")
+    Min=get_time("m")
+    Sec=get_time("s")
+    io.write(Year)
+    io.write(",")
+    io.write(Month)
+    io.write(",")
+    io.write(Day)
+    io.write(" Time: ")
+    io.write(Hour)
+    io.write(":")
+    io.write(Min)
+    io.write(":")
+    io.write(Sec)
+    io.write("     ")
+end
+
 function log(...)
+	timestamp()
     io.write(...)
     io.write("\n")
 end
-]]--
+
 --******Start of Script*****--
+
+logfile=io.open("A/FLIGHTLOG.log","wb")  --"A" denotes the Mounted Drive?
+io.output(logfile)
+set_prop(16,2)  --Turns flash off --works :)
+
+gtemp()
+
 repeat
     timerwait()
 until false
 
---end
 
---[[
 log("done!")
 logfile:close()
-]]--
+

@@ -7,6 +7,7 @@ Working revision for APEX II Launch 2
 Flash Now Turns off properly, logfile works and timestamps every line.
 Temperature sensors 1 and 2 work reliably. 
 Need to include automatic file naming for new log file on each turn-on
+Need to sort out auto-focus
 @title APEX II 2.00.2
 @param a Interval in Seconds
 @default a 5
@@ -98,6 +99,15 @@ function timestamp()
     io.write("     ")
 end
 
+function gtimestamp()
+    Year=get_time("Y")
+    Month=get_time("M")
+    Day=get_time("D")
+    Hour=get_time("h")
+    Min=get_time("m")
+    Sec=get_time("s")
+end
+
 function log(...)
 	timestamp()
     io.write(...)
@@ -105,8 +115,9 @@ function log(...)
 end
 
 --******Start of Script*****--
-
-logfile=io.open("A/FLIGHTLOG.log","wb")  --"A" denotes the Mounted Drive?
+gtimestamp()
+logpath="A/FLIGHTLOG"..Year..Month..Day..Hour..Min..Sec..".log"
+logfile=io.open(logpath,"wb")  --"A" denotes the Mounted Drive?
 io.output(logfile)
 set_prop(16,2)  --Turns flash off --works :)
 
