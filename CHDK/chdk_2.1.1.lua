@@ -18,9 +18,9 @@ set_backlight(0)
 
 function timerwait()
     for i=0,a do
-        sleep(5000)
-	gtemp()
+        sleep(1000)	
     end
+    gtemp()
     capture1()
 end
 
