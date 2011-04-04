@@ -6,8 +6,6 @@ require "capmode"
 Working revision for APEX II Launch 2
 Flash Now Turns off properly, logfile works and timestamps every line.
 Temperature sensors 1 and 2 work reliably. 
-Need to include automatic file naming for new log file on each turn-on
-Need to sort out auto-focus
 @title APEX II 2.00.2
 @param a Interval in Seconds
 @default a 5
