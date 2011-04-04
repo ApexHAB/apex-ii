@@ -18,7 +18,8 @@ set_backlight(0)
 
 function timerwait()
     for i=0,a do
-        sleep(1000)
+        sleep(5000)
+	gtemp()
     end
     capture1()
 end
@@ -26,7 +27,7 @@ end
 function capture1()
    --set_aflock(0)
    --press("shoot_half")
-   sleep(2000)
+   sleep(1000)
    --set_focus(65535)
    --set_aflock(1)
    sleep(500)
@@ -36,6 +37,7 @@ function capture1()
     sleep(100)
   until get_shooting() == true
   release("shoot_full")
+  log("shooting complete")
 end
 
 function set_focus_status(n)
@@ -46,24 +48,6 @@ function set_focus_status(n)
 		end
 end
 
---[[
-function vbatt()
-    props=require("propcase")
-    tv=get_prop(props.TV)
-
-end
-
-
-
-function gtemp()
-    ftemp = get_temperature(0)
-    log(ftemp)
-     ftemp = get_temperature(1)
-    log(ftemp)
-     ftemp = get_temperature(2)
-    log(ftemp)
-end
-]]--
 
 function gtemp()
     ftemp = get_temperature(0)
@@ -105,17 +89,17 @@ function gtimestamp()
 end
 
 function log(...)
+    logfile=io.open("A/FLIGHTLOG.log","ab")  --"A" Mounted Drive?
+    io.output(logfile)
 	timestamp()
     io.write(...)
     io.write("\n")
+    logfile:close()
 end
 
 --******Start of Script*****--
-gtimestamp()
-logfile=io.open("A/FLIGHTLOG.log","ab")  --"A" denotes the Mounted Drive?
-io.output(logfile)
 set_prop(16,2)  --Turns flash off --works :)
-
+log("Script Started")
 gtemp()
 
 repeat
@@ -124,5 +108,5 @@ until false
 
 
 log("done!")
-logfile:close()
+
 
