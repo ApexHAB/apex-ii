@@ -828,7 +828,7 @@ endif
 
 gosub writecomma
 
-goto skiplight
+'goto skiplight
 'check light
 low lightCS
 high lightS2
@@ -1031,6 +1031,8 @@ endif
 'process RX buffer
 ptr = 0
 do
+
+
 	b0 = @ptrinc
 	'sertxd(b0)
 	if b0 = "#" then
@@ -1174,18 +1176,25 @@ if cycleCount = maxcycles then
 
 
 	ptr = 0
+	for b16 = 0 to 7
+		hserout 0,("U")
+	next
 	for b16 = 0 to ramptr
 		hserout 0,(@ptrinc)
 	next
 
 
 else
-
-	for b20 = 0 to 0
-
 	hsersetup TXBaudf, TXMode
+	
+	
+	for b16 = 0 to 7
+		hserout 0,("U")
+	next
+		
+	for b20 = 0 to 1
+	ptr=0
 
-	ptr = 0
 	for b16 = 0 to ramptr
 		hserout 0,(@ptrinc)
 	next

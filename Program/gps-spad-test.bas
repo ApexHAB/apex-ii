@@ -212,12 +212,17 @@ sertxd("main",cr,lf)
 ptr = 0
 
 
-serin [7000,endgps],GPSIn2,T4800,("GPGGA,"),@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc
+serin [7000,endgps],GPSIn2,T4800,("GPGGA,"),@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc,@ptrinc
 
-sertxd("blarg",cr,lf)
+
+ptr = 0
+for b1 = 0 to 70
+sertxd(@ptrinc)
+next
+sertxd(cr,lf,cr,lf,cr,lf)
+
 endgps:
 
-b49 = ptr	'limit of input
 
 
 'b0 = start of time ptr
@@ -333,13 +338,43 @@ endif
 
 
 ptr=  b0
-sertxd("b0: ",#b0,"   b1: ",#b1,cr,lf)
+sertxd("time :")
 for b20 = b0 to b1
 	sertxd(@ptrinc)
 next
 
-sertxd(cr,lf)
+sertxd(cr,lf,"lat: ")
+ptr=  b2
+for b20 = b2 to b3
+	sertxd(@ptrinc)
+next
 
+
+sertxd(cr,lf,"long: ")
+ptr=  b5
+for b20 = b5 to b6
+	sertxd(@ptrinc)
+next
+
+
+sertxd(cr,lf,"sat: ")
+ptr=  b11
+for b20 = b11 to b12
+	sertxd(@ptrinc)
+next
+
+
+sertxd(cr,lf,"alt: ")
+ptr=  b8
+for b20 = b8 to b9
+	sertxd(@ptrinc)
+next
+
+
+
+sertxd(cr,lf,"dir: ",b4,"  ")
+
+sertxd(b7,cr,lf,cr,lf)
 
 
 
