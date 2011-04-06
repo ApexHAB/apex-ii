@@ -163,7 +163,7 @@ symbol AltFallingDistance = 50
 symbol AboutToLandCntMax = 6
 symbol CameraHyst = 3
 symbol AltThresholdLowC = 120
-symbol maxcycles = 1
+symbol maxcycles = 2
 
 
 'phone stuff
@@ -525,7 +525,7 @@ endif
 #ifdef oscFreq16
 	setfreq em64
 #endif
-
+#rem
 read AboutToLand,b55
 'b55 = 1			'REMOVE LATER!!!!!
 'sertxd("r land ",#b55," ")
@@ -570,7 +570,7 @@ if b55 >= AboutToLandCntMax then
 
 	
 endif
-
+#endrem
 
 'now actually write GPS values
 b52 = 0
@@ -1189,6 +1189,9 @@ if cycleCount = maxcycles then
 
 
 	ptr = 0
+	for b16 = 0 to 7
+		hserout 0,("U")
+	next
 	for b16 = 0 to ramptr
 		hserout 0,(@ptrinc)
 	next
@@ -1196,11 +1199,16 @@ if cycleCount = maxcycles then
 
 else
 
-	for b20 = 0 to 2
-
 	hsersetup TXBaudf, TXMode
+	
+	
+	for b16 = 0 to 7
+		hserout 0,("U")
+	next
+		
+	for b20 = 0 to 1
+	ptr=0
 
-	ptr = 0
 	for b16 = 0 to ramptr
 		hserout 0,(@ptrinc)
 	next
