@@ -77,14 +77,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PacketHandler.exe" size="199168">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PacketHandler.exe" size="200192">
       <assemblyIdentity name="PacketHandler" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>dwsEv5zfvy3VdYatwr39He5Exyg=</dsig:DigestValue>
+        <dsig:DigestValue>//hIuJSzPh4Di4MS61f+EcjcbHg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

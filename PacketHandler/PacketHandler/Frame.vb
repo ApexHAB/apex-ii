@@ -38,7 +38,7 @@ Public Class Frame
 
     Public ReadOnly Property ProcessedString As String
         Get
-            If ProcessedString_ = "" Then Return RawString_
+            ' If ProcessedString_ = "" Then Return RawString_
             Return ProcessedString_
         End Get
     End Property

@@ -50,8 +50,10 @@ Partial Class MainFrm
         Me.SendToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UplinkToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SettingsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.TempToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HuD_UC1 = New PacketHandler.HUD_UC()
+        Me.ExportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CleanedDataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -163,7 +165,7 @@ Partial Class MainFrm
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewToolStripMenuItem, Me.ManualToolStripMenuItem, Me.SendToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.TempToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewToolStripMenuItem, Me.ManualToolStripMenuItem, Me.SendToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.TempToolStripMenuItem, Me.ExportToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(455, 24)
@@ -267,6 +269,12 @@ Partial Class MainFrm
         Me.SettingsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
         Me.SettingsToolStripMenuItem.Text = "Settings"
         '
+        'TempToolStripMenuItem
+        '
+        Me.TempToolStripMenuItem.Name = "TempToolStripMenuItem"
+        Me.TempToolStripMenuItem.Size = New System.Drawing.Size(47, 20)
+        Me.TempToolStripMenuItem.Text = "temp"
+        '
         'HuD_UC1
         '
         Me.HuD_UC1.DisplayAllPackets = False
@@ -277,11 +285,18 @@ Partial Class MainFrm
         Me.HuD_UC1.Size = New System.Drawing.Size(436, 187)
         Me.HuD_UC1.TabIndex = 12
         '
-        'TempToolStripMenuItem
+        'ExportToolStripMenuItem
         '
-        Me.TempToolStripMenuItem.Name = "TempToolStripMenuItem"
-        Me.TempToolStripMenuItem.Size = New System.Drawing.Size(47, 20)
-        Me.TempToolStripMenuItem.Text = "temp"
+        Me.ExportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CleanedDataToolStripMenuItem})
+        Me.ExportToolStripMenuItem.Name = "ExportToolStripMenuItem"
+        Me.ExportToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
+        Me.ExportToolStripMenuItem.Text = "Export"
+        '
+        'CleanedDataToolStripMenuItem
+        '
+        Me.CleanedDataToolStripMenuItem.Name = "CleanedDataToolStripMenuItem"
+        Me.CleanedDataToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CleanedDataToolStripMenuItem.Text = "Cleaned Data"
         '
         'MainFrm
         '
@@ -342,6 +357,8 @@ Partial Class MainFrm
     Friend WithEvents DataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents HuD_UC1 As PacketHandler.HUD_UC
     Friend WithEvents TempToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ExportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CleanedDataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 
 End Class

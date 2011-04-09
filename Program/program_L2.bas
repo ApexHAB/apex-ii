@@ -129,7 +129,7 @@ symbol PacketPtr = w19
 symbol TXBauds = 39999
 symbol TXBaudf = B300_8
 symbol TXMode = %110
-symbol RXBaud = 53332	'37.5
+symbol RXBaud = 52630' 38    old: 53332	'37.5
 symbol RXMode = %111
 
 #ifdef oscFreq8
@@ -172,10 +172,10 @@ table 0x00,("07922123456")
 
 
 'no commands can be stored on or past 0xF8
-table 0x80,("PING5TjypQ")	'ping command and pwd
+table 0x80,("PINGOPg7eW")	'ping command and pwd
 table ("CDWNytB48U")		'cutdown command and pwd
 table ("FILMhdERY7")
-table ("RESTg3nBhG")
+table ("RESTOPg7eW")
 table ("IRDOhyxapr")
 table ("IRDFh7wv7k")
 table ("SHUTp1cX7W")

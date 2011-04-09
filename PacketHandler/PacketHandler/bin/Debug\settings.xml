@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GlobalSettings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <logFolder>C:\Users\Matt\Documents\APEX\PacketHandler\PacketHandler\bin\Debug</logFolder>
+  <logFolder>C:\Users\Matt\Desktop\apex logs\t.txt</logFolder>
   <Interfaces>
     <InterfaceSettings>
       <TCPHost>127.0.0.1</TCPHost>
@@ -41,7 +41,7 @@
       <Filters />
     </InterfaceSettings>
     <InterfaceSettings>
-      <TCPHost>robertharrison.org/listen/view.php?reg=/APEX/</TCPHost>
+      <TCPHost>robertharrison.org/lisiten/view.php?reg=/ARTEM/</TCPHost>
       <TCPPort>80</TCPPort>
       <sBaud>2400</sBaud>
       <sPort />
@@ -53,9 +53,9 @@
       <PacketStructure>
         <PacketType>UKHAS</PacketType>
       </PacketStructure>
-      <Enabled>true</Enabled>
+      <Enabled>false</Enabled>
       <InterfaceName>dl</InterfaceName>
-      <InterfaceDirection>DataBiSharing</InterfaceDirection>
+      <InterfaceDirection>DataIn</InterfaceDirection>
       <InterfaceType>DLINTERNET</InterfaceType>
       <Filters />
     </InterfaceSettings>

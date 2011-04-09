@@ -812,7 +812,7 @@ Public Class MainFrm
 
         'For Each i As InterfaceParent In Interfaces
         '    If i.InterfaceName = "Manual" Then
-        '        CreateGPX(i.GetFrames)
+        '       CreateGPX(i.GetFrames)
         '        For Each f As Frame In i.GetFrames
         '            If Not f.GPSCoordinates Is Nothing Then
         '                l.Add(f.GPSCoordinates)
@@ -961,4 +961,17 @@ Public Class MainFrm
 
         Return True
     End Function
+
+    Private Sub CleanedDataToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CleanedDataToolStripMenuItem.Click
+
+        Dim writer As New System.IO.StreamWriter(RunningDir & "\Cleaned.txt", False)
+
+        For Each f As Frame In Frames
+            If f.ProcessedString <> "" Then
+                writer.WriteLine(f.ProcessedString)
+            End If
+
+        Next
+        writer.Close()
+    End Sub
 End Class
