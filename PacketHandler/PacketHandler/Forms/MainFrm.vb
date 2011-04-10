@@ -974,4 +974,16 @@ Public Class MainFrm
         Next
         writer.Close()
     End Sub
+
+    Private Sub KMLToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles KMLToolStripMenuItem.Click
+        Dim col As New List(Of GPScoord)
+        Dim alt As New List(Of Single)
+        For Each f As Frame In Frames
+            If Not (f.GPSCoordinates Is Nothing) Then
+                col.Add(f.GPSCoordinates)
+                alt.Add(f.Altitude)
+            End If
+        Next
+        CreateKML(col, alt, RunningDir)
+    End Sub
 End Class
