@@ -53,8 +53,9 @@ Partial Class MainFrm
         Me.TempToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ExportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CleanedDataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.HuD_UC1 = New PacketHandler.HUD_UC()
         Me.KMLToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HuD_UC1 = New PacketHandler.HUD_UC()
+        Me.GPXToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tabData.SuspendLayout()
         Me.tpAllData.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
@@ -278,7 +279,7 @@ Partial Class MainFrm
         '
         'ExportToolStripMenuItem
         '
-        Me.ExportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CleanedDataToolStripMenuItem, Me.KMLToolStripMenuItem})
+        Me.ExportToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CleanedDataToolStripMenuItem, Me.KMLToolStripMenuItem, Me.GPXToolStripMenuItem})
         Me.ExportToolStripMenuItem.Name = "ExportToolStripMenuItem"
         Me.ExportToolStripMenuItem.Size = New System.Drawing.Size(52, 20)
         Me.ExportToolStripMenuItem.Text = "Export"
@@ -288,6 +289,12 @@ Partial Class MainFrm
         Me.CleanedDataToolStripMenuItem.Name = "CleanedDataToolStripMenuItem"
         Me.CleanedDataToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.CleanedDataToolStripMenuItem.Text = "Cleaned Data"
+        '
+        'KMLToolStripMenuItem
+        '
+        Me.KMLToolStripMenuItem.Name = "KMLToolStripMenuItem"
+        Me.KMLToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.KMLToolStripMenuItem.Text = "KML"
         '
         'HuD_UC1
         '
@@ -299,11 +306,11 @@ Partial Class MainFrm
         Me.HuD_UC1.Size = New System.Drawing.Size(436, 187)
         Me.HuD_UC1.TabIndex = 12
         '
-        'KMLToolStripMenuItem
+        'GPXToolStripMenuItem
         '
-        Me.KMLToolStripMenuItem.Name = "KMLToolStripMenuItem"
-        Me.KMLToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
-        Me.KMLToolStripMenuItem.Text = "KML"
+        Me.GPXToolStripMenuItem.Name = "GPXToolStripMenuItem"
+        Me.GPXToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.GPXToolStripMenuItem.Text = "GPX"
         '
         'MainFrm
         '
@@ -367,6 +374,7 @@ Partial Class MainFrm
     Friend WithEvents ExportToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CleanedDataToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents KMLToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents GPXToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 
 End Class

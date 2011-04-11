@@ -843,7 +843,7 @@ Public Class MainFrm
                 writer.WriteLine("<trkpt lat=""" & f.GPSCoordinates.sLatitudeDecimal & """ lon=""" & f.GPSCoordinates.sLongitudeDecimal & """>")
                 writer.WriteLine("<ele>" & f.Altitude & "</ele>")
               
-                writer.WriteLine("<time>2010-07-17T" & DateTime.Parse(f.PacketTime).TimeOfDay.Add(TimeSpan.FromMinutes(-2)).ToString & "Z</time>")
+                writer.WriteLine("<time>2011-04-09T" & DateTime.Parse(f.PacketTime).TimeOfDay.Add(TimeSpan.FromMinutes(0)).ToString & "Z</time>")
                 writer.WriteLine("</trkpt>")
             End If
         Next
@@ -985,5 +985,9 @@ Public Class MainFrm
             End If
         Next
         CreateKML(col, alt, RunningDir)
+    End Sub
+
+    Private Sub GPXToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GPXToolStripMenuItem.Click
+        CreateGPX(Frames)
     End Sub
 End Class

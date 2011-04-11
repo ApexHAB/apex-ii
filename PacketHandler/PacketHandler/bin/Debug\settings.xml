@@ -22,25 +22,6 @@
       <Filters />
     </InterfaceSettings>
     <InterfaceSettings>
-      <TCPHost>127.0.0.1</TCPHost>
-      <TCPPort>8080</TCPPort>
-      <sBaud>2400</sBaud>
-      <sPort />
-      <sParity>None</sParity>
-      <sDatabits>8</sDatabits>
-      <sStopbits>One</sStopbits>
-      <Timer>0</Timer>
-      <XMLStructurePath />
-      <PacketStructure>
-        <PacketType>UKHAS</PacketType>
-      </PacketStructure>
-      <Enabled>true</Enabled>
-      <InterfaceName>mp</InterfaceName>
-      <InterfaceDirection>DataSharingOut</InterfaceDirection>
-      <InterfaceType>MAPPOINT</InterfaceType>
-      <Filters />
-    </InterfaceSettings>
-    <InterfaceSettings>
       <TCPHost>robertharrison.org/lisiten/view.php?reg=/ARTEM/</TCPHost>
       <TCPPort>80</TCPPort>
       <sBaud>2400</sBaud>
