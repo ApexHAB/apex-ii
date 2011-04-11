@@ -824,9 +824,9 @@ Public Class MainFrm
         'Next
     End Sub
 
-    Private Sub CreateGPX(ByVal frames As Collection)
+    Private Sub CreateGPX(ByVal frames As Collection, ByVal filepath As String, ByVal MinChange As Integer)
 
-        Dim writer As New System.IO.StreamWriter("c:\users\matt\desktop\track.gpx")
+        Dim writer As New System.IO.StreamWriter(filepath)
 
 
 
@@ -842,8 +842,8 @@ Public Class MainFrm
 
                 writer.WriteLine("<trkpt lat=""" & f.GPSCoordinates.sLatitudeDecimal & """ lon=""" & f.GPSCoordinates.sLongitudeDecimal & """>")
                 writer.WriteLine("<ele>" & f.Altitude & "</ele>")
-              
-                writer.WriteLine("<time>2011-04-09T" & DateTime.Parse(f.PacketTime).TimeOfDay.Add(TimeSpan.FromMinutes(0)).ToString & "Z</time>")
+
+                writer.WriteLine("<time>2011-04-09T" & DateTime.Parse(f.PacketTime).TimeOfDay.Add(TimeSpan.FromMinutes(MinChange)).ToString & "Z</time>")
                 writer.WriteLine("</trkpt>")
             End If
         Next
@@ -988,6 +988,6 @@ Public Class MainFrm
     End Sub
 
     Private Sub GPXToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GPXToolStripMenuItem.Click
-        CreateGPX(Frames)
+        CreateGPX(Frames, RunningDir, 0)
     End Sub
 End Class
