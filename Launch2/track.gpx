@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<gpx
+ version="1.0"
+creator="Packet Handler - M. Brejza"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://www.topografix.com/GPX/1/0"
+xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+<time>2011-04-11T14:47:21Z</time>
+<bounds minlat="51.750470000" minlon ="0.074200000" maxlat="52.214318333" maxlon="0.595131667" />
 <trk>
-<name>track</name>
 <trkseg>
 <trkpt lat="52.2138883272807" lon="0.10046333471934">
 <ele>0</ele>
