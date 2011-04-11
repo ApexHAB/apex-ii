@@ -17,7 +17,7 @@ while 1:
         lat = data[3] + data[4]
         lon = data[5] + data[6]
         speed = str(float(data[7]) * 1.852)
-        url = "http://spacenear.us/tracker/track.php?vehicle=APEX-chase&time=%s&lat=%s&lon=%s&speed=%s&pass=aurora" % (thetime, lat, lon, speed)
+        url = "http://spacenear.us/tracker/track.php?vehicle=APEX-chase&time=%s&lat=%s&lon=%s&speed=%s&pass=XXXXXX" % (thetime, lat, lon, speed)
         result = urllib2.urlopen(url)
         if result.getcode() == 200:
             print "uploaded ok"
