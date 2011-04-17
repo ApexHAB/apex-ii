@@ -826,25 +826,32 @@ Public Class MainFrm
 
     Private Sub CreateGPX(ByVal frames As Collection, ByVal filepath As String, ByVal MinChange As Integer)
 
-        Dim writer As New System.IO.StreamWriter(filepath)
+        Dim writer As New System.IO.StreamWriter(filepath & "\track.gpx")
 
 
 
         writer.WriteLine("<?xml version=""1.0"" encoding=""UTF-8"" standalone=""no"" ?>")
+        writer.WriteLine("<gpx")
+        writer.WriteLine("Version=""1.0""")
+        writer.WriteLine("creator=""Packet Handler - M. Brejza""")
+        writer.WriteLine("xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""")
+        writer.WriteLine("xmlns=""http://www.topografix.com/GPX/1/0""")
+        writer.WriteLine("xsi:schemaLocation = ""http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd"" >")
         writer.WriteLine("<trk>")
-        writer.WriteLine("<name>track</name>")
+
         writer.WriteLine("<trkseg>")
 
 
 
         For Each f As Frame In frames
             If (Not f.GPSCoordinates Is Nothing) And (f.PacketTime <> "") Then
+                If DateTime.TryParse(f.PacketTime, New DateTime) = True Then
+                    writer.WriteLine("<trkpt lat=""" & f.GPSCoordinates.sLatitudeDecimal & """ lon=""" & f.GPSCoordinates.sLongitudeDecimal & """>")
+                    writer.WriteLine("<ele>" & f.Altitude & "</ele>")
 
-                writer.WriteLine("<trkpt lat=""" & f.GPSCoordinates.sLatitudeDecimal & """ lon=""" & f.GPSCoordinates.sLongitudeDecimal & """>")
-                writer.WriteLine("<ele>" & f.Altitude & "</ele>")
-
-                writer.WriteLine("<time>2011-04-09T" & DateTime.Parse(f.PacketTime).TimeOfDay.Add(TimeSpan.FromMinutes(MinChange)).ToString & "Z</time>")
-                writer.WriteLine("</trkpt>")
+                    writer.WriteLine("<time>2011-04-09T" & DateTime.Parse(f.PacketTime).TimeOfDay.Add(TimeSpan.FromMinutes(MinChange)).ToString & "Z</time>")
+                    writer.WriteLine("</trkpt>")
+                End If
             End If
         Next
 
