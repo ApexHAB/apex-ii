@@ -8,7 +8,7 @@ We have an additional payload of two Geiger-Muller tubes to measure ionising rad
 
 ## Useful links
 
-* [Homepage](http://apexhab.org) - http://apexhab.org
-* [Mailing List](http://groups.google.com/group/project-apex) - http://groups.google.com/group/project-apex
+* [Homepage](http://www.apexhab.org) - http://www.apexhab.org
+* [Apex II Homepage](http://www.apexhab.org/apex-ii/) - http://www.apexhab.org/apex-ii/
 * [Contact](mailto:team@apexhab.org) - team@apexhab.org
 * [Twitter](http://twitter.com/apexhab) - http://twitter.com/apexhab
